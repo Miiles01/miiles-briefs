@@ -15,23 +15,23 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
   submissionId,
 }) => {
   useEffect(() => {
-    // Fire confetti celebration
-    const end = Date.now() + 1000;
-    const colors = ['#000000', '#666666', '#ffffff', '#22C55E'];
+    // Fire confetti celebration with official Miiles brand colors (Azul #4059F1 y Rosa #FCB5B9)
+    const end = Date.now() + 1200;
+    const colors = ['#4059F1', '#FCB5B9', '#B8A4F8', '#4059F1', '#FCB5B9'];
 
     (function frame() {
       confetti({
-        particleCount: 3,
+        particleCount: 4,
         angle: 60,
-        spread: 55,
-        origin: { x: 0 },
+        spread: 60,
+        origin: { x: 0, y: 0.65 },
         colors: colors,
       });
       confetti({
-        particleCount: 3,
+        particleCount: 4,
         angle: 120,
-        spread: 55,
-        origin: { x: 1 },
+        spread: 60,
+        origin: { x: 1, y: 0.65 },
         colors: colors,
       });
 

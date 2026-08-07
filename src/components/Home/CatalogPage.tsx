@@ -103,7 +103,7 @@ export const CatalogPage: React.FC = () => {
                 </p>
               </div>
 
-              <div className="mt-8 pt-5 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between">
+              <div className="mt-8 pt-2 flex items-center justify-between">
                 <span className="text-xs text-neutral-400 font-light">
                   {tmpl.totalQuestions} Preguntas
                 </span>
@@ -149,12 +149,9 @@ export const CatalogPage: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="w-full border-t border-neutral-100 dark:border-neutral-800/80 py-8 px-6 text-center text-xs text-neutral-400 font-light">
+      <footer className="w-full py-12 px-6 text-center text-xs text-neutral-400 font-light">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p>© 2026 WeAreMiiles — Todos los derechos reservados.</p>
-          <p>
-            Diseñado por <span className="font-normal text-neutral-700 dark:text-neutral-300">Miiles Studio</span>
-          </p>
         </div>
       </footer>
     </div>

@@ -4,10 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BRIEF_TEMPLATES } from '../../data/briefTemplates';
 import { useBriefs } from '../../context/BriefContext';
 import { WelcomeScreen } from './WelcomeScreen';
-import { QuestionCard } from './QuestionCard';
+import { QuestionCard, canQuestionBeUndefined } from './QuestionCard';
 import { CompletionScreen } from './CompletionScreen';
-import { ChevronLeft, ChevronRight, Sun, Moon } from 'lucide-react';
+import { AdminJumpModal } from './AdminJumpModal';
+import { ChevronLeft, ChevronRight, Sun, Moon, Command, ArrowRight, Check } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { toast } from 'sonner';
 
 export const BriefRunner: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -22,6 +24,7 @@ export const BriefRunner: React.FC = () => {
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [direction, setDirection] = useState<number>(1);
   const [submissionId, setSubmissionId] = useState<string>('');
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState<boolean>(false);
 
   const questions = template.questions;
   const currentQuestion = questions[currentQuestionIndex];
@@ -32,9 +35,19 @@ export const BriefRunner: React.FC = () => {
       ? 100
       : Math.round(((currentQuestionIndex + 1) / questions.length) * 100);
 
-  // Keyboard navigation
+  // Keyboard navigation & Admin Jump
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Admin Jump Shortcut: Ctrl + A (or Cmd + A)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'a' || e.key === 'A')) {
+        // Prevent default browser select all
+        e.preventDefault();
+        setIsAdminModalOpen((prev) => !prev);
+        return;
+      }
+
+      if (isAdminModalOpen) return;
+
       if (step === 'welcome' && e.key === 'Enter') {
         setStep('questions');
       } else if (step === 'questions') {
@@ -50,7 +63,17 @@ export const BriefRunner: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [step, currentQuestionIndex, answers]);
+  }, [step, currentQuestionIndex, answers, isAdminModalOpen, questions.length]);
+
+  const handleJumpToQuestion = (targetIndex: number) => {
+    const clamped = Math.max(0, Math.min(questions.length - 1, targetIndex));
+    setDirection(clamped >= currentQuestionIndex ? 1 : -1);
+    setCurrentQuestionIndex(clamped);
+    setStep('questions');
+    toast.success(`Pregunta ${clamped + 1} de ${questions.length}: ${questions[clamped].title}`, {
+      duration: 2500,
+    });
+  };
 
   const handleAnswerChange = (val: any) => {
     setAnswers((prev) => ({
@@ -199,10 +222,10 @@ export const BriefRunner: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#08080a] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between relative overflow-hidden transition-colors duration-300 font-sans">
+    <div className="min-h-screen bg-white dark:bg-[#08080a] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between relative overflow-x-hidden transition-colors duration-300 font-sans">
       {/* Fixed Top Header & Progress */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-[#08080a]/80 backdrop-blur-md pt-5 pb-3.5 px-6 sm:px-12 flex items-center justify-between transition-colors duration-300">
-        <div className="flex items-center gap-3.5">
+        <div className="flex items-center gap-4">
           {/* Navigation Arrows in circular buttons with shadow */}
           <div className="flex items-center gap-2">
             <button
@@ -228,9 +251,6 @@ export const BriefRunner: React.FC = () => {
             </button>
           </div>
 
-          {/* Mini vertical divider */}
-          <div className="h-4 w-px bg-neutral-200 dark:bg-neutral-800" />
-
           {/* Logo Miiles */}
           <Link to="/" className="flex items-center shrink-0">
             <img
@@ -241,7 +261,7 @@ export const BriefRunner: React.FC = () => {
           </Link>
         </div>
 
-        {/* Theme Toggle (Admin button removed) */}
+        {/* Theme Toggle */}
         <div className="flex items-center gap-3">
           <button
             onClick={toggleTheme}
@@ -264,7 +284,7 @@ export const BriefRunner: React.FC = () => {
       </div>
 
       {/* Main Interactive Stage */}
-      <main className="flex-1 flex items-center justify-center relative z-10 pt-24 sm:pt-28 pb-10 px-4">
+      <main className="flex-1 flex flex-col justify-center relative z-10 pt-24 sm:pt-28 pb-28 px-4">
         <AnimatePresence mode="wait" custom={direction}>
           {step === 'welcome' && (
             <motion.div
@@ -330,11 +350,53 @@ export const BriefRunner: React.FC = () => {
         </AnimatePresence>
       </main>
 
-      {/* Footer info */}
-      <footer className="w-full py-4 px-6 text-center text-xs text-neutral-400 font-light z-10">
-        <span>Diseñado por </span>
-        <span className="font-normal text-neutral-700 dark:text-neutral-300">Miiles Studio</span>
-      </footer>
+      {/* Persistent Centered Floating Action Bar for Questions */}
+      {step === 'questions' && (
+        <div className="fixed bottom-6 left-0 right-0 z-30 pointer-events-none px-4 flex items-center justify-center">
+          <div className="pointer-events-auto bg-white/85 dark:bg-neutral-900/85 backdrop-blur-md p-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-neutral-200/80 dark:border-neutral-800 flex items-center gap-2">
+            {canQuestionBeUndefined(currentQuestion) && (
+              <button
+                type="button"
+                onClick={handleUndefined}
+                className="px-4 py-2 rounded-full text-xs sm:text-sm font-normal text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 cursor-pointer"
+                title="Aún no tengo definida esta respuesta"
+              >
+                Sin definir
+              </button>
+            )}
+
+            <button
+              onClick={handleNext}
+              disabled={!isCurrentValid()}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-normal text-sm transition-all duration-200 shadow-sm ${
+                isCurrentValid()
+                  ? 'bg-black text-white dark:bg-white dark:text-black hover:opacity-90 hover:scale-102 active:scale-98 cursor-pointer'
+                  : 'bg-neutral-200/60 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-600 cursor-not-allowed opacity-60'
+              }`}
+            >
+              <span>
+                {currentQuestionIndex === questions.length - 1
+                  ? template.submitText || 'Finalizar'
+                  : 'Siguiente'}
+              </span>
+              {currentQuestionIndex === questions.length - 1 ? (
+                <Check className="w-4 h-4" />
+              ) : (
+                <ArrowRight className="w-4 h-4" />
+              )}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Admin Jump Modal (Ctrl + A) */}
+      <AdminJumpModal
+        isOpen={isAdminModalOpen}
+        onClose={() => setIsAdminModalOpen(false)}
+        questions={questions}
+        currentIndex={currentQuestionIndex}
+        onJump={handleJumpToQuestion}
+      />
     </div>
   );
 };

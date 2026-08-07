@@ -9,6 +9,7 @@ export type QuestionType =
   | 'budget-slider'
   | 'color-palette'
   | 'color-picker'
+  | 'image-gallery'
   | 'file-upload';
 
 export interface ChoiceOption {
@@ -17,6 +18,12 @@ export interface ChoiceOption {
   description?: string;
   icon?: string;
   badge?: string;
+}
+
+export interface ImageOption {
+  id: string;
+  url: string;
+  label?: string;
 }
 
 export interface ColorPaletteOption {
@@ -38,6 +45,7 @@ export interface Question {
   required?: boolean;
   allowUndefined?: boolean;
   options?: ChoiceOption[];
+  imageOptions?: ImageOption[];
   hasConditionalInput?: boolean;
   conditionalTriggerId?: string; // e.g. 'si'
   conditionalInputPlaceholder?: string;

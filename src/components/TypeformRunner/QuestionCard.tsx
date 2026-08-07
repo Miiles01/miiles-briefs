@@ -6,6 +6,7 @@ import { ChoiceCards } from './inputs/ChoiceCards';
 import { BudgetSlider } from './inputs/BudgetSlider';
 import { ColorPalettePicker } from './inputs/ColorPalettePicker';
 import { ColorPickerInput } from './inputs/ColorPickerInput';
+import { ImageGalleryPicker } from './inputs/ImageGalleryPicker';
 import { ArrowRight, Check } from 'lucide-react';
 
 interface QuestionCardProps {
@@ -75,10 +76,6 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   isValid,
   submitButtonText = 'Finalizar',
 }) => {
-  const fullTitle = question.highlightWord
-    ? `${question.title} ${question.highlightWord}`
-    : question.title;
-
   // Extract selected choice id when value is an object or string
   const selectedChoiceId =
     typeof value === 'object' && value !== null && 'choice' in value
@@ -117,7 +114,11 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   const showUndefinedButton = canQuestionBeUndefined(question) && Boolean(onUndefined);
 
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col justify-center min-h-[58vh] px-4 font-sans">
+    <div
+      className={`w-full ${
+        question.type === 'image-gallery' ? 'max-w-5xl' : 'max-w-2xl'
+      } mx-auto flex flex-col justify-center min-h-[58vh] px-4 pb-24 font-sans`}
+    >
       {/* Question Header */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -154,7 +155,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
 
         {/* Title */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight text-neutral-900 dark:text-white leading-tight">
-          {fullTitle}
+          {question.title}
         </h2>
 
         {/* Subtitle / Examples */}
@@ -176,8 +177,9 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           <TextInput
             value={value || ''}
             onChange={onChange}
-            onSubmit={onNext}
             placeholder={question.placeholder}
+            autoFocus
+            onSubmit={onNext}
           />
         )}
 
@@ -185,9 +187,31 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           <TextInput
             value={value || ''}
             onChange={onChange}
-            onSubmit={onNext}
             placeholder={question.placeholder}
             isTextarea
+            autoFocus
+          />
+        )}
+
+        {question.type === 'email' && (
+          <TextInput
+            type="email"
+            value={value || ''}
+            onChange={onChange}
+            placeholder={question.placeholder || 'tu@empresa.com'}
+            autoFocus
+            onSubmit={onNext}
+          />
+        )}
+
+        {question.type === 'phone' && (
+          <TextInput
+            type="tel"
+            value={value || ''}
+            onChange={onChange}
+            placeholder={question.placeholder || '+52 55 1234 5678'}
+            autoFocus
+            onSubmit={onNext}
           />
         )}
 
@@ -197,27 +221,25 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
               options={question.options}
               value={selectedChoiceId}
               onChange={handleChoiceSelect}
-              onAutoSubmit={
-                // Never auto-advance when question has a conditional input —
-                // the user must fill the detail textarea first, then press "Siguiente".
-                !question.hasConditionalInput ? onNext : undefined
-              }
+              onAutoSubmit={question.hasConditionalInput ? undefined : onNext}
             />
 
             {/* Conditional Input Drawer */}
             <AnimatePresence>
               {isConditionalTriggered && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0, y: -5 }}
+                  initial={{ opacity: 0, height: 0, y: -10 }}
                   animate={{ opacity: 1, height: 'auto', y: 0 }}
-                  exit={{ opacity: 0, height: 0, y: -5 }}
-                  transition={{ duration: 0.25 }}
+                  exit={{ opacity: 0, height: 0, y: -10 }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
                   className="overflow-hidden pt-2"
                 >
                   <div className="p-4 sm:p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 space-y-2">
-                    <label className="text-xs font-normal text-neutral-700 dark:text-neutral-300 block">
-                      {question.conditionalInputLabel || 'Describe tu diferenciador:'}
-                    </label>
+                    {question.conditionalInputLabel && (
+                      <label className="block text-xs sm:text-sm font-normal text-neutral-700 dark:text-neutral-300">
+                        {question.conditionalInputLabel}
+                      </label>
+                    )}
                     <textarea
                       value={typeof value === 'object' && value !== null ? value.detail || '' : ''}
                       onChange={(e) => handleConditionalDetailChange(e.target.value)}
@@ -269,38 +291,14 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
             onChange={onChange}
           />
         )}
-      </motion.div>
 
-      {/* Action / Next Button */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.15 }}
-        className="mt-8 flex items-center justify-end gap-3"
-      >
-        {showUndefinedButton && (
-          <button
-            type="button"
-            onClick={onUndefined}
-            className="px-4 py-2.5 rounded-full text-xs sm:text-sm font-normal text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 cursor-pointer"
-            title="Aún no tengo definida esta respuesta"
-          >
-            Sin definir
-          </button>
+        {question.type === 'image-gallery' && question.imageOptions && (
+          <ImageGalleryPicker
+            options={question.imageOptions}
+            value={value || []}
+            onChange={onChange}
+          />
         )}
-
-        <button
-          onClick={onNext}
-          disabled={!isValid}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-normal text-sm transition-all duration-300 shadow-sm ${
-            isValid
-              ? 'bg-black text-white dark:bg-white dark:text-black hover:opacity-85 hover:scale-105 active:scale-95 cursor-pointer'
-              : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-600 cursor-not-allowed opacity-60'
-          }`}
-        >
-          <span>{isLast ? submitButtonText : 'Siguiente'}</span>
-          {isLast ? <Check className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
-        </button>
       </motion.div>
     </div>
   );

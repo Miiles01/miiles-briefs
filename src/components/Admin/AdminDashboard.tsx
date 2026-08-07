@@ -19,7 +19,8 @@ import {
   Copy,
   Lock,
   ArrowRight,
-  LogOut
+  LogOut,
+  Trash2
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { toast } from 'sonner';
@@ -51,7 +52,7 @@ export const AdminDashboard: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput.trim() === 'creativo2004') {
+    if (passwordInput.trim() === 'creativo2022') {
       sessionStorage.setItem('miiles_admin_auth', 'true');
       setIsAuthenticated(true);
       setPasswordError(false);
@@ -140,12 +141,6 @@ export const AdminDashboard: React.FC = () => {
             </form>
           </motion.div>
         </main>
-
-        {/* Footer */}
-        <footer className="w-full py-4 px-6 text-center text-xs text-neutral-400 font-light">
-          <span>Diseñado por </span>
-          <span className="font-normal text-neutral-700 dark:text-neutral-300">Miiles Studio</span>
-        </footer>
       </div>
     );
   }
@@ -426,16 +421,31 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
                           </span>
                         </td>
                         <td className="py-3.5 px-4 text-right">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setActiveSubmission(sub);
-                            }}
-                            className="p-1.5 rounded-lg text-neutral-500 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
-                            title="Ver detalles"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
+                          <div className="flex items-center justify-end gap-1">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveSubmission(sub);
+                              }}
+                              className="p-1.5 rounded-lg text-neutral-500 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
+                              title="Ver detalles"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (window.confirm(`¿Deseas eliminar la respuesta de ${sub.clientName} (${sub.id})?`)) {
+                                  deleteSubmission(sub.id);
+                                  toast.success('Respuesta eliminada correctamente');
+                                }
+                              }}
+                              className="p-1.5 rounded-lg text-neutral-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors cursor-pointer"
+                              title="Eliminar respuesta"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -452,9 +462,9 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
         <SubmissionDetailModal
           submission={activeSubmission}
           onClose={() => setActiveSubmission(null)}
-          onUpdateStatus={(newStatus) => updateStatus(activeSubmission.id, newStatus)}
-          onDelete={() => {
-            deleteSubmission(activeSubmission.id);
+          onUpdateStatus={(id, newStatus, notes) => updateStatus(id, newStatus, notes)}
+          onDelete={(id) => {
+            deleteSubmission(id);
             setActiveSubmission(null);
           }}
         />

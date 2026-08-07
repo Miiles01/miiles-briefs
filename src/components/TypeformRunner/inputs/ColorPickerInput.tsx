@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { X, Plus } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Plus, Check, Palette, Sparkles } from 'lucide-react';
 
 // ─── Color conversion helpers ─────────────────────────────────────────────────
 
@@ -17,13 +18,19 @@ function hsvToHex(h: number, s: number, v: number): string {
   else if (h < 300) { r = x; g = 0; b = c; }
   else              { r = c; g = 0; b = x; }
   const toHex = (n: number) => Math.round((n + m) * 255).toString(16).padStart(2, '0');
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
 }
 
 function hexToHsv(hex: string): [number, number, number] {
-  const r = parseInt(hex.slice(1, 3), 16) / 255;
-  const g = parseInt(hex.slice(3, 5), 16) / 255;
-  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  let cleaned = hex.replace(/^#/, '');
+  if (cleaned.length === 3) {
+    cleaned = cleaned.split('').map((c) => c + c).join('');
+  }
+  if (cleaned.length !== 6) return [0, 100, 100];
+
+  const r = parseInt(cleaned.slice(0, 2), 16) / 255;
+  const g = parseInt(cleaned.slice(2, 4), 16) / 255;
+  const b = parseInt(cleaned.slice(4, 6), 16) / 255;
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   const d = max - min;
@@ -40,7 +47,7 @@ function hexToHsv(hex: string): [number, number, number] {
 }
 
 function isValidHex(hex: string): boolean {
-  return /^#[0-9a-fA-F]{6}$/.test(hex);
+  return /^#?[0-9a-fA-F]{6}$/.test(hex);
 }
 
 // ─── Preset swatches ──────────────────────────────────────────────────────────
@@ -54,9 +61,9 @@ const PRESETS = [
   { hex: '#3B82F6', label: 'Azul' },
   { hex: '#8B5CF6', label: 'Violeta' },
   { hex: '#EC4899', label: 'Rosa' },
-  { hex: '#F9FAFB', label: 'Blanco' },
-  { hex: '#6B7280', label: 'Gris' },
   { hex: '#1C1C1E', label: 'Negro' },
+  { hex: '#6B7280', label: 'Gris' },
+  { hex: '#F9FAFB', label: 'Blanco' },
   { hex: '#92400E', label: 'Café' },
   { hex: '#D4AF37', label: 'Dorado' },
   { hex: '#C0C0C0', label: 'Plata' },
@@ -71,41 +78,44 @@ interface ColorPickerInputProps {
 }
 
 export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onChange }) => {
-  // Normalize value: always an array of hex strings
   const colors: string[] = Array.isArray(value)
     ? value
-    : typeof value === 'string' && value.trim()
+    : typeof value === 'string' && value.trim() && value !== 'Sin definir'
     ? [value]
     : [];
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [hue, setHue]             = useState(0);
-  const [saturation, setSaturation] = useState(70);
-  const [brightness, setBrightness] = useState(85);
-  const [hexInput, setHexInput]   = useState('#D44C4C');
+  const handleRemove = (idx: number) => {
+    const next = colors.filter((_, i) => i !== idx);
+    onChange(next);
+  };
 
-  const canvasRef  = useRef<HTMLDivElement>(null);
-  const pickerRef  = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [hue, setHue] = useState(355);
+  const [saturation, setSaturation] = useState(75);
+  const [brightness, setBrightness] = useState(88);
+  const [hexInput, setHexInput] = useState('#D44C4C');
+
+  const canvasRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
 
-  // Sync hex display → driven by hsv state
+  // Sync HEX input with HSV changes
   useEffect(() => {
     setHexInput(hsvToHex(hue, saturation, brightness));
   }, [hue, saturation, brightness]);
 
-  // Close picker when clicking outside
+  // Handle ESC key to close
   useEffect(() => {
     if (!isOpen) return;
-    const onMouseDown = (e: MouseEvent) => {
-      if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', onMouseDown);
-    return () => document.removeEventListener('mousedown', onMouseDown);
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
   }, [isOpen]);
 
-  // ── Canvas drag logic ────────────────────────────────────────────────────────
+  // ── Canvas drag ──────────────────────────────────────────────────────────────
   const updateFromPointer = useCallback((clientX: number, clientY: number) => {
     if (!canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
@@ -118,7 +128,6 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
   const handleCanvasMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     isDragging.current = true;
     updateFromPointer(e.clientX, e.clientY);
-
     const onMove = (ev: MouseEvent) => {
       if (isDragging.current) updateFromPointer(ev.clientX, ev.clientY);
     };
@@ -131,12 +140,10 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
     window.addEventListener('mouseup', onUp);
   }, [updateFromPointer]);
 
-  // Touch support for canvas
   const handleCanvasTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
     e.preventDefault();
     const touch = e.touches[0];
     updateFromPointer(touch.clientX, touch.clientY);
-
     const onTouchMove = (ev: TouchEvent) => {
       ev.preventDefault();
       const t = ev.touches[0];
@@ -146,59 +153,58 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
     window.addEventListener('touchend', () => window.removeEventListener('touchmove', onTouchMove), { once: true });
   }, [updateFromPointer]);
 
-  // ── HEX input ────────────────────────────────────────────────────────────────
+  // ── HEX input handler ────────────────────────────────────────────────────────
   const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
+    let val = e.target.value;
+    if (!val.startsWith('#') && val.length > 0) {
+      val = '#' + val;
+    }
     setHexInput(val);
     if (isValidHex(val)) {
-      const [h, s, v] = hexToHsv(val);
+      const formatted = val.startsWith('#') ? val : `#${val}`;
+      const [h, s, v] = hexToHsv(formatted);
       setHue(h);
       setSaturation(s);
       setBrightness(v);
     }
   };
 
-  // ── Preset swatch click ───────────────────────────────────────────────────────
   const handlePreset = (hex: string) => {
     const [h, s, v] = hexToHsv(hex);
     setHue(h);
     setSaturation(s);
     setBrightness(v);
+    setHexInput(hex.toUpperCase());
   };
 
-  // ── Add / remove colors ────────────────────────────────────────────────────────
+  const currentHex = hsvToHex(hue, saturation, brightness);
+  const isAlreadyAdded = colors.includes(currentHex);
+
   const handleAdd = () => {
-    const hex = hsvToHex(hue, saturation, brightness);
-    if (!colors.includes(hex) && colors.length < 6) {
-      onChange([...colors, hex]);
+    if (!isAlreadyAdded && colors.length < 6) {
+      onChange([...colors, currentHex]);
     }
     setIsOpen(false);
   };
 
-  const handleRemove = (idx: number) => {
-    onChange(colors.filter((_, i) => i !== idx));
-  };
-
-  const currentHex = hsvToHex(hue, saturation, brightness);
   const cursorLeft = `${saturation}%`;
-  const cursorTop  = `${100 - brightness}%`;
+  const cursorTop = `${100 - brightness}%`;
 
   return (
-    <div className="relative font-sans">
-
-      {/* ── Selected chips ─────────────────────────────────────────────────────── */}
+    <div className="relative font-sans w-full max-w-xl">
+      {/* ── Selected chips ──────────────────────────────────────────────────────── */}
       {colors.length > 0 && (
         <div className="flex flex-wrap gap-2.5 mb-5">
           {colors.map((color, idx) => (
             <div
               key={`${color}-${idx}`}
-              className="group flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm"
+              className="group flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm transition-all hover:border-neutral-300 dark:hover:border-neutral-700"
             >
               <div
-                className="w-6 h-6 rounded-full border border-black/10 shrink-0"
+                className="w-6 h-6 rounded-full border border-black/10 dark:border-white/10 shrink-0 shadow-inner"
                 style={{ backgroundColor: color }}
               />
-              <span className="text-xs font-mono tracking-wide text-neutral-600 dark:text-neutral-400 uppercase">
+              <span className="text-xs font-mono font-medium tracking-wider text-neutral-800 dark:text-neutral-200 uppercase">
                 {color}
               </span>
               <button
@@ -207,132 +213,232 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
                 aria-label={`Eliminar color ${color}`}
                 className="w-4 h-4 flex items-center justify-center text-neutral-400 hover:text-red-500 transition-colors ml-0.5"
               >
-                <X className="w-3 h-3" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
           ))}
         </div>
       )}
 
-      {/* ── Add button ────────────────────────────────────────────────────────── */}
+      {/* ── Open Picker Button ──────────────────────────────────────────────────── */}
       {colors.length < 6 && (
-        <button
-          type="button"
-          onClick={() => setIsOpen((o) => !o)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm text-neutral-700 dark:text-neutral-300 hover:border-neutral-700 dark:hover:border-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900/60 transition-all"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Agregar color</span>
-        </button>
-      )}
-
-      {/* ── Picker panel ──────────────────────────────────────────────────────── */}
-      {isOpen && (
-        <div
-          ref={pickerRef}
-          className="absolute left-0 top-full mt-3 w-72 bg-white dark:bg-[#1a1a1a] border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-2xl z-50 p-4 space-y-3.5 select-none"
-        >
-          {/* Gradient canvas */}
-          <div
-            ref={canvasRef}
-            onMouseDown={handleCanvasMouseDown}
-            onTouchStart={handleCanvasTouchStart}
-            className="relative w-full h-44 rounded-xl cursor-crosshair overflow-hidden touch-none"
-            style={{
-              background: [
-                'linear-gradient(to bottom, transparent 0%, #000 100%)',
-                `linear-gradient(to right, #fff 0%, hsl(${hue}, 100%, 50%) 100%)`,
-              ].join(', '),
-            }}
-          >
-            {/* Cursor dot */}
-            <div
-              className="absolute w-4 h-4 rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2"
-              style={{
-                left: cursorLeft,
-                top: cursorTop,
-                backgroundColor: currentHex,
-                boxShadow: '0 0 0 2px #fff, 0 0 0 3px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.4)',
-              }}
-            />
-          </div>
-
-          {/* Hue rainbow slider */}
-          <div className="flex items-center gap-3">
-            {/* Preview swatch */}
-            <div
-              className="w-7 h-7 rounded-full shrink-0 border border-black/10"
-              style={{ backgroundColor: currentHex }}
-            />
-            <input
-              type="range"
-              min={0}
-              max={360}
-              value={hue}
-              onChange={(e) => setHue(Number(e.target.value))}
-              className="flex-1 h-3 rounded-full appearance-none cursor-pointer outline-none"
-              style={{
-                background:
-                  'linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)',
-                WebkitAppearance: 'none',
-              }}
-            />
-          </div>
-
-          {/* HEX input row */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-normal text-neutral-400 shrink-0 w-8">HEX</span>
-            <input
-              type="text"
-              value={hexInput}
-              onChange={handleHexChange}
-              maxLength={7}
-              spellCheck={false}
-              className="flex-1 text-sm font-mono bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-neutral-700 outline-none focus:border-neutral-500 dark:focus:border-neutral-500 transition-colors"
-              placeholder="#000000"
-            />
-            <div
-              className="w-8 h-8 rounded-lg border border-neutral-200 dark:border-neutral-700 shrink-0"
-              style={{ backgroundColor: isValidHex(hexInput) ? hexInput : '#ccc' }}
-            />
-          </div>
-
-          {/* Preset swatches */}
-          <div>
-            <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-2.5">Sugerencias</p>
-            <div className="flex flex-wrap gap-2">
-              {PRESETS.map((p) => {
-                const isSelected = hexInput.toLowerCase() === p.hex.toLowerCase();
-                return (
-                  <button
-                    key={p.hex}
-                    type="button"
-                    title={p.label}
-                    onClick={() => handlePreset(p.hex)}
-                    className="w-6 h-6 rounded-full transition-transform hover:scale-110 active:scale-95"
-                    style={{
-                      backgroundColor: p.hex,
-                      boxShadow: isSelected
-                        ? '0 0 0 2px #fff, 0 0 0 3.5px #000'
-                        : '0 0 0 1px rgba(0,0,0,0.15)',
-                    }}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Confirm button */}
+        <div>
           <button
             type="button"
-            onClick={handleAdd}
-            disabled={colors.includes(currentHex)}
-            className="w-full py-2.5 rounded-xl bg-black dark:bg-white text-white dark:text-black text-sm font-normal hover:opacity-85 active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-2 px-5 py-3 rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#121214] text-sm font-medium text-neutral-800 dark:text-neutral-200 hover:border-neutral-900 dark:hover:border-white hover:shadow-md active:scale-95 transition-all"
           >
-            {colors.includes(currentHex) ? 'Ya agregado' : 'Agregar'}
+            <Plus className="w-4 h-4" />
+            <span>Agregar color</span>
           </button>
         </div>
       )}
+
+      {/* ── Modal Picker (Centered Dialog with Backdrop) ─────────────────────────── */}
+      <AnimatePresence>
+        {isOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 select-none font-sans">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
+              onClick={() => setIsOpen(false)}
+            />
+
+            {/* Modal Content */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-lg bg-white dark:bg-[#141417] rounded-3xl shadow-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden z-10 p-5 sm:p-6"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-3 mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-900 dark:text-white">
+                    <Palette className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-neutral-900 dark:text-white">
+                      Selector de color
+                    </h3>
+                    <p className="text-xs text-neutral-400 font-light">
+                      Elige el tono perfecto o ingresa un código HEX
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Body: 2 Columns on sm+ */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                {/* ── Left Column: Big Color Preview & Suggestions ───────────────── */}
+                <div className="flex flex-col justify-between space-y-4">
+                  {/* Big Color Preview Box with Editable HEX inside top corner */}
+                  <div>
+                    <span className="block text-xs font-normal text-neutral-500 dark:text-neutral-400 mb-2">
+                      Vista previa
+                    </span>
+                    <div
+                      className="w-full h-32 sm:h-36 rounded-2xl relative shadow-md transition-colors overflow-hidden flex flex-col justify-between p-3 border border-black/10 dark:border-white/10"
+                      style={{ backgroundColor: currentHex }}
+                    >
+                      {/* Top Corner: Editable HEX pill */}
+                      <div className="flex items-center justify-between">
+                        <div className="bg-black/40 backdrop-blur-md border border-white/25 rounded-lg px-2 py-1 flex items-center gap-1 shadow-sm">
+                          <span className="text-[10px] font-mono font-semibold text-white/70">#</span>
+                          <input
+                            type="text"
+                            value={hexInput.replace(/^#/, '')}
+                            onChange={handleHexChange}
+                            maxLength={6}
+                            spellCheck={false}
+                            className="w-16 bg-transparent text-white text-xs font-mono font-bold tracking-wider outline-none"
+                            placeholder="FFFFFF"
+                          />
+                        </div>
+                        <span className="text-[10px] font-mono font-medium text-white/80 bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-md">
+                          {saturation}% Sat
+                        </span>
+                      </div>
+
+                      {/* Bottom indicator */}
+                      <div className="flex items-center justify-between text-white/90">
+                        <span className="text-xs font-mono font-bold tracking-wide drop-shadow-sm">
+                          {currentHex}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Suggestions Swatches */}
+                  <div>
+                    <span className="block text-xs font-normal text-neutral-500 dark:text-neutral-400 mb-2">
+                      Sugerencias
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {PRESETS.map((p) => {
+                        const isSelected = hexInput.toUpperCase() === p.hex.toUpperCase();
+                        return (
+                          <button
+                            key={p.hex}
+                            type="button"
+                            title={p.label}
+                            onClick={() => handlePreset(p.hex)}
+                            className="w-6 h-6 rounded-full transition-transform hover:scale-115 active:scale-95 border border-black/10 dark:border-white/10 shrink-0"
+                            style={{
+                              backgroundColor: p.hex,
+                              boxShadow: isSelected
+                                ? '0 0 0 2px #fff, 0 0 0 4px #000'
+                                : 'none',
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Right Column: 2D Gradient Canvas & Hue Slider ───────────────── */}
+                <div className="flex flex-col justify-between space-y-4">
+                  <div>
+                    <span className="block text-xs font-normal text-neutral-500 dark:text-neutral-400 mb-2">
+                      Gradiente y brillo
+                    </span>
+                    {/* Gradient 2D Canvas */}
+                    <div
+                      ref={canvasRef}
+                      onMouseDown={handleCanvasMouseDown}
+                      onTouchStart={handleCanvasTouchStart}
+                      className="relative w-full h-32 sm:h-36 rounded-2xl cursor-crosshair overflow-hidden touch-none shadow-inner border border-neutral-200 dark:border-neutral-800"
+                      style={{
+                        background: [
+                          'linear-gradient(to bottom, transparent 0%, #000 100%)',
+                          `linear-gradient(to right, #fff 0%, hsl(${hue}, 100%, 50%) 100%)`,
+                        ].join(', '),
+                      }}
+                    >
+                      <div
+                        className="absolute w-5 h-5 rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 shadow-lg"
+                        style={{
+                          left: cursorLeft,
+                          top: cursorTop,
+                          backgroundColor: currentHex,
+                          boxShadow:
+                            '0 0 0 2px #fff, 0 0 0 3.5px rgba(0,0,0,0.3), 0 3px 10px rgba(0,0,0,0.5)',
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Hue Slider */}
+                  <div>
+                    <div className="flex items-center justify-between text-[11px] text-neutral-400 mb-1.5">
+                      <span>Tono (Espectro)</span>
+                      <span className="font-mono">{hue}°</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="range"
+                        min={0}
+                        max={360}
+                        value={hue}
+                        onChange={(e) => setHue(Number(e.target.value))}
+                        className="flex-1 h-3 rounded-full appearance-none cursor-pointer outline-none shadow-inner"
+                        style={{
+                          background:
+                            'linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)',
+                          WebkitAppearance: 'none',
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer: Confirm Button */}
+              <div className="pt-2 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="flex-1 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 text-sm font-medium hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all active:scale-95"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAdd}
+                  disabled={isAlreadyAdded || colors.length >= 6}
+                  className="flex-1 py-2.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-sm font-medium hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {isAlreadyAdded ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Ya agregado</span>
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4" />
+                      <span>Seleccionar color</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

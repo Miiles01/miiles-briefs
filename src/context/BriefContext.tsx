@@ -98,6 +98,24 @@ export const BriefProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return INITIAL_DEMO_SUBMISSIONS;
   });
 
+  // Fetch real submissions from MySQL on mount
+  useEffect(() => {
+    const fetchSubmissionsFromDB = async () => {
+      try {
+        const res = await fetch('/api/submissions.php');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
+            setSubmissions(json.data);
+          }
+        }
+      } catch (err) {
+        // Safe offline / local fallback
+      }
+    };
+    fetchSubmissionsFromDB();
+  }, []);
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
@@ -121,15 +139,13 @@ export const BriefProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     setSubmissions(prev => [newSubmission, ...prev]);
 
-    // Opcional: Hook para enviar a Hostinger MySQL / PHP backend cuando esté configurado
+    // Enviar a HostGator MySQL backend
     try {
-      if (window.location.hostname !== 'localhost') {
-        fetch('/api/save_brief.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newSubmission),
-        }).catch(err => console.log('Backend sync offline/local mode', err));
-      }
+      fetch('/api/submissions.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newSubmission),
+      }).catch(err => console.log('MySQL sync error or local mode', err));
     } catch (err) {
       // safe fallback
     }
@@ -150,10 +166,30 @@ export const BriefProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           : sub
       )
     );
+
+    // Sync status update to MySQL
+    try {
+      fetch('/api/submissions.php', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status, notes }),
+      }).catch(err => console.log('MySQL update offline', err));
+    } catch (err) {
+      // safe fallback
+    }
   };
 
   const deleteSubmission = (id: string) => {
     setSubmissions(prev => prev.filter(sub => sub.id !== id));
+
+    // Delete in MySQL
+    try {
+      fetch(`/api/submissions.php?id=${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+      }).catch(err => console.log('MySQL delete offline', err));
+    } catch (err) {
+      // safe fallback
+    }
   };
 
   const getSubmissionById = (id: string) => {
