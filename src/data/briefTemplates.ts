@@ -4,181 +4,303 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
   {
     id: 'branding-identidad',
     slug: 'branding',
-    title: 'Branding & Identidad',
-    highlightWord: 'Visual',
-    badge: 'Más Popular',
-    description: 'Define la esencia, tono, estética y activos visuales de tu marca para destacar con autoridad.',
+    title: 'Identidad de marca',
+    badge: 'Identidad',
+    description: 'Define a quién le hablas, qué problema resuelves y cómo diferenciarte de forma consistente en diseño, comunicación y estrategia.',
     icon: 'Sparkles',
-    estimatedTime: '4 min',
-    totalQuestions: 8,
-    welcomeSubtitle: 'Vamos a construir juntos una marca magnética que conecte y convierta.',
+    estimatedTime: '3 min',
+    totalQuestions: 19,
+    welcomeSubtitle: '¡Hola! Este brief te ayuda a tomar decisiones claras sobre tu marca: define a quién le hablas, qué problema resuelves y cómo diferenciarte de forma consistente en diseño, comunicación y estrategia.',
+    ctaText: 'Empezar',
+    submitText: 'Finalizar',
     questions: [
+      // Sección 1 — Contexto del negocio
       {
-        id: 'brand-name',
+        id: 'b-name',
+        section: 'Contexto del negocio',
         type: 'text',
-        title: '¿Cuál es el nombre de tu',
-        highlightWord: 'Marca',
-        subtitle: 'O el nombre provisional si aún está en fase de exploración.',
-        placeholder: 'Ej. Lumina Studio, Nova Labs...',
+        title: '¿Cómo se llama tu marca?',
+        placeholder: 'Ej. Lumina, Nova Studio, Tu Nombre...',
         required: true,
       },
       {
-        id: 'brand-stage',
+        id: 'b-brand-type',
+        section: 'Contexto del negocio',
         type: 'single-choice',
-        title: '¿En qué etapa se encuentra tu',
-        highlightWord: 'Proyecto?',
-        subtitle: 'Esto nos ayuda a entender el punto de partida y la velocidad necesaria.',
+        title: '¿Qué clase de marca es?',
         required: true,
         options: [
           {
-            id: 'stage-new',
-            label: 'Marca desde cero',
-            description: 'Tengo una idea o negocio nuevo y necesito toda la identidad visual.',
-            icon: 'Rocket',
-            badge: 'Start'
+            id: 'personal',
+            label: 'Marca personal',
+            description: 'Firmas con tu propio nombre y reputación individual.',
           },
           {
-            id: 'stage-rebrand',
-            label: 'Rediseño / Rebranding',
-            description: 'Ya tenemos una marca pero necesita una evolución estética profunda.',
-            icon: 'RefreshCw',
-            badge: 'Evolución'
+            id: 'corporativa',
+            label: 'Marca corporativa',
+            description: 'Firmas con el logotipo y nombre de tu empresa o negocio.',
           },
-          {
-            id: 'stage-expansion',
-            label: 'Expansión de submarca',
-            description: 'Marca consolidada que lanza una nueva línea o producto.',
-            icon: 'Layers',
-            badge: 'Scale'
-          }
-        ]
+        ],
       },
       {
-        id: 'brand-personality',
-        type: 'multiple-choice',
-        title: '¿Qué adjetivos definen la',
-        highlightWord: 'Personalidad',
-        subtitle: 'Selecciona hasta 3 opciones que mejor describan la vibra que buscas proyectar.',
-        required: true,
-        options: [
-          { id: 'pers-luxury', label: 'Lujoso & Exclusivo', description: 'Elegancia sobria, detalles finos y acabados premium.' },
-          { id: 'pers-bold', label: 'Disruptivo & Audaz', description: 'Rompe convenciones, tipografías con carácter e impacto.' },
-          { id: 'pers-minimal', label: 'Minimalista & Tech', description: 'Líneas limpias, espacios generosos y claridad absoluta.' },
-          { id: 'pers-warm', label: 'Cálido & Orgánico', description: 'Sensación humana, acogedora, natural y cercana.' },
-          { id: 'pers-vibrant', label: 'Vibrante & Creativo', description: 'Colores audaces, energía juvenil y frescura.' },
-          { id: 'pers-corporate', label: 'Sólido & Profesional', description: 'Confianza institucional, seguridad y robustez.' }
-        ]
-      },
-      {
-        id: 'brand-palette',
-        type: 'color-palette',
-        title: 'Elige la dirección',
-        highlightWord: 'Cromática',
-        subtitle: '¿Qué paleta de color resuena más con la visión de tu proyecto?',
-        required: true,
-        colorPalettes: [
-          {
-            id: 'palette-electric',
-            name: 'Electric Cobalt & Noir',
-            description: 'Moderna, tecnológica, potente y sofisticada.',
-            colors: ['#4059F1', '#0B0D1B', '#8FA4FF', '#F4F6FF', '#111528']
-          },
-          {
-            id: 'palette-mono-gold',
-            name: 'Obsidian & Champagne',
-            description: 'Lujo silencioso, sobriedad y máxima elegancia.',
-            colors: ['#0A0A0A', '#E8D5B5', '#222222', '#D1B48C', '#FFFFFF']
-          },
-          {
-            id: 'palette-emerald',
-            name: 'Deep Forest & Sage',
-            description: 'Orgánica, balanceada, sustentable y premium.',
-            colors: ['#0F281E', '#2D5A46', '#87A99C', '#EAF0EC', '#D4E2D9']
-          },
-          {
-            id: 'palette-sunset',
-            name: 'Terra & Crimson Flare',
-            description: 'Cálida, apasionada, enérgica y distintiva.',
-            colors: ['#E63946', '#F4A261', '#2A2E43', '#FAEDCD', '#1D3557']
-          }
-        ]
-      },
-      {
-        id: 'deliverables',
-        type: 'multiple-choice',
-        title: '¿Qué entregables específicos',
-        highlightWord: 'Necesitas?',
-        subtitle: 'Elige todos los elementos que requieres para tu lanzamiento.',
-        required: true,
-        options: [
-          { id: 'del-logo', label: 'Logotipo & Isotipo Principal', description: 'Versiones horizontal, vertical, isotipo y monograma.' },
-          { id: 'del-manual', label: 'Brand Guidelines / Manual de Marca', description: 'Reglas de uso, tipografía, paleta de color y espaciado.' },
-          { id: 'del-social', label: 'Templates para Redes Sociales', description: 'Plantillas editables para posts, historias y portadas.' },
-          { id: 'del-stationery', label: 'Papelería & Presentaciones', description: 'Tarjetas, hojas membretadas y slide deck corporativo.' },
-          { id: 'del-packaging', label: 'Packaging & Etiquetas', description: 'Empaque de producto, cajas, bolsas y sellos.' },
-          { id: 'del-web-design', label: 'Diseño Web / Landing Page', description: 'Diseño UI/UX completo para tu sitio.' }
-        ]
-      },
-      {
-        id: 'references',
+        id: 'b-offer',
+        section: 'Contexto del negocio',
         type: 'textarea',
-        title: 'Cuéntanos sobre tus marcas',
-        highlightWord: 'Referentes',
-        subtitle: '¿Qué marcas admiras (locales o globales)? ¿Qué te gusta de ellas (su tono, diseño, experiencia)?',
-        placeholder: 'Ejemplo: Nos encanta la simpleza de Apple, la vibra editorial de Aesop y el dinamismo de Spotify...',
-        required: false,
+        title: '¿Qué ofreces?',
+        subtitle: 'Consultoría, producto, educación financiera, servicios creativos, etc.',
+        placeholder: 'Describe brevemente tus productos, servicios o soluciones clave...',
+        required: true,
       },
       {
-        id: 'budget-investment',
-        type: 'budget-slider',
-        title: '¿Cuál es tu rango de',
-        highlightWord: 'Inversión?',
-        subtitle: 'Nos ayuda a modular el alcance de la propuesta y priorizar entregables.',
+        id: 'b-problem-solved',
+        section: 'Contexto del negocio',
+        type: 'textarea',
+        title: '¿Qué problema resuelve?',
+        subtitle: 'Ejemplo: Airbnb no solo ofrece hospedaje, resuelve la necesidad de pertenecer en cualquier lugar y encontrar estancias auténticas a precios más humanos.',
+        placeholder: '¿Cuál es la necesidad o problema central que tu marca resuelve?',
         required: true,
-        budgetOptions: [
-          { id: 'b1', label: 'Esencial', range: '$800 - $1,500 USD', popular: false },
-          { id: 'b2', label: 'Estudio Integral', range: '$1,500 - $3,500 USD', popular: true },
-          { id: 'b3', label: 'Ecosistema Completo', range: '$3,500 - $7,000 USD', popular: false },
-          { id: 'b4', label: 'Enterprise / A Medida', range: '+$7,000 USD', popular: false }
-        ]
       },
       {
-        id: 'contact-info',
-        type: 'text',
-        title: '¿A qué correo te enviamos la',
-        highlightWord: 'Propuesta?',
-        subtitle: 'Te responderemos con un diagnóstico inicial y cotización detallada.',
-        placeholder: 'tu@empresa.com | Nombre y WhatsApp',
+        id: 'b-project-stage',
+        section: 'Contexto del negocio',
+        type: 'multiple-choice',
+        title: 'Estado actual del proyecto',
+        subtitle: 'Selecciona una o más opciones que describan el momento de tu marca.',
         required: true,
-      }
-    ]
+        options: [
+          {
+            id: 'idea',
+            label: 'Idea',
+            description: 'En etapa conceptual y validando la propuesta de valor.',
+          },
+          {
+            id: 'pruebas',
+            label: 'En etapa de pruebas',
+            description: 'Con prototipo o MVP funcionando con primeros clientes.',
+          },
+          {
+            id: 'crecimiento',
+            label: 'En crecimiento',
+            description: 'Con tracción activa y buscando acelerar el alcance.',
+          },
+          {
+            id: 'consolidacion',
+            label: 'En consolidación',
+            description: 'Empresa establecida optimizando procesos y posicionamiento.',
+          },
+        ],
+      },
+
+      // Sección 2 — Filosofía de la marca
+      {
+        id: 'b-mission',
+        section: 'Filosofía de la marca',
+        type: 'textarea',
+        title: '¿Cuál es tu misión?',
+        subtitle: 'El propósito fundamental por el que existe tu marca en el presente.',
+        placeholder: 'Nuestra misión es...',
+        required: true,
+      },
+      {
+        id: 'b-vision',
+        section: 'Filosofía de la marca',
+        type: 'textarea',
+        title: '¿Cuál es tu visión?',
+        subtitle: '¿Dónde y cómo ves a tu marca en los próximos 3 a 5 años?',
+        placeholder: 'En los próximos años, aspiramos a...',
+        required: true,
+      },
+      {
+        id: 'b-values',
+        section: 'Filosofía de la marca',
+        type: 'textarea',
+        title: '¿Cuáles son los valores de tu marca?',
+        subtitle: 'Principios no negociables que rigen tus decisiones y cultura.',
+        placeholder: 'Ej. Simplicidad, honestidad radical, excelencia estética, empatía...',
+        required: true,
+      },
+      {
+        id: 'b-origin-story',
+        section: 'Filosofía de la marca',
+        type: 'textarea',
+        title: '¿Cómo empezó todo?',
+        subtitle: 'Breve historia de la marca y la chispa o anécdota que dio origen al proyecto.',
+        placeholder: 'Todo comenzó cuando...',
+        required: true,
+      },
+
+      // Sección 3 — Público objetivo
+      {
+        id: 'b-target-persona',
+        section: 'Público objetivo',
+        type: 'textarea',
+        title: '¿Cómo es tu cliente ideal?',
+        subtitle: 'Comportamiento, ubicación, intereses, nivel socioeconómico y estilo de vida.',
+        placeholder: 'Mi cliente ideal es alguien que...',
+        required: true,
+      },
+      {
+        id: 'b-target-painpoints',
+        section: 'Público objetivo',
+        type: 'textarea',
+        title: '¿Cuáles son los principales dolores de tu cliente ideal?',
+        subtitle: 'Ejemplo: Nike no vende solo tenis; resuelve la frustración de la inactividad, la falta de motivación o la duda personal con "Just Do It". ¿Qué frustra o preocupa a tu cliente?',
+        placeholder: 'Sus mayores frustraciones, miedos o dolores son...',
+        required: true,
+      },
+
+      // Sección 4 — Sobre el diferenciador de tu marca
+      {
+        id: 'b-differentiator',
+        section: 'Diferenciador',
+        type: 'single-choice',
+        title: '¿Has identificado tu diferenciador?',
+        subtitle: 'Aquello que te distingue y te hace la única opción lógica para tu cliente ideal.',
+        hasConditionalInput: true,
+        conditionalTriggerId: 'si',
+        conditionalInputLabel: 'Describe tu diferenciador clave:',
+        conditionalInputPlaceholder: 'Escribe aquí cuál es tu diferenciador único y por qué te eligen a ti...',
+        required: true,
+        options: [
+          {
+            id: 'si',
+            label: 'Sí, tengo claro mi diferenciador',
+            description: 'Escribe a continuación qué te hace único en el mercado.',
+          },
+          {
+            id: 'no',
+            label: 'No, aún no lo tengo definido',
+            description: 'Te ayudaremos a descubrirlo y construirlo en la fase estratégica.',
+          },
+        ],
+      },
+
+      // Sección 5 — Territorio visual y verbal
+      {
+        id: 'b-communication-tone',
+        section: 'Territorio visual y verbal',
+        sectionHeader: 'Si tu marca fuera una persona que te encuentras en la calle...',
+        type: 'textarea',
+        title: '¿Cómo sería su Tono de comunicación?',
+        subtitle: 'Formal, cercano, provocador, sofisticado, directo, pedagógico, etc.',
+        placeholder: 'Hablaría de forma...',
+        required: true,
+      },
+      {
+        id: 'b-words-to-avoid',
+        section: 'Territorio visual y verbal',
+        sectionHeader: 'Si tu marca fuera una persona que te encuentras en la calle...',
+        type: 'textarea',
+        title: '¿Qué clase de palabras o expresiones debería evitar?',
+        subtitle: 'Ejemplo: Expresiones como "barato", "oferta", "económico", jerga excesivamente técnica o clichés del sector.',
+        placeholder: 'Palabras o frases que nunca deberían asociarse con la marca...',
+        required: true,
+      },
+
+      // Sección 6 — Tagline
+      {
+        id: 'b-tagline',
+        section: 'Tagline',
+        type: 'textarea',
+        title: 'En una frase, describe qué sensación provoca tu marca',
+        subtitle: 'Ejemplo: "Totalmente Palacio" evoca exclusividad, elegancia y estatus. ¿Qué emoción instantánea o frase define la tuya?',
+        placeholder: 'La sensación o lema que transmite nuestra marca es...',
+        required: true,
+      },
+
+      // Sección 7 — Dirección visual
+      {
+        id: 'b-clothing-style',
+        section: 'Dirección visual',
+        sectionHeader: 'Si tu marca fuera una persona que te encuentras en la calle...',
+        type: 'textarea',
+        title: '¿Qué clase de ropa usaría?',
+        subtitle: 'Ejemplo: Traje sastre impecable monocromático, ropa deportiva técnica streetwear, estilo minimalista oversize neutro, etc.',
+        placeholder: 'Vestiría con estilo...',
+        required: true,
+      },
+      {
+        id: 'b-colors',
+        section: 'Dirección visual',
+        type: 'color-picker',
+        title: '¿Qué color o colores definen tu marca?',
+        subtitle: 'Agrega hasta 6 colores. Puedes usar el selector, meter un código HEX o elegir una sugerencia.',
+        required: true,
+        allowUndefined: true,
+      },
+
+      // Sección 8 — Experiencia de marca
+      {
+        id: 'b-touchpoints',
+        section: 'Experiencia de marca',
+        type: 'single-choice',
+        title: '¿Dónde interactúa el cliente?',
+        subtitle: 'El punto de contacto principal o canal donde se vive la experiencia.',
+        required: true,
+        options: [
+          {
+            id: 'web',
+            label: 'Sitio web & Plataforma Digital',
+            description: 'Landing page, tienda en línea o plataforma web interactiva.',
+          },
+          {
+            id: 'fisico',
+            label: 'Espacio Físico',
+            description: 'Tienda física, oficina, showroom, estudio o eventos presenciales.',
+          },
+          {
+            id: 'redes',
+            label: 'Redes sociales & Contenido',
+            description: 'Instagram, TikTok, WhatsApp, LinkedIn o YouTube.',
+          },
+          {
+            id: 'hibrido',
+            label: 'Omnicanal / Híbrido',
+            description: 'Presencia combinada en físico, digital y redes sociales.',
+          },
+        ],
+      },
+
+      // Sección 9 — Inspiración (última pantalla)
+      {
+        id: 'b-inspiration',
+        section: 'Inspiración',
+        type: 'textarea',
+        title: '¿Qué otras marcas te parecen inspiradoras y por qué?',
+        subtitle: 'Puedes agregar el link directo a su web o perfil de Instagram para tomarlas de referencia visual y estratégica.',
+        placeholder: '1) Marca A (link) — Por su minimalismo. 2) Marca B (link) — Por su tono directo...',
+        required: true,
+      },
+    ],
   },
   {
     id: 'web-digital-product',
     slug: 'web-design',
     title: 'Diseño Web & Digital',
     highlightWord: 'Experience',
-    badge: 'Alta Conversión',
+    badge: 'Web & UI',
     description: 'Landing pages de alto impacto, plataformas web y experiencias interactivas optimizadas.',
     icon: 'Globe',
     estimatedTime: '3 min',
-    totalQuestions: 7,
+    totalQuestions: 6,
     welcomeSubtitle: 'Creemos una experiencia web inolvidable que convierta visitas en clientes leales.',
+    ctaText: 'Empezar',
+    submitText: 'Finalizar',
     questions: [
       {
         id: 'web-project-name',
+        section: 'Contexto del Proyecto',
         type: 'text',
-        title: '¿Cómo se llama tu empresa o',
-        highlightWord: 'Sitio?',
+        title: '¿Cómo se llama tu empresa o sitio?',
         subtitle: 'Incluye también la URL actual si ya tienes un sitio existente.',
         placeholder: 'Ej. Miiles Studio — https://wearemiiles.com',
         required: true,
       },
       {
         id: 'web-main-goal',
+        section: 'Objetivos del Sitio',
         type: 'single-choice',
-        title: '¿Cuál es el objetivo principal de la',
-        highlightWord: 'Web?',
+        title: '¿Cuál es el objetivo principal de la web?',
         subtitle: 'El propósito principal dictará la arquitectura y los llamados a la acción.',
         required: true,
         options: [
@@ -190,9 +312,9 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
       },
       {
         id: 'web-scope',
+        section: 'Alcance & Módulos',
         type: 'multiple-choice',
-        title: '¿Qué módulos o páginas clave',
-        highlightWord: 'Contemplas?',
+        title: '¿Qué módulos o páginas clave contemplas?',
         subtitle: 'Selecciona todas las que apliquen.',
         required: true,
         options: [
@@ -206,9 +328,9 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
       },
       {
         id: 'web-features',
+        section: 'Funcionalidades',
         type: 'multiple-choice',
-        title: '¿Qué funcionalidades especiales',
-        highlightWord: 'Deseas?',
+        title: '¿Qué funcionalidades especiales deseas?',
         subtitle: 'Para crear una experiencia interactiva sin fricciones.',
         required: true,
         options: [
@@ -221,9 +343,9 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
       },
       {
         id: 'web-timeline',
+        section: 'Tiempos',
         type: 'single-choice',
-        title: '¿Cuál es tu tiempo estimado de',
-        highlightWord: 'Lanzamiento?',
+        title: '¿Cuál es tu tiempo estimado de lanzamiento?',
         subtitle: 'Para planificar el roadmap de diseño y desarrollo.',
         required: true,
         options: [
@@ -232,25 +354,12 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
           { id: 'time-flexible', label: 'Flexible / En planificación', description: 'Explorando opciones para el próximo trimestre.', icon: 'Calendar' }
         ]
       },
-      {
-        id: 'web-budget',
-        type: 'budget-slider',
-        title: 'Rango de inversión para tu',
-        highlightWord: 'Desarrollo:',
-        subtitle: 'Transparencia para ofrecerte la mejor solución técnica.',
-        required: true,
-        budgetOptions: [
-          { id: 'wb1', label: 'Landing Page Express', range: '$600 - $1,200 USD', popular: false },
-          { id: 'wb2', label: 'Sitio Web Completo', range: '$1,200 - $2,800 USD', popular: true },
-          { id: 'wb3', label: 'Experiencia Digital / App Web', range: '$2,800 - $5,500 USD', popular: false },
-          { id: 'wb4', label: 'Solución Enterprise', range: '+$5,500 USD', popular: false }
-        ]
-      },
+
       {
         id: 'web-contact',
+        section: 'Contacto',
         type: 'text',
-        title: 'Tus datos de contacto para enviarte la',
-        highlightWord: 'Propuesta:',
+        title: 'Tus datos de contacto para enviarte la propuesta:',
         subtitle: 'Te enviaremos el desglose técnico y propuesta comercial.',
         placeholder: 'Tu nombre, email y teléfono / WhatsApp',
         required: true,
@@ -268,35 +377,37 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
     estimatedTime: '3 min',
     totalQuestions: 6,
     welcomeSubtitle: 'Escale tu mensaje con narrativa visual y estrategia de contenidos de alta retención.',
+    ctaText: 'Empezar',
+    submitText: 'Finalizar',
     questions: [
       {
         id: 'growth-brand',
+        section: 'Presencia Actual',
         type: 'text',
-        title: 'Nombre de tu marca y redes',
-        highlightWord: 'Actuales:',
+        title: 'Nombre de tu marca y redes actuales:',
         subtitle: 'Compártenos tus perfiles (Instagram, TikTok, Web) para auditarlos.',
         placeholder: '@tumarca | https://instagram.com/tumarca',
         required: true,
       },
       {
         id: 'growth-goal',
+        section: 'Objetivos',
         type: 'single-choice',
-        title: '¿Cuál es el principal reto de',
-        highlightWord: 'Crecimiento?',
+        title: '¿Cuál es el principal reto de crecimiento?',
         subtitle: 'Nos enfocaremos en resolver este cuello de botella.',
         required: true,
         options: [
           { id: 'gr-sales', label: 'Aumentar ventas directas', description: 'Estrategia orientada a performance y conversión de clientes.', icon: 'DollarSign' },
-          { id: 'gr-reach', label: 'Aumentar alcance & seguidores', description: 'Contenido viral, storytelling y retención.', icon: 'Eye' },
-          { id: 'gr-authority', label: 'Construir autoridad de marca', description: 'Contenido educativo de alto valor y posicionamiento premium.', icon: 'ShieldCheck' },
-          { id: 'gr-launch', label: 'Lanzamiento de nuevo producto', description: 'Campaña integral de expectativa, apertura y cierre.', icon: 'Flame' }
+          { id: 'reach', label: 'Aumentar alcance & seguidores', description: 'Contenido viral, storytelling y retención.', icon: 'Eye' },
+          { id: 'authority', label: 'Construir autoridad de marca', description: 'Contenido educativo de alto valor y posicionamiento premium.', icon: 'ShieldCheck' },
+          { id: 'launch', label: 'Lanzamiento de nuevo producto', description: 'Campaña integral de expectativa, apertura y cierre.', icon: 'Flame' }
         ]
       },
       {
         id: 'growth-channels',
+        section: 'Canales',
         type: 'multiple-choice',
-        title: '¿En qué canales quieres',
-        highlightWord: 'Enfocarte?',
+        title: '¿En qué canales quieres enfocarte?',
         subtitle: 'Selecciona los ecosistemas donde vive tu audiencia ideal.',
         required: true,
         options: [
@@ -309,9 +420,9 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
       },
       {
         id: 'growth-budget',
+        section: 'Presupuesto',
         type: 'budget-slider',
-        title: 'Presupuesto mensual estimado para',
-        highlightWord: 'Contenido:',
+        title: 'Presupuesto mensual estimado para contenido:',
         subtitle: 'Inversión en producción creativa y estrategia.',
         required: true,
         budgetOptions: [
@@ -322,18 +433,18 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
       },
       {
         id: 'growth-notes',
+        section: 'Audiencia',
         type: 'textarea',
-        title: '¿Algún detalle extra sobre tu',
-        highlightWord: 'Audiencia?',
+        title: '¿Algún detalle extra sobre tu audiencia?',
         subtitle: '¿Quién es tu cliente ideal? ¿Qué edad tiene y qué problemas le resuelves?',
         placeholder: 'Describe a tu cliente ideal o detalles de tu nicho...',
         required: false,
       },
       {
         id: 'growth-contact',
+        section: 'Contacto',
         type: 'text',
-        title: 'Correo y WhatsApp para enviarte el',
-        highlightWord: 'Plan:',
+        title: 'Correo y WhatsApp para enviarte el plan:',
         subtitle: 'Revisaremos tus perfiles y te presentaremos un roadmap.',
         placeholder: 'nombre@correo.com / +52 55 ...',
         required: true,

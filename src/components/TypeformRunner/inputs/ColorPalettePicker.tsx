@@ -26,43 +26,43 @@ export const ColorPalettePicker: React.FC<ColorPalettePickerProps> = ({
   };
 
   return (
-    <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 my-2 font-sans">
       {palettes.map((palette) => {
         const isSelected = value === palette.id;
 
         return (
           <motion.div
             key={palette.id}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.01, y: -2 }}
+            whileTap={{ scale: 0.99 }}
             onClick={() => handleSelect(palette.id)}
             className={`cursor-pointer rounded-2xl p-5 transition-all duration-200 border ${
               isSelected
-                ? 'bg-brand/10 dark:bg-brand/15 border-brand dark:border-brand shadow-[0_0_25px_rgba(64,89,241,0.25)] ring-1 ring-brand'
-                : 'bg-white dark:bg-neutral-900/90 hover:bg-neutral-50 dark:hover:bg-neutral-850 border-neutral-200 dark:border-neutral-800 shadow-sm'
+                ? 'bg-neutral-50 dark:bg-neutral-900 border-neutral-900 dark:border-white shadow-sm ring-1 ring-neutral-900 dark:ring-white'
+                : 'bg-white dark:bg-neutral-900/80 hover:bg-neutral-50 dark:hover:bg-neutral-850 border-neutral-200/80 dark:border-neutral-800 shadow-[0_4px_20px_rgba(0,0,0,0.02)]'
             }`}
           >
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-base sm:text-lg font-semibold text-neutral-900 dark:text-white">
+              <h4 className="text-base font-normal text-neutral-900 dark:text-white">
                 {palette.name}
               </h4>
               <div
                 className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${
                   isSelected
-                    ? 'bg-brand border-brand text-white'
+                    ? 'bg-black border-black dark:bg-white dark:border-white text-white dark:text-black'
                     : 'border-neutral-300 dark:border-neutral-700'
                 }`}
               >
-                {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                {isSelected && <Check className="w-3.5 h-3.5 stroke-[2.5]" />}
               </div>
             </div>
 
             {/* Swatches bar */}
-            <div className="flex items-center gap-1.5 h-9 rounded-xl overflow-hidden p-1 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200/60 dark:border-neutral-700/60">
+            <div className="flex items-center gap-1.5 h-8 rounded-xl overflow-hidden p-1 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200/60 dark:border-neutral-700/60">
               {palette.colors.map((color, cIdx) => (
                 <div
                   key={cIdx}
-                  className="flex-1 h-full rounded-lg shadow-inner transition-transform hover:scale-105"
+                  className="flex-1 h-full rounded-md shadow-inner transition-transform hover:scale-105"
                   style={{ backgroundColor: color }}
                   title={color}
                 />

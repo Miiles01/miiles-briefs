@@ -7,7 +7,6 @@ import { SubmissionDetailModal } from './SubmissionDetailModal';
 import {
   Inbox,
   Search,
-  Filter,
   Download,
   Eye,
   Database,
@@ -15,19 +14,19 @@ import {
   Sun,
   Moon,
   Sparkles,
-  TrendingUp,
   CheckCircle,
   Clock,
-  HelpCircle,
   Copy,
-  Code
+  Lock,
+  ArrowRight,
+  LogOut
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { toast } from 'sonner';
 import isotipoImg from '../../assets/isotipo.webp';
 
 const STATUS_CONFIG: Record<SubmissionStatus, { label: string; bg: string; text: string }> = {
-  new: { label: 'Nuevo', bg: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' },
+  new: { label: 'Nuevo', bg: 'bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border-neutral-200 dark:border-neutral-700' },
   reviewing: { label: 'En Revisión', bg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' },
   approved: { label: 'Aprobado', bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' },
   proposal_sent: { label: 'Propuesta Enviada', bg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20' },
@@ -38,10 +37,118 @@ export const AdminDashboard: React.FC = () => {
   const { submissions, updateStatus, deleteSubmission, exportSubmissionsJSON } = useBriefs();
   const { isDark, toggleTheme } = useTheme();
 
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return sessionStorage.getItem('miiles_admin_auth') === 'true';
+  });
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [activeSubmission, setActiveSubmission] = useState<ClientSubmission | null>(null);
   const [showDbHelp, setShowDbHelp] = useState(false);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput.trim() === 'creativo2004') {
+      sessionStorage.setItem('miiles_admin_auth', 'true');
+      setIsAuthenticated(true);
+      setPasswordError(false);
+      toast.success('Acceso autorizado al Panel de Administración');
+    } else {
+      setPasswordError(true);
+      toast.error('Contraseña incorrecta');
+    }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('miiles_admin_auth');
+    setIsAuthenticated(false);
+    setPasswordInput('');
+    toast.info('Sesión cerrada');
+  };
+
+  // If not authenticated, render password protection screen
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-[#08080a] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between transition-colors duration-300 font-sans">
+        {/* Header */}
+        <header className="w-full pt-6 pb-4 px-6 sm:px-12 flex items-center justify-between z-20">
+          <Link
+            to="/"
+            className="flex items-center gap-1.5 text-xs font-light text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Volver al Portal</span>
+          </Link>
+
+          <button
+            onClick={toggleTheme}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white border border-neutral-200/80 dark:border-neutral-800 transition-colors cursor-pointer"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+          </button>
+        </header>
+
+        {/* Login Form Stage */}
+        <main className="flex-1 flex items-center justify-center px-4 py-8">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full max-w-sm mx-auto flex flex-col items-center text-center"
+          >
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] mb-6 p-4">
+              <img src={isotipoImg} alt="Miiles" className="w-full h-full object-contain" />
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-normal text-neutral-900 dark:text-white tracking-tight">
+              Admin Panel
+            </h1>
+            <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-2 font-light max-w-xs">
+              Ingresa la contraseña para gestionar los briefs y respuestas de los clientes.
+            </p>
+
+            <form onSubmit={handleLogin} className="w-full mt-6 space-y-4">
+              <div className="relative">
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => {
+                    setPasswordInput(e.target.value);
+                    if (passwordError) setPasswordError(false);
+                  }}
+                  placeholder="Contraseña de acceso"
+                  autoFocus
+                  className={`w-full bg-transparent border-b ${
+                    passwordError
+                      ? 'border-red-500 text-red-600 dark:text-red-400'
+                      : 'border-neutral-300 dark:border-neutral-700 focus:border-black dark:focus:border-white'
+                  } py-3 px-2 text-center text-base tracking-widest text-neutral-900 dark:text-white placeholder:text-neutral-400 placeholder:tracking-normal focus:outline-none transition-colors font-sans`}
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full mt-4 flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-black text-white dark:bg-white dark:text-black font-normal text-sm hover:opacity-85 active:scale-95 transition-all shadow-sm cursor-pointer"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                <span>Desbloquear Panel</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </form>
+          </motion.div>
+        </main>
+
+        {/* Footer */}
+        <footer className="w-full py-4 px-6 text-center text-xs text-neutral-400 font-light">
+          <span>Diseñado por </span>
+          <span className="font-normal text-neutral-700 dark:text-neutral-300">Miiles Studio</span>
+        </footer>
+      </div>
+    );
+  }
 
   // Filtered submissions
   const filtered = submissions.filter((sub) => {
@@ -83,25 +190,27 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-[#08080a] text-neutral-900 dark:text-neutral-100 transition-colors duration-300 font-sans">
       {/* Top Navigation */}
-      <nav className="w-full border-b border-neutral-200/80 dark:border-neutral-800/80 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md sticky top-0 z-30 px-6 sm:px-12 py-4">
+      <nav className="w-full border-b border-neutral-100 dark:border-neutral-800/80 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md sticky top-0 z-30 px-6 sm:px-12 py-3.5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               to="/"
-              className="flex items-center gap-2 text-xs font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-xs font-light text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Ver Portal</span>
             </Link>
-            <div className="h-4 w-px bg-neutral-300 dark:bg-neutral-800" />
+            <div className="h-4 w-px bg-neutral-200 dark:bg-neutral-800" />
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-neutral-900 dark:bg-neutral-800 border border-neutral-700/50 flex items-center justify-center p-1 shadow-sm">
-                <img src={isotipoImg} alt="Miiles" className="w-full h-full object-contain" />
-              </div>
-              <span className="font-extrabold text-lg tracking-tight text-neutral-900 dark:text-white">
-                MIILES <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-brand/10 text-brand ml-1">Studio Admin</span>
+              <img
+                src="/logotipo.svg"
+                alt="Miiles"
+                className="h-4 sm:h-4.5 w-auto dark:brightness-0 dark:invert transition-all duration-300"
+              />
+              <span className="text-[11px] font-normal px-2.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200/50 dark:border-neutral-700/50">
+                Studio Admin
               </span>
             </div>
           </div>
@@ -109,15 +218,15 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowDbHelp(!showDbHelp)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 text-xs font-medium hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 text-xs font-normal hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors cursor-pointer"
             >
-              <Database className="w-3.5 h-3.5 text-brand" />
-              <span>Conexión MySQL</span>
+              <Database className="w-3.5 h-3.5 text-neutral-500" />
+              <span>MySQL Hostinger</span>
             </button>
 
             <button
               onClick={exportSubmissionsJSON}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-semibold hover:opacity-90 transition-opacity"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-xs font-normal hover:opacity-85 transition-opacity cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Exportar JSON</span>
@@ -125,10 +234,19 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
 
             <button
               onClick={toggleTheme}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-neutral-800 transition-colors"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200/80 dark:border-neutral-800 transition-colors cursor-pointer"
               aria-label="Toggle theme"
             >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-500 hover:text-red-600 dark:hover:text-red-400 border border-neutral-200/80 dark:border-neutral-800 transition-colors cursor-pointer"
+              title="Cerrar sesión"
+              aria-label="Cerrar sesión"
+            >
+              <LogOut className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
@@ -139,210 +257,184 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
         {/* Title Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral-900 dark:text-white tracking-tight overflow-visible">
+            <h1 className="text-3xl sm:text-4xl font-normal text-neutral-900 dark:text-white tracking-tight overflow-visible">
               Centro de Respuestas &{' '}
-              <span className="font-pacifico text-brand px-1 overflow-visible inline-block">
-                Briefs
+              <span className="font-editorial italic px-1 overflow-visible inline-block">
+                Prospectos
               </span>
             </h1>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 font-light">
-              Monitorea en tiempo real todas las respuestas enviadas por tus clientes potenciales.
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 font-light mt-1">
+              Revisa las respuestas completadas de los clientes, filtra estados y exporta información.
             </p>
           </div>
         </div>
 
-        {/* Database instructions accordion if expanded */}
+        {/* Database Config Modal / Dropdown info */}
         {showDbHelp && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="p-6 rounded-3xl bg-neutral-100 dark:bg-neutral-900 border border-brand/30 shadow-lg space-y-4"
+            className="p-6 rounded-3xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 space-y-4"
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-brand font-bold text-sm">
-                <Database className="w-4 h-4" />
-                <span>Configuración de Base de Datos MySQL (Hostinger / cPanel)</span>
+              <div className="flex items-center gap-2">
+                <Database className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />
+                <h3 className="text-sm font-medium text-neutral-900 dark:text-white">
+                  Instrucciones de Base de Datos MySQL (Hostinger cPanel)
+                </h3>
               </div>
               <button
                 onClick={copySqlSchema}
-                className="flex items-center gap-1 text-xs px-3 py-1 rounded-lg bg-brand text-white font-medium hover:bg-brand-600 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 transition-colors"
               >
                 <Copy className="w-3 h-3" />
                 <span>Copiar SQL Schema</span>
               </button>
             </div>
-
-            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">
-              Para almacenar las respuestas directamente en tu hosting Hostinger / cPanel:
-              <br />
-              1. En tu cPanel o hPanel ve a <strong>phpMyAdmin</strong> y ejecuta el script SQL adjunto para crear la tabla <code>client_briefs</code>.
-              <br />
-              2. Sube un archivo <code>/api/save_brief.php</code> con tus credenciales de base de datos.
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
+              Para guardar las respuestas de forma permanente en tu servidor de Hostinger, crea una base de datos en cPanel &gt; MySQL Databases y ejecuta la siguiente consulta en phpMyAdmin. Luego, sube el archivo <code className="px-1.5 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 font-mono text-[11px]">save_brief.php</code> a tu carpeta pública.
             </p>
-
-            <pre className="p-4 rounded-xl bg-neutral-950 text-neutral-200 text-xs font-mono overflow-x-auto border border-neutral-800">
+            <pre className="p-4 rounded-xl bg-neutral-900 text-neutral-200 text-xs font-mono overflow-x-auto">
               {sqlSchemaCode}
             </pre>
           </motion.div>
         )}
 
-        {/* KPI Metric Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm">
-            <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Total Briefs</span>
-            <div className="text-3xl font-extrabold text-neutral-900 dark:text-white mt-2 flex items-center justify-between">
-              <span>{totalSubmissions}</span>
-              <Inbox className="w-5 h-5 text-brand opacity-80" />
-            </div>
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="p-5 rounded-2xl bg-neutral-50/80 dark:bg-neutral-900/60 border border-neutral-100 dark:border-neutral-800">
+            <span className="text-xs text-neutral-400 font-light">Total Recibidos</span>
+            <p className="text-2xl sm:text-3xl font-normal text-neutral-900 dark:text-white mt-1">
+              {totalSubmissions}
+            </p>
           </div>
-
-          <div className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm">
-            <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Nuevos por revisar</span>
-            <div className="text-3xl font-extrabold text-blue-600 dark:text-blue-400 mt-2 flex items-center justify-between">
-              <span>{newSubmissions}</span>
-              <Sparkles className="w-5 h-5 opacity-80" />
-            </div>
+          <div className="p-5 rounded-2xl bg-neutral-50/80 dark:bg-neutral-900/60 border border-neutral-100 dark:border-neutral-800">
+            <span className="text-xs text-neutral-400 font-light">Nuevos Sin Revisar</span>
+            <p className="text-2xl sm:text-3xl font-normal text-neutral-900 dark:text-white mt-1">
+              {newSubmissions}
+            </p>
           </div>
-
-          <div className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm">
-            <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">En Evaluación</span>
-            <div className="text-3xl font-extrabold text-amber-500 mt-2 flex items-center justify-between">
-              <span>{reviewingSubmissions}</span>
-              <Clock className="w-5 h-5 opacity-80" />
-            </div>
+          <div className="p-5 rounded-2xl bg-neutral-50/80 dark:bg-neutral-900/60 border border-neutral-100 dark:border-neutral-800">
+            <span className="text-xs text-neutral-400 font-light">En Evaluación</span>
+            <p className="text-2xl sm:text-3xl font-normal text-neutral-900 dark:text-white mt-1">
+              {reviewingSubmissions}
+            </p>
           </div>
-
-          <div className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm">
-            <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Aprobados / Cerrados</span>
-            <div className="text-3xl font-extrabold text-emerald-500 mt-2 flex items-center justify-between">
-              <span>{approvedSubmissions}</span>
-              <CheckCircle className="w-5 h-5 opacity-80" />
-            </div>
+          <div className="p-5 rounded-2xl bg-neutral-50/80 dark:bg-neutral-900/60 border border-neutral-100 dark:border-neutral-800">
+            <span className="text-xs text-neutral-400 font-light">Aprobados</span>
+            <p className="text-2xl sm:text-3xl font-normal text-neutral-900 dark:text-white mt-1">
+              {approvedSubmissions}
+            </p>
           </div>
         </div>
 
-        {/* Filter and Search Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-          {/* Search Box */}
+        {/* Filters and Search */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          {/* Search bar */}
           <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar cliente, email o ID..."
-              className="w-full pl-10 pr-4 py-2 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs sm:text-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 outline-none focus:border-brand transition-colors"
+              placeholder="Buscar por cliente, brief o email..."
+              className="w-full pl-9 pr-4 py-2 text-xs rounded-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-1 focus:ring-neutral-400 font-sans"
             />
           </div>
 
-          {/* Status Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
-            {[
-              { id: 'all', label: 'Todos' },
-              { id: 'new', label: 'Nuevos' },
-              { id: 'reviewing', label: 'En Revisión' },
-              { id: 'approved', label: 'Aprobados' },
-              { id: 'proposal_sent', label: 'Propuesta Enviada' },
-            ].map((st) => (
+          {/* Status Tabs */}
+          <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
+            {['all', 'new', 'reviewing', 'approved', 'proposal_sent', 'archived'].map((st) => (
               <button
-                key={st.id}
-                onClick={() => setSelectedStatus(st.id)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                  selectedStatus === st.id
-                    ? 'bg-brand text-white shadow-sm'
-                    : 'bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                key={st}
+                onClick={() => setSelectedStatus(st)}
+                className={`px-3 py-1.5 rounded-full text-xs font-normal transition-colors whitespace-nowrap cursor-pointer ${
+                  selectedStatus === st
+                    ? 'bg-black dark:bg-white text-white dark:text-black shadow-sm'
+                    : 'bg-neutral-100 dark:bg-neutral-800/80 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800'
                 }`}
               >
-                {st.label}
+                {st === 'all' ? 'Todos' : STATUS_CONFIG[st as SubmissionStatus]?.label || st}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Submissions Table / Grid */}
-        <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-200/80 dark:border-neutral-800 overflow-hidden shadow-sm">
-          {filtered.length === 0 ? (
-            <div className="p-12 text-center">
-              <Inbox className="w-10 h-10 text-neutral-300 dark:text-neutral-700 mx-auto mb-3" />
-              <p className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-                No se encontraron respuestas con los filtros actuales.
-              </p>
-            </div>
-          ) : (
+        {/* Submissions Table / Cards */}
+        {filtered.length === 0 ? (
+          <div className="py-20 text-center flex flex-col items-center justify-center border border-dashed border-neutral-200 dark:border-neutral-800 rounded-3xl">
+            <Inbox className="w-10 h-10 text-neutral-300 dark:text-neutral-700 mb-3" />
+            <h4 className="text-base font-normal text-neutral-900 dark:text-white">
+              No hay respuestas en esta vista
+            </h4>
+            <p className="text-xs text-neutral-400 font-light mt-1 max-w-sm">
+              Cuando un cliente termine de llenar un brief interactivo, sus respuestas se registrarán automáticamente aquí.
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-hidden rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 shadow-sm">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-neutral-200 dark:border-neutral-800 text-[11px] uppercase tracking-wider font-bold text-neutral-400 dark:text-neutral-500 bg-neutral-50/50 dark:bg-neutral-900/50">
-                    <th className="py-3.5 px-5">ID & Cliente</th>
-                    <th className="py-3.5 px-5">Tipo de Brief</th>
-                    <th className="py-3.5 px-5">Presupuesto Estimado</th>
-                    <th className="py-3.5 px-5">Fecha</th>
-                    <th className="py-3.5 px-5">Estado</th>
-                    <th className="py-3.5 px-5 text-right">Acción</th>
+              <table className="w-full text-left text-xs font-sans">
+                <thead className="bg-neutral-50 dark:bg-neutral-900 text-neutral-400 font-light border-b border-neutral-100 dark:border-neutral-800">
+                  <tr>
+                    <th className="py-3 px-4">Cliente / Marca</th>
+                    <th className="py-3 px-4">Tipo de Brief</th>
+                    <th className="py-3 px-4">Presupuesto</th>
+                    <th className="py-3 px-4">Fecha</th>
+                    <th className="py-3 px-4">Estado</th>
+                    <th className="py-3 px-4 text-right">Acción</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800/60 text-xs sm:text-sm">
+                <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800/60 font-light">
                   {filtered.map((sub) => {
-                    const st = STATUS_CONFIG[sub.status] || STATUS_CONFIG.new;
+                    const statusInfo = STATUS_CONFIG[sub.status] || STATUS_CONFIG.new;
+                    const dateFormatted = new Date(sub.createdAt).toLocaleDateString('es-MX', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                    });
 
                     return (
                       <tr
                         key={sub.id}
                         onClick={() => setActiveSubmission(sub)}
-                        className="hover:bg-neutral-50/80 dark:hover:bg-neutral-800/40 cursor-pointer transition-colors"
+                        className="hover:bg-neutral-50/80 dark:hover:bg-neutral-850/50 transition-colors cursor-pointer"
                       >
-                        <td className="py-4 px-5">
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-xs font-bold text-brand bg-brand/10 px-2 py-0.5 rounded">
-                              {sub.id}
-                            </span>
-                            <span className="font-semibold text-neutral-900 dark:text-white">
-                              {sub.clientName}
-                            </span>
-                          </div>
-                          {sub.clientEmail && (
-                            <span className="text-xs text-neutral-400 font-light block mt-0.5">
-                              {sub.clientEmail}
-                            </span>
-                          )}
-                        </td>
-
-                        <td className="py-4 px-5 font-medium text-neutral-800 dark:text-neutral-200">
-                          {sub.briefTitle}
-                        </td>
-
-                        <td className="py-4 px-5 text-neutral-600 dark:text-neutral-400">
-                          {sub.estimatedBudget || 'No especificado'}
-                        </td>
-
-                        <td className="py-4 px-5 text-neutral-400 text-xs">
-                          {new Date(sub.createdAt).toLocaleDateString(undefined, {
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </td>
-
-                        <td className="py-4 px-5">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${st.bg}`}
-                          >
-                            {st.label}
+                        <td className="py-3.5 px-4">
+                          <span className="font-normal text-neutral-900 dark:text-white block">
+                            {sub.clientName}
+                          </span>
+                          <span className="text-neutral-400 text-[11px]">
+                            {sub.clientEmail || 'Sin email'}
                           </span>
                         </td>
-
-                        <td className="py-4 px-5 text-right">
+                        <td className="py-3.5 px-4 font-normal text-neutral-800 dark:text-neutral-200">
+                          {sub.briefTitle}
+                        </td>
+                        <td className="py-3.5 px-4 text-neutral-500 dark:text-neutral-400">
+                          {sub.estimatedBudget || 'No especificado'}
+                        </td>
+                        <td className="py-3.5 px-4 text-neutral-400">
+                          {dateFormatted}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-normal border ${statusInfo.bg} ${statusInfo.text}`}
+                          >
+                            {statusInfo.label}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 text-right">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setActiveSubmission(sub);
                             }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-brand hover:text-white transition-colors text-xs font-medium"
+                            className="p-1.5 rounded-lg text-neutral-500 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
+                            title="Ver detalles"
                           >
-                            <Eye className="w-3.5 h-3.5" />
-                            <span>Ver Detalle</span>
+                            <Eye className="w-4 h-4" />
                           </button>
                         </td>
                       </tr>
@@ -351,17 +443,22 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
                 </tbody>
               </table>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </main>
 
       {/* Detail Modal */}
-      <SubmissionDetailModal
-        submission={activeSubmission}
-        onClose={() => setActiveSubmission(null)}
-        onUpdateStatus={updateStatus}
-        onDelete={deleteSubmission}
-      />
+      {activeSubmission && (
+        <SubmissionDetailModal
+          submission={activeSubmission}
+          onClose={() => setActiveSubmission(null)}
+          onUpdateStatus={(newStatus) => updateStatus(activeSubmission.id, newStatus)}
+          onDelete={() => {
+            deleteSubmission(activeSubmission.id);
+            setActiveSubmission(null);
+          }}
+        />
+      )}
     </div>
   );
 };

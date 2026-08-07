@@ -1,56 +1,82 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&display=swap');
 
 @font-face {
   font-family: 'WelthCatritz';
   src: url('/fonts/WelthCatritz-Italic.woff2') format('woff2'),
        url('/fonts/WelthCatritz-Italic.woff') format('woff'),
        url('/fonts/WelthCatritz-Italic.otf') format('opentype');
-  font-weight: normal;
+  font-weight: 100 900;
   font-style: italic;
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Welth Catritz';
+  src: url('/fonts/WelthCatritz-Italic.woff2') format('woff2'),
+       url('/fonts/WelthCatritz-Italic.woff') format('woff'),
+       url('/fonts/WelthCatritz-Italic.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
-    --border: 0 0% 90%;
-    --brand-primary: #4059F1;
+    --background: #FFFFFF;
+    --foreground: #000000;
+    --card: #FFFFFF;
+    --card-foreground: #000000;
+    --border: #EEEFF2;
+    --font-sans: 'Manrope', system-ui, sans-serif;
   }
 
   .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 98%;
-    --border: 0 0% 16%;
-    --brand-primary: #4059F1;
+    --background: #08080a;
+    --foreground: #F7F7F8;
+    --card: #121216;
+    --card-foreground: #FFFFFF;
+    --border: #22222a;
+  }
+
+  * {
+    outline: none;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    letter-spacing: -0.02em;
   }
 }
 
-body {
-  font-family: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Pacifico rule: inline highlight with overflow visible & padding to prevent cursive clipping */
-.font-pacifico {
-  font-family: 'Pacifico', cursive;
+/* WelthCatritz editorial italic typography for keyword highlights */
+.font-editorial,
+.font-welth {
+  font-family: 'WelthCatritz', 'Welth Catritz', serif;
+  font-style: italic;
+  font-weight: 400;
   display: inline-block;
   overflow: visible;
-  padding: 0 0.15em;
-  line-height: 1.25;
+  padding: 0 0.12em;
 }
 
-/* Custom Scrollbar */
+/* Minimalist scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -58,25 +84,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(150, 150, 150, 0.25);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 9999px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(150, 150, 150, 0.45);
-}
-
-/* Glassmorphism utilities */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.dark .glass-panel {
-  background: rgba(18, 18, 20, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
 }

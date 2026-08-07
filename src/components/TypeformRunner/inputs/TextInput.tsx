@@ -41,25 +41,22 @@ export const TextInput: React.FC<TextInputProps> = ({
 
   if (isTextarea) {
     return (
-      <div className="w-full">
+      <div className="w-full font-sans">
         <textarea
           ref={inputRef as React.RefObject<HTMLTextAreaElement>}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          rows={4}
-          className="w-full bg-transparent text-xl sm:text-2xl md:text-3xl text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-600 border-b-2 border-neutral-300 dark:border-neutral-800 focus:border-brand dark:focus:border-brand outline-none transition-all duration-300 py-3 resize-none font-light leading-relaxed"
+          rows={3}
+          className="w-full bg-transparent text-xl sm:text-2xl text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600 border-b border-neutral-200 dark:border-neutral-800 focus:border-black dark:focus:border-white outline-none transition-all duration-300 py-3 resize-none font-light leading-relaxed"
         />
-        <p className="mt-3 text-xs text-neutral-400 dark:text-neutral-500 font-normal">
-          Presiona <kbd className="px-1.5 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 font-mono text-[10px]">Cmd + Enter</kbd> para continuar
-        </p>
       </div>
     );
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full font-sans">
       <input
         ref={inputRef as React.RefObject<HTMLInputElement>}
         type="text"
@@ -67,11 +64,8 @@ export const TextInput: React.FC<TextInputProps> = ({
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="w-full bg-transparent text-xl sm:text-2xl md:text-3xl lg:text-4xl text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-600 border-b-2 border-neutral-300 dark:border-neutral-800 focus:border-brand dark:focus:border-brand outline-none transition-all duration-300 py-3 font-light"
+        className="w-full bg-transparent text-xl sm:text-2xl lg:text-3xl text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600 border-b border-neutral-200 dark:border-neutral-800 focus:border-black dark:focus:border-white outline-none transition-all duration-300 py-3 font-light"
       />
-      <p className="mt-3 text-xs text-neutral-400 dark:text-neutral-500 font-normal">
-        Presiona <kbd className="px-1.5 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 font-mono text-[10px]">Enter ↵</kbd> para continuar
-      </p>
     </div>
   );
 };

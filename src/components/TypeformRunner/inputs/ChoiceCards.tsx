@@ -12,20 +12,20 @@ interface ChoiceCardsProps {
 }
 
 const ICONS_MAP: Record<string, React.ReactNode> = {
-  Rocket: <Rocket className="w-5 h-5 text-brand" />,
-  RefreshCw: <RefreshCw className="w-5 h-5 text-brand" />,
-  Layers: <Layers className="w-5 h-5 text-brand" />,
-  Target: <Target className="w-5 h-5 text-brand" />,
-  ShoppingBag: <ShoppingBag className="w-5 h-5 text-brand" />,
-  Award: <Award className="w-5 h-5 text-brand" />,
-  Cpu: <Cpu className="w-5 h-5 text-brand" />,
-  Zap: <Zap className="w-5 h-5 text-brand" />,
-  Clock: <Clock className="w-5 h-5 text-brand" />,
-  Calendar: <Calendar className="w-5 h-5 text-brand" />,
-  DollarSign: <DollarSign className="w-5 h-5 text-brand" />,
-  Eye: <Eye className="w-5 h-5 text-brand" />,
-  ShieldCheck: <ShieldCheck className="w-5 h-5 text-brand" />,
-  Flame: <Flame className="w-5 h-5 text-brand" />,
+  Rocket: <Rocket className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  RefreshCw: <RefreshCw className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Layers: <Layers className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Target: <Target className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  ShoppingBag: <ShoppingBag className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Award: <Award className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Cpu: <Cpu className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Zap: <Zap className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Clock: <Clock className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Calendar: <Calendar className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  DollarSign: <DollarSign className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Eye: <Eye className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  ShieldCheck: <ShieldCheck className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
+  Flame: <Flame className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />,
 };
 
 const KEY_LABELS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
@@ -57,7 +57,7 @@ export const ChoiceCards: React.FC<ChoiceCardsProps> = ({
   };
 
   return (
-    <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2">
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 my-2 font-sans">
       {options.map((opt, idx) => {
         const isSelected = selectedList.includes(opt.id);
         const keyChar = KEY_LABELS[idx] || `${idx + 1}`;
@@ -65,21 +65,21 @@ export const ChoiceCards: React.FC<ChoiceCardsProps> = ({
         return (
           <motion.div
             key={opt.id}
-            whileHover={{ scale: 1.015, y: -2 }}
-            whileTap={{ scale: 0.985 }}
+            whileHover={{ scale: 1.01, y: -2 }}
+            whileTap={{ scale: 0.99 }}
             onClick={() => handleSelect(opt.id)}
             className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all duration-200 flex items-start justify-between border ${
               isSelected
-                ? 'bg-brand/10 dark:bg-brand/15 border-brand dark:border-brand shadow-[0_0_20px_rgba(64,89,241,0.2)]'
-                : 'bg-white dark:bg-neutral-900/90 hover:bg-neutral-50 dark:hover:bg-neutral-850 border-neutral-200 dark:border-neutral-800 shadow-sm'
+                ? 'bg-neutral-50 dark:bg-neutral-900 border-neutral-900 dark:border-white shadow-sm ring-1 ring-neutral-900 dark:ring-white'
+                : 'bg-white dark:bg-neutral-900/80 hover:bg-neutral-50 dark:hover:bg-neutral-850 border-neutral-200/80 dark:border-neutral-800 shadow-[0_4px_20px_rgba(0,0,0,0.02)]'
             }`}
           >
-            <div className="flex items-start gap-3.5 flex-1 pr-2">
+            <div className="flex items-start gap-3 flex-1 pr-2">
               <div
-                className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold shrink-0 transition-colors ${
+                className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-normal shrink-0 transition-colors ${
                   isSelected
-                    ? 'bg-brand text-white'
-                    : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700'
+                    ? 'bg-black text-white dark:bg-white dark:text-black'
+                    : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 border border-neutral-200/60 dark:border-neutral-700'
                 }`}
               >
                 {keyChar}
@@ -87,21 +87,21 @@ export const ChoiceCards: React.FC<ChoiceCardsProps> = ({
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
                   {opt.icon && ICONS_MAP[opt.icon] && (
-                    <div className="p-1 rounded bg-brand/10 dark:bg-brand/20">
+                    <div className="p-1 rounded bg-neutral-100 dark:bg-neutral-800">
                       {ICONS_MAP[opt.icon]}
                     </div>
                   )}
-                  <h4 className="text-base sm:text-lg font-medium text-neutral-900 dark:text-white leading-snug">
+                  <h4 className="text-sm sm:text-base font-normal text-neutral-900 dark:text-white leading-snug">
                     {opt.label}
                   </h4>
                   {opt.badge && (
-                    <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand/15 text-brand dark:text-brand-300">
+                    <span className="text-[11px] font-normal px-2.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
                       {opt.badge}
                     </span>
                   )}
                 </div>
                 {opt.description && (
-                  <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1 font-light leading-relaxed">
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 font-light leading-relaxed">
                     {opt.description}
                   </p>
                 )}
@@ -109,13 +109,13 @@ export const ChoiceCards: React.FC<ChoiceCardsProps> = ({
             </div>
 
             <div
-              className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-1 transition-all ${
+              className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 mt-1 transition-all ${
                 isSelected
-                  ? 'bg-brand border-brand text-white scale-110'
+                  ? 'bg-black border-black dark:bg-white dark:border-white text-white dark:text-black scale-110'
                   : 'border-neutral-300 dark:border-neutral-700'
               }`}
             >
-              {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+              {isSelected && <Check className="w-3 h-3 stroke-[2.5]" />}
             </div>
           </motion.div>
         );

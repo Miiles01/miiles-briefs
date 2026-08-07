@@ -13,7 +13,11 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('miiles_brief_theme');
-    return (saved as Theme) || 'dark';
+    if (saved === 'dark' || saved === 'light') return saved;
+    // Default is light (white mode), or dark at night (after 7 PM / before 7 AM) if preferred
+    const hour = new Date().getHours();
+    const isNight = hour >= 20 || hour < 6;
+    return isNight ? 'dark' : 'light';
   });
 
   useEffect(() => {

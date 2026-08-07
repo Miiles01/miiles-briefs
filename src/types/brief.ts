@@ -8,6 +8,7 @@ export type QuestionType =
   | 'scale-rating'
   | 'budget-slider'
   | 'color-palette'
+  | 'color-picker'
   | 'file-upload';
 
 export interface ChoiceOption {
@@ -29,11 +30,18 @@ export interface Question {
   id: string;
   type: QuestionType;
   title: string;
-  highlightWord?: string; // Word highlighted with Pacifico font
+  highlightWord?: string; // Word highlighted with WelthCatritz font
   subtitle?: string;
+  section?: string; // e.g. "Sección 1 — Contexto del negocio"
+  sectionHeader?: string; // Contextual header e.g. "Si tu marca fuera una persona que te encuentras en la calle..."
   placeholder?: string;
   required?: boolean;
+  allowUndefined?: boolean;
   options?: ChoiceOption[];
+  hasConditionalInput?: boolean;
+  conditionalTriggerId?: string; // e.g. 'si'
+  conditionalInputPlaceholder?: string;
+  conditionalInputLabel?: string;
   colorPalettes?: ColorPaletteOption[];
   minScale?: number;
   maxScale?: number;
@@ -60,6 +68,8 @@ export interface BriefTemplate {
   coverImage?: string;
   colorAccent?: string;
   welcomeSubtitle: string;
+  ctaText?: string; // e.g. 'Empezar'
+  submitText?: string; // e.g. 'Finalizar'
   questions: Question[];
 }
 
