@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BRIEF_TEMPLATES } from '../../data/briefTemplates';
-import { Sparkles, ArrowRight, Clock, ShieldCheck, Sun, Moon, Database } from 'lucide-react';
+import { Sparkles, ArrowRight, Clock, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
 export const CatalogPage: React.FC = () => {
@@ -118,33 +118,6 @@ export const CatalogPage: React.FC = () => {
               </div>
             </motion.div>
           ))}
-        </div>
-
-        {/* Feature banner */}
-        <div className="mt-16 rounded-3xl p-8 bg-neutral-50 dark:bg-neutral-900/40 border border-neutral-100 dark:border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-neutral-200/80 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-base font-normal text-neutral-900 dark:text-white">
-                ¿Necesitas un brief o desarrollo a la medida?
-              </h3>
-              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-light mt-0.5">
-                Podemos conectar este formulario con tu base de datos MySQL en Hostinger o enviar respuestas a tu WhatsApp.
-              </p>
-            </div>
-          </div>
-
-          <a
-            href="https://wa.me/525549201823"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-xs font-normal hover:opacity-85 transition-opacity"
-          >
-            <span>Consultar por WhatsApp</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </a>
         </div>
       </section>
 

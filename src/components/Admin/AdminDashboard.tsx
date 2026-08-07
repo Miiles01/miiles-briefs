@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useBriefs } from '../../context/BriefContext';
@@ -20,7 +20,10 @@ import {
   Lock,
   ArrowRight,
   LogOut,
-  Trash2
+  Trash2,
+  RefreshCw,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { toast } from 'sonner';
@@ -49,6 +52,52 @@ export const AdminDashboard: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [activeSubmission, setActiveSubmission] = useState<ClientSubmission | null>(null);
   const [showDbHelp, setShowDbHelp] = useState(false);
+
+  // Real-time MySQL Connection state
+  const [dbState, setDbState] = useState<{
+    status: 'checking' | 'connected' | 'disconnected';
+    message: string;
+    database?: string;
+    submissionsCount?: number;
+  }>({
+    status: 'checking',
+    message: 'Verificando conexión...',
+  });
+
+  const checkDbStatus = async (notify = false) => {
+    setDbState(prev => ({ ...prev, status: 'checking', message: 'Verificando MySQL...' }));
+    try {
+      const res = await fetch('/api/test.php');
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        setDbState({
+          status: 'connected',
+          message: 'MySQL Conectado',
+          database: data.database || 'uablinco_miiles_briefs',
+          submissionsCount: data.submissions_in_db,
+        });
+        if (notify) toast.success('Conexión con MySQL en HostGator activa');
+      } else {
+        setDbState({
+          status: 'disconnected',
+          message: data.message || 'No conectado a MySQL',
+        });
+        if (notify) toast.error(data.message || 'Error de conexión MySQL');
+      }
+    } catch (err: any) {
+      setDbState({
+        status: 'disconnected',
+        message: 'Servidor MySQL no responde o en modo local',
+      });
+      if (notify) toast.error('No se pudo contactar con la API MySQL');
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      checkDbStatus();
+    }
+  }, [isAuthenticated]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -211,12 +260,40 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Real-time DB Connection Status Badge */}
             <button
-              onClick={() => setShowDbHelp(!showDbHelp)}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 text-xs font-normal hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors cursor-pointer"
+              onClick={() => {
+                checkDbStatus(true);
+                setShowDbHelp(!showDbHelp);
+              }}
+              title="Clic para re-verificar o ver estado de conexión MySQL"
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-normal transition-all cursor-pointer border ${
+                dbState.status === 'connected'
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20'
+                  : dbState.status === 'disconnected'
+                  ? 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20 hover:bg-red-500/20'
+                  : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20'
+              }`}
             >
-              <Database className="w-3.5 h-3.5 text-neutral-500" />
-              <span>MySQL Hostinger</span>
+              {dbState.status === 'connected' && (
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+              )}
+              {dbState.status === 'disconnected' && (
+                <span className="h-2 w-2 rounded-full bg-red-500"></span>
+              )}
+              {dbState.status === 'checking' && (
+                <RefreshCw className="w-3 h-3 animate-spin text-amber-500" />
+              )}
+              <span>
+                {dbState.status === 'connected'
+                  ? 'MySQL Conectado'
+                  : dbState.status === 'disconnected'
+                  ? 'MySQL Desconectado'
+                  : 'Verificando SQL...'}
+              </span>
             </button>
 
             <button
@@ -273,23 +350,47 @@ CREATE TABLE IF NOT EXISTS \`client_briefs\` (
             className="p-6 rounded-3xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 space-y-4"
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Database className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />
                 <h3 className="text-sm font-medium text-neutral-900 dark:text-white">
-                  Instrucciones de Base de Datos MySQL (Hostinger cPanel)
+                  Estado de Conexión MySQL (HostGator)
                 </h3>
               </div>
-              <button
-                onClick={copySqlSchema}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 transition-colors"
-              >
-                <Copy className="w-3 h-3" />
-                <span>Copiar SQL Schema</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => checkDbStatus(true)}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 transition-colors"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                  <span>Probar Conexión</span>
+                </button>
+                <button
+                  onClick={copySqlSchema}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 transition-colors"
+                >
+                  <Copy className="w-3 h-3" />
+                  <span>Copiar SQL Schema</span>
+                </button>
+              </div>
             </div>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
-              Para guardar las respuestas de forma permanente en tu servidor de Hostinger, crea una base de datos en cPanel &gt; MySQL Databases y ejecuta la siguiente consulta en phpMyAdmin. Luego, sube el archivo <code className="px-1.5 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 font-mono text-[11px]">save_brief.php</code> a tu carpeta pública.
-            </p>
+
+            <div className={`p-4 rounded-2xl border text-xs font-light flex items-center justify-between ${
+              dbState.status === 'connected'
+                ? 'bg-emerald-500/5 border-emerald-500/20 text-emerald-700 dark:text-emerald-300'
+                : 'bg-red-500/5 border-red-500/20 text-red-700 dark:text-red-300'
+            }`}>
+              <div>
+                <span className="font-medium block mb-0.5">
+                  {dbState.status === 'connected' ? '✅ Conexión Activa con Base de Datos' : '⚠️ Estado: Desconectado o Modo Local'}
+                </span>
+                <span>
+                  {dbState.status === 'connected'
+                    ? `Base de datos: ${dbState.database || 'uablinco_miiles_briefs'} — Respuestas registradas en MySQL: ${dbState.submissionsCount ?? submissions.length}`
+                    : dbState.message}
+                </span>
+              </div>
+            </div>
+
             <pre className="p-4 rounded-xl bg-neutral-900 text-neutral-200 text-xs font-mono overflow-x-auto">
               {sqlSchemaCode}
             </pre>
