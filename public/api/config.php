@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // =========================================================================
 // ⚠️ CONFIGURA AQUÍ TUS CREDENCIALES DE HOSTGATOR (cPanel -> MySQL Databases)
 // =========================================================================
-$DB_HOST = 'localhost';             // Generalmente 'localhost' en HostGator
-$DB_NAME = 'TU_USUARIO_briefs';      // Nombre de la base de datos (ej. miiles_briefs)
-$DB_USER = 'TU_USUARIO_admin';       // Usuario MySQL de cPanel (ej. miiles_user)
-$DB_PASS = 'TU_CONTRASEÑA_AQUI';    // Contraseña asignada al usuario MySQL
+$DB_HOST = 'localhost';
+$DB_NAME = 'uablinco_miiles_briefs';
+$DB_USER = 'uablinco_admin';
+$DB_PASS = 'a1z2u3l4@A';
 
 // Opcional: Correo donde recibir notificación cuando un cliente envíe un brief
 $NOTIFICATION_EMAIL = 'hola@miiles.com'; // Cambiar a tu correo de Miiles Studio
