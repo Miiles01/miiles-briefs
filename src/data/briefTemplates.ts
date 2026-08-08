@@ -8,7 +8,7 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
     badge: 'Identidad',
     description: 'Define a quién le hablas, qué problema resuelves y cómo diferenciarte de forma consistente en diseño, comunicación y estrategia.',
     icon: 'Sparkles',
-    estimatedTime: '3 min',
+    estimatedTime: '8 min',
     totalQuestions: 20,
     welcomeSubtitle: '¡Hola! Este brief te ayuda a tomar decisiones claras sobre tu marca: define a quién le hablas, qué problema resuelves y cómo diferenciarte de forma consistente en diseño, comunicación y estrategia.',
     ctaText: 'Empezar',
