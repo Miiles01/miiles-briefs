@@ -1,0 +1,49 @@
+import { Link } from "react-router-dom";
+
+
+const LandingFooter = () => {
+  
+  return (
+    <footer className="pt-24 pb-16 bg-white border-t border-gray-50">
+      <div className="max-w-7xl mx-auto px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mb-24">
+          {/* Left side */}
+          <div className="flex flex-col justify-between h-full min-h-[200px]">
+            <h2 className="text-3xl font-normal leading-tight max-w-xs text-black">
+              {"Diseñamos el futuro del trabajo creativo. Herramientas con inteligencia artificial para estructurar, colaborar y escalar sin límites."}
+            </h2>
+            <p className="text-[10px] md:text-xs font-light text-gray-400 mt-10 md:mt-0">
+              © {new Date().getFullYear()} Miiles Studio.
+            </p>
+          </div>
+
+          {/* Right side */}
+          <div className="flex gap-20 md:gap-40">
+            <div className="space-y-6">
+              <h4 className="text-[10px] font-normal text-gray-400 tracking-widest">Empresa</h4>
+              <div className="flex flex-col gap-4 text-sm font-light text-black">
+                <a href="https://miiles.app/terminos" className="hover:opacity-50 transition-opacity">{"Términos"}</a>
+                <a href="https://miiles.app/privacidad" className="hover:opacity-50 transition-opacity">{"Privacidad"}</a>
+              </div>
+            </div>
+            <div className="space-y-6">
+              <h4 className="text-[10px] font-normal text-gray-400 tracking-widest">Social</h4>
+              <div className="flex flex-col gap-4 text-sm font-light text-black">
+                <a href="https://www.instagram.com/miiles.studio/" target="_blank" rel="noopener noreferrer" className="hover:opacity-50 transition-opacity">Instagram</a>
+                <a href="https://www.tiktok.com/@miiles.studio" target="_blank" rel="noopener noreferrer" className="hover:opacity-50 transition-opacity">Tiktok</a>
+                <a href="https://www.youtube.com/@MiilesAI/shorts" target="_blank" rel="noopener noreferrer" className="hover:opacity-50 transition-opacity">Youtube</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* logotipo grande */}
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-10 flex justify-center mt-12">
+        <img src="/logotipo.svg" alt="miiles" className="w-full h-auto object-contain object-center block mx-auto" />
+      </div>
+    </footer>
+  );
+};
+
+export default LandingFooter;

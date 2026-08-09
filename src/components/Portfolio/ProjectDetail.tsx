@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { portfolioProjects } from "../../data/portfolioProjects";
-import PortfolioNavbar from "./PortfolioNavbar";
+import LandingNavbar from "../Shared/LandingNavbar";
+import LandingFooter from "../Shared/LandingFooter";
 import PortfolioSmoothScroll from "./PortfolioSmoothScroll";
 import { ArrowLeft } from "lucide-react";
 
@@ -28,7 +29,7 @@ export const ProjectDetail = () => {
   return (
     <PortfolioSmoothScroll>
       <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
-        <PortfolioNavbar />
+        <LandingNavbar isLanding={false} />
 
         <main className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 lg:px-20 container mx-auto">
           {/* Top Back Navigation */}
@@ -136,6 +137,7 @@ export const ProjectDetail = () => {
             </Link>
           </footer>
         </main>
+        <LandingFooter />
       </div>
     </PortfolioSmoothScroll>
   );

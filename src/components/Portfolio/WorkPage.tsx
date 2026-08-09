@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import PortfolioNavbar from "./PortfolioNavbar";
+import LandingNavbar from "../Shared/LandingNavbar";
+import LandingFooter from "../Shared/LandingFooter";
 import FloatingProjectInfo from "./FloatingProjectInfo";
 import MobileProjectHint from "./MobileProjectHint";
 import PortfolioSmoothScroll from "./PortfolioSmoothScroll";
@@ -149,7 +150,7 @@ export const WorkPage = () => {
 
         <MobileProjectHint />
 
-        <PortfolioNavbar />
+        <LandingNavbar isLanding={false} />
 
         <main className="flex-1 px-6 md:px-12 lg:px-20 container mx-auto pt-36 md:pt-48 pb-20">
           {/* Header Section */}
@@ -177,6 +178,7 @@ export const WorkPage = () => {
             ))}
           </section>
         </main>
+        <LandingFooter />
       </div>
     </PortfolioSmoothScroll>
   );

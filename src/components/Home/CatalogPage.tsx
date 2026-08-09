@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { BRIEF_TEMPLATES } from '../../data/briefTemplates';
 import { Sparkles, ArrowRight, Clock, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { PortfolioNavbar } from '../Portfolio/PortfolioNavbar';
 
 export const CatalogPage: React.FC = () => {
   const { isDark, toggleTheme } = useTheme();
@@ -12,7 +11,27 @@ export const CatalogPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-[#08080a] text-neutral-900 dark:text-neutral-100 transition-colors duration-300 font-sans">
       {/* Top Floating Navbar */}
-      <PortfolioNavbar />
+      <div className="sticky top-4 z-40 px-4 sm:px-8 max-w-6xl mx-auto">
+        <nav className="w-full flex items-center justify-between px-6 py-3 rounded-full bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border border-neutral-200/60 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.03)]">
+          <Link to="/" className="flex items-center shrink-0">
+            <img
+              src="/logotipo.svg"
+              alt="Miiles"
+              className="h-5 w-auto dark:brightness-0 dark:invert transition-all duration-300"
+            />
+          </Link>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white border border-neutral-200/80 dark:border-neutral-800 transition-colors cursor-pointer"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+        </nav>
+      </div>
 
       {/* Hero Section */}
       <section className="pt-16 sm:pt-24 pb-12 px-6 max-w-4xl mx-auto text-center">
