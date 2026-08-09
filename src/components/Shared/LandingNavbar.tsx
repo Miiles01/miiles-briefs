@@ -71,7 +71,7 @@ const LandingNavbar = ({ onMenuAction, cta, isLanding }: LandingNavbarProps) => 
       {/* WRAPPER PARA NAV Y MENÚ */}
       <div className="fixed top-6 left-1/2 -translate-x-1/2 w-[95vw] md:w-max z-[100] flex flex-col gap-2">
         {/* NAV — flotante estilo glass */}
-        <nav className={`w-full flex items-center justify-between gap-4 md:gap-16 px-6 md:px-8 py-2.5 rounded-full backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 ${
+        <nav className={`w-full flex items-center justify-between gap-4 md:gap-16 px-6 md:px-8 py-4 md:min-w-[320px] rounded-full backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 ${
           isHeroTransparent
             ? "bg-white/80 md:bg-black/20"
             : "bg-white/80"
