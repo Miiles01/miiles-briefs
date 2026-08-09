@@ -196,7 +196,47 @@ const LandingNavbar = ({ onMenuAction, cta, isLanding }: LandingNavbarProps) => 
 
                 {/* LANGUAGE SELECTOR */}
                 <div className="mt-4 md:mt-8 relative z-50">
-                  {/* Idioma removido intencionalmente para no crashear */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.05 + menuItems.length * 0.05 }}
+                  >
+                    <div className="relative inline-block w-max">
+                      <button 
+                        onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                        className="flex items-center gap-3 text-4xl md:text-5xl lg:text-[50px] font-medium text-white hover:opacity-50 transition-opacity duration-300 tracking-tight text-left"
+                        style={{ fontFamily: "'Manrope', sans-serif" }}
+                      >
+                        {t("navbar.language")}
+                      </button>
+                      
+                      <AnimatePresence>
+                        {isLangMenuOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-full left-0 mt-4 md:top-auto md:bottom-0 md:left-full md:mt-0 md:ml-6 bg-white rounded-3xl p-3 min-w-[220px] shadow-[0_20px_40px_rgba(0,0,0,0.2)] z-50 flex flex-col gap-2"
+                          >
+                            <button
+                              onClick={() => changeLanguage('es')}
+                              className={`text-left px-5 py-4 rounded-2xl text-xl font-medium transition-colors ${i18n.language === 'es' ? 'bg-black text-white' : 'text-black hover:bg-gray-100'}`}
+                            >
+                              Español
+                            </button>
+                            <button
+                              onClick={() => changeLanguage('en')}
+                              className={`text-left px-5 py-4 rounded-2xl text-xl font-medium transition-colors ${i18n.language?.startsWith('en') ? 'bg-black text-white' : 'text-black hover:bg-gray-100'}`}
+                            >
+                              English
+                            </button>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </motion.div>
                 </div>
               </div>
 
