@@ -73,8 +73,8 @@ const LandingNavbar = ({ onMenuAction, cta, isLanding }: LandingNavbarProps) => 
         {/* NAV — flotante estilo glass */}
         <nav className={`w-full flex items-center justify-between gap-4 md:gap-16 px-6 md:px-8 py-2.5 rounded-full backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 ${
           isHeroTransparent
-            ? "bg-white/80 md:bg-black/20 border border-neutral-200/50 md:border-white/10"
-            : "bg-white/80 border border-neutral-200/50"
+            ? "bg-white/80 md:bg-black/20"
+            : "bg-white/80"
         }`}>
           <a href="https://miiles.app/" className="flex items-center shrink-0">
             <img 
