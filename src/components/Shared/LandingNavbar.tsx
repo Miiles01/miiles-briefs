@@ -94,16 +94,6 @@ const LandingNavbar = ({ onMenuAction, cta, isLanding }: LandingNavbarProps) => 
               {isMenuOpen ? "Cerrar" : "Menú"}
             </button>
             {cta}
-            <a
-              href="/login"
-              className={`text-xs font-normal px-5 py-2.5 rounded-full transition-all duration-300 hover:scale-105 ${
-                isHeroTransparent
-                  ? "bg-black text-white md:bg-white md:text-black"
-                  : "bg-black text-white"
-              }`}
-            >
-              {"Ingresar"}
-            </a>
           </div>
         </nav>
       </div>
@@ -169,7 +159,7 @@ const LandingNavbar = ({ onMenuAction, cta, isLanding }: LandingNavbarProps) => 
               </div>
 
               {/* Right Column: Main Navigation Links */}
-              <div className="flex flex-col justify-center w-full md:w-2/3 gap-4 md:gap-5 pl-0 md:pl-16 order-1 md:order-2 border-b md:border-b-0 md:border-l border-white/10 pb-6 md:pb-0 relative">
+              <div className="flex flex-col justify-center w-full md:w-2/3 gap-4 md:gap-5 pl-0 md:pl-16 order-1 md:order-2 pb-6 md:pb-0 relative">
                 {menuItems.map((item, i) => (
                   <div 
                     key={item.label} 
