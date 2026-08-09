@@ -102,7 +102,7 @@ const LandingNavbar = ({ onMenuAction, cta, isLanding }: LandingNavbarProps) => 
                   : "bg-black text-white"
               }`}
             >
-              {t("navbar.join")}
+              {"Ingresar"}
             </a>
           </div>
         </nav>
@@ -161,9 +161,9 @@ const LandingNavbar = ({ onMenuAction, cta, isLanding }: LandingNavbarProps) => 
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                     className="flex flex-col gap-1.5 text-xs font-light text-white/50"
                   >
-                    <a href="/afiliados" onClick={() => setIsMenuOpen(false)} className="hover:text-white/80 transition-colors">{t("navbar.affiliates")}</a>
-                    <a href="/terminos" onClick={() => setIsMenuOpen(false)} className="hover:text-white/80 transition-colors">{t("navbar.terms")}</a>
-                    <a href="/privacidad" onClick={() => setIsMenuOpen(false)} className="hover:text-white/80 transition-colors">{t("navbar.privacy")}</a>
+                    <a href="/afiliados" onClick={() => setIsMenuOpen(false)} className="hover:text-white/80 transition-colors">{"Afiliados"}</a>
+                    <a href="/terminos" onClick={() => setIsMenuOpen(false)} className="hover:text-white/80 transition-colors">{"Términos"}</a>
+                    <a href="/privacidad" onClick={() => setIsMenuOpen(false)} className="hover:text-white/80 transition-colors">{"Privacidad"}</a>
                   </motion.div>
                 </div>
               </div>
