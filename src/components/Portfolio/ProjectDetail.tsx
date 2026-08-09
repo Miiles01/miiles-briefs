@@ -7,136 +7,164 @@ import LandingFooter from "../Shared/LandingFooter";
 import PortfolioSmoothScroll from "./PortfolioSmoothScroll";
 import { ArrowLeft } from "lucide-react";
 
+/* ── Full-width image block with smooth fade-in on scroll and load ── */
+const ProjectImage = ({ src, alt, index }: { src: string; alt: string; index: number }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <motion.div
+      custom={index}
+      initial={{ opacity: 0, y: 35 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{
+        duration: 0.9,
+        delay: Math.min(index * 0.05, 0.25),
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="w-full overflow-hidden rounded-2xl md:rounded-3xl bg-neutral-100/60"
+    >
+      <img
+        src={src}
+        alt={alt}
+        loading={index < 2 ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={index === 0 ? "high" : "auto"}
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-auto object-cover transition-opacity duration-1000 ease-out ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+      />
+    </motion.div>
+  );
+};
+
 export const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
+    const navigate = useNavigate();
   const lang = "es";
 
   const project = slug ? portfolioProjects[slug] : null;
-  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
-    if (!project) {
-      navigate("/trabajo", { replace: true });
-    }
     window.scrollTo(0, 0);
-  }, [project, navigate]);
+  }, [slug]);
 
-  if (!project) return null;
+  if (!project) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 font-sans">
+        <h1 className="text-4xl font-normal tracking-tight mb-4 text-black">
+          {lang === "es" ? "Proyecto no encontrado" : "Project not found"}
+        </h1>
+        <p className="text-neutral-500 mb-8 font-light">
+          {lang === "es" ? "El proyecto que buscas no existe o ha sido movido." : "The project you are looking for does not exist."}
+        </p>
+        <Link
+          to="/trabajo"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full text-sm font-normal hover:bg-neutral-800 transition-colors"
+        >
+          <ArrowLeft size={16} />
+          {lang === "es" ? "Volver a proyectos" : "Back to projects"}
+        </Link>
+      </div>
+    );
+  }
 
-  const getPath = (img: string) => `/proyectos/${project.folder}/${img}`;
+  const basePath = `/proyectos/${project.folder}/`;
 
   return (
     <PortfolioSmoothScroll>
-      <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      <div className="min-h-screen bg-white text-black font-sans flex flex-col selection:bg-black selection:text-white">
         <LandingNavbar isLanding={false} />
 
-        <main className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 lg:px-20 container mx-auto">
-          {/* Top Back Navigation */}
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-12 md:mb-16"
-          >
-            <Link
-              to="/trabajo"
-              className="inline-flex items-center gap-2 text-xs font-normal uppercase tracking-widest text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Regresar a Portafolio
-            </Link>
-          </motion.div>
-
-          {/* Project Header */}
-          <header className="mb-20 md:mb-32">
+        <main className="flex-1 pt-32 md:pt-44 pb-24">
+          {/* Header */}
+          <header className="px-6 md:px-12 lg:px-20 container mx-auto mb-16 md:mb-24">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tight leading-tight mb-8 md:mb-12"
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="text-6xl md:text-8xl lg:text-[8vw] font-normal tracking-tight leading-tight mb-8 text-black"
             >
               {project.title}
             </motion.h1>
 
+            {/* Meta info */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-16 border-t border-neutral-200/60 dark:border-neutral-800 pt-10"
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="grid md:grid-cols-2 gap-8 md:gap-16 max-w-4xl"
             >
-              {/* Summary / Strategy */}
-              <div className="lg:col-span-8">
-                <p className="text-xl md:text-2xl font-light text-black/80 dark:text-neutral-300 leading-relaxed max-w-3xl mb-8">
-                  {project.description[lang]}
+              <div>
+                <p className="text-xs tracking-widest text-neutral-400 mb-2 font-normal uppercase">
+                  {lang === "es" ? "Industria" : "Industry"}
                 </p>
-                {project.strategy && (
-                  <p className="text-base md:text-lg font-light text-black/60 dark:text-neutral-400 leading-relaxed max-w-3xl">
-                    {project.strategy[lang]}
-                  </p>
-                )}
+                <p className="text-lg md:text-xl font-light leading-relaxed text-black/85">
+                  {project.industry[lang]}
+                </p>
               </div>
-
-              {/* Meta Info */}
-              <div className="lg:col-span-4 space-y-8">
-                <div>
-                  <h4 className="text-[11px] font-normal text-neutral-400 uppercase tracking-widest mb-3">
-                    Industria
-                  </h4>
-                  <p className="text-base font-medium">{project.industry[lang]}</p>
-                </div>
-                <div>
-                  <h4 className="text-[11px] font-normal text-neutral-400 uppercase tracking-widest mb-3">
-                    Rol / Servicios
-                  </h4>
-                  <p className="text-base font-medium text-black/80 dark:text-neutral-300 leading-relaxed">
-                    {project.role[lang]}
-                  </p>
-                </div>
+              <div>
+                <p className="text-xs tracking-widest text-neutral-400 mb-2 font-normal uppercase">
+                  {lang === "es" ? "Qué hicimos" : "What we did"}
+                </p>
+                <p className="text-lg md:text-xl font-light leading-relaxed text-black/85">
+                  {project.role[lang]}
+                </p>
               </div>
             </motion.div>
           </header>
 
-          {/* Images Feed */}
-          <section className="flex flex-col gap-8 md:gap-16 items-center">
-            {project.images.map((img, idx) => {
-              const isLoaded = loadedImages[idx];
-              const maxWidth = img.aspect === "wide" ? "max-w-full" : img.aspect === "square" ? "max-w-3xl" : "max-w-2xl";
+          {/* Cover image — full bleed */}
+          <div className="px-4 md:px-8 lg:px-12 mb-8">
+            <ProjectImage src={basePath + project.images[0].src} alt={project.images[0].alt} index={0} />
+          </div>
 
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className={`w-full ${maxWidth} bg-neutral-100/50 dark:bg-neutral-900/50 rounded-2xl overflow-hidden`}
-                >
-                  <img
-                    src={getPath(img.src)}
-                    alt={img.alt}
-                    loading={idx < 2 ? "eager" : "lazy"}
-                    onLoad={() => setLoadedImages((prev) => ({ ...prev, [idx]: true }))}
-                    className={`w-full h-auto transition-opacity duration-1000 ease-out ${
-                      isLoaded ? "opacity-100" : "opacity-0"
-                    }`}
-                  />
-                </motion.div>
-              );
-            })}
-          </section>
-
-          {/* Bottom Navigation */}
-          <footer className="mt-32 pt-12 border-t border-neutral-200/60 dark:border-neutral-800 flex justify-between items-center">
-            <p className="text-sm font-medium text-neutral-500">We Are Miiles</p>
-            <Link
-              to="/trabajo"
-              className="inline-flex items-center gap-2 text-sm font-medium hover:text-miiles-blue transition-colors"
+          {/* Description block */}
+          <div className="px-6 md:px-12 lg:px-20 container mx-auto my-20 md:my-32">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="max-w-3xl"
             >
-              Explorar más proyectos <ArrowLeft className="w-4 h-4 rotate-180" />
-            </Link>
-          </footer>
+              <p className="text-xs tracking-widest text-neutral-400 mb-4 font-normal uppercase">
+                {lang === "es" ? "Sobre el proyecto" : "About the project"}
+              </p>
+              <p className="text-xl md:text-2xl font-light leading-relaxed text-black/85 whitespace-pre-line tracking-normal">
+                {project.description[lang]}
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Image gallery — single columns */}
+          <div className="space-y-6 md:space-y-8">
+            {project.images.slice(1).map((img, idx) => (
+              <div key={idx + 1} className="px-4 md:px-8 lg:px-12">
+                <ProjectImage src={basePath + img.src} alt={img.alt} index={idx + 1} />
+              </div>
+            ))}
+          </div>
+
+          {/* Back to projects */}
+          <div className="px-6 md:px-12 lg:px-20 container mx-auto mt-32 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <button
+                onClick={() => navigate("/trabajo")}
+                className="inline-flex items-center gap-3 text-2xl md:text-3xl font-normal tracking-tight text-black hover:opacity-60 transition-opacity"
+              >
+                <ArrowLeft size={24} />
+                {lang === "es" ? "Volver a proyectos" : "Back to projects"}
+              </button>
+            </motion.div>
+          </div>
         </main>
+
         <LandingFooter />
       </div>
     </PortfolioSmoothScroll>

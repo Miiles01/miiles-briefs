@@ -60,7 +60,7 @@ const ProjectSection = ({
       onMouseLeave={() => onHover(null)}
     >
       {/* Main Cover */}
-      <Link to={`/trabajo/${slug}`} className="block w-full mb-6 md:mb-8 overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-neutral-100/60 dark:bg-neutral-800/60 transition-all">
+      <Link to={`/trabajo/${slug}`} className="block w-full mb-6 md:mb-8 overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-neutral-100/60 transition-all">
         <motion.div
           initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -83,7 +83,7 @@ const ProjectSection = ({
             <Link
               key={idx}
               to={`/trabajo/${slug}`}
-              className="block overflow-hidden rounded-[2rem] bg-neutral-100/60 dark:bg-neutral-800/60 transition-all"
+              className="block overflow-hidden rounded-[2rem] bg-neutral-100/60 transition-all"
             >
               <motion.div
                 initial={{ opacity: 0, y: 35 }}
@@ -113,19 +113,19 @@ const ProjectSection = ({
       >
         <div className="max-w-2xl">
           <Link to={`/trabajo/${slug}`} className="inline-flex items-center gap-2 group/title">
-            <h3 className="text-3xl md:text-4xl font-normal tracking-tight leading-tight text-black dark:text-white transition-colors group-hover/title:text-miiles-blue">
+            <h3 className="text-3xl md:text-4xl font-normal tracking-tight leading-tight text-black transition-colors group-hover/title:text-miiles-blue">
               {project.title}
             </h3>
             <ArrowUpRight className="w-6 h-6 text-neutral-400 opacity-0 group-hover/title:opacity-100 group-hover/title:translate-x-1 group-hover/title:-translate-y-1 transition-all" />
           </Link>
-          <p className="text-base md:text-lg font-light text-black/70 dark:text-neutral-400 mt-2 leading-relaxed tracking-normal">
+          <p className="text-base md:text-lg font-light text-black/70 mt-2 leading-relaxed tracking-normal">
             {project.subtitle[lang]}
           </p>
         </div>
 
         <Link
           to={`/trabajo/${slug}`}
-          className="inline-flex items-center gap-1.5 text-xs font-normal uppercase tracking-widest text-neutral-400 hover:text-black dark:hover:text-white transition-colors pt-2 md:pt-0"
+          className="inline-flex items-center gap-1.5 text-xs font-normal uppercase tracking-widest text-neutral-400 hover:text-black transition-colors pt-2 md:pt-0"
         >
           {lang === "es" ? "Ver proyecto completo" : "View full project"} &rarr;
         </Link>
@@ -135,14 +135,14 @@ const ProjectSection = ({
 };
 
 export const WorkPage = () => {
-  const lang = "es";
+    const lang = "es";
   const [hoveredParticipation, setHoveredParticipation] = useState<Participation[] | null>(null);
 
   const projectsList = Object.values(portfolioProjects);
 
   return (
     <PortfolioSmoothScroll>
-      <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-sans flex flex-col selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      <div className="min-h-screen bg-white text-black font-sans flex flex-col selection:bg-black selection:text-white">
         <FloatingProjectInfo
           participation={hoveredParticipation || []}
           isVisible={hoveredParticipation !== null}
@@ -159,14 +159,25 @@ export const WorkPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight max-w-3xl mb-6 text-black dark:text-white leading-relaxed"
+              className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight max-w-3xl mb-6 text-black leading-relaxed"
             >
-              Diseñamos experiencias que escalan. Desde la identidad visual hasta la automatización con IA, este es el resultado de transformar visión en valor.
+              {lang === "es"
+                ? "Pensamos con propósito para marcas que buscan autenticidad y escalabilidad."
+                : "Designing with purpose for brands seeking authenticity and scalability."}
             </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-6xl md:text-8xl lg:text-[7.5vw] font-normal tracking-tight leading-[1.05] text-black"
+            >
+              {lang === "es" ? "Proyectos" : "Selected Works"}
+            </motion.h1>
           </section>
 
-          {/* Projects Feed */}
-          <section className="max-w-7xl mx-auto">
+          {/* Projects List */}
+          <section className="pb-12">
             {projectsList.map((project) => (
               <ProjectSection
                 key={project.slug}
@@ -178,6 +189,7 @@ export const WorkPage = () => {
             ))}
           </section>
         </main>
+
         <LandingFooter />
       </div>
     </PortfolioSmoothScroll>
