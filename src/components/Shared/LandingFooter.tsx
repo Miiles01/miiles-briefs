@@ -10,24 +10,24 @@ const LandingFooter = () => {
           {/* Left side */}
           <div className="flex flex-col justify-between h-full min-h-[200px]">
             <h2 className="text-3xl font-normal leading-tight max-w-xs text-black">
-              {"Diseñamos el futuro del trabajo creativo. Herramientas con inteligencia artificial para estructurar, colaborar y escalar sin límites."}
+              {"Diseñado para mentes creativas"}
             </h2>
             <p className="text-[10px] md:text-xs font-light text-gray-400 mt-10 md:mt-0">
-              © {new Date().getFullYear()} Miiles Studio.
+              © Miiles, todos los derechos reservados, 2026
             </p>
           </div>
 
           {/* Right side */}
           <div className="flex gap-20 md:gap-40">
             <div className="space-y-6">
-              <h4 className="text-[10px] font-normal text-gray-400 tracking-widest">Empresa</h4>
+              <h4 className="text-[10px] font-normal text-gray-400 tracking-widest">Compañía</h4>
               <div className="flex flex-col gap-4 text-sm font-light text-black">
-                <a href="https://miiles.app/terminos" className="hover:opacity-50 transition-opacity">{"Términos"}</a>
-                <a href="https://miiles.app/privacidad" className="hover:opacity-50 transition-opacity">{"Privacidad"}</a>
+                <a href="https://miiles.app/terminos" className="hover:opacity-50 transition-opacity">{"Términos y condiciones"}</a>
+                <a href="https://miiles.app/privacidad" className="hover:opacity-50 transition-opacity">{"Política de privacidad"}</a>
               </div>
             </div>
             <div className="space-y-6">
-              <h4 className="text-[10px] font-normal text-gray-400 tracking-widest">Social</h4>
+              <h4 className="text-[10px] font-normal text-gray-400 tracking-widest">Redes Sociales</h4>
               <div className="flex flex-col gap-4 text-sm font-light text-black">
                 <a href="https://www.instagram.com/miiles.studio/" target="_blank" rel="noopener noreferrer" className="hover:opacity-50 transition-opacity">Instagram</a>
                 <a href="https://www.tiktok.com/@miiles.studio" target="_blank" rel="noopener noreferrer" className="hover:opacity-50 transition-opacity">Tiktok</a>
