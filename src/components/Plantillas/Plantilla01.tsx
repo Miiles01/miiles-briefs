@@ -659,7 +659,7 @@ export const Plantilla01: React.FC = () => {
             </section>
 
             {/* Portfolio Gallery GSAP (Light) */}
-            <section className="theme-section mwg_effect037 w-full -mx-6 md:-mx-12 lg:-mx-24 px-6 md:px-12 lg:px-24" data-theme="light">
+            <section className="theme-section mwg_effect037 w-full -mx-6 md:-mx-12 lg:-mx-24 px-6 md:px-12 lg:px-24 relative" data-theme="light">
               <style>{`
                   .mwg_effect037 .pin-height {
                       height: 500vh;
@@ -668,32 +668,36 @@ export const Plantilla01: React.FC = () => {
                   .mwg_effect037 .container-pin {
                       width: 100%;
                       height: 100vh;
-                      display: grid;
-                      grid-template-columns: 1fr auto 1fr;
+                      display: flex;
+                      justify-content: space-between;
                       align-items: center;
-                      padding: 0;
+                      position: relative;
                   }
-                  .mwg_effect037 .container-pin > *:nth-child(1) { justify-self: start; }
-                  .mwg_effect037 .container-pin > *:nth-child(2) { justify-self: center; }
-                  .mwg_effect037 .container-pin > *:nth-child(3) { justify-self: end; }
                   
                   .mwg_effect037 .text-side {
                       font-weight: 300;
-                      font-size: clamp(1.5rem, 4vw, 4rem);
+                      font-size: clamp(2rem, 4vw, 4rem);
                       letter-spacing: -0.05em;
+                      line-height: 1.1;
+                      z-index: 10;
+                      position: relative;
                   }
                   
                   .mwg_effect037 .images-stack {
-                      width: 70vw;
+                      width: 80vw;
                       max-width: 320px;
                       aspect-ratio: 0.75;
-                      position: relative;
+                      position: absolute;
+                      left: 50%;
+                      top: 50%;
+                      transform: translate(-50%, -50%);
+                      z-index: 1;
                   }
                   
                   @media (min-width: 768px) {
                       .mwg_effect037 .images-stack {
-                          width: 30vw;
-                          max-width: 500px;
+                          width: 35vw;
+                          max-width: 480px;
                       }
                   }
                   
@@ -719,7 +723,8 @@ export const Plantilla01: React.FC = () => {
               
               <div className="pin-height">
                   <div className="container-pin">
-                      <p className="text-side animated-title">Dirección<br/><span className="font-semibold">Creativa</span></p>
+                      <p className="text-side text-left">Dirección<br/><span className="font-semibold">Creativa</span></p>
+                      
                       <div className="images-stack">
                           <div className="hidden-mask"><img className="media-img" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80" alt="Galeria 1" /></div>
                           <div className="hidden-mask"><img className="media-img" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80" alt="Galeria 2" /></div>
@@ -727,7 +732,8 @@ export const Plantilla01: React.FC = () => {
                           <div className="hidden-mask"><img className="media-img" src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=800&q=80" alt="Galeria 4" /></div>
                           <div className="hidden-mask"><img className="media-img" src="https://images.unsplash.com/photo-1534126511673-b6899657816a?w=800&q=80" alt="Galeria 5" /></div>
                       </div>
-                      <p className="text-side animated-title text-right">Colección<br/><span className="font-semibold">24-25</span></p>
+                      
+                      <p className="text-side text-right">Colección<br/><span className="font-semibold">24-25</span></p>
                   </div>
               </div>
             </section>
