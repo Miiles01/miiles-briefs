@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Manrope', 'system-ui', 'sans-serif'],
+        sans: ['Poppins', 'Manrope', 'system-ui', 'sans-serif'],
         welth: ['WelthCatritz', 'Welth Catritz', 'serif'],
         editorial: ['WelthCatritz', 'Welth Catritz', 'serif'],
       },
