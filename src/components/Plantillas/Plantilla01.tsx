@@ -189,7 +189,12 @@ export const Plantilla01: React.FC = () => {
                 <img src="/collabs/samsung-8.svg" alt="samsung-8" className="h-10 md:h-14 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/spotify-logo.svg" alt="spotify-logo" className="h-10 md:h-14 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/vichy-laboratoires.svg" alt="vichy-laboratoires" className="h-16 md:h-24 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
-                <img src="/collabs/zoah-1.svg" alt="zoah-1" className="col-span-2 md:col-span-1 h-12 md:h-16 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/zoah-1.svg" alt="zoah-1" className="h-12 md:h-16 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/zara.svg" alt="zara" className="h-8 md:h-10 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/vogue.svg" alt="vogue" className="h-8 md:h-10 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/versace.svg" alt="versace" className="h-8 md:h-10 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/pull-bear-2.svg" alt="pull-bear-2" className="h-6 md:h-8 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/bershka-1.svg" alt="bershka-1" className="h-6 md:h-8 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
               </div>
             </section>
 
