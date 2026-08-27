@@ -733,11 +733,20 @@ export const Plantilla01: React.FC = () => {
                   
                   .mwg_effect037 .text-side {
                       font-weight: 300;
-                      font-size: clamp(2rem, 4vw, 4rem);
+                      font-size: clamp(1.5rem, 3.5vw, 3.5rem);
                       letter-spacing: -0.05em;
                       line-height: 1.1;
                       z-index: 10;
-                      position: relative;
+                      position: absolute;
+                      top: 50%;
+                      transform: translateY(-50%);
+                      width: 30%;
+                  }
+                  .mwg_effect037 .text-side.text-left {
+                      left: 0;
+                  }
+                  .mwg_effect037 .text-side.text-right {
+                      right: 0;
                   }
                   
                   .mwg_effect037 .images-stack {
@@ -754,7 +763,7 @@ export const Plantilla01: React.FC = () => {
                   @media (min-width: 768px) {
                       .mwg_effect037 .images-stack {
                           width: 35vw;
-                          max-width: 480px;
+                          max-width: 380px; /* Reduced from 480px to prevent text collision */
                       }
                   }
                   
