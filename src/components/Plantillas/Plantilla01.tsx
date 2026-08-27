@@ -26,6 +26,19 @@ export const Plantilla01: React.FC = () => {
       });
     });
 
+    
+    // Paragraph animations with stagger on scroll
+    ScrollTrigger.batch('.animated-p', {
+      start: 'top 85%',
+      once: true,
+      onEnter: (batch) => {
+        gsap.fromTo(batch, 
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, stagger: 0.2, duration: 0.8, ease: "power2.out", overwrite: true }
+        );
+      }
+    });
+
     return () => {
       triggers.forEach(t => t.kill());
     };
@@ -115,7 +128,7 @@ export const Plantilla01: React.FC = () => {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 Hola, soy <span className="font-semibold text-6xl md:text-8xl lg:text-[140px]">Laura</span>
               </motion.h1>
-              <p className="text-lg md:text-xl text-black/60 dark:text-white/60 max-w-2xl font-light transition-colors duration-1000">
+              <p className="animated-p text-lg md:text-xl text-black/60 dark:text-white/60 max-w-2xl font-light transition-colors duration-1000">
                 Creadora de contenido enfocada en estilo de vida, moda y experiencias auténticas. 
                 Ayudo a marcas a conectar con su audiencia de forma natural.
               </p>
@@ -141,10 +154,10 @@ export const Plantilla01: React.FC = () => {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                   Un poco sobre <span className="font-semibold text-4xl md:text-6xl">mí</span>
                 </motion.h2>
-                <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed font-light transition-colors duration-1000">
+                <p className="animated-p text-lg text-black/70 dark:text-white/70 leading-relaxed font-light transition-colors duration-1000">
                   Llevo más de 4 años creando contenido digital, buscando siempre la estética perfecta sin perder la esencia real de los momentos. Me apasiona contar historias visuales que inspiren.
                 </p>
-                <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed font-light transition-colors duration-1000">
+                <p className="animated-p text-lg text-black/70 dark:text-white/70 leading-relaxed font-light transition-colors duration-1000">
                   Mi comunidad valora la honestidad, el diseño minimalista y las recomendaciones genuinas.
                 </p>
               </div>
@@ -237,7 +250,7 @@ export const Plantilla01: React.FC = () => {
               </motion.h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="p-8 md:p-12 bg-gray-50 dark:bg-neutral-900/50 rounded-3xl flex flex-col gap-6 transition-colors duration-1000">
-                  <p className="text-lg md:text-xl font-light italic leading-relaxed text-black/80 dark:text-white/80 transition-colors duration-1000">
+                  <p className="animated-p text-lg md:text-xl font-light italic leading-relaxed text-black/80 dark:text-white/80 transition-colors duration-1000">
                     "Laura entendió la visión de nuestra marca desde el primer momento. El contenido que entregó superó nuestras expectativas y conectó de forma increíble."
                   </p>
                   <div>
@@ -246,7 +259,7 @@ export const Plantilla01: React.FC = () => {
                   </div>
                 </div>
                 <div className="p-8 md:p-12 bg-gray-50 dark:bg-neutral-900/50 rounded-3xl flex flex-col gap-6 transition-colors duration-1000">
-                  <p className="text-lg md:text-xl font-light italic leading-relaxed text-black/80 dark:text-white/80 transition-colors duration-1000">
+                  <p className="animated-p text-lg md:text-xl font-light italic leading-relaxed text-black/80 dark:text-white/80 transition-colors duration-1000">
                     "Su estética minimalista era justo lo que necesitábamos. Muy profesional y creativa durante todo el proceso de producción."
                   </p>
                   <div>
@@ -269,7 +282,7 @@ export const Plantilla01: React.FC = () => {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 Vamos a <span className="font-semibold text-6xl md:text-8xl lg:text-9xl">colaborar</span>
               </motion.h2>
-              <p className="text-lg md:text-xl opacity-70 font-light max-w-xl">
+              <p className="animated-p text-lg md:text-xl opacity-70 font-light max-w-xl">
                 ¿Tienes un proyecto en mente o quieres que tu marca destaque con contenido auténtico? Hablemos.
               </p>
               
