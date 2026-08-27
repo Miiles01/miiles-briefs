@@ -30,11 +30,11 @@ export const Plantilla01: React.FC = () => {
                 end: '+=400%', // 4 images to zoom through (total 5 images)
                 pin: true,
                 animation: gsap.to(zoomLayers, {
-                    scale: 1,
-                    ease: 'power1.in', // Smooth steady zoom that accelerates slightly at the end
+                    scale: 1.01,
+                    ease: 'expo.inOut', // Tutorial exactly uses expo.inOut for that delicate slow-fast-slow curve
                     stagger: 1
                 }),
-                scrub: true
+                scrub: 1.5 // Added 1.5s lag for buttery smooth inertia (matches tutorial's quickTo duration)
             });
         }
     });
