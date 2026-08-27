@@ -3,9 +3,10 @@ import { Menu, Instagram, Twitter, Mail, Play, X } from 'lucide-react';
 import { PortfolioSmoothScroll } from '../Portfolio/PortfolioSmoothScroll';
 import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 export const Plantilla01: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -27,6 +28,25 @@ export const Plantilla01: React.FC = () => {
     });
 
     
+    
+    // Title animations with SplitText on scroll
+    const titles = gsap.utils.toArray('.animated-title');
+    titles.forEach((title) => {
+      const split = new SplitText(title, { type: 'words' });
+      gsap.from(split.words, {
+        scrollTrigger: {
+          trigger: title,
+          start: 'top 85%',
+          once: true
+        },
+        opacity: 0,
+        y: 25,
+        stagger: 0.06,
+        duration: 0.6,
+        ease: 'power2.out'
+      });
+    });
+
     // Paragraph animations with stagger on scroll
     ScrollTrigger.batch('.animated-p', {
       start: 'top 85%',
@@ -121,13 +141,10 @@ export const Plantilla01: React.FC = () => {
             
             {/* Hero Section (Light) */}
             <section className="theme-section flex flex-col items-center text-center gap-8" data-theme="light">
-              <motion.h1 className="text-5xl md:text-7xl lg:text-9xl tracking-tighter font-light transition-colors duration-1000"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+              <h1 className="animated-title text-5xl md:text-7xl lg:text-9xl tracking-tighter font-light transition-colors duration-1000"
+              >
                 Hola, soy <span className="font-semibold text-6xl md:text-8xl lg:text-[140px]">Laura</span>
-              </motion.h1>
+              </h1>
               <p className="animated-p text-lg md:text-xl text-black/60 dark:text-white/60 max-w-2xl font-light transition-colors duration-1000">
                 Creadora de contenido enfocada en estilo de vida, moda y experiencias auténticas. 
                 Ayudo a marcas a conectar con su audiencia de forma natural.
@@ -147,13 +164,10 @@ export const Plantilla01: React.FC = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-6">
-                <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+                <h2 className="animated-title text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
+              >
                   Un poco sobre <span className="font-semibold text-4xl md:text-6xl">mí</span>
-                </motion.h2>
+                </h2>
                 <p className="animated-p text-lg text-black/70 dark:text-white/70 leading-relaxed font-light transition-colors duration-1000">
                   Llevo más de 4 años creando contenido digital, buscando siempre la estética perfecta sin perder la esencia real de los momentos. Me apasiona contar historias visuales que inspiren.
                 </p>
@@ -166,13 +180,10 @@ export const Plantilla01: React.FC = () => {
             {/* Reels / Video Content (Dark) */}
             <section id="contenidos" className="theme-section flex flex-col gap-12" data-theme="dark">
               <div className="flex justify-between items-end">
-                <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+                <h2 className="animated-title text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
+              >
                   Contenido en <span className="font-semibold text-4xl md:text-6xl">movimiento</span>
-                </motion.h2>
+                </h2>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 {[1, 2, 3, 4].map((item) => (
@@ -186,13 +197,10 @@ export const Plantilla01: React.FC = () => {
 
             {/* Clients / Brands (Light) */}
             <section id="clientes" className="theme-section flex flex-col gap-16 items-center text-center" data-theme="light">
-              <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+              <h2 className="animated-title text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
+              >
                 Marcas que <span className="font-semibold text-4xl md:text-6xl">confían</span>
-              </motion.h2>
+              </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-12 md:gap-16 place-items-center w-full max-w-4xl mx-auto">
                 <img src="/collabs/adidas-13.svg" alt="adidas-13" className="h-16 md:h-24 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/chanel-2.svg" alt="chanel-2" className="h-14 md:h-20 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
@@ -213,13 +221,10 @@ export const Plantilla01: React.FC = () => {
 
             {/* Portfolio Gallery (Light) */}
             <section className="theme-section flex flex-col gap-12" data-theme="light">
-               <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+               <h2 className="animated-title text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
+              >
                   Dirección de <span className="font-semibold text-4xl md:text-6xl">arte</span>
-                </motion.h2>
+                </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 aspect-[4/3] bg-gray-100 dark:bg-neutral-900 rounded-3xl flex items-center justify-center transition-colors duration-1000">
                   <span className="text-black/30 dark:text-white/30 font-medium transition-colors duration-1000">Fotografía destacada</span>
@@ -241,13 +246,10 @@ export const Plantilla01: React.FC = () => {
 
             {/* Testimonials (Dark) */}
             <section className="theme-section flex flex-col gap-12" data-theme="dark">
-              <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight text-center transition-colors duration-1000"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+              <h2 className="animated-title text-3xl md:text-5xl font-light tracking-tight text-center transition-colors duration-1000"
+              >
                 Lo que <span className="font-semibold text-4xl md:text-6xl">dicen</span>
-              </motion.h2>
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="p-8 md:p-12 bg-gray-50 dark:bg-neutral-900/50 rounded-3xl flex flex-col gap-6 transition-colors duration-1000">
                   <p className="animated-p text-lg md:text-xl font-light italic leading-relaxed text-black/80 dark:text-white/80 transition-colors duration-1000">
@@ -275,13 +277,10 @@ export const Plantilla01: React.FC = () => {
           {/* Footer CTA (Dark) */}
           <footer id="contacto" className="theme-section text-black dark:text-white py-32 px-6 md:px-12 mt-32 transition-colors duration-1000" data-theme="dark">
             <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-10">
-              <motion.h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tighter font-light"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+              <h2 className="animated-title text-5xl md:text-7xl lg:text-8xl tracking-tighter font-light"
+              >
                 Vamos a <span className="font-semibold text-6xl md:text-8xl lg:text-9xl">colaborar</span>
-              </motion.h2>
+              </h2>
               <p className="animated-p text-lg md:text-xl opacity-70 font-light max-w-xl">
                 ¿Tienes un proyecto en mente o quieres que tu marca destaque con contenido auténtico? Hablemos.
               </p>
