@@ -75,6 +75,28 @@ export const Plantilla01: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
+
+  // Rolling Letters Title GSAP Logic (mwg_effect027)
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.to('.letter-effect', {
+        yPercent: 100,
+        ease: 'power1.inOut',
+        scrollTrigger: {
+          trigger: '.mwg_effect027',
+          start: 'top 85%',
+          end: 'bottom 30%',
+          scrub: 1
+        },
+        stagger: {
+          each: 0.05,
+          from: 'random'
+        }
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   // Accordion GSAP Logic
   useEffect(() => {
     const root = document.querySelector('.mwg_effect109')
@@ -359,9 +381,22 @@ export const Plantilla01: React.FC = () => {
 
             {/* About Me Accordion (Light) */}
             <section id="sobre-mi" className="theme-section flex flex-col gap-8 w-full" data-theme="light">
-              <h2 className="animated-title text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
-                Sobre <span className="font-semibold text-4xl md:text-6xl">mí</span>
-              </h2>
+              <div className="mwg_effect027 flex flex-col items-center md:items-start mb-8 md:mb-16 w-full">
+                <ul className="flex flex-col items-center md:items-start">
+                  {["Soy Laura,", "creadora de", "historias."].map((line, lineIdx) => (
+                    <li key={lineIdx} className="flex overflow-hidden text-5xl sm:text-6xl md:text-[90px] lg:text-[130px] font-semibold tracking-tighter leading-[0.85]">
+                      {line.split('').map((char, charIdx) => (
+                        char === ' ' ? 
+                        <span key={charIdx} className="w-[0.25em]" /> :
+                        <span key={charIdx} className="letter-effect relative inline-block text-black dark:text-white transition-colors duration-1000">
+                          <span>{char}</span>
+                          <span className="absolute bottom-full left-0">{char}</span>
+                        </span>
+                      ))}
+                    </li>
+                  ))}
+                </ul>
+              </div>
               
               <style>{`
                 .mwg_effect109 .container-slides {
