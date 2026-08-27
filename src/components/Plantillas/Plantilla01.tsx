@@ -587,13 +587,19 @@ export const Plantilla01: React.FC = () => {
                   }
               `}</style>
               
+              {/* Unified Section Title */}
+              <div className="w-full text-center pb-12 md:pb-16 pt-8 md:pt-16">
+                  <h2 className="animated-title text-4xl md:text-6xl lg:text-7xl font-light tracking-tight transition-colors duration-1000">
+                      Contenido en<br />
+                      <span className="font-semibold text-5xl md:text-7xl lg:text-8xl mt-1 md:mt-2 block">movimiento</span>
+                  </h2>
+              </div>
+              
               {/* Reels GSAP (Desktop) */}
               <div className="hidden md:block w-full mwg_effect007 relative">
                   <div className="pin-height">
                       <div className="container-pin">
-                          <h2 className="animated-title text-3xl md:text-6xl lg:text-7xl font-light tracking-tight absolute top-12 md:top-24 left-0 w-full text-center z-10 transition-colors duration-1000">
-                              Contenido en <span className="font-semibold text-4xl md:text-7xl lg:text-8xl">movimiento</span>
-                          </h2>
+                          
                           {[
                             "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80",
                             "https://images.unsplash.com/photo-1529139574466-a303027c028c?w=600&q=80",
@@ -611,10 +617,8 @@ export const Plantilla01: React.FC = () => {
               </div>
 
               {/* Reels Carousel (Mobile) */}
-              <div className="block md:hidden w-full flex flex-col gap-8 pt-12">
-                  <h2 className="animated-title text-4xl font-light tracking-tight text-center transition-colors duration-1000">
-                      Contenido en <span className="font-semibold text-5xl">movimiento</span>
-                  </h2>
+              <div className="block md:hidden w-full flex flex-col gap-8">
+                  
                   <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-8 w-screen -mx-6 px-6 no-scrollbar">
                       {[
                         "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80",
