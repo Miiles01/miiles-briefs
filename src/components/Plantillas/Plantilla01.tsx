@@ -396,7 +396,7 @@ export const Plantilla01: React.FC = () => {
                     </motion.a>
                   ))}
                 </div>
-                <div className="mt-4 pt-6 border-t border-black/5 dark:border-white/10 flex flex-col gap-6">
+                <div className="mt-4 pt-2 flex flex-col gap-6">
                   <a href="mailto:hola@lauracreativa.com" className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
                     hola@lauracreativa.com
                   </a>
