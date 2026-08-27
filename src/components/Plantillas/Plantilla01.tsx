@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, Instagram, Twitter, Mail, Play } from 'lucide-react';
+import { Menu, Instagram, Twitter, Mail, Play, X } from 'lucide-react';
 import { PortfolioSmoothScroll } from '../Portfolio/PortfolioSmoothScroll';
+import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -8,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const Plantilla01: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const sections = gsap.utils.toArray('.theme-section') as HTMLElement[];
@@ -29,20 +31,78 @@ export const Plantilla01: React.FC = () => {
     };
   }, []);
 
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const navLinks = [
+    { name: 'Sobre mí', id: 'sobre-mi' },
+    { name: 'Contenidos', id: 'contenidos' },
+    { name: 'Clientes', id: 'clientes' },
+    { name: 'Contacto', id: 'contacto' },
+  ];
+
   return (
     <PortfolioSmoothScroll>
       <div className={`${theme}`}>
-        <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-1000 ease-in-out">
+        <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-1000 ease-in-out relative">
           
           {/* Floating Navbar */}
           <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center pointer-events-none">
             <div className="pointer-events-auto mix-blend-difference text-white">
               <span className="text-xl font-medium tracking-tight">Laura.</span>
             </div>
-            <button className="pointer-events-auto w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-md flex items-center justify-center hover:scale-105 transition-all duration-1000 mix-blend-difference text-white">
-              <Menu className="w-5 h-5" />
+            
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="pointer-events-auto w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-md flex items-center justify-center hover:scale-105 transition-all duration-300 mix-blend-difference text-white z-[60]"
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </nav>
+
+          {/* Menu Overlay */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="fixed top-20 right-6 left-6 md:left-auto md:w-72 bg-white/90 dark:bg-black/90 backdrop-blur-2xl border border-black/5 dark:border-white/10 rounded-3xl p-8 shadow-2xl z-50 flex flex-col gap-6"
+              >
+                <div className="flex flex-col gap-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-black/40 dark:text-white/40 mb-2">Menú</p>
+                  {navLinks.map((link, i) => (
+                    <motion.a
+                      key={link.id}
+                      href={`#${link.id}`}
+                      onClick={(e) => handleScroll(e, link.id)}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.05 }}
+                      className="text-3xl font-light hover:pl-4 transition-all duration-300"
+                    >
+                      {link.name}
+                    </motion.a>
+                  ))}
+                </div>
+                <div className="mt-4 pt-6 border-t border-black/5 dark:border-white/10 flex gap-4">
+                  <a href="#" className="p-3 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="p-3 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                    <Twitter className="w-5 h-5" />
+                  </a>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <main className="px-6 md:px-12 lg:px-24 pt-32 pb-24 max-w-7xl mx-auto flex flex-col gap-48 md:gap-64">
             
@@ -63,7 +123,7 @@ export const Plantilla01: React.FC = () => {
             </section>
 
             {/* About Me (Light) */}
-            <section className="theme-section grid grid-cols-1 md:grid-cols-2 gap-12 items-center" data-theme="light">
+            <section id="sobre-mi" className="theme-section grid grid-cols-1 md:grid-cols-2 gap-12 items-center" data-theme="light">
               <div className="aspect-[4/5] bg-gray-100 dark:bg-neutral-900 rounded-3xl relative transition-colors duration-1000">
                  <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-black/30 dark:text-white/30 font-medium transition-colors duration-1000">Foto de perfil</span>
@@ -83,7 +143,7 @@ export const Plantilla01: React.FC = () => {
             </section>
 
             {/* Reels / Video Content (Dark) */}
-            <section className="theme-section flex flex-col gap-12" data-theme="dark">
+            <section id="contenidos" className="theme-section flex flex-col gap-12" data-theme="dark">
               <div className="flex justify-between items-end">
                 <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
                   Contenido en <span className="font-semibold text-4xl md:text-6xl">movimiento</span>
@@ -100,7 +160,7 @@ export const Plantilla01: React.FC = () => {
             </section>
 
             {/* Clients / Brands (Dark) */}
-            <section className="theme-section flex flex-col gap-12 items-center text-center" data-theme="dark">
+            <section id="clientes" className="theme-section flex flex-col gap-12 items-center text-center" data-theme="dark">
               <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
                 Marcas que <span className="font-semibold text-4xl md:text-6xl">confían</span>
               </h2>
@@ -167,7 +227,7 @@ export const Plantilla01: React.FC = () => {
           </main>
 
           {/* Footer CTA (Dark) */}
-          <footer className="theme-section bg-[#08080a] text-white py-32 px-6 md:px-12 mt-32 rounded-t-[4rem] transition-colors duration-1000" data-theme="dark">
+          <footer id="contacto" className="theme-section bg-[#08080a] text-white py-32 px-6 md:px-12 mt-32 rounded-t-[4rem] transition-colors duration-1000" data-theme="dark">
             <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-10">
               <h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tighter font-light">
                 Vamos a <span className="font-semibold text-6xl md:text-8xl lg:text-9xl">colaborar</span>
