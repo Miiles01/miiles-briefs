@@ -255,7 +255,7 @@ export const Plantilla01: React.FC = () => {
           </main>
 
           {/* Footer CTA (Dark) */}
-          <footer id="contacto" className="theme-section bg-[#08080a] text-white py-32 px-6 md:px-12 mt-32 rounded-t-[4rem] transition-colors duration-1000" data-theme="dark">
+          <footer id="contacto" className="theme-section text-black dark:text-white py-32 px-6 md:px-12 mt-32 transition-colors duration-1000" data-theme="dark">
             <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-10">
               <motion.h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tighter font-light"
               initial={{ opacity: 0, y: 40 }}
@@ -268,7 +268,7 @@ export const Plantilla01: React.FC = () => {
                 ¿Tienes un proyecto en mente o quieres que tu marca destaque con contenido auténtico? Hablemos.
               </p>
               
-              <button className="mt-4 px-8 py-4 bg-white text-black rounded-full font-medium flex items-center gap-3 hover:scale-105 transition-transform">
+              <button className="mt-4 px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium flex items-center gap-3 hover:scale-105 transition-transform">
                 <Mail className="w-5 h-5" />
                 Escribir un correo
               </button>
