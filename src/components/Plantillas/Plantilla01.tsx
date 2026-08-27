@@ -5,8 +5,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { Observer } from "gsap/Observer";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger, SplitText, Observer);
 
 export const Plantilla01: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -14,6 +15,84 @@ export const Plantilla01: React.FC = () => {
 
 
 
+
+
+  // Infinite Image Zoom GSAP Logic (mwg_effect050)
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+        let incr = 800000, zIndex = 0, newIndex = 0;
+        const settings = { delta: 0 };
+        const medias: string[] = [];
+        const realImages = document.querySelectorAll('.mwg_effect050 .real-image');
+
+        if (!realImages.length) return;
+
+        document.querySelectorAll('.mwg_effect050 .medias img').forEach(img => {
+            medias.push(img.getAttribute('src') || '');
+        });
+
+        realImages.forEach(image => {
+            image.setAttribute('data-index', zIndex.toString());
+            image.setAttribute('src', medias[zIndex % medias.length]);
+            zIndex++;
+        });
+
+        const mod = (n: number, m: number) => ((n % m) + m) % m;
+
+        const tl = gsap.timeline({ paused: true });
+
+        const deltaTo = gsap.quickTo(settings, 'delta', { 
+            duration: 2, 
+            ease: "power1",
+            onUpdate: () => {
+                incr += settings.delta;
+                tl.time(incr);
+            }
+        });
+
+        tl.to(realImages, {
+            scale: 1.005,
+            ease: "expo.inOut",
+            duration: 8,
+            stagger: {
+                each: 1,
+                repeat: -1,
+                onRepeat() {
+                    const el = this.targets()[0] as HTMLElement;
+                    const movingForward = settings.delta >= 0;
+                    
+                    zIndex += movingForward ? 1 : -1;
+                    el.style.zIndex = movingForward ? zIndex.toString() : (zIndex - (realImages.length - 1)).toString();
+                    
+                    const referenceEl = (movingForward 
+                        ? el.previousElementSibling || realImages[realImages.length - 1]
+                        : el.nextElementSibling || realImages[0]) as HTMLElement;
+                        
+                    newIndex = mod(
+                        parseInt(referenceEl.getAttribute('data-index') || '0') + (movingForward ? 1 : -1),
+                        medias.length
+                    );
+                    
+                    el.setAttribute('data-index', newIndex.toString());
+                    el.setAttribute('src', medias[newIndex]);
+                }
+            }
+        }).time(incr);
+
+        Observer.create({
+            target: window,
+            type: "wheel,touch",
+            onChange: (e) => {
+                const divider = e.event.type === "touchmove" ? 500 : 1000;
+                deltaTo((e.deltaY || 0) / divider);
+            },
+            onStop: () => {
+                deltaTo(0);
+            }
+        });
+    });
+    return () => ctx.revert();
+  }, []);
 
   // Rotating Circle Gallery GSAP Logic (mwg_effect007)
   useEffect(() => {
@@ -419,21 +498,63 @@ export const Plantilla01: React.FC = () => {
 
           <main className="px-6 md:px-12 lg:px-24 pt-32 pb-24 max-w-7xl mx-auto flex flex-col gap-48 md:gap-64">
             
-            {/* Hero Section (Light) */}
-            <section className="theme-section flex flex-col items-center text-center gap-8" data-theme="light">
-              <h1 className="animated-title text-5xl md:text-7xl lg:text-9xl tracking-tighter font-light transition-colors duration-1000"
-              >
-                Hola, soy <span className="font-semibold text-6xl md:text-8xl lg:text-[140px]">Laura</span>
-              </h1>
-              <p className="animated-p text-lg md:text-xl text-black/60 dark:text-white/60 max-w-2xl font-light transition-colors duration-1000">
-                Creadora de contenido enfocada en estilo de vida, moda y experiencias auténticas. 
-                Ayudo a marcas a conectar con su audiencia de forma natural.
-              </p>
-              <div className="w-full aspect-[21/9] md:aspect-[21/9] bg-gray-100 dark:bg-neutral-900 rounded-3xl mt-8 overflow-hidden relative group transition-colors duration-1000">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-black/30 dark:text-white/30 font-medium transition-colors duration-1000">Portada principal (Video / Imagen)</span>
+            {/* Hero GSAP Effect 050 (Light) */}
+            <section className="theme-section mwg_effect050 w-full relative mb-16" data-theme="light">
+                <style>{`
+                  .mwg_effect050 {
+                      width: 100vw;
+                      position: relative;
+                      left: 50%;
+                      right: 50%;
+                      margin-left: -50vw;
+                      margin-right: -50vw;
+                      height: 100vh;
+                  }
+                  .mwg_effect050 .container-zoom {
+                      position: relative;
+                      z-index: 1;
+                      height: 100vh;
+                      width: 100%;
+                      display: block;
+                      overflow: hidden;
+                  }
+                  .mwg_effect050 .real-image {
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      width: 100%;
+                      height: 100%;
+                      transform: scale(0, 0);
+                      object-fit: cover;
+                      will-change: transform;
+                  }
+                  .mwg_effect050 .medias img {
+                      position: absolute;
+                      width: 1px;
+                      height: 1px;
+                      top: 0;
+                      left: 0;
+                      pointer-events: none;
+                      visibility: hidden;
+                  }
+                `}</style>
+                <div className="medias">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80" alt="" />
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&q=80" alt="" />
+                    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1600&q=80" alt="" />
+                    <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=1600&q=80" alt="" />
+                    <img src="https://images.unsplash.com/photo-1534126511673-b6899657816a?w=1600&q=80" alt="" />
                 </div>
-              </div>
+                <div className="container-zoom" aria-hidden="true">
+                    <img src="" className="real-image" />
+                    <img src="" className="real-image" />
+                    <img src="" className="real-image" />
+                    <img src="" className="real-image" />
+                    <img src="" className="real-image" />
+                    <img src="" className="real-image" />
+                    <img src="" className="real-image" />
+                    <img src="" className="real-image" />
+                </div>
             </section>
 
             {/* About Me Accordion (Light) */}
