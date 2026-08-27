@@ -184,8 +184,8 @@ export const Plantilla01: React.FC = () => {
                 <img src="/collabs/adidas-13.svg" alt="adidas-13" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/chanel-2.svg" alt="chanel-2" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/dji-1.svg" alt="dji-1" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
-                <img src="/collabs/l-oreal-3.svg" alt="l-oreal-3" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
-                <img src="/collabs/la-roche-posay-logo-1.svg" alt="la-roche-posay-logo-1" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/loreal.svg" alt="loreal" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/la-roche-posay.svg" alt="la-roche-posay" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/samsung-8.svg" alt="samsung-8" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/spotify-logo.svg" alt="spotify-logo" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/vichy-laboratoires.svg" alt="vichy-laboratoires" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
