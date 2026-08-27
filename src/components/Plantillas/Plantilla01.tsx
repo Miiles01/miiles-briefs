@@ -8,7 +8,7 @@ export const Plantilla01: React.FC = () => {
       {/* Floating Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center pointer-events-none">
         <div className="pointer-events-auto mix-blend-difference text-white">
-          <span className="text-xl font-medium tracking-tight uppercase">Laura.</span>
+          <span className="text-xl font-medium tracking-tight ">Laura.</span>
         </div>
         <button className="pointer-events-auto w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-md flex items-center justify-center hover:scale-105 transition-transform mix-blend-difference text-white">
           <Menu className="w-5 h-5" />
