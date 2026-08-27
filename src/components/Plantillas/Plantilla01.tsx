@@ -443,16 +443,13 @@ export const Plantilla01: React.FC = () => {
             )}
           </AnimatePresence>
 
-          <main className="px-6 md:px-12 lg:px-24 pt-32 pb-24 max-w-7xl mx-auto flex flex-col gap-48 md:gap-64">
-            
-            {/* Hero GSAP Effect 050 (Finite Scroll Zoom) */}
-            <section className="theme-section mwg_effect050 w-full relative mb-16 rounded-3xl overflow-hidden" data-theme="light">
+                      {/* Hero GSAP Effect 050 (Finite Scroll Zoom) */}
+            <section className="theme-section mwg_effect050 w-full relative" data-theme="light">
                 <style>{`
                   .mwg_effect050 {
-                      width: 100%;
+                      width: 100vw;
                       position: relative;
-                      height: calc(100vh - 8rem); /* 100vh bounded by navbar padding */
-                      min-height: 600px;
+                      height: 100vh;
                       background: #000;
                   }
                   .mwg_effect050 .container-zoom {
@@ -483,6 +480,10 @@ export const Plantilla01: React.FC = () => {
                     <img src="https://images.unsplash.com/photo-1534126511673-b6899657816a?w=1600&q=80" className="real-image zoom-layer" style={{zIndex: 5, transform: 'scale(0)'}} alt="Hero 5" />
                 </div>
             </section>
+
+          <main className="px-6 md:px-12 lg:px-24 pt-32 pb-24 max-w-7xl mx-auto flex flex-col gap-48 md:gap-64">
+            
+            
 
             {/* About Me Accordion (Light) */}
             <section id="sobre-mi" className="theme-section flex flex-col gap-8 w-full" data-theme="light">
