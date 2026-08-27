@@ -17,79 +17,26 @@ export const Plantilla01: React.FC = () => {
 
 
 
-  // Infinite Image Zoom GSAP Logic (mwg_effect050)
+  // Finite Image Zoom GSAP Logic (mwg_effect050)
   useEffect(() => {
     let ctx = gsap.context(() => {
-        let incr = 800000, zIndex = 0, newIndex = 0;
-        const settings = { delta: 0 };
-        const medias: string[] = [];
-        const realImages = document.querySelectorAll('.mwg_effect050 .real-image');
-
-        if (!realImages.length) return;
-
-        document.querySelectorAll('.mwg_effect050 .medias img').forEach(img => {
-            medias.push(img.getAttribute('src') || '');
-        });
-
-        realImages.forEach(image => {
-            image.setAttribute('data-index', zIndex.toString());
-            image.setAttribute('src', medias[zIndex % medias.length]);
-            zIndex++;
-        });
-
-        const mod = (n: number, m: number) => ((n % m) + m) % m;
-
-        const tl = gsap.timeline({ paused: true });
-
-        const deltaTo = gsap.quickTo(settings, 'delta', { 
-            duration: 2, 
-            ease: "power1",
-            onUpdate: () => {
-                incr += settings.delta;
-                tl.time(incr);
-            }
-        });
-
-        tl.to(realImages, {
-            scale: 1.005,
-            ease: "expo.inOut",
-            duration: 8,
-            stagger: {
-                each: 1,
-                repeat: -1,
-                onRepeat() {
-                    const el = this.targets()[0] as HTMLElement;
-                    const movingForward = settings.delta >= 0;
-                    
-                    zIndex += movingForward ? 1 : -1;
-                    el.style.zIndex = movingForward ? zIndex.toString() : (zIndex - (realImages.length - 1)).toString();
-                    
-                    const referenceEl = (movingForward 
-                        ? el.previousElementSibling || realImages[realImages.length - 1]
-                        : el.nextElementSibling || realImages[0]) as HTMLElement;
-                        
-                    newIndex = mod(
-                        parseInt(referenceEl.getAttribute('data-index') || '0') + (movingForward ? 1 : -1),
-                        medias.length
-                    );
-                    
-                    el.setAttribute('data-index', newIndex.toString());
-                    el.setAttribute('src', medias[newIndex]);
-                }
-            }
-        }).time(incr);
-
-        Observer.create({
-            target: window,
-            type: "wheel,touch",
-            onChange: (e) => {
-                const divider = e.event.type === "touchmove" ? 500 : 1000;
-                deltaTo((e.deltaY || 0) / divider);
-            },
-            onStop: () => {
-                deltaTo(0);
-            }
-        });
+        const zoomLayers = document.querySelectorAll('.mwg_effect050 .zoom-layer');
+        const container = document.querySelector('.mwg_effect050');
+        
+        if (zoomLayers.length > 0 && container) {
+            ScrollTrigger.create({
+                trigger: container,
+                start: 'top top',
+                end: '+=400%', // 4 images to zoom through (total 5 images)
+                pin: true,
+                animation: gsap.to(zoomLayers, {
+                    scale: 1,
+                    ease: 'power1.in', // Smooth steady zoom that accelerates slightly at the end
+                    stagger: 1
+                }),
+                scrub: true
+            });
+        }
     });
     return () => ctx.revert();
   }, []);
@@ -498,8 +445,8 @@ export const Plantilla01: React.FC = () => {
 
           <main className="px-6 md:px-12 lg:px-24 pt-32 pb-24 max-w-7xl mx-auto flex flex-col gap-48 md:gap-64">
             
-            {/* Hero GSAP Effect 050 (Light) */}
-            <section className="theme-section mwg_effect050 w-full relative mb-16" data-theme="light">
+            {/* Hero GSAP Effect 050 (Finite Scroll Zoom) */}
+            <section className="theme-section mwg_effect050 w-full relative -mt-32" data-theme="light">
                 <style>{`
                   .mwg_effect050 {
                       width: 100vw;
@@ -509,6 +456,7 @@ export const Plantilla01: React.FC = () => {
                       margin-left: -50vw;
                       margin-right: -50vw;
                       height: 100vh;
+                      background: #000;
                   }
                   .mwg_effect050 .container-zoom {
                       position: relative;
@@ -524,36 +472,18 @@ export const Plantilla01: React.FC = () => {
                       left: 0;
                       width: 100%;
                       height: 100%;
-                      transform: scale(0, 0);
                       object-fit: cover;
                       will-change: transform;
-                  }
-                  .mwg_effect050 .medias img {
-                      position: absolute;
-                      width: 1px;
-                      height: 1px;
-                      top: 0;
-                      left: 0;
-                      pointer-events: none;
-                      visibility: hidden;
+                      transform-origin: center center;
                   }
                 `}</style>
-                <div className="medias">
-                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80" alt="" />
-                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&q=80" alt="" />
-                    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1600&q=80" alt="" />
-                    <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=1600&q=80" alt="" />
-                    <img src="https://images.unsplash.com/photo-1534126511673-b6899657816a?w=1600&q=80" alt="" />
-                </div>
-                <div className="container-zoom" aria-hidden="true">
-                    <img src="" className="real-image" />
-                    <img src="" className="real-image" />
-                    <img src="" className="real-image" />
-                    <img src="" className="real-image" />
-                    <img src="" className="real-image" />
-                    <img src="" className="real-image" />
-                    <img src="" className="real-image" />
-                    <img src="" className="real-image" />
+                
+                <div className="container-zoom">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80" className="real-image" style={{zIndex: 1, transform: 'scale(1)'}} alt="Hero 1" />
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&q=80" className="real-image zoom-layer" style={{zIndex: 2, transform: 'scale(0)'}} alt="Hero 2" />
+                    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1600&q=80" className="real-image zoom-layer" style={{zIndex: 3, transform: 'scale(0)'}} alt="Hero 3" />
+                    <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=1600&q=80" className="real-image zoom-layer" style={{zIndex: 4, transform: 'scale(0)'}} alt="Hero 4" />
+                    <img src="https://images.unsplash.com/photo-1534126511673-b6899657816a?w=1600&q=80" className="real-image zoom-layer" style={{zIndex: 5, transform: 'scale(0)'}} alt="Hero 5" />
                 </div>
             </section>
 
