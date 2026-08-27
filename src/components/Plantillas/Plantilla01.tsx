@@ -44,12 +44,12 @@ export const Plantilla01: React.FC = () => {
             </button>
           </nav>
 
-          <main className="px-6 md:px-12 lg:px-24 pt-32 pb-24 max-w-7xl mx-auto flex flex-col gap-32">
+          <main className="px-6 md:px-12 lg:px-24 pt-32 pb-24 max-w-7xl mx-auto flex flex-col gap-48 md:gap-64">
             
             {/* Hero Section (Light) */}
             <section className="theme-section flex flex-col items-center text-center gap-8" data-theme="light">
               <h1 className="text-5xl md:text-7xl lg:text-9xl tracking-tighter font-light transition-colors duration-1000">
-                Hola, soy <span className="font-welth text-6xl md:text-8xl lg:text-[140px]">Laura</span>
+                Hola, soy <span className="font-semibold text-6xl md:text-8xl lg:text-[140px]">Laura</span>
               </h1>
               <p className="text-lg md:text-xl text-black/60 dark:text-white/60 max-w-2xl font-light transition-colors duration-1000">
                 Creadora de contenido enfocada en estilo de vida, moda y experiencias auténticas. 
@@ -71,7 +71,7 @@ export const Plantilla01: React.FC = () => {
               </div>
               <div className="flex flex-col gap-6">
                 <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
-                  Un poco sobre <span className="font-welth text-4xl md:text-6xl">mí</span>
+                  Un poco sobre <span className="font-semibold text-4xl md:text-6xl">mí</span>
                 </h2>
                 <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed font-light transition-colors duration-1000">
                   Llevo más de 4 años creando contenido digital, buscando siempre la estética perfecta sin perder la esencia real de los momentos. Me apasiona contar historias visuales que inspiren.
@@ -86,7 +86,7 @@ export const Plantilla01: React.FC = () => {
             <section className="theme-section flex flex-col gap-12" data-theme="dark">
               <div className="flex justify-between items-end">
                 <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
-                  Contenido en <span className="font-welth text-4xl md:text-6xl">movimiento</span>
+                  Contenido en <span className="font-semibold text-4xl md:text-6xl">movimiento</span>
                 </h2>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -102,7 +102,7 @@ export const Plantilla01: React.FC = () => {
             {/* Clients / Brands (Dark) */}
             <section className="theme-section flex flex-col gap-12 items-center text-center" data-theme="dark">
               <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
-                Marcas que <span className="font-welth text-4xl md:text-6xl">confían</span>
+                Marcas que <span className="font-semibold text-4xl md:text-6xl">confían</span>
               </h2>
               <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60">
                 {[1, 2, 3, 4, 5].map((item) => (
@@ -116,7 +116,7 @@ export const Plantilla01: React.FC = () => {
             {/* Portfolio Gallery (Light) */}
             <section className="theme-section flex flex-col gap-12" data-theme="light">
                <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
-                  Dirección de <span className="font-welth text-4xl md:text-6xl">arte</span>
+                  Dirección de <span className="font-semibold text-4xl md:text-6xl">arte</span>
                 </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 aspect-[4/3] bg-gray-100 dark:bg-neutral-900 rounded-3xl flex items-center justify-center transition-colors duration-1000">
@@ -140,7 +140,7 @@ export const Plantilla01: React.FC = () => {
             {/* Testimonials (Dark) */}
             <section className="theme-section flex flex-col gap-12" data-theme="dark">
               <h2 className="text-3xl md:text-5xl font-light tracking-tight text-center transition-colors duration-1000">
-                Lo que <span className="font-welth text-4xl md:text-6xl">dicen</span>
+                Lo que <span className="font-semibold text-4xl md:text-6xl">dicen</span>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="p-8 md:p-12 bg-gray-50 dark:bg-neutral-900/50 rounded-3xl flex flex-col gap-6 transition-colors duration-1000">
@@ -167,10 +167,10 @@ export const Plantilla01: React.FC = () => {
           </main>
 
           {/* Footer CTA (Dark) */}
-          <footer className="theme-section bg-[#08080a] text-white py-24 px-6 md:px-12 mt-12 rounded-t-[3rem] transition-colors duration-1000" data-theme="dark">
+          <footer className="theme-section bg-[#08080a] text-white py-32 px-6 md:px-12 mt-32 rounded-t-[4rem] transition-colors duration-1000" data-theme="dark">
             <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-10">
               <h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tighter font-light">
-                Vamos a <span className="font-welth text-6xl md:text-8xl lg:text-9xl">colaborar</span>
+                Vamos a <span className="font-semibold text-6xl md:text-8xl lg:text-9xl">colaborar</span>
               </h2>
               <p className="text-lg md:text-xl opacity-70 font-light max-w-xl">
                 ¿Tienes un proyecto en mente o quieres que tu marca destaque con contenido auténtico? Hablemos.
