@@ -32,11 +32,15 @@ export const Plantilla01: React.FC = () => {
           });
 
           gsap.fromTo(circles, {
-            rotation: 30
+            rotation: (i) => {
+              if (i === 0) return 0;   // First image already centered
+              if (i === 1) return 18;  // Second image peeking from the right
+              return 30;               // Rest hidden further right
+            }
           }, {
             rotation: -30,
             ease: 'power2.inOut',
-            stagger: 0.06,
+            stagger: 0.08,             // Slightly increased stagger for better pacing
             scrollTrigger: {
               trigger: pinHeight,
               start: 'top top',
