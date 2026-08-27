@@ -83,7 +83,7 @@ export const Plantilla01: React.FC = () => {
   return (
     <PortfolioSmoothScroll>
       <div className={`${theme}`}>
-        <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-1000 ease-in-out relative">
+        <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-dmsans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-1000 ease-in-out relative">
           
           {/* Floating Navbar */}
           <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center pointer-events-none">

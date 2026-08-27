@@ -9,6 +9,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Poppins', 'Manrope', 'system-ui', 'sans-serif'],
+        dmsans: ['"DM Sans"', 'sans-serif'],
         welth: ['WelthCatritz', 'Welth Catritz', 'serif'],
         editorial: ['WelthCatritz', 'Welth Catritz', 'serif'],
       },
