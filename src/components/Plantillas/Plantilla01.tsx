@@ -446,22 +446,19 @@ export const Plantilla01: React.FC = () => {
           <main className="px-6 md:px-12 lg:px-24 pt-32 pb-24 max-w-7xl mx-auto flex flex-col gap-48 md:gap-64">
             
             {/* Hero GSAP Effect 050 (Finite Scroll Zoom) */}
-            <section className="theme-section mwg_effect050 w-full relative -mt-32" data-theme="light">
+            <section className="theme-section mwg_effect050 w-full relative mb-16 rounded-3xl overflow-hidden" data-theme="light">
                 <style>{`
                   .mwg_effect050 {
-                      width: 100vw;
+                      width: 100%;
                       position: relative;
-                      left: 50%;
-                      right: 50%;
-                      margin-left: -50vw;
-                      margin-right: -50vw;
-                      height: 100vh;
+                      height: calc(100vh - 8rem); /* 100vh bounded by navbar padding */
+                      min-height: 600px;
                       background: #000;
                   }
                   .mwg_effect050 .container-zoom {
                       position: relative;
                       z-index: 1;
-                      height: 100vh;
+                      height: 100%;
                       width: 100%;
                       display: block;
                       overflow: hidden;
