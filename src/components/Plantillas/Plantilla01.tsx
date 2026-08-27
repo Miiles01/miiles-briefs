@@ -108,9 +108,13 @@ export const Plantilla01: React.FC = () => {
             
             {/* Hero Section (Light) */}
             <section className="theme-section flex flex-col items-center text-center gap-8" data-theme="light">
-              <h1 className="text-5xl md:text-7xl lg:text-9xl tracking-tighter font-light transition-colors duration-1000">
+              <motion.h1 className="text-5xl md:text-7xl lg:text-9xl tracking-tighter font-light transition-colors duration-1000"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 Hola, soy <span className="font-semibold text-6xl md:text-8xl lg:text-[140px]">Laura</span>
-              </h1>
+              </motion.h1>
               <p className="text-lg md:text-xl text-black/60 dark:text-white/60 max-w-2xl font-light transition-colors duration-1000">
                 Creadora de contenido enfocada en estilo de vida, moda y experiencias auténticas. 
                 Ayudo a marcas a conectar con su audiencia de forma natural.
@@ -130,9 +134,13 @@ export const Plantilla01: React.FC = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-6">
-                <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
+                <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                   Un poco sobre <span className="font-semibold text-4xl md:text-6xl">mí</span>
-                </h2>
+                </motion.h2>
                 <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed font-light transition-colors duration-1000">
                   Llevo más de 4 años creando contenido digital, buscando siempre la estética perfecta sin perder la esencia real de los momentos. Me apasiona contar historias visuales que inspiren.
                 </p>
@@ -145,9 +153,13 @@ export const Plantilla01: React.FC = () => {
             {/* Reels / Video Content (Dark) */}
             <section id="contenidos" className="theme-section flex flex-col gap-12" data-theme="dark">
               <div className="flex justify-between items-end">
-                <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
+                <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                   Contenido en <span className="font-semibold text-4xl md:text-6xl">movimiento</span>
-                </h2>
+                </motion.h2>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 {[1, 2, 3, 4].map((item) => (
@@ -161,9 +173,13 @@ export const Plantilla01: React.FC = () => {
 
             {/* Clients / Brands (Dark) */}
             <section id="clientes" className="theme-section flex flex-col gap-12 items-center text-center" data-theme="dark">
-              <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
+              <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 Marcas que <span className="font-semibold text-4xl md:text-6xl">confían</span>
-              </h2>
+              </motion.h2>
               <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60">
                 {[1, 2, 3, 4, 5].map((item) => (
                   <div key={item} className="w-24 h-12 bg-black/5 dark:bg-white/5 rounded-lg flex items-center justify-center transition-colors duration-1000">
@@ -175,9 +191,13 @@ export const Plantilla01: React.FC = () => {
 
             {/* Portfolio Gallery (Light) */}
             <section className="theme-section flex flex-col gap-12" data-theme="light">
-               <h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000">
+               <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                   Dirección de <span className="font-semibold text-4xl md:text-6xl">arte</span>
-                </h2>
+                </motion.h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 aspect-[4/3] bg-gray-100 dark:bg-neutral-900 rounded-3xl flex items-center justify-center transition-colors duration-1000">
                   <span className="text-black/30 dark:text-white/30 font-medium transition-colors duration-1000">Fotografía destacada</span>
@@ -199,9 +219,13 @@ export const Plantilla01: React.FC = () => {
 
             {/* Testimonials (Dark) */}
             <section className="theme-section flex flex-col gap-12" data-theme="dark">
-              <h2 className="text-3xl md:text-5xl font-light tracking-tight text-center transition-colors duration-1000">
+              <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight text-center transition-colors duration-1000"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 Lo que <span className="font-semibold text-4xl md:text-6xl">dicen</span>
-              </h2>
+              </motion.h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="p-8 md:p-12 bg-gray-50 dark:bg-neutral-900/50 rounded-3xl flex flex-col gap-6 transition-colors duration-1000">
                   <p className="text-lg md:text-xl font-light italic leading-relaxed text-black/80 dark:text-white/80 transition-colors duration-1000">
@@ -229,9 +253,13 @@ export const Plantilla01: React.FC = () => {
           {/* Footer CTA (Dark) */}
           <footer id="contacto" className="theme-section bg-[#08080a] text-white py-32 px-6 md:px-12 mt-32 rounded-t-[4rem] transition-colors duration-1000" data-theme="dark">
             <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-10">
-              <h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tighter font-light">
+              <motion.h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tighter font-light"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 Vamos a <span className="font-semibold text-6xl md:text-8xl lg:text-9xl">colaborar</span>
-              </h2>
+              </motion.h2>
               <p className="text-lg md:text-xl opacity-70 font-light max-w-xl">
                 ¿Tienes un proyecto en mente o quieres que tu marca destaque con contenido auténtico? Hablemos.
               </p>
