@@ -1,9 +1,11 @@
 import React from 'react';
 import { Menu, Instagram, Twitter, Mail, Play } from 'lucide-react';
+import { PortfolioSmoothScroll } from '../Portfolio/PortfolioSmoothScroll';
 
 export const Plantilla01: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <PortfolioSmoothScroll>
+      <div className="min-h-screen bg-white dark:bg-[#08080a] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
       
       {/* Floating Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center pointer-events-none">
@@ -170,5 +172,6 @@ export const Plantilla01: React.FC = () => {
       </footer>
 
     </div>
+    </PortfolioSmoothScroll>
   );
 };
