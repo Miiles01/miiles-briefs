@@ -180,7 +180,7 @@ export const Plantilla01: React.FC = () => {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 Marcas que <span className="font-semibold text-4xl md:text-6xl">confían</span>
               </motion.h2>
-              <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16 w-full max-w-5xl">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-12 md:gap-16 place-items-center w-full max-w-4xl mx-auto">
                 <img src="/collabs/adidas-13.svg" alt="adidas-13" className="h-14 md:h-20 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/chanel-2.svg" alt="chanel-2" className="h-14 md:h-20 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/dji-1.svg" alt="dji-1" className="h-12 md:h-16 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
@@ -189,7 +189,7 @@ export const Plantilla01: React.FC = () => {
                 <img src="/collabs/samsung-8.svg" alt="samsung-8" className="h-6 md:h-8 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/spotify-logo.svg" alt="spotify-logo" className="h-8 md:h-10 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/vichy-laboratoires.svg" alt="vichy-laboratoires" className="h-16 md:h-24 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
-                <img src="/collabs/zoah-1.svg" alt="zoah-1" className="h-12 md:h-16 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/zoah-1.svg" alt="zoah-1" className="col-span-2 md:col-span-1 h-12 md:h-16 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
               </div>
             </section>
 
