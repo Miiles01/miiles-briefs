@@ -79,20 +79,37 @@ export const Plantilla01: React.FC = () => {
   // Rolling Letters Title GSAP Logic (mwg_effect027)
   useEffect(() => {
     let ctx = gsap.context(() => {
-      gsap.to('.letter-effect', {
-        yPercent: 100,
-        ease: 'power1.inOut',
-        scrollTrigger: {
-          trigger: '.mwg_effect027',
-          start: 'top 85%',
-          end: 'bottom 30%',
-          scrub: 1
-        },
-        stagger: {
-          each: 0.05,
-          from: 'random'
-        }
-      });
+      if (window.innerWidth >= 768) {
+        // Desktop: Rolling letters, play once
+        gsap.to('.letter-effect', {
+          yPercent: 100,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.mwg_effect027',
+            start: 'top 85%',
+            once: true // Trigger only once, no scrub
+          },
+          stagger: {
+            each: 0.03,
+            from: 'random'
+          }
+        });
+      } else {
+        // Mobile: Simple fade up (disable rolling letters)
+        gsap.from('.mwg_effect027 li', {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.mwg_effect027',
+            start: 'top 85%',
+            once: true
+          }
+        });
+      }
     });
     return () => ctx.revert();
   }, []);
