@@ -110,7 +110,7 @@ export const Plantilla01: React.FC = () => {
                 className="fixed top-20 right-6 left-6 md:left-auto md:w-72 bg-white/90 dark:bg-black/90 backdrop-blur-2xl border border-black/5 dark:border-white/10 rounded-3xl p-8 shadow-2xl z-50 flex flex-col gap-6"
               >
                 <div className="flex flex-col gap-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-black/40 dark:text-white/40 mb-2">Menú</p>
+                  <p className="text-xs font-semibold tracking-widest text-black/40 dark:text-white/40 mb-2">Menú</p>
                   {navLinks.map((link, i) => (
                     <motion.a
                       key={link.id}
@@ -119,19 +119,24 @@ export const Plantilla01: React.FC = () => {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 + i * 0.05 }}
-                      className="text-3xl font-light hover:pl-4 transition-all duration-300"
+                      className="text-3xl font-light hover:translate-x-2 transition-transform duration-300 inline-block"
                     >
                       {link.name}
                     </motion.a>
                   ))}
                 </div>
-                <div className="mt-4 pt-6 border-t border-black/5 dark:border-white/10 flex gap-4">
-                  <a href="#" className="p-3 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                    <Instagram className="w-5 h-5" />
+                <div className="mt-4 pt-6 border-t border-black/5 dark:border-white/10 flex flex-col gap-6">
+                  <a href="mailto:hola@lauracreativa.com" className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                    hola@lauracreativa.com
                   </a>
-                  <a href="#" className="p-3 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                    <Twitter className="w-5 h-5" />
-                  </a>
+                  <div className="flex gap-4">
+                    <a href="#" className="p-3 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                      <Instagram className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="p-3 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                      <Twitter className="w-5 h-5" />
+                    </a>
+                  </div>
                 </div>
               </motion.div>
             )}
