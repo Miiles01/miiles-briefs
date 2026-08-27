@@ -220,8 +220,8 @@ export const Plantilla01: React.FC = () => {
                 <img src="/collabs/vogue.svg" alt="vogue" className="h-8 md:h-10 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/versace.svg" alt="versace" className="h-8 md:h-10 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
                 <img src="/collabs/pull-bear-2.svg" alt="pull-bear-2" className="h-6 md:h-8 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
-                <img src="/collabs/bershka-1.svg" alt="bershka-1" className="h-6 md:h-8 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
-                <img src="/collabs/shein.svg" alt="shein" className="col-span-2 md:col-span-1 h-8 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/bershka-1.svg" alt="bershka-1" className="h-8 md:h-10 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/shein.svg" alt="shein" className="col-span-2 md:col-span-1 h-6 md:h-10 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
               </div>
             </section>
 
