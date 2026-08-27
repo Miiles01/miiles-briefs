@@ -171,8 +171,8 @@ export const Plantilla01: React.FC = () => {
               </div>
             </section>
 
-            {/* Clients / Brands (Dark) */}
-            <section id="clientes" className="theme-section flex flex-col gap-12 items-center text-center" data-theme="dark">
+            {/* Clients / Brands (Light) */}
+            <section id="clientes" className="theme-section flex flex-col gap-16 items-center text-center" data-theme="light">
               <motion.h2 className="text-3xl md:text-5xl font-light tracking-tight transition-colors duration-1000"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -180,12 +180,16 @@ export const Plantilla01: React.FC = () => {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
                 Marcas que <span className="font-semibold text-4xl md:text-6xl">confían</span>
               </motion.h2>
-              <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60">
-                {[1, 2, 3, 4, 5].map((item) => (
-                  <div key={item} className="w-24 h-12 bg-black/5 dark:bg-white/5 rounded-lg flex items-center justify-center transition-colors duration-1000">
-                    <span className="text-xs font-medium transition-colors duration-1000">Marca {item}</span>
-                  </div>
-                ))}
+              <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16 w-full max-w-5xl">
+                <img src="/collabs/adidas-13.svg" alt="adidas-13" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/chanel-2.svg" alt="chanel-2" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/dji-1.svg" alt="dji-1" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/l-oreal-3.svg" alt="l-oreal-3" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/la-roche-posay-logo-1.svg" alt="la-roche-posay-logo-1" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/samsung-8.svg" alt="samsung-8" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/spotify-logo.svg" alt="spotify-logo" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/vichy-laboratoires.svg" alt="vichy-laboratoires" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
+                <img src="/collabs/zoah-1.svg" alt="zoah-1" className="h-10 md:h-12 w-auto object-contain brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-500" />
               </div>
             </section>
 
