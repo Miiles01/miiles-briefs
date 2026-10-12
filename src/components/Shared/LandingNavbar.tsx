@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-/* Navbar animado: la píldora se ensancha y su cuerpo crece de 0 a su alto real;
+/* Navbar animado (mismo que miiles.app): la píldora se ensancha y su cuerpo crece de 0 a su alto real;
    cada opción sube desde el borde recortado, escalonada cada 40ms, sin fades. */
 const ITEM_STAGGER_MS = 40;
 const OPEN_MAX_WIDTH = 1024;
@@ -56,20 +56,27 @@ const LandingNavbar = ({ isLanding }: LandingNavbarProps) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isLanding]);
 
-  // Ancho natural de la píldora cerrada (logo + Menú); el ancho no se puede animar
-  // desde "auto", así que se mide y se anima entre números.
+  // Ancho natural de la píldora cerrada (logo + Menú + Unirse); el ancho no se puede
+  // animar desde "auto", así que se mide y se anima entre números. Se vuelve a medir
+  // cuando cargan el logo o la tipografía (si no, el logo cuenta 0px y la píldora queda chica).
+  const openRef = useRef(open);
+  openRef.current = open;
   useLayoutEffect(() => {
     const el = barContentRef.current;
     if (!el) return;
     const measure = () => {
+      if (openRef.current) return; // abierto cambia el padding: solo se mide cerrado
       const cs = getComputedStyle(el);
       const pieces = Array.from(el.children).reduce((sum, child) => sum + (child as HTMLElement).offsetWidth, 0);
       const gaps = parseFloat(cs.columnGap || "0") * Math.max(el.children.length - 1, 0);
       setClosedWidth(Math.ceil(pieces + gaps + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)) + 2);
     };
     measure();
+    const ro = new ResizeObserver(measure);
+    Array.from(el.children).forEach((child) => ro.observe(child));
     const fonts = (document as Document & { fonts?: { ready: Promise<unknown> } }).fonts;
     fonts?.ready.then(measure);
+    return () => ro.disconnect();
   }, []);
 
   const close = useCallback(() => setOpen(false), []);
@@ -98,7 +105,10 @@ const LandingNavbar = ({ isLanding }: LandingNavbarProps) => {
 
   return (
     <>
-      <header className="fixed top-6 inset-x-0 z-[100] flex justify-center pointer-events-none">
+      <header
+        className="fixed top-6 inset-x-0 z-[100] flex justify-center pointer-events-none"
+        style={{ fontFamily: "'Manrope', system-ui, sans-serif" }}
+      >
         <div
           onClick={handleSurfaceClick}
           className={`pointer-events-auto cursor-pointer overflow-hidden backdrop-blur-2xl border transition-[width,border-radius,background-color,border-color,box-shadow] ${morph} ${
@@ -123,15 +133,26 @@ const LandingNavbar = ({ isLanding }: LandingNavbarProps) => {
               />
             </Link>
 
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              aria-controls="miiles-menu"
-              className={`text-sm font-normal tracking-tight hover:opacity-50 transition-[color,opacity] shrink-0 ${morph} ${ink}`}
-            >
-              {open ? "Cerrar" : "Menú"}
-            </button>
+            <div className="flex items-center gap-4 md:gap-6 shrink-0">
+              <button
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                aria-expanded={open}
+                aria-controls="miiles-menu"
+                className={`text-sm font-normal tracking-tight hover:opacity-50 transition-[color,opacity] ${morph} ${ink}`}
+              >
+                {open ? "Cerrar" : "Menú"}
+              </button>
+              <a
+                href="https://miiles.app/login"
+                onClick={close}
+                className={`text-xs font-normal px-5 py-2.5 rounded-full transition-[background-color,color,transform] ${morph} hover:scale-105 ${
+                  dark ? "bg-white text-black" : "bg-black text-white"
+                }`}
+              >
+                Unirse
+              </a>
+            </div>
           </div>
 
           {/* Cuerpo: crece de 0 a su alto real (grid 0fr → 1fr) */}

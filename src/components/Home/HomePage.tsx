@@ -93,7 +93,7 @@ export const HomePage = () => {
                 custom={1}
                 className="mt-6 md:mt-8 text-base sm:text-lg md:text-xl font-light text-black/70 leading-relaxed max-w-2xl [text-wrap:balance]"
               >
-                En We Are Miiles diseñamos identidad, desarrollamos sitios web y construimos agentes con
+                En Miiles diseñamos identidad, desarrollamos sitios web y construimos agentes con
                 inteligencia artificial para marcas que buscan autenticidad y escalabilidad.
               </motion.p>
 
