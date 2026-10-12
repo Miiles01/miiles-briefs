@@ -91,7 +91,6 @@ export const portfolioProjects: Record<string, PortfolioProject> = {
       { src: "elementos-visuales.webp", alt: "Miiles — Visual Elements", aspect: "wide" },
       { src: "iconos.webp", alt: "Miiles — Iconography", aspect: "wide" },
       { src: "mockup-app-web.webp", alt: "Miiles — Web App Mockup", aspect: "wide" },
-      { src: "mockup-app-web-2.webp", alt: "Miiles — Web App Mockup 2", aspect: "wide" },
       { src: "elementos-visuales-y-mockups-de-la-app-web.webp", alt: "Miiles — Visual Elements & Mockups", aspect: "wide" },
     ],
     participation: [
