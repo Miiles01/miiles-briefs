@@ -20,7 +20,7 @@ export const MobileProjectHint = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 50, scale: 0.9 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[320px]"
+          className="fixed bottom-6 inset-x-0 mx-auto z-50 md:hidden w-[90%] max-w-[320px]"
         >
           <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-neutral-200/80 flex items-start gap-3">
             <div className="w-8 h-8 rounded-full bg-miiles-blue/10 flex items-center justify-center shrink-0">
