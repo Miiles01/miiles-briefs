@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { portfolioProjects } from "../../data/portfolioProjects";
+import { portfolioProjects, ProjectImage as ProjectImageData } from "../../data/portfolioProjects";
 import LandingNavbar from "../Shared/LandingNavbar";
 import LandingFooter from "../Shared/LandingFooter";
 import PortfolioSmoothScroll from "./PortfolioSmoothScroll";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 /* ── Full-width image block with smooth fade-in on scroll and load ── */
-const ProjectImage = ({ src, alt, index }: { src: string; alt: string; index: number }) => {
+const ProjectImage = ({
+  src,
+  alt,
+  index,
+  cta,
+  lang,
+}: {
+  src: string;
+  alt: string;
+  index: number;
+  cta?: ProjectImageData["cta"];
+  lang: "es" | "en";
+}) => {
   const [loaded, setLoaded] = useState(false);
+  const isVideo = src.endsWith(".mp4");
 
   return (
     <motion.div
@@ -22,19 +35,49 @@ const ProjectImage = ({ src, alt, index }: { src: string; alt: string; index: nu
         delay: Math.min(index * 0.05, 0.25),
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="w-full overflow-hidden rounded-2xl md:rounded-3xl bg-neutral-100/60"
+      className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl bg-neutral-100/60"
     >
-      <img
-        src={src}
-        alt={alt}
-        loading={index < 2 ? "eager" : "lazy"}
-        decoding="async"
-        fetchPriority={index === 0 ? "high" : "auto"}
-        onLoad={() => setLoaded(true)}
-        className={`w-full h-auto object-cover transition-opacity duration-1000 ease-out ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
-      />
+      {isVideo ? (
+        <video
+          src={src}
+          aria-label={alt}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          onLoadedData={() => setLoaded(true)}
+          className={`w-full h-auto object-cover transition-opacity duration-1000 ease-out ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      ) : (
+        <img
+          src={src}
+          alt={alt}
+          loading={index < 2 ? "eager" : "lazy"}
+          decoding="async"
+          fetchPriority={index === 0 ? "high" : "auto"}
+          onLoad={() => setLoaded(true)}
+          className={`w-full h-auto object-cover transition-opacity duration-1000 ease-out ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+
+      {cta && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <a
+            href={cta.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pointer-events-auto inline-flex items-center justify-center gap-2 bg-white text-black px-6 md:px-10 py-3 md:py-4 rounded-full text-base md:text-lg font-normal hover:scale-105 transition-transform duration-300 shadow-[0_40px_80px_rgba(0,0,0,0.2)]"
+          >
+            {cta.label[lang]}
+            <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
+          </a>
+        </div>
+      )}
     </motion.div>
   );
 };
@@ -117,7 +160,7 @@ export const ProjectDetail = () => {
 
           {/* Cover image — full bleed */}
           <div className="px-4 md:px-8 lg:px-12 mb-8">
-            <ProjectImage src={basePath + project.images[0].src} alt={project.images[0].alt} index={0} />
+            <ProjectImage src={basePath + project.images[0].src} alt={project.images[0].alt} index={0} cta={project.images[0].cta} lang={lang} />
           </div>
 
           {/* Description block */}
@@ -142,7 +185,7 @@ export const ProjectDetail = () => {
           <div className="space-y-6 md:space-y-8">
             {project.images.slice(1).map((img, idx) => (
               <div key={idx + 1} className="px-4 md:px-8 lg:px-12">
-                <ProjectImage src={basePath + img.src} alt={img.alt} index={idx + 1} />
+                <ProjectImage src={basePath + img.src} alt={img.alt} index={idx + 1} cta={img.cta} lang={lang} />
               </div>
             ))}
           </div>
