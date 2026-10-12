@@ -49,57 +49,6 @@ export interface PortfolioProject {
 }
 
 export const portfolioProjects: Record<string, PortfolioProject> = {
-  miiles: {
-    slug: "miiles",
-    title: "Miiles AI",
-    folder: "Miiles",
-    subtitle: {
-      es: "Plataforma de gestión de talento y reclutamiento inteligente.",
-      en: "Smart talent management and recruitment platform.",
-    },
-    industry: {
-      es: "Inteligencia Artificial y Consultoría de Ventas",
-      en: "Artificial Intelligence & Sales Consulting",
-    },
-    role: {
-      es: "Embudos de Ventas, Estrategia de Identidad de Marca y Automatización con IA",
-      en: "Sales Funnels, Brand Identity Strategy & AI Automation",
-    },
-    description: {
-      es: "Lideramos la creación y escalamiento de la marca mediante soluciones de prospección en frío y embudos de alta conversión impulsados por agentes de IA conversacional. Desarrollamos la identidad visual completa, la arquitectura de ventas y las estrategias de crecimiento multicanal para posicionar a Miiles como referente en automatización comercial.",
-      en: "We led the brand's creation and scaling through cold outreach solutions and high-conversion funnels powered by conversational AI agents. We developed the complete visual identity, sales architecture, and multi-channel growth strategies to position Miiles as a leader in commercial automation.",
-    },
-    previewImages: [
-      "portada-1.webp",
-      "about-miiles.webp",
-      "mockup-app-web.webp",
-    ],
-    images: [
-      { src: "portada-1.webp", alt: "Miiles — Cover", aspect: "wide" },
-      {
-        src: "mockup-miiles-app.jpg",
-        alt: "Miiles — Home de miiles.app en un monitor",
-        aspect: "wide",
-        cta: {
-          label: { es: "Ver página", en: "View site" },
-          href: "https://miiles.app/",
-        },
-      },
-      { src: "about-miiles.webp", alt: "Miiles — About", aspect: "wide" },
-      { src: "logo.webp", alt: "Miiles — Logo", aspect: "wide" },
-      { src: "isotipo.webp", alt: "Miiles — Isotipo", aspect: "wide" },
-      { src: "elementos-visuales.webp", alt: "Miiles — Visual Elements", aspect: "wide" },
-      { src: "iconos.webp", alt: "Miiles — Iconography", aspect: "wide" },
-      { src: "mockup-app-web.webp", alt: "Miiles — Web App Mockup", aspect: "wide" },
-      { src: "elementos-visuales-y-mockups-de-la-app-web.webp", alt: "Miiles — Visual Elements & Mockups", aspect: "wide" },
-    ],
-    participation: [
-      { icon: "bar", text: { es: "Embudos de Ventas", en: "Sales Funnels" } },
-      { icon: "star", text: { es: "Estrategia de Identidad de Marca", en: "Brand Identity Strategy" } },
-      { icon: "eye", text: { es: "Automatización con IA", en: "AI Automation" } },
-    ],
-  },
-
   "tapp-telcel": {
     slug: "tapp-telcel",
     title: "Tapp Telcel",
@@ -449,6 +398,57 @@ export const portfolioProjects: Record<string, PortfolioProject> = {
       { icon: "star", text: { es: "Estrategia de Identidad de Marca", en: "Brand Identity Strategy" } },
       { icon: "eye", text: { es: "Diseño Web", en: "Web Design" } },
       { icon: "bar", text: { es: "Estrategia de Redes Sociales", en: "Social Media Strategy" } },
+    ],
+  },
+
+  miiles: {
+    slug: "miiles",
+    title: "Miiles AI",
+    folder: "Miiles",
+    subtitle: {
+      es: "Plataforma de gestión de talento y reclutamiento inteligente.",
+      en: "Smart talent management and recruitment platform.",
+    },
+    industry: {
+      es: "Inteligencia Artificial y Consultoría de Ventas",
+      en: "Artificial Intelligence & Sales Consulting",
+    },
+    role: {
+      es: "Embudos de Ventas, Estrategia de Identidad de Marca y Automatización con IA",
+      en: "Sales Funnels, Brand Identity Strategy & AI Automation",
+    },
+    description: {
+      es: "Lideramos la creación y escalamiento de la marca mediante soluciones de prospección en frío y embudos de alta conversión impulsados por agentes de IA conversacional. Desarrollamos la identidad visual completa, la arquitectura de ventas y las estrategias de crecimiento multicanal para posicionar a Miiles como referente en automatización comercial.",
+      en: "We led the brand's creation and scaling through cold outreach solutions and high-conversion funnels powered by conversational AI agents. We developed the complete visual identity, sales architecture, and multi-channel growth strategies to position Miiles as a leader in commercial automation.",
+    },
+    previewImages: [
+      "portada-1.webp",
+      "about-miiles.webp",
+      "mockup-app-web.webp",
+    ],
+    images: [
+      { src: "portada-1.webp", alt: "Miiles — Cover", aspect: "wide" },
+      {
+        src: "mockup-miiles-app.jpg",
+        alt: "Miiles — Home de miiles.app en un monitor",
+        aspect: "wide",
+        cta: {
+          label: { es: "Ver página", en: "View site" },
+          href: "https://miiles.app/",
+        },
+      },
+      { src: "about-miiles.webp", alt: "Miiles — About", aspect: "wide" },
+      { src: "logo.webp", alt: "Miiles — Logo", aspect: "wide" },
+      { src: "isotipo.webp", alt: "Miiles — Isotipo", aspect: "wide" },
+      { src: "elementos-visuales.webp", alt: "Miiles — Visual Elements", aspect: "wide" },
+      { src: "iconos.webp", alt: "Miiles — Iconography", aspect: "wide" },
+      { src: "mockup-app-web.webp", alt: "Miiles — Web App Mockup", aspect: "wide" },
+      { src: "elementos-visuales-y-mockups-de-la-app-web.webp", alt: "Miiles — Visual Elements & Mockups", aspect: "wide" },
+    ],
+    participation: [
+      { icon: "bar", text: { es: "Embudos de Ventas", en: "Sales Funnels" } },
+      { icon: "star", text: { es: "Estrategia de Identidad de Marca", en: "Brand Identity Strategy" } },
+      { icon: "eye", text: { es: "Automatización con IA", en: "AI Automation" } },
     ],
   },
 
