@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { BriefProvider } from './context/BriefContext';
 import { CatalogPage } from './components/Home/CatalogPage';
+import { HomePage } from './components/Home/HomePage';
 import { BriefRunner } from './components/TypeformRunner/BriefRunner';
 import { AdminDashboard } from './components/Admin/AdminDashboard';
 import { WorkPage } from './components/Portfolio/WorkPage';
@@ -17,7 +18,8 @@ export const App: React.FC = () => {
         <BrowserRouter>
           <Toaster richColors position="top-center" />
           <Routes>
-            <Route path="/" element={<CatalogPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/briefs" element={<CatalogPage />} />
             <Route path="/trabajo" element={<WorkPage />} />
             <Route path="/trabajo/:slug" element={<ProjectDetail />} />
             <Route path="/brief/:slug" element={<BriefRunner />} />
