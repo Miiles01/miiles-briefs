@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laura · Creadora de contenido UGC</title>
+<meta name="description" content="Portafolio de Laura, creadora de contenido UGC: videos y fotos para marcas de belleza, moda y bienestar.">
+<link rel="icon" href="/favicon.png">
+<!--
+  Plantilla UGC V3 — basada en la estructura de la home McCurry (Squarespace Fluid Engine).
+  Tipografías de la plantilla: Italiana (display) + Lato (texto).
+  Una sola página; el navbar navega por ancla entre secciones.
+
+  Orden de secciones:
+   0 Header fijo + wordmark "Laura" (Italiana)
+   1 Imagen a sangre, overlay blanco 15%
+   2 Marcas que confiaron en mí: logos (siempre en la sección 2 o 3)
+   3 Contenido: fondo #f4f4f4, tarjetas verticales (videos y fotos) + etiqueta
+   4 Sobre mí: texto + 2 imágenes a sangre lado a lado
+   5 Testimonios: 3 columnas
+   6 Frase sobre imagen, overlay negro 52%
+   7 Footer / contacto: fondo #6d6559 + wordmark gigante
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --black: #000000;
+    --muted: rgba(0, 0, 0, 0.62);
+    --grey-bg: #f4f4f4;       /* sección Contenido */
+    --footer-bg: #6d6559;     /* footer */
+    --gutter: 32px;
+    --gap: 17px;              /* espacio entre tarjetas */
+    --display: "Italiana", serif;
+    --body: "Lato", sans-serif;
+    --header-h: 83px;
+
+    /* Tokens de movimiento (transitions.dev) */
+    --duration-stagger: 40ms;
+    --duration-quick: 150ms;
+    --duration-fast: 250ms;
+    --duration-very-slow: 500ms;
+    --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --distance-medium: 12px;
+    --blur-medium: 3px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { background: var(--white); color: var(--black); font-family: var(--body); font-size: 12.8px; line-height: 1.6; overflow-x: hidden; }
+  a { color: inherit; }
+  img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .wrap { padding: 0 var(--gutter); }
+
+  /* 0. Header: fijo; transparente sobre el wordmark, blanco al hacer scroll */
+  .header {
+    position: fixed; inset: 0 0 auto 0; z-index: 10;
+    height: var(--header-h);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--gutter);
+    transition: background-color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .header.is-scrolled { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .site-title { font-family: var(--display); font-size: 36px; text-decoration: none; line-height: 1; }
+  .header-nav { display: flex; gap: 22px; }
+  .header-nav a { text-decoration: none; font-size: 14px; letter-spacing: 0.02em; }
+  .header-nav a:hover, .header-nav a.is-active { text-decoration: underline; text-underline-offset: 4px; }
+
+  /* Hero wordmark: ocupa todo el ancho del contenido */
+  .hero-wordmark { padding-top: var(--header-h); height: 362px; display: flex; align-items: center; }
+  .wordmark {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(64px, 26vw, 300px); line-height: 1; white-space: nowrap;
+    width: 100%; text-align: center; overflow: hidden;
+  }
+  .hero-sub { text-align: center; font-size: 16px; color: var(--muted); margin-top: -8px; padding-bottom: 32px; }
+
+  /* 1. Imagen a sangre */
+  .full-image { position: relative; height: 580px; overflow: hidden; }
+  .full-image img { object-position: 40% 55%; }
+  .overlay { position: absolute; inset: 0; pointer-events: none; }
+  .full-image .overlay { background: rgba(255,255,255,.15); }
+
+  /* Encabezado de sección: título a la izquierda, link a la derecha */
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+  .section-head h2 { font-family: var(--display); font-weight: 400; font-size: 36px; line-height: 1.2; }
+  .section-head a { font-size: 18.5px; text-underline-offset: 3px; white-space: nowrap; }
+
+  /* Tarjetas de 3 columnas */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px var(--gap); }
+  .card { display: block; }
+  .card-media { aspect-ratio: 319 / 409; overflow: hidden; background: #d9d6d1; }
+  .card-media > * { transition: transform var(--duration-very-slow) var(--ease-smooth-out); }
+  .card:hover .card-media > * { transform: scale(1.03); }
+  .card-title { font-size: 18.5px; margin-top: 14px; }
+  .card-meta { font-size: 14px; color: var(--muted); }
+
+  /* 2. Contenido */
+  .works { background: var(--grey-bg); padding: 64px 0 90px; }
+
+  /* 3. Sobre mí: dos imágenes que tocan los bordes de la ventana */
+  .services { padding: 96px 0 0; }
+  .about-text { max-width: 640px; font-size: 18.5px; line-height: 1.55; margin: 8px 0 40px; }
+  .about-text p + p { margin-top: 14px; }
+  .services-images { display: grid; grid-template-columns: 1fr 1.08fr; height: 570px; }
+  .services-images img { object-position: 50% 55%; }
+
+  /* 4. Marcas */
+  .brands { padding: 80px 0 96px; }
+  .logos {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 56px 32px; align-items: center; justify-items: center;
+    margin-top: 48px;
+  }
+  .logos img { width: auto; height: 34px; max-width: 140px; object-fit: contain; filter: brightness(0); }
+  .logos img.tall { height: 58px; }
+
+  /* 5. Testimonios */
+  .testimonials { padding: 96px 0 90px; }
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px var(--gap); margin-top: 32px; }
+  .quote-card blockquote { font-family: var(--display); font-size: 24px; line-height: 1.3; }
+  .quote-card figcaption { display: flex; align-items: center; gap: 12px; margin-top: 22px; }
+  .quote-card figcaption img { width: 44px; height: 44px; border-radius: 50%; }
+  .quote-card strong { display: block; font-size: 14px; font-weight: 700; }
+  .quote-card span { font-size: 14px; color: var(--muted); }
+
+  /* 6. Frase sobre imagen */
+  .quote { position: relative; height: 567px; display: grid; place-items: center; color: var(--white); overflow: hidden; }
+  .quote .bg { position: absolute; inset: 0; }
+  .quote .bg img { object-position: 50% 25%; }
+  .quote .overlay { background: rgba(0,0,0,.52); }
+  .quote h3 {
+    position: relative; font-family: var(--display); font-weight: 400;
+    font-size: clamp(32px, 6vw, 63px); line-height: 1.05; text-align: center; max-width: 12em; padding: 0 var(--gutter);
+  }
+
+  /* 7. Footer / contacto */
+  .footer { background: var(--footer-bg); color: var(--white); padding: 35px var(--gutter) 40px; }
+  .footer-top { display: grid; grid-template-columns: 1fr auto; gap: 40px; }
+  .footer h4 { font-size: 14px; font-weight: 700; }
+  .contact p { font-size: 14px; margin-top: 4px; }
+  .contact-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 30px; max-width: 415px; }
+  .contact-actions a {
+    display: inline-flex; align-items: center; padding: 22px 32px;
+    background: var(--white); color: var(--black); text-decoration: none; font-size: 14px;
+    transition: background-color var(--duration-fast) var(--ease-smooth-out), color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .contact-actions a:hover { background: var(--black); color: var(--white); }
+  .contact-actions a.secondary { background: transparent; color: var(--white); box-shadow: inset 0 0 0 1px var(--white); }
+  .contact-actions a.secondary:hover { background: var(--white); color: var(--black); }
+  .footer-nav { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; font-size: 14px; }
+  .footer-nav a { text-underline-offset: 2px; }
+  .footer-credit { margin-top: 3px; opacity: 0.75; }
+  .footer .wordmark { margin-top: 120px; }
+
+  /* Aparición al hacer scroll */
+  .reveal {
+    opacity: 0; transform: translateY(var(--distance-medium)); filter: blur(var(--blur-medium));
+    transition:
+      opacity var(--duration-very-slow) var(--ease-smooth-out),
+      transform var(--duration-very-slow) var(--ease-smooth-out),
+      filter var(--duration-very-slow) var(--ease-smooth-out);
+  }
+  .reveal.is-shown { opacity: 1; transform: none; filter: none; }
+
+  /* Tablet */
+  @media (max-width: 1023px) {
+    .logos { grid-template-columns: repeat(3, 1fr); }
+    .quotes { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    :root { --gutter: 16px; --header-h: 64px; }
+    .site-title { font-size: 30px; }
+    .header-nav { display: none; }
+    .header .menu-toggle { display: inline-flex; }
+    .hero-wordmark { height: auto; padding: calc(var(--header-h) + 40px) 0 24px; }
+    .full-image { height: 60vh; }
+    .cards { grid-template-columns: 1fr 1fr; gap: 28px 12px; }
+    .card-title { font-size: 16px; }
+    .services-images { grid-template-columns: 1fr; height: auto; }
+    .services-images > * { aspect-ratio: 4 / 5; }
+    .works, .services, .brands, .testimonials { padding-top: 56px; }
+    .logos { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
+    .quotes { grid-template-columns: 1fr; }
+    .quote { height: 70vh; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-nav { align-items: flex-start; }
+    .footer .wordmark { margin-top: 64px; }
+  }
+
+  /* Menú móvil */
+  .menu-toggle {
+    display: none; align-items: center; gap: 10px; border: 0; background: none;
+    font: 14px var(--body); color: var(--black); cursor: pointer; padding: 8px 0;
+  }
+  .menu-toggle span { display: flex; flex-direction: column; gap: 5px; }
+  .menu-toggle i { display: block; width: 22px; height: 1px; background: currentColor; }
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 20; background: var(--footer-bg); color: var(--white);
+    display: flex; flex-direction: column; padding: 20px var(--gutter) 40px;
+    opacity: 0; visibility: hidden;
+    transition: opacity var(--duration-fast) var(--ease-smooth-out), visibility 0s linear var(--duration-fast);
+  }
+  .mobile-menu.is-open { opacity: 1; visibility: visible; transition: opacity var(--duration-fast) var(--ease-smooth-out), visibility 0s; }
+  .mobile-menu-top { display: flex; justify-content: space-between; align-items: center; height: calc(var(--header-h) - 20px); }
+  .mobile-menu-top button { border: 0; background: none; color: inherit; font: 14px var(--body); cursor: pointer; }
+  .mobile-menu nav { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+  .mobile-menu nav a { font-family: var(--display); font-size: 48px; line-height: 1.15; text-decoration: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .card-media > *, .mobile-menu, .header, .contact-actions a { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="site-title" href="#inicio" data-scroll>Laura</a>
+  <nav class="header-nav" aria-label="Principal">
+    <a href="#marcas" data-scroll>Marcas</a>
+    <a href="#contenido" data-scroll>Contenido</a>
+    <a href="#sobre-mi" data-scroll>Sobre mí</a>
+    <a href="#testimonios" data-scroll>Testimonios</a>
+    <a href="#contacto" data-scroll>Contacto</a>
+  </nav>
+  <button class="menu-toggle" aria-expanded="false" aria-controls="menu-movil">
+    Menú <span aria-hidden="true"><i></i><i></i></span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="menu-movil" role="dialog" aria-label="Menú">
+  <div class="mobile-menu-top">
+    <span class="site-title">Laura</span>
+    <button type="button" class="menu-close">Cerrar ✕</button>
+  </div>
+  <nav aria-label="Menú móvil">
+    <a href="#marcas" data-scroll>Marcas</a>
+    <a href="#contenido" data-scroll>Contenido</a>
+    <a href="#sobre-mi" data-scroll>Sobre mí</a>
+    <a href="#testimonios" data-scroll>Testimonios</a>
+    <a href="#contacto" data-scroll>Contacto</a>
+  </nav>
+</div>
+
+<div id="smooth-wrapper">
+<div id="smooth-content">
+
+<main>
+
+  <!-- 0. Hero -->
+  <section id="inicio" class="hero-wordmark wrap">
+    <h1 class="wordmark reveal">Laura</h1>
+  </section>
+  <p class="hero-sub wrap reveal">Creadora de contenido UGC para marcas de belleza, moda y bienestar</p>
+
+  <!-- 1. Imagen a sangre -->
+  <section class="full-image" aria-hidden="true">
+    <img src="media/portada.jpg" alt="" fetchpriority="high">
+    <div class="overlay"></div>
+  </section>
+
+  <!-- 2. Marcas -->
+  <section id="marcas" class="brands">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Marcas que confiaron en mí</h2>
+      </div>
+      <div class="logos reveal">
+        <img class="tall" src="media/marcas/adidas-13.svg" alt="Adidas" loading="lazy">
+        <img class="tall" src="media/marcas/chanel-2.svg" alt="Chanel" loading="lazy">
+        <img class="tall" src="media/marcas/dji-1.svg" alt="DJI" loading="lazy">
+        <img src="media/marcas/loreal.svg" alt="L'Oréal" loading="lazy">
+        <img src="media/marcas/la-roche-posay.svg" alt="La Roche-Posay" loading="lazy">
+        <img src="media/marcas/samsung-8.svg" alt="Samsung" loading="lazy">
+        <img src="media/marcas/spotify-logo.svg" alt="Spotify" loading="lazy">
+        <img class="tall" src="media/marcas/vichy-laboratoires.svg" alt="Vichy" loading="lazy">
+        <img class="tall" src="media/marcas/zoah-1.svg" alt="Zoah" loading="lazy">
+        <img src="media/marcas/zara.svg" alt="Zara" loading="lazy">
+        <img src="media/marcas/vogue.svg" alt="Vogue" loading="lazy">
+        <img src="media/marcas/versace.svg" alt="Versace" loading="lazy">
+        <img src="media/marcas/pull-bear-2.svg" alt="Pull&amp;Bear" loading="lazy">
+        <img src="media/marcas/bershka-1.svg" alt="Bershka" loading="lazy">
+        <img src="media/marcas/shein.svg" alt="Shein" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Contenido -->
+  <section id="contenido" class="works">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Contenido</h2>
+        <a href="#contacto" data-scroll>Trabajemos juntas</a>
+      </div>
+      <div class="cards">
+        <div class="card reveal">
+          <div class="card-media"><video src="media/video-1.mp4" muted loop playsinline autoplay preload="metadata"></video></div>
+          <p class="card-title">Rutina de cuidado</p>
+          <p class="card-meta">Video UGC</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-media"><img src="media/foto-1.jpg" alt="Laura con ropa deportiva" loading="lazy"></div>
+          <p class="card-title">Ropa deportiva</p>
+          <p class="card-meta">Foto de producto</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-media"><video src="media/video-2.mp4" muted loop playsinline autoplay preload="metadata"></video></div>
+          <p class="card-title">Primeras impresiones</p>
+          <p class="card-meta">Video UGC</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-media"><img src="media/foto-2.jpg" alt="Laura entrenando en el gimnasio" loading="lazy"></div>
+          <p class="card-title">Entrenamiento</p>
+          <p class="card-meta">Foto lifestyle</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-media"><video src="media/video-3.mp4" muted loop playsinline autoplay preload="metadata"></video></div>
+          <p class="card-title">Reseña honesta</p>
+          <p class="card-meta">Video UGC</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-media"><img src="media/foto-3.jpg" alt="Laura al aire libre" loading="lazy"></div>
+          <p class="card-title">Día al aire libre</p>
+          <p class="card-meta">Foto lifestyle</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Sobre mí -->
+  <section id="sobre-mi" class="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Sobre mí</h2>
+        <a href="#contacto" data-scroll>Escríbeme</a>
+      </div>
+      <div class="about-text reveal">
+        <p>Soy Laura. Hago videos y fotos que se sienten como la recomendación de una amiga: reales, cercanos y pensados para que tu producto se vea en uso.</p>
+        <p>Me encargo de la idea, el guion, la grabación y la edición en formato vertical, listo para TikTok, Reels o anuncios.</p>
+      </div>
+    </div>
+    <div class="services-images">
+      <img src="media/sobre-mi.jpg" alt="Retrato de Laura" loading="lazy">
+      <img src="media/hero.jpg" alt="Laura sonriendo" loading="lazy">
+    </div>
+  </section>
+
+  <!-- 5. Testimonios -->
+  <section id="testimonios" class="testimonials">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Lo que dicen de mí</h2>
+      </div>
+      <div class="quotes">
+        <figure class="quote-card reveal">
+          <blockquote>“Laura entendió la visión de nuestra marca desde el primer momento. El contenido superó nuestras expectativas.”</blockquote>
+          <figcaption><img src="media/testimonios/persona-1.jpg" alt="" loading="lazy"><div><strong>Directora de Marketing</strong><span>Tech Innovators</span></div></figcaption>
+        </figure>
+        <figure class="quote-card reveal">
+          <blockquote>“Su capacidad para contar historias a través de la fotografía es única. Cada proyecto es un éxito garantizado.”</blockquote>
+          <figcaption><img src="media/testimonios/persona-2.jpg" alt="" loading="lazy"><div><strong>Fundador</strong><span>Artisan Coffee Co.</span></div></figcaption>
+        </figure>
+        <figure class="quote-card reveal">
+          <blockquote>“El nivel de atención al detalle que Laura le puso a nuestra última campaña fue increíble.”</blockquote>
+          <figcaption><img src="media/testimonios/persona-3.jpg" alt="" loading="lazy"><div><strong>Directora de Arte</strong><span>Fashion Forward</span></div></figcaption>
+        </figure>
+        <figure class="quote-card reveal">
+          <blockquote>“Logró capturar la esencia de lo que somos en cada toma. Es una verdadera profesional.”</blockquote>
+          <figcaption><img src="media/testimonios/persona-4.jpg" alt="" loading="lazy"><div><strong>CEO</strong><span>Eco Beauty</span></div></figcaption>
+        </figure>
+        <figure class="quote-card reveal">
+          <blockquote>“Transformó por completo la manera en la que nuestra audiencia nos percibe visualmente.”</blockquote>
+          <figcaption><img src="media/testimonios/persona-5.jpg" alt="" loading="lazy"><div><strong>Brand Manager</strong><span>Luxe Events</span></div></figcaption>
+        </figure>
+        <figure class="quote-card reveal">
+          <blockquote>“Una creatividad desbordante y una técnica impecable. Sus fotos hablan por sí solas.”</blockquote>
+          <figcaption><img src="media/testimonios/persona-6.jpg" alt="" loading="lazy"><div><strong>Editor en Jefe</strong><span>Revista Estilo</span></div></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Frase sobre imagen -->
+  <section class="quote">
+    <div class="bg"><img src="media/foto-5.jpg" alt="" loading="lazy"></div>
+    <div class="overlay"></div>
+    <h3 class="reveal">Contenido real que conecta a las marcas con su audiencia.</h3>
+  </section>
+
+</main>
+
+<!-- 7. Footer / contacto -->
+<footer id="contacto" class="footer">
+  <div class="footer-top">
+    <div class="contact">
+      <h4>Contacto</h4>
+      <p>Cuéntame de tu marca y de lo que necesitas. Te respondo en menos de 24 horas.</p>
+      <div class="contact-actions">
+        <a href="mailto:hola@lauracreativa.com">hola@lauracreativa.com</a>
+        <a class="secondary" href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        <a class="secondary" href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#contenido" data-scroll>Contenido</a>
+      <a href="#sobre-mi" data-scroll>Sobre mí</a>
+      <a href="#marcas" data-scroll>Marcas</a>
+      <a href="#testimonios" data-scroll>Testimonios</a>
+      <span class="footer-credit">Plantilla UGC de We Are Miiles</span>
+    </nav>
+  </div>
+  <div class="wordmark" aria-hidden="true">Laura</div>
+</footer>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+<script>
+  (function () {
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var smoother = null;
+    var header = document.querySelector(".header");
+
+    // Smooth scroll (solo landing)
+    if (window.gsap && window.ScrollSmoother && !reduce) {
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+      smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1.1,
+        smoothTouch: false,
+        effects: false,
+        onUpdate: function (self) { header.classList.toggle("is-scrolled", self.scrollTop() > 40); }
+      });
+    }
+    window.addEventListener("scroll", function () {
+      if (!smoother) header.classList.toggle("is-scrolled", window.scrollY > 40);
+    }, { passive: true });
+
+    // Aparición al hacer scroll
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("is-shown"); io.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -6% 0px" });
+    document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+    // Menú móvil
+    var toggle = document.querySelector(".menu-toggle");
+    var menu = document.getElementById("menu-movil");
+    function setMenu(open) {
+      menu.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (smoother) smoother.paused(open);
+    }
+    toggle.addEventListener("click", function () { setMenu(true); });
+    menu.querySelector(".menu-close").addEventListener("click", function () { setMenu(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setMenu(false); });
+
+    // Navegación entre secciones
+    var headerH = function () { return header.offsetHeight; };
+    document.querySelectorAll("[data-scroll]").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        var id = a.getAttribute("href");
+        var target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        setMenu(false);
+        var offset = id === "#inicio" ? 0 : headerH();
+        if (smoother) {
+          smoother.scrollTo(target, true, "top " + offset + "px");
+        } else {
+          var y = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
+        }
+        history.replaceState(null, "", id);
+      });
+    });
+
+    // Link activo en el navbar
+    var links = document.querySelectorAll(".header-nav a");
+    ["marcas", "contenido", "sobre-mi", "testimonios", "contacto"].forEach(function (id) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          links.forEach(function (l) { l.classList.toggle("is-active", l.getAttribute("href") === "#" + id); });
+        });
+      }, { rootMargin: "-45% 0px -50% 0px" }).observe(document.getElementById(id));
+    });
+  })();
+</script>
+</body>
+</html>
