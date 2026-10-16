@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UGC Creator Portfolio | We Are Miiles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #ffffff;
+      --text-main: #1a1a1a;
+      --text-muted: #666666;
+      --accent: #000000;
+      --font-display: "Instrument Serif", serif;
+      --font-body: "Inter", sans-serif;
+      --gutter: 4vw;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Tipografía Welth Catritz simulada con Instrument Serif Italic para el demo */
+    .display-italic {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      line-height: 1.1;
+      font-weight: 400;
+    }
+    h1 { font-size: clamp(3rem, 8vw, 6rem); }
+    h2 { font-size: clamp(2rem, 5vw, 4rem); }
+    h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+
+    .container { padding: 0 var(--gutter); max-width: 1400px; margin: 0 auto; }
+    .center { text-align: center; }
+    .section { padding: 100px 0; }
+
+    /* Regla: Cero Dividers */
+    .no-divider { border: none !important; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px var(--gutter);
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.7);
+    }
+    .nav-links { display: flex; gap: 30px; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-main);
+      font-size: 0.9rem; font-weight: 500; transition: opacity 0.3s;
+    }
+    .nav-links a:hover { opacity: 0.6; }
+
+    /* Hero Section */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px;
+      min-height: 90vh; padding-top: 120px;
+    }
+    .hero-content h1 { margin-bottom: 20px; }
+    .hero-content p {
+      font-size: 1.2rem; color: var(--text-muted);
+      margin-bottom: 40px; max-width: 500px;
+    }
+    .hero-image img {
+      width: 100%; height: 600px; object-fit: cover;
+      border-radius: 40px;
+    }
+
+    /* Trusted Brands - Marcas que confian */
+    .brands-strip {
+      padding: 60px 0;
+      background: #f9f9f9;
+      overflow: hidden;
+    }
+    .brands-grid {
+      display: flex; justify-content: center;
+      align-items: center; gap: 40px;
+      flex-wrap: wrap; opacity: 0.7;
+    }
+    .brand-logo { height: 30px; filter: grayscale(1); transition: 0.3s; }
+    .brand-logo:hover { filter: grayscale(0); opacity: 1; }
+
+    /* Works / Projects */
+    .works-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px; margin-top: 50px;
+    }
+    .work-card {
+      position: relative; border-radius: 24px; overflow: hidden;
+      aspect-ratio: 4/5; cursor: pointer;
+    }
+    .work-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .work-card:hover img { transform: scale(1.05); }
+    .work-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: white;
+    }
+
+    /* Testimonials / Reseñas */
+    .testimonials { background: #fcfcfc; }
+    .testimonial-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px; margin-top: 50px;
+    }
+    .testimonial-card {
+      padding: 40px; background: white; border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+    .testimonial-text {
+      font-style: italic; font-size: 1.1rem; margin-bottom: 20px;
+    }
+    .testimonial-author { font-weight: 600; display: block; }
+
+    /* CTA */
+    .cta-section {
+      text-align: center; padding: 150px 0;
+      background: var(--accent); color: white;
+    }
+    .btn {
+      display: inline-block; padding: 20px 40px;
+      background: white; color: black;
+      border-radius: 100px; text-decoration: none;
+      font-weight: 600; transition: 0.3s;
+    }
+    .btn:hover { transform: scale(1.05); background: #f0f0f0; }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-content p { margin: 0 auto 40px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="#" class="display-italic" style="font-size: 1.5rem; text-decoration: none; color: inherit;">WeAreMiiles</a>
+    <div class="nav-links">
+      <a href="#works">Works</a>
+      <a href="#about">About</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="section container hero">
+      <div class="hero-content">
+        <h1>Creating <span class="display-italic">authentic</span> stories that convert.</h1>
+        <p>UGC Creator helping brands grow through organic, high-impact video content and visual storytelling.</p>
+        <a href="#contact" class="btn" style="background: black; color: white;">Start a Project</a>
+      </div>
+      <div class="hero-image">
+        <img src="/UGC/public/hero/1.jpeg" alt="UGC Creator Hero">
+      </div>
+    </section>
+
+    <!-- TRUSTED BRANDS -->
+    <section class="brands-strip">
+      <div class="container">
+        <h3 class="center" style="margin-bottom: 40px; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted);">Trusted by brands like</h3>
+        <div class="brands-grid">
+          <img src="/UGC/public/collabs/adidas-13.svg" class="brand-logo" alt="Adidas">
+          <img src="/UGC/public/collabs/chanel-2.svg" class="brand-logo" alt="Chanel">
+          <img src="/UGC/public/collabs/loreal.svg" class="brand-logo" alt="L'Oreal">
+          <img src="/UGC/public/collabs/samsung-8.svg" class="brand-logo" alt="Samsung">
+          <img src="/UGC/public/collabs/zara.svg" class="brand-logo" alt="Zara">
+          <img src="/UGC/public/collabs/vogue.svg" class="brand-logo" alt="Vogue">
+          <img src="/UGC/public/collabs/shein.svg" class="brand-logo" alt="Shein">
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKS -->
+    <section id="works" class="section container">
+      <h2 class="display-italic">Selected Works</h2>
+      <div class="works-grid">
+        <div class="work-card">
+          <img src="/UGC/public/proyectos/Miiles/portada-1.webp" alt="Project Miiles">
+          <div class="work-info">
+            <h3>Miiles AI</h3>
+            <p>Tech & Automation</p>
+          </div>
+        </div>
+        <div class="work-card">
+          <img src="/UGC/public/proyectos/Naabi-Kanabi/portada-1.webp" alt="Project Naabi">
+          <div class="work-info">
+            <h3>Naabi Kanabi</h3>
+            <p>Wellness & Skincare</p>
+          </div>
+        </div>
+        <div class="work-card">
+          <img src="/UGC/public/proyectos/Mar-Vic/portada-1.webp" alt="Project MarVic">
+          <div class="work-info">
+            <h3>Mar & Vic</h3>
+            <p>Interior Design</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews" class="section testimonials">
+      <div class="container">
+        <h2 class="center display-italic">What brands say</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-text">"The quality of the content is unmatched. The engagement we saw after the campaign was 3x higher than our previous ads."</p>
+            <span class="testimonial-author">— Brand Manager, Tech Corp</span>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">"Authentic, professional and extremely fast delivery. A true partner for any brand looking for organic growth."</p>
+            <span class="testimonial-author">— Founder, Beauty Co.</span>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">"Exactly what we needed. The storytelling was on point and perfectly aligned with our brand identity."</p>
+            <span class="testimonial-author">— Marketing Director, Fashion Hub</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact" class="cta-section">
+      <div class="container">
+        <h2 class="center" style="color: white; margin-bottom: 30px;">Ready to scale your organic presence?</h2>
+        <a href="mailto:hello@wearemiiles.com" class="btn">Let's Work Together</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="section container center" style="padding-bottom: 40px; color: var(--text-muted); font-size: 0.8rem;">
+    <p>&copy; 2026 We Are Miiles. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
