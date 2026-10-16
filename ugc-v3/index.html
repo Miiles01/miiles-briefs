@@ -13,7 +13,7 @@
 
   Orden de secciones:
    0 Header fijo + wordmark "Laura" (Italiana)
-   1 Imagen a sangre, overlay blanco 15%
+   1 Imagen: arranca al 50% del ancho y crece a pantalla completa con el scroll (sin overlay)
    2 Marcas que confiaron en mí: logos (siempre en la sección 2 o 3)
    3 Contenido: fondo #f4f4f4, tarjetas verticales (videos y fotos) + etiqueta
    4 Sobre mí: texto + 2 imágenes a sangre lado a lado
@@ -68,7 +68,7 @@
   .header-nav a:hover, .header-nav a.is-active { text-decoration: underline; text-underline-offset: 4px; }
 
   /* Hero wordmark: ocupa todo el ancho del contenido */
-  .hero-wordmark { padding-top: var(--header-h); height: 362px; display: flex; align-items: center; }
+  .hero-wordmark { padding-top: var(--header-h); min-height: 362px; display: flex; align-items: center; }
   .wordmark {
     font-family: var(--display); font-weight: 400;
     font-size: clamp(64px, 26vw, 300px); line-height: 1; white-space: nowrap;
@@ -77,10 +77,11 @@
   .hero-sub { text-align: center; font-size: 16px; color: var(--muted); margin-top: -8px; padding-bottom: 32px; }
 
   /* 1. Imagen a sangre */
-  .full-image { position: relative; height: 580px; overflow: hidden; }
-  .full-image img { object-position: 40% 55%; }
+  .full-image { position: relative; height: 580px; display: flex; justify-content: center; overflow: hidden; }
+  /* Ancho inicial 50%; el script lo lleva a 100% con el scroll (scrub). */
+  .full-image-media { width: 50%; height: 100%; overflow: hidden; will-change: width; }
+  .full-image img { object-position: 45% 55%; }
   .overlay { position: absolute; inset: 0; pointer-events: none; }
-  .full-image .overlay { background: rgba(255,255,255,.15); }
 
   /* Encabezado de sección: título a la izquierda, link a la derecha */
   .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
@@ -103,7 +104,8 @@
   .services { padding: 96px 0 0; }
   .about-text { max-width: 640px; font-size: 18.5px; line-height: 1.55; margin: 8px 0 40px; }
   .about-text p + p { margin-top: 14px; }
-  .services-images { display: grid; grid-template-columns: 1fr 1.08fr; height: 570px; }
+  .services-images { display: grid; grid-template-columns: 1fr 1.08fr; grid-template-rows: 570px; overflow: hidden; }
+  .services-images > * { min-width: 0; min-height: 0; }
   .services-images img { object-position: 50% 55%; }
 
   /* 4. Marcas */
@@ -180,7 +182,7 @@
     .full-image { height: 60vh; }
     .cards { grid-template-columns: 1fr 1fr; gap: 28px 12px; }
     .card-title { font-size: 16px; }
-    .services-images { grid-template-columns: 1fr; height: auto; }
+    .services-images { grid-template-columns: 1fr; grid-template-rows: none; }
     .services-images > * { aspect-ratio: 4 / 5; }
     .works, .services, .brands, .testimonials { padding-top: 56px; }
     .logos { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
@@ -256,10 +258,9 @@
   </section>
   <p class="hero-sub wrap reveal">Creadora de contenido UGC para marcas de belleza, moda y bienestar</p>
 
-  <!-- 1. Imagen a sangre -->
+  <!-- 1. Imagen que crece con el scroll -->
   <section class="full-image" aria-hidden="true">
-    <img src="media/portada.jpg" alt="" fetchpriority="high">
-    <div class="overlay"></div>
+    <div class="full-image-media"><img src="media/portada.jpg" alt="" fetchpriority="high"></div>
   </section>
 
   <!-- 2. Marcas -->
@@ -442,6 +443,19 @@
     window.addEventListener("scroll", function () {
       if (!smoother) header.classList.toggle("is-scrolled", window.scrollY > 40);
     }, { passive: true });
+
+    // Imagen del pasto: de 50% a ancho completo conforme se hace scroll
+    var media = document.querySelector(".full-image-media");
+    if (window.gsap && window.ScrollTrigger && !reduce) {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.fromTo(media, { width: "50%" }, {
+        width: "100%",
+        ease: "none",
+        scrollTrigger: { trigger: ".full-image", start: 0, end: "top 10%", scrub: true }
+      });
+    } else {
+      media.style.width = "100%";
+    }
 
     // Aparición al hacer scroll
     var io = new IntersectionObserver(function (entries) {
