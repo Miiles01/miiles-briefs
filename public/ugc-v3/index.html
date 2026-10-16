@@ -16,7 +16,8 @@
    1 Imagen: arranca al 50% del ancho y crece a pantalla completa con el scroll (sin overlay)
    2 Marcas que confiaron en mí: logos (siempre en la sección 2 o 3)
    3 Contenido: fondo #f4f4f4, tarjetas verticales (videos y fotos) + etiqueta
-   4 Sobre mí: texto + 2 imágenes a sangre lado a lado
+   4 Nichos y tipos de contenido (con ejemplos)
+   5 Sobre mí: texto + 2 imágenes a sangre lado a lado
    5 Testimonios: 3 columnas
    6 Frase sobre imagen, overlay negro 52%
    7 Footer / contacto: fondo #6d6559 + wordmark gigante
@@ -74,7 +75,8 @@
     font-size: clamp(64px, 26vw, 300px); line-height: 1; white-space: nowrap;
     width: 100%; text-align: center; overflow: hidden;
   }
-  .hero-sub { text-align: center; font-size: 16px; color: var(--muted); margin-top: -8px; padding-bottom: 32px; }
+  .hero-wordmark .wordmark { line-height: 1.2; }
+  .hero-sub { text-align: center; font-size: 16px; color: var(--muted); margin-top: 16px; padding-bottom: 32px; }
 
   /* 1. Imagen a sangre */
   .full-image { position: relative; height: 580px; display: flex; justify-content: center; overflow: hidden; }
@@ -117,6 +119,27 @@
   }
   .logos img { width: auto; height: 34px; max-width: 140px; object-fit: contain; filter: brightness(0); }
   .logos img.tall { height: 58px; }
+
+  /* Nichos y tipos de contenido */
+  .niches { padding: 96px 0 90px; }
+  .niche-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 64px; margin-top: 32px; }
+  .niche-cols h3 { font-family: var(--body); font-size: 14px; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 18px; }
+  .niche-list { list-style: none; display: grid; gap: 22px; }
+  .niche-list strong { display: block; font-family: var(--display); font-weight: 400; font-size: 30px; line-height: 1.15; }
+  .niche-list span { display: block; font-size: 15px; color: var(--muted); margin-top: 4px; }
+  .niche-list em { font-style: normal; color: var(--black); }
+
+  /* Redes */
+  .socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-top: 18px; font-size: 14px; }
+  .socials a { text-underline-offset: 4px; }
+  .social-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 30px; max-width: 520px; }
+  .social-buttons a {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 24px;
+    background: var(--white); color: var(--black); text-decoration: none; font-size: 14px;
+    transition: background-color var(--duration-fast) var(--ease-smooth-out), color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .social-buttons a:hover { background: var(--black); color: var(--white); }
+  .social-buttons a span { opacity: 0.6; }
 
   /* 5. Testimonios */
   .testimonials { padding: 96px 0 90px; }
@@ -184,9 +207,12 @@
     .card-title { font-size: 16px; }
     .services-images { grid-template-columns: 1fr; grid-template-rows: none; }
     .services-images > * { aspect-ratio: 4 / 5; }
-    .works, .services, .brands, .testimonials { padding-top: 56px; }
+    .works, .services, .brands, .testimonials, .niches { padding-top: 56px; }
     .logos { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
     .quotes { grid-template-columns: 1fr; }
+    .niche-cols { grid-template-columns: 1fr; gap: 40px; }
+    .niche-list strong { font-size: 26px; }
+    .social-buttons { grid-template-columns: 1fr; }
     .quote { height: 70vh; }
     .footer-top { grid-template-columns: 1fr; }
     .footer-nav { align-items: flex-start; }
@@ -224,6 +250,7 @@
   <nav class="header-nav" aria-label="Principal">
     <a href="#marcas" data-scroll>Marcas</a>
     <a href="#contenido" data-scroll>Contenido</a>
+    <a href="#nichos" data-scroll>Nichos</a>
     <a href="#sobre-mi" data-scroll>Sobre mí</a>
     <a href="#testimonios" data-scroll>Testimonios</a>
     <a href="#contacto" data-scroll>Contacto</a>
@@ -241,6 +268,7 @@
   <nav aria-label="Menú móvil">
     <a href="#marcas" data-scroll>Marcas</a>
     <a href="#contenido" data-scroll>Contenido</a>
+    <a href="#nichos" data-scroll>Nichos</a>
     <a href="#sobre-mi" data-scroll>Sobre mí</a>
     <a href="#testimonios" data-scroll>Testimonios</a>
     <a href="#contacto" data-scroll>Contacto</a>
@@ -256,7 +284,15 @@
   <section id="inicio" class="hero-wordmark wrap">
     <h1 class="wordmark reveal">Laura</h1>
   </section>
-  <p class="hero-sub wrap reveal">Creadora de contenido UGC para marcas de belleza, moda y bienestar</p>
+  <div class="hero-sub wrap reveal">
+    <p>Creadora de contenido UGC para marcas de belleza, moda y bienestar</p>
+    <nav class="socials" aria-label="Redes">
+      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a>
+      <a href="mailto:hola@lauracreativa.com">Email</a>
+    </nav>
+  </div>
 
   <!-- 1. Imagen que crece con el scroll -->
   <section class="full-image" aria-hidden="true">
@@ -331,7 +367,38 @@
     </div>
   </section>
 
-  <!-- 4. Sobre mí -->
+  <!-- 4. Nichos y tipos de contenido -->
+  <section id="nichos" class="niches">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Nichos y contenido</h2>
+        <a href="#contacto" data-scroll>Cotiza tu contenido</a>
+      </div>
+      <div class="niche-cols">
+        <div class="reveal">
+          <h3>Nichos en los que trabajo</h3>
+          <ul class="niche-list">
+            <li><strong>Belleza y skincare</strong><span>Rutinas, texturas, <em>antes y después</em> y primeras impresiones.</span></li>
+            <li><strong>Moda</strong><span><em>Try-on hauls</em>, outfits y cómo combinar una prenda.</span></li>
+            <li><strong>Bienestar y fitness</strong><span>Entrenamientos, suplementos y <em>hábitos diarios</em>.</span></li>
+            <li><strong>Lifestyle y hogar</strong><span>Mi día a día, <em>productos en casa</em> y momentos reales.</span></li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <h3>Qué tipo de contenido hago</h3>
+          <ul class="niche-list">
+            <li><strong>Videos UGC para anuncios</strong><span>Ejemplo: <em>hook en 3 segundos</em>, problema, solución y llamada a la acción.</span></li>
+            <li><strong>Unboxing</strong><span>Ejemplo: abro tu producto y muestro <em>cada detalle</em> por primera vez.</span></li>
+            <li><strong>Reseñas y testimoniales</strong><span>Ejemplo: opinión honesta a cámara, <em>como recomendación de amiga</em>.</span></li>
+            <li><strong>Tutoriales</strong><span>Ejemplo: <em>paso a paso</em> de cómo se usa tu producto.</span></li>
+            <li><strong>Fotografía de producto</strong><span>Ejemplo: fotos lifestyle con el producto <em>en uso</em>.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Sobre mí -->
   <section id="sobre-mi" class="services">
     <div class="wrap">
       <div class="section-head reveal">
@@ -349,7 +416,7 @@
     </div>
   </section>
 
-  <!-- 5. Testimonios -->
+  <!-- 6. Testimonios -->
   <section id="testimonios" class="testimonials">
     <div class="wrap">
       <div class="section-head reveal">
@@ -384,7 +451,7 @@
     </div>
   </section>
 
-  <!-- 6. Frase sobre imagen -->
+  <!-- 7. Frase sobre imagen -->
   <section class="quote">
     <div class="bg"><img src="media/foto-5.jpg" alt="" loading="lazy"></div>
     <div class="overlay"></div>
@@ -393,7 +460,7 @@
 
 </main>
 
-<!-- 7. Footer / contacto -->
+<!-- 8. Footer / contacto -->
 <footer id="contacto" class="footer">
   <div class="footer-top">
     <div class="contact">
@@ -401,14 +468,21 @@
       <p>Cuéntame de tu marca y de lo que necesitas. Te respondo en menos de 24 horas.</p>
       <div class="contact-actions">
         <a href="mailto:hola@lauracreativa.com">hola@lauracreativa.com</a>
-        <a class="secondary" href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
-        <a class="secondary" href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
+        <a class="secondary" href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+      <h4 style="margin-top: 40px;">Mis redes</h4>
+      <div class="social-buttons">
+        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram <span>@laura.ugc</span></a>
+        <a href="https://tiktok.com" target="_blank" rel="noopener">TikTok <span>@laura.ugc</span></a>
+        <a href="https://youtube.com" target="_blank" rel="noopener">YouTube <span>@laura.ugc</span></a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn <span>Laura</span></a>
       </div>
     </div>
     <nav class="footer-nav" aria-label="Footer">
-      <a href="#contenido" data-scroll>Contenido</a>
-      <a href="#sobre-mi" data-scroll>Sobre mí</a>
       <a href="#marcas" data-scroll>Marcas</a>
+      <a href="#contenido" data-scroll>Contenido</a>
+      <a href="#nichos" data-scroll>Nichos</a>
+      <a href="#sobre-mi" data-scroll>Sobre mí</a>
       <a href="#testimonios" data-scroll>Testimonios</a>
       <span class="footer-credit">Plantilla UGC de We Are Miiles</span>
     </nav>
@@ -499,7 +573,7 @@
 
     // Link activo en el navbar
     var links = document.querySelectorAll(".header-nav a");
-    ["marcas", "contenido", "sobre-mi", "testimonios", "contacto"].forEach(function (id) {
+    ["marcas", "contenido", "nichos", "sobre-mi", "testimonios", "contacto"].forEach(function (id) {
       new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (!e.isIntersecting) return;
