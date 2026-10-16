@@ -171,6 +171,11 @@
   .social-list a:hover .p-xl { background-size: 100% 1px; }
   .hero-socials { display: flex; flex-wrap: wrap; gap: 0.4em 1.2em; }
 
+  /* Títulos fijos mientras corre su lista (desktop y tablet) */
+  @media (min-width: 768px) {
+    html:not(.has-smoother) .sticky-title { position: sticky; top: calc(var(--header-h) + 24px); }
+  }
+
   /* Testimonios */
   .quote-row { display: grid; grid-template-columns: 4fr 9fr; column-gap: var(--gap); padding: 1.6vw 0; }
   .quote-row .p-sm { display: flex; align-items: flex-start; gap: 0.8vw; }
@@ -384,8 +389,8 @@
   <!-- 4 · NICHOS Y TIPOS DE CONTENIDO -->
   <section id="nichos" class="section">
     <div class="grid">
-      <div class="block" style="grid-area: 2 / 2 / 4 / 12;"><h2 class="h2" data-split>Nichos en los que trabajo</h2></div>
-      <div class="block" style="grid-area: 2 / 14 / 12 / 27;">
+      <div class="block sticky-col" style="grid-area: 2 / 2 / 12 / 12;"><h2 class="h2 sticky-title" data-split>Nichos en los que trabajo</h2></div>
+      <div class="block" data-sticky-list style="grid-area: 2 / 14 / 12 / 27;">
         <div class="niche-row reveal"><p class="p-sm">01</p><div><p class="p-xl">Belleza y skincare</p><p class="p-sm niche-detail">Rutinas, texturas, antes y después</p></div></div>
         <div class="niche-row reveal"><p class="p-sm">02</p><div><p class="p-xl">Moda</p><p class="p-sm niche-detail">Try-on hauls, outfits, cómo combinar</p></div></div>
         <div class="niche-row reveal"><p class="p-sm">03</p><div><p class="p-xl">Bienestar y fitness</p><p class="p-sm niche-detail">Entrenamientos, suplementos, hábitos</p></div></div>
@@ -403,8 +408,8 @@
   <!-- 5 · TESTIMONIOS -->
   <section id="testimonios" class="section">
     <div class="grid">
-      <div class="block" style="grid-area: 2 / 2 / 4 / 12;"><h2 class="h2" data-split>Lo que dicen de mí</h2></div>
-      <div class="block" style="grid-area: 2 / 14 / 20 / 27;">
+      <div class="block sticky-col" style="grid-area: 2 / 2 / 20 / 12;"><h2 class="h2 sticky-title" data-split>Lo que dicen de mí</h2></div>
+      <div class="block" data-sticky-list style="grid-area: 2 / 14 / 20 / 27;">
         <div class="quote-row reveal">
           <p class="p-sm"><img src="media/testimonios/persona-1.jpg" alt="" loading="lazy">Directora de Marketing,<br>Tech Innovators</p>
           <p class="p-lg">“Laura entendió la visión de nuestra marca desde el primer momento. El contenido superó nuestras expectativas.”</p>
@@ -550,6 +555,24 @@
       gsap.from(".reel-card", {
         autoAlpha: 0, x: 60, duration: 1, ease: "power3.out", stagger: 0.07,
         scrollTrigger: { trigger: ".reel", start: "top 80%", once: true }
+      });
+
+      // Títulos fijos (pin) junto a su lista, solo desktop y tablet
+      document.documentElement.classList.add("has-smoother");
+      gsap.matchMedia().add("(min-width: 768px)", function () {
+        document.querySelectorAll(".sticky-title").forEach(function (title) {
+          var list = title.closest(".grid").querySelector("[data-sticky-list]");
+          var top = function () { return header.offsetHeight + 24; };
+          ScrollTrigger.create({
+            trigger: title,
+            start: function () { return "top " + top() + "px"; },
+            endTrigger: list,
+            end: function () { return "bottom " + (top() + title.offsetHeight) + "px"; },
+            pin: true,
+            pinSpacing: false,
+            invalidateOnRefresh: true
+          });
+        });
       });
 
       // Logos de marcas: entrada escalonada
