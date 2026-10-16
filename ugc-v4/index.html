@@ -16,8 +16,9 @@
    1 Hero: "Portafolio" doble sobre la foto + presentación
    2 Marcas que confiaron en mí (siempre en la sección 2 o 3)
    3 Contenido + Sobre mí (miniaturas, lista, retrato)
-   4 Testimonios
-   5 Footer / contacto
+   4 Nichos y tipos de contenido (con ejemplos)
+   5 Testimonios
+   6 Footer / contacto con redes destacadas
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +54,7 @@
   .p-xl     { font-size: 3.68vw; line-height: 1.2; letter-spacing: -0.01em; }
   .p-lg     { font-size: 2.24vw; line-height: 1.2; letter-spacing: -0.016em; }
   .p-sm     { font-size: 1.52vw; line-height: 1.2; }
-  .works-list { font-weight: 700; font-size: 5.6vw; line-height: 0.95; }
+  .works-list { font-weight: 700; font-size: 5.6vw; line-height: 1.1; }
   .works-list > span { display: block; white-space: nowrap; }
   .u { text-decoration: underline; text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 
@@ -108,6 +109,68 @@
   .thumb img, .thumb video { transition: transform 700ms var(--ease-smooth-out); }
   .thumb:hover img, .thumb:hover video { transform: scale(1.06); }
 
+  /* Carrusel de reels */
+  .reel { padding: 5vw 0 6vw; }
+  .reel-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; padding: 0 var(--gutter); margin-bottom: 1.6vw; }
+  .reel-nav { display: flex; gap: 8px; }
+  .reel-btn {
+    width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--accent); background: none;
+    color: var(--accent); font: 20px var(--sans); cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-smooth-out), color var(--duration-fast) var(--ease-smooth-out), transform var(--duration-fast) var(--ease-smooth-out);
+  }
+  .reel-btn:hover { background: var(--accent); color: var(--bg-alt); }
+  .reel-btn:active { transform: scale(0.94); }
+  .reel-btn:disabled { opacity: 0.3; pointer-events: none; }
+  .reel-track {
+    display: flex; gap: var(--gap); overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); padding: 0 var(--gutter);
+    scrollbar-width: none; cursor: grab; outline: none;
+  }
+  .reel-track::-webkit-scrollbar { display: none; }
+  .reel-track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+  .reel-track.is-dragging .reel-card { pointer-events: none; }
+  .reel-card {
+    flex: 0 0 20vw; scroll-snap-align: start; text-align: left;
+    border: 0; padding: 0; background: none; color: inherit; font: inherit; cursor: pointer;
+  }
+  .reel-media { position: relative; display: block; aspect-ratio: 9 / 16; overflow: hidden; background: #d6d6d6; }
+  .reel-media img, .reel-media video { transition: transform 700ms var(--ease-smooth-out); }
+  .reel-card:hover .reel-media img, .reel-card:hover .reel-media video { transform: scale(1.05); }
+  .reel-play {
+    position: absolute; left: 12px; bottom: 12px; width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--accent); color: var(--bg); font-size: 13px;
+  }
+  .reel-title { display: block; margin-top: 12px; font-size: 1.52vw; line-height: 1.2; }
+  .reel-meta { display: block; font-family: var(--serif); font-style: italic; font-size: 1.4vw; opacity: 0.8; }
+  .reel-progress { margin: 1.8vw var(--gutter) 0; height: 1px; background: rgba(255, 52, 10, 0.2); }
+  .reel-progress span { display: block; height: 100%; width: 0; background: var(--accent); }
+
+  /* Visor */
+  .viewer {
+    position: fixed; inset: 0; z-index: 300; background: rgba(20, 8, 4, 0.92);
+    display: grid; place-items: center; padding: 64px 16px 24px;
+    opacity: 0; visibility: hidden;
+    transition: opacity var(--duration-fast) var(--ease-smooth-out), visibility 0s linear var(--duration-fast);
+  }
+  .viewer.is-open { opacity: 1; visibility: visible; transition: opacity var(--duration-fast) var(--ease-smooth-out), visibility 0s; }
+  .viewer-stage { height: min(82vh, 900px); aspect-ratio: 9 / 16; max-width: 100%; transform: scale(0.96); transition: transform var(--duration-fast) var(--ease-smooth-out); }
+  .viewer.is-open .viewer-stage { transform: scale(1); }
+  .viewer-stage img, .viewer-stage video { object-fit: contain; }
+  .viewer-close { position: absolute; top: 20px; right: 20px; border: 0; background: none; color: #fff; font: 18px var(--sans); cursor: pointer; }
+
+  /* Nichos y tipos de contenido: filas tipo "client list" */
+  .niche-row { display: grid; grid-template-columns: 4fr 9fr; column-gap: var(--gap); align-items: baseline; padding: 1.1vw 0; }
+  .niche-row .p-xl { font-family: var(--serif); }
+  .niche-detail { margin-top: 0.35em; opacity: 0.85; }
+  .group-title { margin-top: 4vw; }
+
+  /* Redes destacadas */
+  .social-list { list-style: none; margin-top: 1vw; }
+  .social-list a { display: flex; align-items: baseline; justify-content: space-between; gap: 2vw; padding: 0.6vw 0; }
+  .social-list a .p-xl { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size var(--duration-fast) var(--ease-smooth-out); }
+  .social-list a:hover .p-xl { background-size: 100% 1px; }
+  .hero-socials { display: flex; flex-wrap: wrap; gap: 0.4em 1.2em; }
+
   /* Testimonios */
   .quote-row { display: grid; grid-template-columns: 4fr 9fr; column-gap: var(--gap); padding: 1.6vw 0; }
   .quote-row .p-sm { display: flex; align-items: flex-start; gap: 0.8vw; }
@@ -139,15 +202,25 @@
     .section.hero { padding-top: calc(var(--header-h) + 16px); }
     .display { font-size: 22vw; }
     .h2 { font-size: 28px; } .p-xl { font-size: 30px; } .p-lg { font-size: 20px; } .p-sm { font-size: 14px; }
-    .works-list { font-size: 11vw; line-height: 0.95; }
+    .works-list { font-size: 8.6vw; line-height: 1.1; }
+    .works-list > span { white-space: normal; }
     .brand-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 24px; }
     .quote-row { grid-template-columns: 1fr; row-gap: 10px; padding: 18px 0; }
+    .reel { padding: 32px 0 40px; }
+    .reel-head { margin-bottom: 16px; }
+    .reel-btn { width: 44px; height: 44px; }
+    .reel-card { flex-basis: 62vw; }
+    .reel-title { font-size: 16px; } .reel-meta { font-size: 15px; }
+    .reel-progress { margin-top: 18px; }
     .quote-row .p-sm { order: 2; align-items: center; gap: 10px; }
+    .niche-row { grid-template-columns: 32px 1fr; padding: 12px 0; }
+    .group-title { margin-top: 32px; }
+    .social-list a { padding: 8px 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
-    .mobile-menu, .thumb img, .thumb video, .nav a { transition: none !important; }
+    .mobile-menu, .thumb img, .thumb video, .nav a, .reel-btn, .reel-media img, .reel-media video, .viewer, .viewer-stage { transition: none !important; }
   }
 </style>
 </head>
@@ -158,6 +231,7 @@
   <nav class="nav" aria-label="Principal">
     <a href="#marcas" data-scroll>Marcas</a>
     <a href="#contenido" data-scroll>Contenido</a>
+    <a href="#nichos" data-scroll>Nichos</a>
     <a href="#sobre-mi" data-scroll>Sobre mí</a>
     <a href="#testimonios" data-scroll>Testimonios</a>
     <a href="#contacto" data-scroll>Contacto</a>
@@ -173,10 +247,16 @@
   <nav aria-label="Menú móvil">
     <a href="#marcas" data-scroll>Marcas</a>
     <a href="#contenido" data-scroll>Contenido</a>
+    <a href="#nichos" data-scroll>Nichos</a>
     <a href="#sobre-mi" data-scroll>Sobre mí</a>
     <a href="#testimonios" data-scroll>Testimonios</a>
     <a href="#contacto" data-scroll>Contacto</a>
   </nav>
+</div>
+
+<div class="viewer" id="visor" role="dialog" aria-modal="true" aria-label="Visor de contenido">
+  <button type="button" class="viewer-close" aria-label="Cerrar">Cerrar ✕</button>
+  <div class="viewer-stage"></div>
 </div>
 
 <div id="smooth-wrapper">
@@ -208,6 +288,9 @@
       </div>
       <div class="block" style="grid-area: 29 / 14 / 31 / 25; z-index: 5;">
         <h2 class="h2" data-split>Creadora de contenido UGC</h2>
+      </div>
+      <div class="block reveal" style="grid-area: 31 / 14 / 33 / 25; z-index: 5;">
+        <p class="p-lg hero-socials"><a class="u" href="https://instagram.com" target="_blank" rel="noopener">Instagram</a><a class="u" href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a><a class="u" href="https://youtube.com" target="_blank" rel="noopener">YouTube</a></p>
       </div>
     </div>
   </section>
@@ -255,24 +338,69 @@
       <div class="block" style="grid-area: 9 / 2 / 16 / 20; z-index: 13;">
         <p class="works-list" data-split="lines"><span>Rutinas de cuidado</span><span>Primeras impresiones</span><span>Reseñas honestas</span><span>Fotos lifestyle</span></p>
       </div>
-      <div id="sobre-mi" class="block img" data-img-reveal data-scrub-img style="grid-area: 21 / 2 / 42 / 12; z-index: 12;">
+    </div>
+
+    <!-- Carrusel de reels y fotos: arrastrar, flechas o swipe; clic abre el visor -->
+    <div class="reel" aria-roledescription="carrusel" aria-label="Más contenido">
+      <div class="reel-head">
+        <p class="p-lg"><span class="reel-count">9</span> piezas · desliza para ver más</p>
+        <div class="reel-nav">
+          <button type="button" class="reel-btn" data-dir="-1" aria-label="Anterior">←</button>
+          <button type="button" class="reel-btn" data-dir="1" aria-label="Siguiente">→</button>
+        </div>
+      </div>
+      <div class="reel-track" tabindex="0">
+        <button type="button" class="reel-card" data-type="video" data-src="media/video-1.mp4"><span class="reel-media"><video src="media/video-1.mp4" muted loop playsinline preload="metadata"></video><span class="reel-play" aria-hidden="true">▶</span></span><span class="reel-title">Rutina de cuidado</span><span class="reel-meta">Reel · Belleza</span></button>
+        <button type="button" class="reel-card" data-type="image" data-src="media/foto-1.jpg"><span class="reel-media"><img src="media/foto-1.jpg" alt="Laura con ropa deportiva" loading="lazy"></span><span class="reel-title">Ropa deportiva</span><span class="reel-meta">Foto · Moda</span></button>
+        <button type="button" class="reel-card" data-type="video" data-src="media/video-2.mp4"><span class="reel-media"><video src="media/video-2.mp4" muted loop playsinline preload="metadata"></video><span class="reel-play" aria-hidden="true">▶</span></span><span class="reel-title">Primeras impresiones</span><span class="reel-meta">Reel · Lifestyle</span></button>
+        <button type="button" class="reel-card" data-type="image" data-src="media/foto-2.jpg"><span class="reel-media"><img src="media/foto-2.jpg" alt="Laura en el gimnasio" loading="lazy"></span><span class="reel-title">Entrenamiento</span><span class="reel-meta">Foto · Bienestar</span></button>
+        <button type="button" class="reel-card" data-type="video" data-src="media/video-3.mp4"><span class="reel-media"><video src="media/video-3.mp4" muted loop playsinline preload="metadata"></video><span class="reel-play" aria-hidden="true">▶</span></span><span class="reel-title">Reseña honesta</span><span class="reel-meta">Reel · Producto</span></button>
+        <button type="button" class="reel-card" data-type="image" data-src="media/foto-3.jpg"><span class="reel-media"><img src="media/foto-3.jpg" alt="Selfie de Laura al aire libre" loading="lazy"></span><span class="reel-title">Día al aire libre</span><span class="reel-meta">Foto · Lifestyle</span></button>
+        <button type="button" class="reel-card" data-type="video" data-src="media/video-4.mp4"><span class="reel-media"><video src="media/video-4.mp4" muted loop playsinline preload="metadata"></video><span class="reel-play" aria-hidden="true">▶</span></span><span class="reel-title">Unboxing</span><span class="reel-meta">Reel · Producto</span></button>
+        <button type="button" class="reel-card" data-type="image" data-src="media/foto-4.jpg"><span class="reel-media"><img src="media/foto-4.jpg" alt="Retrato de Laura al aire libre" loading="lazy"></span><span class="reel-title">Retrato natural</span><span class="reel-meta">Foto · Belleza</span></button>
+        <button type="button" class="reel-card" data-type="image" data-src="media/foto-5.jpg"><span class="reel-media"><img src="media/foto-5.jpg" alt="Laura frente al espejo" loading="lazy"></span><span class="reel-title">Selfie de producto</span><span class="reel-meta">Foto · UGC</span></button>
+      </div>
+      <div class="reel-progress" aria-hidden="true"><span></span></div>
+    </div>
+
+    <div class="grid">
+      <div id="sobre-mi" class="block img" data-img-reveal data-scrub-img style="grid-area: 1 / 2 / 22 / 12; z-index: 12;">
         <img src="media/sobre-mi.jpg" alt="Retrato de Laura" loading="lazy" style="object-position: 50% 40%;">
       </div>
-      <div class="block" style="grid-area: 21 / 14 / 28 / 26; z-index: 11;">
+      <div class="block" style="grid-area: 1 / 14 / 8 / 26; z-index: 11;">
         <h2 class="h2" data-split style="margin-bottom: 0.4em;">Sobre mí</h2>
         <p class="p-lg" data-split>Me encargo de todo: idea, guion, grabación y edición en formato vertical, listo para publicar en TikTok, Reels o anuncios.</p>
         <p class="p-lg" data-split style="margin-top:1em">Mi enfoque es que tu producto se vea en uso, en momentos reales, para que la gente se imagine con él.</p>
       </div>
-      <div class="block" style="grid-area: 39 / 14 / 41 / 23; z-index: 9;">
+      <div class="block" style="grid-area: 19 / 14 / 21 / 23; z-index: 9;">
         <h2 class="h2" data-split>Formatos</h2>
       </div>
-      <div class="block" style="grid-area: 41 / 14 / 43 / 26; z-index: 10;">
+      <div class="block" style="grid-area: 21 / 14 / 23 / 26; z-index: 10;">
         <p class="p-lg" data-split>Video vertical 9:16 y fotografía,<br>para redes y anuncios</p>
       </div>
     </div>
   </section>
 
-  <!-- 4 · TESTIMONIOS -->
+  <!-- 4 · NICHOS Y TIPOS DE CONTENIDO -->
+  <section id="nichos" class="section">
+    <div class="grid">
+      <div class="block" style="grid-area: 2 / 2 / 4 / 12;"><h2 class="h2" data-split>Nichos en los que trabajo</h2></div>
+      <div class="block" style="grid-area: 2 / 14 / 12 / 27;">
+        <div class="niche-row reveal"><p class="p-sm">01</p><div><p class="p-xl">Belleza y skincare</p><p class="p-sm niche-detail">Rutinas, texturas, antes y después</p></div></div>
+        <div class="niche-row reveal"><p class="p-sm">02</p><div><p class="p-xl">Moda</p><p class="p-sm niche-detail">Try-on hauls, outfits, cómo combinar</p></div></div>
+        <div class="niche-row reveal"><p class="p-sm">03</p><div><p class="p-xl">Bienestar y fitness</p><p class="p-sm niche-detail">Entrenamientos, suplementos, hábitos</p></div></div>
+        <div class="niche-row reveal"><p class="p-sm">04</p><div><p class="p-xl">Lifestyle y hogar</p><p class="p-sm niche-detail">Día a día y productos en casa</p></div></div>
+        <h2 class="h2 group-title" data-split>Qué tipo de contenido hago</h2>
+        <div class="niche-row reveal"><p class="p-sm">01</p><div><p class="p-lg">Videos UGC para anuncios</p><p class="p-sm niche-detail">Ej.: hook en 3 segundos, problema, solución y llamada a la acción</p></div></div>
+        <div class="niche-row reveal"><p class="p-sm">02</p><div><p class="p-lg">Unboxing</p><p class="p-sm niche-detail">Ej.: abro tu producto y muestro cada detalle</p></div></div>
+        <div class="niche-row reveal"><p class="p-sm">03</p><div><p class="p-lg">Reseñas y testimoniales</p><p class="p-sm niche-detail">Ej.: opinión honesta a cámara, como recomendación de amiga</p></div></div>
+        <div class="niche-row reveal"><p class="p-sm">04</p><div><p class="p-lg">Tutoriales</p><p class="p-sm niche-detail">Ej.: paso a paso de cómo se usa tu producto</p></div></div>
+        <div class="niche-row reveal"><p class="p-sm">05</p><div><p class="p-lg">Fotografía de producto</p><p class="p-sm niche-detail">Ej.: fotos lifestyle con el producto en uso</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · TESTIMONIOS -->
   <section id="testimonios" class="section">
     <div class="grid">
       <div class="block" style="grid-area: 2 / 2 / 4 / 12;"><h2 class="h2" data-split>Lo que dicen de mí</h2></div>
@@ -313,10 +441,16 @@
       <p class="p-xl" data-split>Hagamos algo juntas</p>
       <h2 class="h2"><a class="u" href="mailto:hola@lauracreativa.com">hola@lauracreativa.com</a></h2>
     </div>
-    <div class="block reveal" style="grid-area: 6 / 2 / 7 / 12;"><p class="p-sm">© 2026 Laura · Plantilla UGC de We Are Miiles</p></div>
-    <div class="block reveal" style="grid-area: 6 / 14 / 7 / 26;">
-      <p class="p-lg"><a class="u" href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>, <a class="u" href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>, <a class="u" href="mailto:hola@lauracreativa.com">Email</a></p>
+    <div class="block" style="grid-area: 1 / 14 / 8 / 26;">
+      <h2 class="h2" data-split>Mis redes</h2>
+      <ul class="social-list">
+        <li class="reveal"><a href="https://instagram.com" target="_blank" rel="noopener"><span class="p-xl">Instagram</span><span class="p-sm">@laura.ugc</span></a></li>
+        <li class="reveal"><a href="https://tiktok.com" target="_blank" rel="noopener"><span class="p-xl">TikTok</span><span class="p-sm">@laura.ugc</span></a></li>
+        <li class="reveal"><a href="https://youtube.com" target="_blank" rel="noopener"><span class="p-xl">YouTube</span><span class="p-sm">@laura.ugc</span></a></li>
+        <li class="reveal"><a href="https://wa.me/" target="_blank" rel="noopener"><span class="p-xl">WhatsApp</span><span class="p-sm">Escríbeme directo</span></a></li>
+      </ul>
     </div>
+    <div class="block reveal" style="grid-area: 9 / 2 / 10 / 12;"><p class="p-sm">© 2026 Laura · Plantilla UGC de We Are Miiles</p></div>
   </div>
 </footer>
 
@@ -412,6 +546,12 @@
         });
       });
 
+      // Tarjetas del carrusel: entran escalonadas desde la derecha
+      gsap.from(".reel-card", {
+        autoAlpha: 0, x: 60, duration: 1, ease: "power3.out", stagger: 0.07,
+        scrollTrigger: { trigger: ".reel", start: "top 80%", once: true }
+      });
+
       // Logos de marcas: entrada escalonada
       gsap.utils.toArray(".brand-logo").forEach(function (el) { el.classList.remove("reveal"); });
       gsap.from(".brand-logo", {
@@ -421,6 +561,82 @@
     } else {
       document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
     }
+
+    // Carrusel: flechas, arrastre con mouse, barra de progreso, videos solo cuando se ven
+    var track = document.querySelector(".reel-track");
+    var btns = document.querySelectorAll(".reel-btn");
+    var bar = document.querySelector(".reel-progress span");
+    var step = function () { var c = track.querySelector(".reel-card"); return c.offsetWidth + parseFloat(getComputedStyle(track).columnGap || 0); };
+    function updateReel() {
+      var max = track.scrollWidth - track.clientWidth;
+      var p = max > 0 ? track.scrollLeft / max : 1;
+      bar.style.width = (Math.max(p, track.clientWidth / track.scrollWidth) * 100) + "%";
+      btns[0].disabled = track.scrollLeft <= 2;
+      btns[1].disabled = track.scrollLeft >= max - 2;
+    }
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        track.scrollBy({ left: step() * Number(b.getAttribute("data-dir")), behavior: reduce ? "auto" : "smooth" });
+      });
+    });
+    track.addEventListener("scroll", updateReel, { passive: true });
+    window.addEventListener("resize", updateReel);
+    track.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); btns[1].click(); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); btns[0].click(); }
+    });
+    var drag = null, moved = false;
+    track.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      drag = { x: e.clientX, left: track.scrollLeft }; moved = false;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      if (Math.abs(dx) > 5) { moved = true; track.classList.add("is-dragging"); }
+      track.scrollLeft = drag.left - dx;
+    });
+    window.addEventListener("pointerup", function () {
+      if (!drag) return;
+      drag = null;
+      setTimeout(function () { track.classList.remove("is-dragging"); }, 0);
+    });
+    var vio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) { var pr = e.target.play(); if (pr && pr.catch) pr.catch(function () {}); }
+        else e.target.pause();
+      });
+    }, { threshold: 0.4 });
+    track.querySelectorAll("video").forEach(function (v) { vio.observe(v); });
+    updateReel();
+
+    // Visor: abre la pieza en grande (videos con sonido y controles)
+    var viewer = document.getElementById("visor");
+    var stage = viewer.querySelector(".viewer-stage");
+    var lastCard = null;
+    function openViewer(card) {
+      lastCard = card;
+      var src = card.getAttribute("data-src");
+      stage.innerHTML = card.getAttribute("data-type") === "video"
+        ? '<video src="' + src + '" controls autoplay playsinline></video>'
+        : '<img src="' + src + '" alt="">';
+      viewer.classList.add("is-open");
+      if (smoother) smoother.paused(true);
+      viewer.querySelector(".viewer-close").focus();
+    }
+    function closeViewer() {
+      if (!viewer.classList.contains("is-open")) return;
+      viewer.classList.remove("is-open");
+      if (smoother) smoother.paused(false);
+      setTimeout(function () { stage.innerHTML = ""; }, 260);
+      if (lastCard) lastCard.focus();
+    }
+    track.querySelectorAll(".reel-card").forEach(function (card) {
+      card.addEventListener("click", function () { if (!moved) openViewer(card); });
+    });
+    viewer.addEventListener("click", function (e) { if (e.target === viewer) closeViewer(); });
+    viewer.querySelector(".viewer-close").addEventListener("click", closeViewer);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeViewer(); });
 
     // Menú móvil
     var toggle = document.querySelector(".menu-toggle");
@@ -454,7 +670,7 @@
 
     // Link activo en el navbar
     var links = document.querySelectorAll(".nav a");
-    ["marcas", "contenido", "sobre-mi", "testimonios", "contacto"].forEach(function (id) {
+    ["marcas", "contenido", "nichos", "sobre-mi", "testimonios", "contacto"].forEach(function (id) {
       new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           if (!e.isIntersecting) return;
