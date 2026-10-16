@@ -566,14 +566,27 @@
           ScrollTrigger.create({
             trigger: title,
             start: function () { return "top " + top() + "px"; },
-            endTrigger: list,
-            end: function () { return "bottom " + (top() + title.offsetHeight) + "px"; },
+            // Se despega cuando termina su lista; si la página se acaba antes
+            // (última sección), se despega un poco antes del final.
+            end: function () {
+              // Posición absoluta del final de la lista (offsetTop no se ve afectado por transforms)
+              var y = list.offsetHeight, el = list;
+              while (el && el.id !== "smooth-content") { y += el.offsetTop; el = el.offsetParent; }
+              var natural = y - (top() + title.offsetHeight);
+              return Math.min(natural, ScrollTrigger.maxScroll(window) - 120);
+            },
             pin: true,
             pinSpacing: false,
             invalidateOnRefresh: true
           });
         });
       });
+
+      // Recalcula posiciones cuando cargan fuentes/imágenes o cambia la altura
+      var refreshSoon = (function () { var t; return function () { clearTimeout(t); t = setTimeout(function () { ScrollTrigger.refresh(); }, 150); }; })();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(refreshSoon);
+      window.addEventListener("load", refreshSoon);
+      if (window.ResizeObserver) new ResizeObserver(refreshSoon).observe(document.getElementById("smooth-content"));
 
       // Logos de marcas: entrada escalonada
       gsap.utils.toArray(".brand-logo").forEach(function (el) { el.classList.remove("reveal"); });
