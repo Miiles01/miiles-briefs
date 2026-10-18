@@ -190,10 +190,11 @@ em { font-family: var(--script); font-style: italic; font-weight: 400; letter-sp
 .split-img { width: calc(50% - .625rem); }
 
 /* Entrada con la estrella (portafolio de Manuel): empieza enorme y se encoge girando */
-.star-intro { position: fixed; inset: 0; z-index: 999; display: grid; place-items: center; overflow: hidden; pointer-events: none; }
-.star-intro svg { position: absolute; left: 50%; top: 50%; width: 100vmax; height: 100vmax; margin: -50vmax 0 0 -50vmax; fill: var(--brand); transform: scale(4); will-change: transform; }
-.star-word { position: relative; font: 400 clamp(3rem, 9vw, 10rem)/1 var(--serif); letter-spacing: -.02em; color: var(--paper); opacity: 0; animation: star-word-in 1.1s .25s cubic-bezier(.22,1,.36,1) forwards; }
-@keyframes star-word-in { from { opacity: 0; filter: blur(8px); transform: translateY(.15em); } to { opacity: 1; filter: none; transform: none; } }
+.star-intro { position: fixed; inset: 0; z-index: 999; display: grid; place-items: center; overflow: hidden; pointer-events: none; background: var(--brand); contain: strict; }
+.star-intro svg { position: absolute; left: 50%; top: 50%; width: 100vmax; height: 100vmax; margin: -50vmax 0 0 -50vmax; fill: var(--brand); will-change: transform; }
+/* La estrella se rasteriza una sola vez a su tamaño base; el giro y la escala los hace la GPU */
+.star-word { position: relative; font: 400 clamp(3rem, 9vw, 10rem)/1 var(--serif); letter-spacing: -.02em; color: var(--paper); opacity: 0; animation: star-word-in 1s .2s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes star-word-in { from { opacity: 0; transform: translateY(.15em); } to { opacity: 1; transform: none; } }
 .star-intro.is-done { display: none; }
 @media (prefers-reduced-motion: reduce) { .star-intro { display: none; } }
 /* Foto de sobre mí: 4:5 y con tope de ancho para no estirarla más allá de su resolución */
@@ -247,12 +248,17 @@ em { font-family: var(--script); font-style: italic; font-weight: 400; letter-sp
   transition: transform .8s var(--ease), background-color .45s var(--ease-ui), padding .45s var(--ease-ui), box-shadow .45s var(--ease-ui); }
 .bar.is-solid { background: var(--paper); padding-block: .85rem; box-shadow: 0 .5rem 2rem -1.5rem #2a1f3d40; }
 .bar.is-hidden { transform: translateY(-120%) !important; }
-.brand { display: inline-flex; align-items: center; gap: .55rem; font: 400 1.35rem/1 var(--serif); white-space: nowrap; min-height: 2.75rem; padding: 0 1.1rem; margin-left: -1.1rem; border-radius: 50vw; background: #f8f5fcd9; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-html.lock .brand { background: transparent; }
+.brand { display: inline-flex; align-items: center; gap: .55rem; font: 400 1.35rem/1 var(--serif); white-space: nowrap; min-height: 2.75rem; padding: 0 1.1rem; margin-left: -1.1rem; border-radius: 50vw; }
+html.lock .brand { background: transparent; border-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .brand-mark { color: var(--brand); font-size: .9em; transition: transform .5s var(--ease-ui); }
 @media (hover: hover) { .brand:hover .brand-mark { transform: rotate(45deg) scale(1.15); } }
 .nav { display: flex; gap: 2rem; padding: .45rem 1.4rem; border-radius: 50vw; transition: background-color .45s var(--ease-ui); }
-.bar:not(.is-solid) .nav { background: #f8f5fcd9; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+/* Navbar en vidrio: fondo translúcido con desenfoque de lo que pasa detrás */
+.brand, .nav, .burger {
+  background: #f8f5fc73; border: 1px solid #ffffff8c;
+  -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6);
+  box-shadow: 0 .5rem 1.75rem -1rem #2a1f3d40, inset 0 1px 0 #ffffffa6;
+}
 .nav a { position: relative; padding-block: .35rem; }
 .nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease-ui); }
 .nav a.is-active::after { transform: scaleX(1); transform-origin: left; }
@@ -276,7 +282,7 @@ html.lock .wa-float, html.viewing .wa-float { opacity: 0; pointer-events: none; 
 /* ============ Navbar → botón "Menú" cuando no cabe ============ */
 @media (max-width: 1180px) {
   .nav, .bar-cta { display: none; }
-  .burger { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 50vw; border: 1px solid currentColor; background: #f8f5fcd9; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: background-color .3s var(--ease-ui), color .3s var(--ease-ui); position: relative; z-index: 2; }
+  .burger { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 50vw; transition: background-color .3s var(--ease-ui), color .3s var(--ease-ui); position: relative; z-index: 2; }
   .burger.on { background: var(--paper); color: var(--ink); border-color: var(--paper); }
   html.lock .bar { color: var(--paper); background: transparent; box-shadow: none; }
   .sheet { display: flex; position: fixed; inset: 0; z-index: 110; background: var(--ink); color: var(--paper); flex-direction: column; justify-content: flex-end; gap: 2.5rem;
