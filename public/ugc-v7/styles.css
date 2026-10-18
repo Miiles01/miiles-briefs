@@ -38,6 +38,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; padding-ri
 
 /* ============ Loader ============ */
 @font-face { font-family: "Archivo"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("media/fonts/archivo.woff2") format("woff2"); }
+@font-face { font-family: "Libre Caslon Text"; font-style: italic; font-weight: 400; font-display: swap; src: url("media/fonts/caslon-italic.woff2") format("woff2"); }
 
 /* ============ Loader de entrada (como la V6, en lima con "Portafolio") ============ */
 .loader { display: none; }
@@ -47,9 +48,10 @@ html.has-loader, html.has-loader body { overflow: hidden; height: 100%; overscro
 html.has-loader #app { position: relative; z-index: 1; height: 100vh; height: 100svh; overflow: hidden; background: var(--ink); transform: translateY(100vh); will-change: transform; }
 html.hero-hold .nav, html.hero-hold .hero { visibility: hidden; }
 .loader-inner { will-change: transform; }
-.loader-word { display: block; font-family: var(--display); font-weight: 600; font-size: clamp(64px, 16vw, 260px); letter-spacing: -.045em; line-height: 1; white-space: nowrap; }
+/* "Portafolio" en la misma serif itálica de "moda" y "belleza" */
+.loader-word { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(60px, 15vw, 250px); letter-spacing: -.035em; line-height: 1.05; white-space: nowrap; }
 /* Cada letra sube desde una máscara con aire por todos lados: nunca se corta */
-.loader .m { display: inline-block; overflow: hidden; vertical-align: top; padding: .08em .06em .16em; margin: -.08em -.06em -.16em; }
+.loader .m { display: inline-block; overflow: hidden; vertical-align: top; padding: .12em .14em .24em; margin: -.12em -.14em -.24em; }
 .loader .m > span { display: inline-block; transform: translateY(115%); }
 .loader.go .m > span { animation: ld-rise .9s var(--ease) both; }
 .loader .m:nth-child(2) > span { animation-delay: .05s; } .loader .m:nth-child(3) > span { animation-delay: .1s; }
