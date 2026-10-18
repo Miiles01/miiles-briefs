@@ -361,7 +361,7 @@
         scrollTrigger: { trigger: box, start: 'top 88%', once: true }
       });
       gsap.from(box.querySelector('.media-fill'), {
-        scale: 1.35, duration: 2, ease: 'expo.out',
+        scale: box.classList.contains('about-photo') ? 1.08 : 1.35, duration: 2, ease: 'expo.out',
         scrollTrigger: { trigger: box, start: 'top 88%', once: true }
       });
     });

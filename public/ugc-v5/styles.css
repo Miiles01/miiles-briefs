@@ -188,6 +188,9 @@ em { font-family: var(--script); font-style: italic; font-weight: 400; letter-sp
 .split-text { width: calc(50% - .625rem); display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; padding-inline: 4vw; }
 .split-text .btn { margin-top: 1rem; }
 .split-img { width: calc(50% - .625rem); }
+/* Foto de sobre mí: 4:5 y con tope de ancho para no estirarla más allá de su resolución */
+.ratio-23.about-photo { aspect-ratio: 4 / 5; max-width: 560px; }
+.about-photo .media-fill.has-img { background-position: center 25%; }
 .ratio-23 { position: relative; aspect-ratio: 2 / 3; overflow: hidden; border-radius: 1.25rem; }
 .ratio-23 .media-fill { transition: scale .8s var(--ease-ui); }
 @media (hover: hover) { .ratio-23:hover .media-fill { scale: 1.04; } }
