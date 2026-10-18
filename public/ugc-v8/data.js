@@ -20,7 +20,7 @@ window.UGC = (() => {
     },
 
     // Fotos de cada nicho (en el mismo orden que nichos.items)
-    fotosNichos: ['foto-5.jpg', 'foto-4.jpg', 'foto-3.jpg', 'foto-2.jpg'].map(f => MEDIA + f),
+    fotosNichos: [MEDIA + 'foto-5.jpg', 'media/moda-laura.jpg', MEDIA + 'foto-3.jpg', MEDIA + 'foto-2.jpg'],
 
     marcas: {
       titulo: 'Marcas que confiaron en mí',

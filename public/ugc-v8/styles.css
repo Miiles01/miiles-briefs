@@ -277,3 +277,5 @@ a:hover .roll > span, button:hover .roll > span { transform: translateY(-100%); 
   .page-loader { display: none; }
   .collage_img { opacity: 1; }
 }
+/* Foto de Moda (barco): la cara arriba, se encuadra desde el rostro */
+.step .media img[src*="moda-laura"] { object-position: 50% 22%; }
