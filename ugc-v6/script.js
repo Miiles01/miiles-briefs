@@ -144,6 +144,7 @@
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(t => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
+    if (root.classList.contains('has-loader')) lenis.stop(); // sin scroll mientras está el loader
   }
   $('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
     const id = a.getAttribute('href'), target = id.length > 1 ? d.querySelector(id) : d.body;
@@ -178,7 +179,7 @@
       .to('.loader-shade', { opacity: .55, duration: 1.1, ease: 'power2.in' }, 0)
       .fromTo(app, { y: () => innerHeight }, { y: 0, duration: 1.1, ease: 'power3.inOut', immediateRender: false }, 0)
       .add(res, .55)
-      .add(() => { root.classList.remove('has-loader'); gsap.set(app, { clearProps: 'transform' }); ScrollTrigger.refresh(); });
+      .add(() => { root.classList.remove('has-loader'); gsap.set(app, { clearProps: 'transform' }); scrollTo(0, 0); lenis && lenis.start(); ScrollTrigger.refresh(); });
   });
   // La entrada del hero se arma (pausada) en cuanto hay fuentes: sus estados iniciales quedan puestos
   // antes de que la página suba, y se reproduce cuando el loader sale. Así el texto no aparece y desaparece.

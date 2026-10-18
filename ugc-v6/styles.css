@@ -306,8 +306,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ============ Loader de entrada (igual que la V4, en azul) ============ */
 .loader { display: none; }
 html.has-loader .loader { position: fixed; inset: 0; z-index: 0; display: grid; place-items: center; background: var(--blue); color: #fff; text-align: center; overflow: hidden; }
-html.has-loader body { overflow: hidden; }
-html.has-loader #app { visibility: visible; position: relative; z-index: 1; background: var(--bg); transform: translateY(100vh); }
+/* Durante el loader no se puede hacer scroll y solo se mueve una pantalla (no toda la página) */
+html.has-loader, html.has-loader body { overflow: hidden; height: 100%; overscroll-behavior: none; }
+html.has-loader #app { visibility: visible; position: relative; z-index: 1; height: 100vh; height: 100svh; overflow: hidden; background: var(--bg); transform: translateY(100vh); will-change: transform; }
 .loader-inner { will-change: transform; }
 .loader-hi { display: block; font-size: clamp(22px, 3vw, 44px); font-weight: 500; letter-spacing: -.02em; line-height: 1.1; color: #dbe5ff; }
 .loader-name { display: block; font-size: clamp(88px, 22vw, 360px); font-weight: 800; letter-spacing: -.06em; line-height: .9; margin-top: .02em; }
