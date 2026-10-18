@@ -67,8 +67,8 @@
     <!-- Frase en tres filas; las figuras van dentro de cada fila para no encimarse con el texto -->
     <h1 class="hero-title" aria-label="${esc(D.nombre)}, creadora UGC de belleza, moda y bienestar">
       <span class="l l1" aria-hidden="true"><span class="shape s-flower">${shape.flower()}</span><span class="lw">${esc(D.nombre)}, creadora</span>${pill(0, 'pill-a')}</span>
-      <span class="l l2" aria-hidden="true">${pill(2, 'pill-b')}<span class="lw">UGC de belleza,</span><span class="shape s-star">${shape.star()}</span></span>
-      <span class="l l3" aria-hidden="true"><span class="shape s-ast">${shape.ast()}</span><span class="lw">moda y bienestar</span></span>
+      <span class="l l2" aria-hidden="true">${pill(2, 'pill-b')}<span class="lw">UGC de <em class="it">belleza,</em></span><span class="shape s-star">${shape.star()}</span></span>
+      <span class="l l3" aria-hidden="true"><span class="shape s-ast">${shape.ast()}</span><span class="lw"><em class="it">moda</em> y bienestar</span></span>
     </h1>
     <div class="hero-foot">
       <p class="hero-intro">${esc(D.intro)}</p>

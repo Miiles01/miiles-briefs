@@ -102,6 +102,8 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; padding-ri
 .hero-title { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 8.2vw, 128px); line-height: 1.12; letter-spacing: -.02em; display: flex; flex-direction: column; gap: .04em; position: relative; z-index: 2; white-space: nowrap; }
 .l { display: flex; align-items: center; gap: .2em; will-change: transform; }
 .lw { display: block; padding-block: .04em .1em; }
+/* Palabras clave en serif itálica para darles peso */
+.hero-title .it { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -.035em; padding-right: .04em; }
 .l1 { padding-left: 2%; }
 .l2 { justify-content: flex-end; padding-right: 2%; }
 .l3 { padding-left: 8%; }
