@@ -13,9 +13,10 @@ window.UGC = (() => {
     medios: {
       hero: MEDIA + 'hero.jpg',          // retrato principal (horizontal)
       portada: MEDIA + 'portada.jpg',    // foto horizontal a sangre
-      sobreMi: MEDIA + 'sobre-mi.jpg',
+      sobreMi: 'media/sobre-mi.jpg',
       // Pastillas de fotos que se intercambian dentro del titular del hero
-      pastillas: ['foto-1.jpg', 'foto-4.jpg', 'foto-3.jpg', 'foto-5.jpg', 'foto-2.jpg', 'sobre-mi.jpg'].map(f => MEDIA + f)
+      // Fotos recortadas en horizontal con la cara al centro
+      pastillas: [1, 2, 3, 4, 5, 6].map(n => `media/pill-${n}.jpg`)
     },
 
     // Palabras de la cinta en movimiento bajo el hero

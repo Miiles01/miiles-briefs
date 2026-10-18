@@ -7,7 +7,7 @@
 
   // Figuras de la plantilla (flor, asterisco y estrella)
   const shape = {
-    flower: (c = 'var(--hot)') => `<svg viewBox="0 0 100 100" aria-hidden="true"><path fill="${c}" d="M50 0l8 20 18-12-2 22 22-2-12 18 20 8-20 8 12 18-22-2 2 22-18-12-8 20-8-20-18 12 2-22-22 2 12-18L0 50l20-8L8 24l22 2-2-22 18 12z"/></svg>`,
+    flower: (c = 'var(--hot)') => `<svg viewBox="0 0 100 100" aria-hidden="true"><path fill="${c}" d="M50.00 0.00 L58.23 13.93 L71.69 4.95 L73.07 21.07 L89.09 18.83 L83.34 33.95 L98.75 38.87 L87.00 50.00 L98.75 61.13 L83.34 66.05 L89.09 81.17 L73.07 78.93 L71.69 95.05 L58.23 86.07 L50.00 100.00 L41.77 86.07 L28.31 95.05 L26.93 78.93 L10.91 81.17 L16.66 66.05 L1.25 61.13 L13.00 50.00 L1.25 38.87 L16.66 33.95 L10.91 18.83 L26.93 21.07 L28.31 4.95 L41.77 13.93Z"/></svg>`,
     ast: (c = 'var(--lime)') => `<svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="${c}" stroke-width="16"><path d="M50 0v100M0 50h100M15 15l70 70M85 15L15 85"/></g></svg>`,
     star: (c = 'var(--orange)') => `<svg viewBox="0 0 100 100" aria-hidden="true"><path fill="${c}" d="M50 0c4 30 16 42 50 50-34 8-46 20-50 50-4-30-16-42-50-50 34-8 46-20 50-50z"/></svg>`
   };
@@ -64,15 +64,11 @@
 
   <!-- 01 · HERO -->
   <header class="hero" id="top">
-    <span class="shape s-flower">${shape.flower()}</span>
-    <span class="shape s-ast">${shape.ast()}</span>
-    <span class="shape s-star">${shape.star()}</span>
-
-    <h1 class="hero-title" aria-label="${esc(D.nombre)}, ${esc(D.rol.charAt(0).toLowerCase() + D.rol.slice(1))}">
-      <span class="l l1" aria-hidden="true"><span class="lw">${esc(D.nombre)}</span>${pill(0, 'pill-a')}</span>
-      <span class="l l2" aria-hidden="true">${pill(2, 'pill-b')}<span class="lw">contenido UGC</span></span>
-      <span class="l l3" aria-hidden="true"><span class="lw">para belleza, moda</span></span>
-      <span class="l l4" aria-hidden="true"><span class="lw">y bienestar</span>${pill(4, 'pill-c')}</span>
+    <!-- Frase en tres filas; las figuras van dentro de cada fila para no encimarse con el texto -->
+    <h1 class="hero-title" aria-label="${esc(D.nombre)}, creadora UGC de belleza, moda y bienestar">
+      <span class="l l1" aria-hidden="true"><span class="shape s-flower">${shape.flower()}</span><span class="lw">${esc(D.nombre)}, creadora</span>${pill(0, 'pill-a')}</span>
+      <span class="l l2" aria-hidden="true">${pill(2, 'pill-b')}<span class="lw">UGC de belleza,</span><span class="shape s-star">${shape.star()}</span></span>
+      <span class="l l3" aria-hidden="true"><span class="shape s-ast">${shape.ast()}</span><span class="lw">moda y bienestar</span></span>
     </h1>
     <div class="hero-foot">
       <p class="hero-intro">${esc(D.intro)}</p>
@@ -83,7 +79,6 @@
       <div class="hero-socials">${D.redes.map(r => `<a href="${esc(r.url)}" ${ext} aria-label="${esc(r.nombre)}">${icons[r.nombre] || ''}</a>`).join('')}</div>
     </div>
 
-    <span class="badge">Creadora de contenido UGC</span>
     <svg class="scroll-arrow" viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 0v58M2 38c10 0 18 8 18 20M38 38c-10 0-18 8-18 20"/></svg>
     <div class="curve" aria-hidden="true"></div>
   </header>
