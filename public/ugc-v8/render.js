@@ -128,7 +128,7 @@
       ${i === 1 ? `
       <div class="heads" aria-hidden="true">
         <div class="heads_script script">${esc(D.nombre.toLowerCase())}</div>
-        <div class="heads_img mask_reveal"><img src="${esc(D.medios.portada)}" alt="" loading="lazy" decoding="async"></div>
+        <div class="heads_img mask_reveal"><img src="${esc(D.medios.nichos)}" alt="" loading="lazy" decoding="async"></div>
         ${nicheWords.map((w, k) => `<div class="heads_word hd${k}" data-speed="${[1.2, 0.8, 0.95][k]}">${esc(w)}</div>`).join('')}
       </div>` : ''}`).join('')}
 
@@ -147,12 +147,10 @@
 
     <!-- 05 · SOBRE MÍ -->
     <section class="section about container" id="sobre-mi">
-      <div class="row h-l about-title" data-center aria-hidden="true"><span>Sobre</span><div class="thumb mask_reveal"><img src="${esc(D.medios.hero)}" alt="" loading="lazy" decoding="async"></div><span>mí</span></div>
-      <h2 class="sr">${esc(D.sobreMi.titulo)}</h2>
       <div class="about-grid">
         <div class="about-media mask_reveal"><img src="${esc(D.medios.sobreMi)}" alt="${esc(D.nombre)} con su celular" loading="lazy" decoding="async"></div>
         <div class="about-copy">
-          <span class="label">${esc(D.nombre)}</span>
+          <h2 class="about-h">${esc(D.sobreMi.titulo)}</h2>
           ${D.sobreMi.parrafos.map(p => `<p class="h-m color-change">${esc(p)}</p>`).join('')}
           <a href="#contacto" class="btn">${roll('Contáctame')} ${arrow}</a>
         </div>

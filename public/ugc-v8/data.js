@@ -14,6 +14,7 @@ window.UGC = (() => {
       hero: MEDIA + 'hero.jpg',          // retrato principal (horizontal)
       portada: MEDIA + 'portada.jpg',    // foto horizontal a sangre
       sobreMi: MEDIA + 'sobre-mi.jpg',
+      nichos: 'media/nichos-laura.jpg',   // foto grande de Belleza / Moda / Bienestar
       // Fotos que salen alrededor de la principal y forman el collage del hero
       collage: ['foto-1.jpg', 'foto-4.jpg', 'foto-3.jpg', 'foto-5.jpg', 'foto-2.jpg', 'sobre-mi.jpg'].map(f => MEDIA + f)
     },
