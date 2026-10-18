@@ -188,6 +188,12 @@ em { font-family: var(--script); font-style: italic; font-weight: 400; letter-sp
 .split-text { width: calc(50% - .625rem); display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; padding-inline: 4vw; }
 .split-text .btn { margin-top: 1rem; }
 .split-img { width: calc(50% - .625rem); }
+
+/* Entrada con la estrella (portafolio de Manuel): empieza enorme y se encoge girando */
+.star-intro { position: fixed; inset: 0; z-index: 999; display: grid; place-items: center; overflow: hidden; pointer-events: none; }
+.star-intro svg { width: 100vmax; height: 100vmax; flex: none; fill: var(--brand); transform: scale(4); will-change: transform; }
+.star-intro.is-done { display: none; }
+@media (prefers-reduced-motion: reduce) { .star-intro { display: none; } }
 /* Foto de sobre mí: 4:5 y con tope de ancho para no estirarla más allá de su resolución */
 .ratio-23.about-photo { aspect-ratio: 4 / 5; max-width: 560px; }
 .about-photo .media-fill.has-img { background-position: center 25%; }

@@ -173,6 +173,7 @@
 
   /* ---------- Sin GSAP o con movimiento reducido: página estática funcional ---------- */
   if (!window.gsap || !window.ScrollTrigger || reduce) {
+    d.querySelector('.star-intro')?.classList.add('is-done');
     $('a[href^="#"]').forEach(a => a.addEventListener('click', () => setSheet(false)));
     return;
   }
@@ -248,7 +249,19 @@
     .to('.hero .marquee-track', { yPercent: 0, opacity: 1, duration: 1.6, ease: 'expo.out' }, .3)
     .to('.bar', { yPercent: 0, duration: 1.1 }, .9);
 
-  heroReady.then(() => intro.play());
+  // Estrella: gira en cámara lenta mientras carga la portada; luego se encoge hasta desaparecer
+  const starBox = d.querySelector('.star-intro'), star = starBox && starBox.querySelector('svg');
+  if (star) {
+    gsap.set(star, { scale: 4, rotation: 0, transformOrigin: '50% 50%' });
+    const idle = gsap.to(star, { rotation: 360, duration: 40, ease: 'none', repeat: -1 });
+    heroReady.then(() => {
+      idle.kill();
+      gsap.timeline({ onComplete: () => starBox.classList.add('is-done') })
+        .to(star, { scale: 0, duration: 2.8, ease: 'power3.inOut' }, 0)
+        .to(star, { rotation: '+=180', duration: 2.8, ease: 'sine.inOut' }, 0)
+        .add(() => intro.play(), 1.4);
+    });
+  } else heroReady.then(() => intro.play());
 
   /* ---------- Barra: se oculta al bajar, vuelve al subir + progreso ---------- */
   ScrollTrigger.create({
