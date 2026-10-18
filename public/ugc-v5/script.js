@@ -228,11 +228,9 @@
   gsap.set(['.hero .label', '.hero-intro', '.hero .btn', '.hero-social'], { opacity: 0, y: 24 });
   gsap.set('.wa-float', { scale: 0 });
   gsap.set('.hero .marquee-track', { yPercent: 40, opacity: 0 });
-  gsap.set('.hero .media-fill', { scale: 1.3 });
 
   /* ---------- Entrada del hero (sin preloader: arranca al cargar) ---------- */
   const intro = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' } })
-    .to('.hero .media-fill', { scale: 1, duration: 2.2, ease: 'expo.out' }, 0)
     .to(heroWords, { yPercent: 0, duration: 1.3, stagger: .05 }, .15)
     .to('.hero .label', { opacity: .8, y: 0, duration: 1 }, .5)
     .to('.hero-intro', { opacity: 1, y: 0, duration: 1 }, .6)
@@ -242,21 +240,22 @@
     .to('.hero .marquee-track', { yPercent: 0, opacity: 1, duration: 1.6, ease: 'expo.out' }, .3)
     .to('.bar', { yPercent: 0, duration: 1.1 }, .9);
 
-  // Estrella: gira en cámara lenta mientras carga la portada; luego se encoge hasta desaparecer
+  // Estrella: fondo morado con "Portafolio"; luego la estrella (que ya cubre la pantalla) se encoge
+  // girando en cámara lenta hasta desaparecer. Mientras tanto solo se ve la foto; el texto entra al final.
   const starBox = d.querySelector('.star-intro'), star = starBox && starBox.querySelector('svg');
   if (star) {
-    gsap.set(star, { scale: 4, rotation: 0, transformOrigin: '50% 50%' });
-    const idle = gsap.to(star, { rotation: 360, duration: 40, ease: 'none', repeat: -1 });
-    // "Portafolio" aparece (CSS), se lee un momento, se desvanece y la estrella se encoge en el centro
-    const minShow = new Promise(res => setTimeout(res, Math.max(0, 1900 - performance.now())));
+    gsap.set(star, { transformOrigin: '50% 50%', force3D: true });
+    const minShow = new Promise(res => setTimeout(res, Math.max(0, 1800 - performance.now())));
     Promise.all([heroReady, minShow]).then(() => {
-      idle.kill();
-      gsap.set('.star-word', { animation: 'none', opacity: 1, filter: 'blur(0px)' }); // suelta la animación CSS para poder desvanecerla
+      gsap.set('.star-word', { animation: 'none', opacity: 1 }); // suelta la animación CSS para poder desvanecerla
       gsap.timeline({ onComplete: () => starBox.classList.add('is-done') })
-        .to('.star-word', { opacity: 0, filter: 'blur(8px)', duration: .7, ease: 'power2.in' }, 0)
-        .to(star, { scale: 0, duration: 2.5, ease: 'power3.inOut' }, .4)
-        .to(star, { rotation: '+=180', duration: 2.5, ease: 'sine.inOut' }, .4)
-        .add(() => intro.play(), 1.6);
+        .to('.star-word', { opacity: 0, duration: .5, ease: 'power2.in' }, 0)
+        // 3.5× basta para que la estrella cubra la pantalla: en ese mismo cuadro se quita el fondo sólido
+        .set(star, { scale: 3.5, rotation: 0 }, .5)
+        .set(starBox, { background: 'transparent' }, .5)
+        .to(star, { scale: 0, duration: 2.3, ease: 'power3.inOut' }, .5)
+        .to(star, { rotation: 150, duration: 2.3, ease: 'sine.inOut' }, .5)
+        .add(() => intro.play(), 2.35);
     });
   } else heroReady.then(() => intro.play());
 
