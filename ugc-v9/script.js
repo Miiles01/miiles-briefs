@@ -181,12 +181,10 @@
     const rad = lerp(vw * .5, vw * .03, clamp((grow - .6) / .4));
     archEl.style.borderRadius = `${rad}px ${rad}px 0 0`;
     showImg(p < .14 ? 0 : p < .28 ? 1 : p < .42 ? 2 : 3);     // la horizontal entra cuando el domo ya es grande
-    const imgOpacity = clamp((p - .02) / .1) * (1 - clamp((p - .72) / .14));
+    // La última foto se queda a pantalla completa (no se desvanece) y la siguiente sección sube encima
+    const imgOpacity = clamp((p - .02) / .1);
     archImgs.forEach((im, k) => { im.style.transform = `scale(${lerp(1.25, 1, e)})`; im.style.opacity = k === shown ? imgOpacity : 0; });
-    archEl.style.background = p > .72 ? '#181818' : '';
-    beam.style.opacity = clamp((p - .76) / .12) * (1 - clamp((p - .95) / .05));
-    archBg.style.opacity = clamp((p - .68) / .2);
-    sides.forEach(s => { s.style.color = p > .6 ? '#f8f1de' : ''; });
+    archBg.style.opacity = 0;
 
     // 2) Cintas: avance constante + empuje por velocidad de scroll
     vel = lerp(vel, y - prevY, .1); prevY = y;
@@ -211,4 +209,27 @@
     requestAnimationFrame(onFrame);
   }
   requestAnimationFrame(onFrame);
+
+  /* ---------- Color de los links del navbar según el fondo que tienen debajo ---------- */
+  (() => {
+    const links = document.querySelector('.nav-links');
+    if (!links) return;
+    const lum = c => { const m = c.match(/[\d.]+/g); if (!m || (m[3] !== undefined && +m[3] === 0)) return null; return (.2126 * m[0] + .7152 * m[1] + .0722 * m[2]) / 255; };
+    const tone = () => {
+      const r = links.getBoundingClientRect();
+      let el = document.elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2).find(e => !links.contains(e) && !e.closest('.nav, header, .logo')), l = null;
+      // Las fotos de esta página son de estudio con fondo claro: encima de ellas el texto va oscuro
+      if (el && el.tagName === 'IMG' && +getComputedStyle(el).opacity > .5) { links.classList.add('on-light'); return; }
+      while (el && el.tagName === 'IMG') el = el.parentElement;
+      while (el && l === null) { l = lum(getComputedStyle(el).backgroundColor); el = el.parentElement; }
+      links.classList.toggle('on-light', l !== null && l > .6);
+    };
+    let raf = 0;
+    const soon = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; tone(); }); };
+    addEventListener('scroll', soon, { passive: true });
+    addEventListener('resize', soon);
+    addEventListener('load', soon);
+    setInterval(soon, 600);
+    soon();
+  })();
 })();
