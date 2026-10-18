@@ -186,7 +186,7 @@
   fontsReady.then(() => {
     unhide();
     const tl = gsap.timeline({ paused: true, defaults: { ease: EASE } });
-    tl.from('.top', { yPercent: -100, autoAlpha: 0, duration: 1 }, 0)
+    tl.fromTo('.top', { yPercent: -100, autoAlpha: 0 }, { yPercent: 0, y: 0, autoAlpha: 1, duration: 1, ease: 'power3.out', clearProps: 'transform,opacity,visibility' }, 1.3) // el navbar entra al final
       .from('.hero-kicker', { opacity: 0, y: 16, duration: .8 }, .1);
     if (window.SplitText) {
       const t = SplitText.create('.hero-title', { type: 'chars,words,lines', mask: 'lines', linesClass: 'split-line' });
