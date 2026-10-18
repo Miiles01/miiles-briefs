@@ -126,7 +126,7 @@
   /* ---------- Sin GSAP o con movimiento reducido: página estática funcional ---------- */
   const unhide = () => root.classList.remove('is-loading');
   if (!window.gsap || !window.ScrollTrigger || reduce) {
-    root.classList.remove('has-loader');
+    root.classList.remove('has-loader', 'hero-hold');
     unhide();
     $('a[href^="#"]').forEach(a => a.addEventListener('click', () => setMenu(false)));
     return;
@@ -180,10 +180,12 @@
       .add(res, .55)
       .add(() => { root.classList.remove('has-loader'); gsap.set(app, { clearProps: 'transform' }); ScrollTrigger.refresh(); });
   });
-  Promise.all([fontsReady, loaderOut]).then(() => {
+  // La entrada del hero se arma (pausada) en cuanto hay fuentes: sus estados iniciales quedan puestos
+  // antes de que la página suba, y se reproduce cuando el loader sale. Así el texto no aparece y desaparece.
+  fontsReady.then(() => {
     unhide();
-    const tl = gsap.timeline({ defaults: { ease: EASE } });
-    tl.from('.top', { yPercent: -100, duration: 1 }, 0)
+    const tl = gsap.timeline({ paused: true, defaults: { ease: EASE } });
+    tl.from('.top', { yPercent: -100, autoAlpha: 0, duration: 1 }, 0)
       .from('.hero-kicker', { opacity: 0, y: 16, duration: .8 }, .1);
     if (window.SplitText) {
       const t = SplitText.create('.hero-title', { type: 'chars,words,lines', mask: 'lines', linesClass: 'split-line' });
@@ -197,6 +199,8 @@
       .from('.hero + .marquee', { opacity: 0, duration: 1 }, .9)
       .from('.hero-img', { clipPath: 'inset(100% 0% 0% 0% round 20px)', duration: 1.4, ease: 'expo.inOut' }, .5)
       .from('.hero-img img', { scale: 1.3, duration: 2, ease: 'expo.out' }, .7);
+    root.classList.remove('hero-hold');
+    loaderOut.then(() => tl.play());
 
     /* ---------- Títulos y párrafos al entrar en pantalla ---------- */
     $('.section-title, .cta-title, .clients-title, .profile h2').forEach(el => splitWords(el, {}, onView(el)));
