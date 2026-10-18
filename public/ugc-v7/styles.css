@@ -50,16 +50,16 @@ html.hero-hold .nav, html.hero-hold .hero { visibility: hidden; }
 .loader-inner { will-change: transform; }
 /* "Portafolio" en la misma serif itálica de "moda" y "belleza" */
 .loader-word { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(60px, 15vw, 250px); letter-spacing: -.035em; line-height: 1.05; white-space: nowrap; }
-/* Cada letra sube desde una máscara con aire por todos lados: nunca se corta */
-.loader .m { display: inline-block; overflow: hidden; vertical-align: top; padding: .12em .14em .24em; margin: -.12em -.14em -.24em; }
-.loader .m > span { display: inline-block; transform: translateY(115%); }
-.loader.go .m > span { animation: ld-rise .9s var(--ease) both; }
+/* Cada letra aparece con fade (sin máscara: la letra nunca se corta) */
+.loader .m { display: inline-block; }
+.loader .m > span { display: inline-block; opacity: 0; }
+.loader.go .m > span { animation: ld-fade .9s var(--ease) both; }
 .loader .m:nth-child(2) > span { animation-delay: .05s; } .loader .m:nth-child(3) > span { animation-delay: .1s; }
 .loader .m:nth-child(4) > span { animation-delay: .15s; } .loader .m:nth-child(5) > span { animation-delay: .2s; }
 .loader .m:nth-child(6) > span { animation-delay: .25s; } .loader .m:nth-child(7) > span { animation-delay: .3s; }
 .loader .m:nth-child(8) > span { animation-delay: .35s; } .loader .m:nth-child(9) > span { animation-delay: .4s; }
 .loader .m:nth-child(10) > span { animation-delay: .45s; }
-@keyframes ld-rise { from { transform: translateY(115%); } to { transform: none; } }
+@keyframes ld-fade { from { opacity: 0; transform: translateY(.18em); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
 .loader-count { position: absolute; right: var(--gutter); bottom: 22px; font-family: var(--display); font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .loader-shade { position: absolute; inset: 0; background: #0b0716; opacity: 0; pointer-events: none; }
 
