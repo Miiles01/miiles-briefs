@@ -47,15 +47,8 @@
   burger.addEventListener('click', () => setSheet(!sheet.classList.contains('open')));
   matchMedia('(min-width: 1181px)').addEventListener('change', e => e.matches && setSheet(false));
 
-  // Barra: sólida en cuanto deja atrás la portada + enlace activo según la sección
+  // Barra: siempre flotante (logo, menú en cápsula y contáctame), sin fondo sólido al bajar
   const bar = d.querySelector('.bar'), hero = d.querySelector('.hero');
-  const paintBar = () => {
-    const past = scrollY > hero.offsetHeight - bar.offsetHeight - 8;
-    bar.classList.toggle('is-solid', past && !sheet.classList.contains('open'));
-  };
-  addEventListener('scroll', paintBar, { passive: true });
-  addEventListener('resize', paintBar);
-  paintBar();
   const links = $('.nav a');
   const watched = links.map(a => d.querySelector(a.getAttribute('href'))).filter(Boolean);
   if ('IntersectionObserver' in window) {
@@ -254,12 +247,16 @@
   if (star) {
     gsap.set(star, { scale: 4, rotation: 0, transformOrigin: '50% 50%' });
     const idle = gsap.to(star, { rotation: 360, duration: 40, ease: 'none', repeat: -1 });
-    heroReady.then(() => {
+    // "Portafolio" aparece (CSS), se lee un momento, se desvanece y la estrella se encoge en el centro
+    const minShow = new Promise(res => setTimeout(res, Math.max(0, 1900 - performance.now())));
+    Promise.all([heroReady, minShow]).then(() => {
       idle.kill();
+      gsap.set('.star-word', { animation: 'none', opacity: 1, filter: 'blur(0px)' }); // suelta la animación CSS para poder desvanecerla
       gsap.timeline({ onComplete: () => starBox.classList.add('is-done') })
-        .to(star, { scale: 0, duration: 2.8, ease: 'power3.inOut' }, 0)
-        .to(star, { rotation: '+=180', duration: 2.8, ease: 'sine.inOut' }, 0)
-        .add(() => intro.play(), 1.4);
+        .to('.star-word', { opacity: 0, filter: 'blur(8px)', duration: .7, ease: 'power2.in' }, 0)
+        .to(star, { scale: 0, duration: 2.5, ease: 'power3.inOut' }, .4)
+        .to(star, { rotation: '+=180', duration: 2.5, ease: 'sine.inOut' }, .4)
+        .add(() => intro.play(), 1.6);
     });
   } else heroReady.then(() => intro.play());
 
