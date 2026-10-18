@@ -22,10 +22,14 @@
    6 Frase sobre imagen, overlay negro 52%
    7 Footer / contacto: fondo #6d6559 + wordmark gigante
 -->
+<link rel="preload" href="media/fonts/Boska-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  /* Boska (Fontshare): tipografía de títulos y del wordmark */
+  @font-face { font-family: "Boska"; src: url("media/fonts/Boska-Variable.woff2") format("woff2"); font-weight: 200 900; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Boska"; src: url("media/fonts/Boska-VariableItalic.woff2") format("woff2"); font-weight: 200 900; font-style: italic; font-display: swap; }
   :root {
     --white: #ffffff;
     --black: #000000;
@@ -34,7 +38,7 @@
     --footer-bg: #6d6559;     /* footer */
     --gutter: 32px;
     --gap: 17px;              /* espacio entre tarjetas */
-    --display: "Italiana", serif;
+    --display: "Boska", Georgia, serif;
     --body: "Lato", sans-serif;
     --header-h: 83px;
 
