@@ -1,4 +1,4 @@
-:HL["/ugc-v2/_next/static/chunks/0e62~r-zl0_mg.css","style"]
+:HL["/ugc-v2/_next/static/chunks/0e62~r-zl0_mg-2.css","style"]
 :HL["/ugc-v2/_next/static/media/2a65768255d6b625-s.p.14by5b4al-y~f.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/ugc-v2/_next/static/media/70e3db2de7f94926-s.p.0~0iy9faq3424.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/ugc-v2/_next/static/media/Satoshi_Medium-s.p.0hq2a81xn4_re.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
