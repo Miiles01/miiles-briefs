@@ -223,13 +223,39 @@
     .social-list a { padding: 8px 0; }
   }
 
+  /* Loader de entrada: pantalla roja "Hola, soy / Laura"; la página entra desde abajo */
+  .loader { display: none; }
+  html.is-loading .loader {
+    position: fixed; inset: 0; z-index: 0; display: grid; place-items: center;
+    background: var(--accent); color: var(--bg); text-align: center;
+  }
+  html.is-loading body { overflow: hidden; }
+  html.is-loading #smooth-content { background: var(--bg); }
+  html.is-loading .site-header, html.is-loading #smooth-wrapper { transform: translateY(100vh); }
+  .loader-hi { display: block; font-family: var(--serif); font-style: italic; font-size: clamp(28px, 4.2vw, 72px); line-height: 1.1; }
+  .loader-name { display: block; font-family: var(--logo); font-weight: 700; font-stretch: 125%; font-size: clamp(64px, 17vw, 330px); line-height: 0.9; letter-spacing: 0.01em; margin-top: 0.08em; }
+  .loader .m { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.02em 0.06em; }
+  .loader .m > span { display: inline-block; }
+  .loader-count { position: absolute; right: var(--gutter); bottom: 22px; font: 16px var(--sans); font-variant-numeric: tabular-nums; }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
     .mobile-menu, .thumb img, .thumb video, .nav a, .reel-btn, .reel-media img, .reel-media video, .viewer, .viewer-stage { transition: none !important; }
   }
 </style>
+<script>
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("is-loading");
+</script>
 </head>
 <body>
+
+<div class="loader" aria-hidden="true">
+  <div>
+    <span class="loader-hi"><span class="m"><span>Hola,</span></span> <span class="m"><span>soy</span></span></span>
+    <span class="loader-name"><span class="m"><span>L</span></span><span class="m"><span>a</span></span><span class="m"><span>u</span></span><span class="m"><span>r</span></span><span class="m"><span>a</span></span></span>
+  </div>
+  <span class="loader-count">0</span>
+</div>
 
 <header class="site-header">
   <a class="logo" href="#inicio" data-scroll>Laura</a>
@@ -370,7 +396,7 @@
 
     <div class="grid">
       <div id="sobre-mi" class="block img" data-img-reveal data-scrub-img style="grid-area: 1 / 2 / 22 / 12; z-index: 12;">
-        <img src="media/sobre-mi.jpg" alt="Retrato de Laura" loading="lazy" style="object-position: 50% 40%;">
+        <img src="media/sobre-mi-laura.jpg" alt="Retrato de Laura" loading="lazy" style="object-position: 50% 30%;">
       </div>
       <div class="block" style="grid-area: 1 / 14 / 8 / 26; z-index: 11;">
         <h2 class="h2" data-split style="margin-bottom: 0.4em;">Sobre mí</h2>
@@ -513,8 +539,24 @@
         return el.querySelectorAll(".wi");
       }
 
-      // Entrada del hero (al cargar)
-      var intro = gsap.timeline({ defaults: { ease: "power4.out" }, delay: 0.15 });
+      // Loader: "Hola, soy / Laura" sobre rojo; luego la página entra desde abajo (moveFromBottomEasing)
+      var loader = document.querySelector(".loader");
+      var moving = [header, document.getElementById("smooth-wrapper")];
+      var count = { v: 0 }, countEl = loader.querySelector(".loader-count");
+      var load = gsap.timeline();
+      load.from(".loader-hi .m > span", { yPercent: 110, duration: 0.8, ease: "power4.out", stagger: 0.08 }, 0.15)
+          .from(".loader-name .m > span", { yPercent: 110, duration: 1, ease: "power4.out", stagger: 0.06 }, 0.35)
+          .to(count, { v: 100, duration: 1.7, ease: "power2.inOut", onUpdate: function () { countEl.textContent = Math.round(count.v); } }, 0.1)
+          .to(".loader > div", { yPercent: -18, autoAlpha: 0, duration: 0.9, ease: "power3.in" }, 2.05)
+          .fromTo(moving, { y: function () { return window.innerHeight; } }, { y: 0, duration: 1.1, ease: "power3.inOut", immediateRender: false }, 2.05)
+          .add(function () {
+            document.documentElement.classList.remove("is-loading");
+            gsap.set(moving, { clearProps: "transform" });
+            ScrollTrigger.refresh();
+          });
+
+      // Entrada del hero (después del loader)
+      var intro = gsap.timeline({ defaults: { ease: "power4.out" }, delay: 2.45 });
       document.querySelectorAll('[data-split="intro-chars"]').forEach(function (el, i) {
         intro.from(split(el, true), { yPercent: 110, duration: 1.2, stagger: 0.045 }, i * 0.12);
       });
@@ -595,6 +637,7 @@
         scrollTrigger: { trigger: ".brand-grid", start: "top 85%", once: true }
       });
     } else {
+      document.documentElement.classList.remove("is-loading");
       document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
     }
 
