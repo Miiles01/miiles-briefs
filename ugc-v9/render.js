@@ -60,7 +60,6 @@
       <p class="label tag reveal">${esc(rolB.charAt(0).toUpperCase() + rolB.slice(1))}</p>
       <p class="hero-intro reveal">${esc(D.intro)}</p>
       <div class="hero-ctas reveal">
-        <a href="#trabajo" class="btn">${roll('Ver mi trabajo')}</a>
         <a href="#contacto" class="btn dark">${roll('Contáctame')}</a>
       </div>
       <div class="hero-foot label">
@@ -104,7 +103,7 @@
         </div>
       </div>
       <div class="see-more reveal">
-        <div class="big">ver m${oMark('á')}s</div>
+        <div class="big">ver más</div>
         <div class="links">${D.redes.slice(0, 2).map(r => `<a href="${esc(r.url)}" class="label" ${ext}>${roll('En ' + r.nombre)}</a>`).join('')}</div>
       </div>
     </section>
