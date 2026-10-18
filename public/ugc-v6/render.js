@@ -15,7 +15,7 @@
 
   // "Creadora de contenido UGC para marcas…" → titular gigante + complemento
   const corte = D.rol.indexOf(' para ');
-  const titular = corte > 0 ? D.rol.slice(0, corte) : D.rol;
+  const titular = `${D.nombre}, creadora UGC`;
   const complemento = corte > 0 ? D.rol.slice(corte + 1) : '';
 
   const nav = [
@@ -63,7 +63,7 @@
   <main id="top">
     <!-- 01 · HERO -->
     <section class="hero wrap">
-      <p class="hero-kicker">${star()}<span>${esc(D.nombre)}</span></p>
+      <p class="hero-kicker">${star()}<span>Portafolio</span></p>
       <h1 class="hero-title">${esc(titular)}</h1>
       <div class="hero-row">
         <p class="hero-sub">${esc(complemento)}</p>
@@ -195,5 +195,5 @@
     <p class="viewer-cap"></p>
   </div>
 
-  <div class="drag-cursor" aria-hidden="true">Arrastra</div>`;
+  <div class="drag-cursor" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M7.5 2 3.5 6l4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Arrastra<svg viewBox="0 0 12 12"><path d="m4.5 2 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>`;
 })();

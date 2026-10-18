@@ -126,6 +126,7 @@
   /* ---------- Sin GSAP o con movimiento reducido: página estática funcional ---------- */
   const unhide = () => root.classList.remove('is-loading');
   if (!window.gsap || !window.ScrollTrigger || reduce) {
+    root.classList.remove('has-loader');
     unhide();
     $('a[href^="#"]').forEach(a => a.addEventListener('click', () => setMenu(false)));
     return;
@@ -167,7 +168,19 @@
 
   /* ---------- Entrada del hero (escalonada) ---------- */
   const fontsReady = d.fonts ? Promise.race([d.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve();
-  fontsReady.then(() => {
+  // Loader: la página entra desde abajo mientras el azul se aleja y se oscurece
+  const loaderOut = new Promise(res => {
+    if (!root.classList.contains('has-loader')) return res();
+    const app = d.getElementById('app');
+    const since = window.__loaderStart ? (performance.now() - window.__loaderStart) / 1000 : 0;
+    gsap.timeline({ delay: Math.max(.15, 1.65 - since) })
+      .to('.loader-inner', { scale: .9, yPercent: -6, duration: 1.1, ease: 'power3.inOut' }, 0)
+      .to('.loader-shade', { opacity: .55, duration: 1.1, ease: 'power2.in' }, 0)
+      .fromTo(app, { y: () => innerHeight }, { y: 0, duration: 1.1, ease: 'power3.inOut', immediateRender: false }, 0)
+      .add(res, .55)
+      .add(() => { root.classList.remove('has-loader'); gsap.set(app, { clearProps: 'transform' }); ScrollTrigger.refresh(); });
+  });
+  Promise.all([fontsReady, loaderOut]).then(() => {
     unhide();
     const tl = gsap.timeline({ defaults: { ease: EASE } });
     tl.from('.top', { yPercent: -100, duration: 1 }, 0)

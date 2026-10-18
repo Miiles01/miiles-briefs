@@ -5,30 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Laura · Creadora de contenido UGC</title>
   <meta name="description" content="Laura, creadora de contenido UGC para marcas de belleza, moda y bienestar. Videos y fotos que se sienten como la recomendación de una amiga.">
-  <meta name="theme-color" content="#f6f5f2">
+  <meta name="theme-color" content="#f3f6fc">
   <meta property="og:title" content="Laura · Creadora de contenido UGC">
   <meta property="og:description" content="Videos y fotos que se sienten como la recomendación de una amiga.">
   <meta property="og:image" content="https://wearemiiles.com/ugc-v4/media/hero.jpg">
   <meta name="format-detection" content="telephone=no">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 1c.8 8 7 14.2 15 15-8 .8-14.2 7-15 15-.8-8-7-14.2-15-15 8-.8 14.2-7 15-15z' fill='%23111111'/%3E%3C/svg%3E">
   <link rel="preload" as="image" href="https://wearemiiles.com/ugc-v4/media/hero.jpg" fetchpriority="high">
-  <script>document.documentElement.classList.add("is-loading");setTimeout(function(){document.documentElement.classList.remove("is-loading")},3000);</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1">
+  <script>(function(){var r=document.documentElement;r.classList.add("is-loading");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)r.classList.add("has-loader");setTimeout(function(){r.classList.remove("is-loading")},3000);setTimeout(function(){r.classList.remove("has-loader")},9000);})();</script>
+  <link rel="preload" href="media/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
+
+  <!-- Loader de entrada: "Hola, soy / Laura" sobre azul; la página entra desde abajo -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <span class="loader-hi"><span class="m"><span>Hola,</span></span> <span class="m"><span>soy</span></span></span>
+      <span class="loader-name"><span class="m"><span>L</span></span><span class="m"><span>a</span></span><span class="m"><span>u</span></span><span class="m"><span>r</span></span><span class="m"><span>a</span></span></span>
+    </div>
+    <span class="loader-count">0</span>
+    <div class="loader-shade"></div>
+  </div>
+  <script>
+    // Arranca en cuanto está la fuente (máx. 600 ms), sin esperar a GSAP
+    (function () {
+      if (!document.documentElement.classList.contains("has-loader")) return;
+      var ld = document.querySelector(".loader"), num = ld.querySelector(".loader-count"), go = false;
+      function start() {
+        if (go) return; go = true;
+        window.__loaderStart = performance.now();
+        ld.classList.add("go");
+        (function tick() {
+          var t = Math.min(1, (performance.now() - window.__loaderStart) / 1400);
+          num.textContent = Math.round(100 * (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2));
+          if (t < 1) requestAnimationFrame(tick);
+        })();
+      }
+      (document.fonts ? document.fonts.load('800 100px "Manrope"') : Promise.resolve()).then(start, start);
+      setTimeout(start, 600);
+    })();
+  </script>
 
   <!-- Todo el contenido sale de data.js y lo arma render.js -->
   <div id="app"></div>
 
-  <script src="data.js?v=1"></script>
-  <script src="render.js?v=1"></script>
+  <script src="data.js?v=2"></script>
+  <script src="render.js?v=2"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script src="script.js?v=1"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>
