@@ -82,7 +82,7 @@
   .full-image { position: relative; height: 580px; display: flex; justify-content: center; overflow: hidden; }
   /* Ancho inicial 50%; el script lo lleva a 100% con el scroll (scrub). */
   .full-image-media { width: 50%; height: 100%; overflow: hidden; will-change: width; }
-  .full-image img { object-position: 45% 55%; }
+  .full-image img { object-position: 52% 28%; }
   .overlay { position: absolute; inset: 0; pointer-events: none; }
 
   /* Encabezado de sección: título a la izquierda, link a la derecha */
@@ -94,8 +94,14 @@
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px var(--gap); }
   .card { display: block; }
   .card-media { aspect-ratio: 319 / 409; overflow: hidden; background: #d9d6d1; }
-  .card-media > * { transition: transform var(--duration-very-slow) var(--ease-smooth-out); }
-  .card:hover .card-media > * { transform: scale(1.03); }
+  .card-media > * {
+    filter: grayscale(1) contrast(1.05);
+    transition: transform var(--duration-very-slow) var(--ease-smooth-out), filter .7s var(--ease-smooth-out);
+  }
+  /* Contenido: en blanco y negro; al pasar el cursor vuelve el color con más vida */
+  .card:hover .card-media > * { filter: grayscale(0) saturate(1.2) contrast(1.06); transform: scale(1.06); }
+  /* En pantallas táctiles el color vuelve cuando la tarjeta llega al centro */
+  @media (hover: none) { .card.is-live .card-media > * { filter: grayscale(0) saturate(1.2) contrast(1.06); transform: scale(1.04); } }
   .card-title { font-size: 18.5px; margin-top: 14px; }
   .card-meta { font-size: 14px; color: var(--muted); }
 
@@ -151,10 +157,7 @@
   .quote-card span { font-size: 14px; color: var(--muted); }
 
   /* 6. Frase sobre imagen */
-  .quote { position: relative; height: 567px; display: grid; place-items: center; color: var(--white); overflow: hidden; }
-  .quote .bg { position: absolute; inset: 0; }
-  .quote .bg img { object-position: 50% 25%; }
-  .quote .overlay { background: rgba(0,0,0,.52); }
+  .quote { position: relative; padding: 140px 0; display: grid; place-items: center; background: var(--white); color: var(--black); }
   .quote h3 {
     position: relative; font-family: var(--display); font-weight: 400;
     font-size: clamp(32px, 6vw, 63px); line-height: 1.05; text-align: center; max-width: 12em; padding: 0 var(--gutter);
@@ -213,7 +216,7 @@
     .niche-cols { grid-template-columns: 1fr; gap: 40px; }
     .niche-list strong { font-size: 26px; }
     .social-buttons { grid-template-columns: 1fr; }
-    .quote { height: 70vh; }
+    .quote { padding: 96px 0; }
     .footer-top { grid-template-columns: 1fr; }
     .footer-nav { align-items: flex-start; }
     .footer .wordmark { margin-top: 64px; }
@@ -296,7 +299,7 @@
 
   <!-- 1. Imagen que crece con el scroll -->
   <section class="full-image" aria-hidden="true">
-    <div class="full-image-media"><img src="media/portada.jpg" alt="" fetchpriority="high"></div>
+    <div class="full-image-media"><img src="media/portada-laura.jpg" alt="" fetchpriority="high"></div>
   </section>
 
   <!-- 2. Marcas -->
@@ -451,10 +454,8 @@
     </div>
   </section>
 
-  <!-- 7. Frase sobre imagen -->
+  <!-- 7. Frase -->
   <section class="quote">
-    <div class="bg"><img src="media/foto-5.jpg" alt="" loading="lazy"></div>
-    <div class="overlay"></div>
     <h3 class="reveal">Contenido real que conecta a las marcas con su audiencia.</h3>
   </section>
 
@@ -581,6 +582,13 @@
         });
       }, { rootMargin: "-45% 0px -50% 0px" }).observe(document.getElementById(id));
     });
+  })();
+  (function () {
+    if (!window.matchMedia("(hover: none)").matches || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { e.target.classList.toggle("is-live", e.isIntersecting); });
+    }, { rootMargin: "-35% 0px -35% 0px" });
+    document.querySelectorAll(".works .card").forEach(function (c) { io.observe(c); });
   })();
 </script>
 </body>
