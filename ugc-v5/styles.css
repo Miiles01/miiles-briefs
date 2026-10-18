@@ -255,11 +255,13 @@ html.lock .brand { background: transparent; border-color: transparent; box-shado
 .nav { display: flex; gap: 2rem; padding: .45rem 1.4rem; border-radius: 50vw; transition: background-color .45s var(--ease-ui); }
 /* Navbar en vidrio: fondo translúcido con desenfoque de lo que pasa detrás */
 .brand, .nav, .burger {
-  background: #f8f5fc73; border: 1px solid #ffffff8c;
+  background: #f8f5fc73; border: 1px solid #ffffff1f;
   -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6);
-  box-shadow: 0 .5rem 1.75rem -1rem #2a1f3d40, inset 0 1px 0 #ffffffa6;
+  box-shadow: 0 .5rem 1.75rem -1rem #2a1f3d33;
 }
-.nav a { position: relative; padding-block: .35rem; }
+/* El relleno va en cada copia del texto: así la que sube sale completa del recorte y no asoma arriba */
+.nav a { position: relative; padding-block: 0; }
+.nav a.roll span { padding-block: .35rem; }
 .nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease-ui); }
 .nav a.is-active::after { transform: scaleX(1); transform-origin: left; }
 .bar-cta { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.4rem; border-radius: 50vw; background: var(--ink); color: var(--paper); white-space: nowrap; transition: background-color .3s var(--ease-ui), transform .3s var(--ease-ui); }

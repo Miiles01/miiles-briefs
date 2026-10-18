@@ -187,6 +187,7 @@
     const target = id.length > 1 ? d.querySelector(id) : d.body;
     if (!target) return;
     e.preventDefault();
+    if (e.detail) a.blur(); // con el mouse no se queda el marco de foco sobre el enlace
     const wasOpen = sheet.classList.contains('open');
     setSheet(false);
     const go = () => lenis ? lenis.scrollTo(target, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) })
