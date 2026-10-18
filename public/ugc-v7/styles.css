@@ -37,12 +37,29 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; padding-ri
 .split-line { padding-bottom: .1em; margin-bottom: -.1em; }
 
 /* ============ Loader ============ */
-.loader { position: fixed; inset: 0; z-index: 200; background: var(--hot); color: var(--ink); display: grid; place-items: center; align-content: center; gap: 18px; will-change: transform; }
-.loader-mark { width: 84px; height: 84px; }
-.loader-mark svg { width: 100%; height: 100%; }
-.loader-name { overflow: hidden; font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -.03em; }
-.loader-name span { display: block; }
-.js-off .loader { display: none; }
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("media/fonts/archivo.woff2") format("woff2"); }
+
+/* ============ Loader de entrada (como la V6, en lima con "Portafolio") ============ */
+.loader { display: none; }
+html.has-loader .loader { position: fixed; inset: 0; z-index: 0; display: grid; place-items: center; background: var(--lime); color: var(--ink); overflow: hidden; }
+/* Durante el loader no se puede hacer scroll y solo se mueve una pantalla */
+html.has-loader, html.has-loader body { overflow: hidden; height: 100%; overscroll-behavior: none; }
+html.has-loader #app { position: relative; z-index: 1; height: 100vh; height: 100svh; overflow: hidden; background: var(--ink); transform: translateY(100vh); will-change: transform; }
+html.hero-hold .nav, html.hero-hold .hero { visibility: hidden; }
+.loader-inner { will-change: transform; }
+.loader-word { display: block; font-family: var(--display); font-weight: 600; font-size: clamp(64px, 16vw, 260px); letter-spacing: -.045em; line-height: 1; white-space: nowrap; }
+/* Cada letra sube desde una máscara con aire por todos lados: nunca se corta */
+.loader .m { display: inline-block; overflow: hidden; vertical-align: top; padding: .08em .06em .16em; margin: -.08em -.06em -.16em; }
+.loader .m > span { display: inline-block; transform: translateY(115%); }
+.loader.go .m > span { animation: ld-rise .9s var(--ease) both; }
+.loader .m:nth-child(2) > span { animation-delay: .05s; } .loader .m:nth-child(3) > span { animation-delay: .1s; }
+.loader .m:nth-child(4) > span { animation-delay: .15s; } .loader .m:nth-child(5) > span { animation-delay: .2s; }
+.loader .m:nth-child(6) > span { animation-delay: .25s; } .loader .m:nth-child(7) > span { animation-delay: .3s; }
+.loader .m:nth-child(8) > span { animation-delay: .35s; } .loader .m:nth-child(9) > span { animation-delay: .4s; }
+.loader .m:nth-child(10) > span { animation-delay: .45s; }
+@keyframes ld-rise { from { transform: translateY(115%); } to { transform: none; } }
+.loader-count { position: absolute; right: var(--gutter); bottom: 22px; font-family: var(--display); font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.loader-shade { position: absolute; inset: 0; background: #0b0716; opacity: 0; pointer-events: none; }
 
 /* ============ Botones ============ */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 52px; padding: 16px 28px; border-radius: 999px; font-size: 15px; font-weight: 500; white-space: nowrap;
@@ -111,8 +128,9 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; padding-ri
 .pill-b { transform: rotate(5deg); }
 .pill img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.15); transition: opacity .6s var(--ease), transform 1.2s var(--ease); }
 .pill img.on { opacity: 1; transform: none; }
-.hero-foot { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 380px) auto; align-items: center; gap: 24px 32px; padding-left: 6%; }
-.hero-intro { font-size: 15px; line-height: 1.5; color: #fbf7f2cc; }
+.hero-foot { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 560px) auto; align-items: center; gap: 24px 32px; padding-left: 6%; }
+/* Frase de presentación: resalta (más grande y en blanco) */
+.hero-intro { font-size: clamp(18px, 1.55vw, 23px); line-height: 1.45; font-weight: 500; letter-spacing: -.01em; color: var(--paper); max-width: 36ch; text-wrap: pretty; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .hero-socials { display: flex; gap: 8px; }
 .hero-socials a { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px #fbf7f255; transition: background-color .3s var(--ease), color .3s var(--ease), transform .3s var(--ease); }
@@ -139,13 +157,17 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; padding-ri
 .t-chars .char, .t-words .word { display: inline-block; }
 
 /* ============ Marcas ============ */
-.brands { padding: 30px var(--gutter) 110px; text-align: center; }
+/* Marcas: foto de Laura a la izquierda y los logos a la derecha */
+.brands { padding: 30px var(--gutter) 110px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 80px); align-items: center; max-width: 1360px; margin: 0 auto; }
+.brands-img { aspect-ratio: 4 / 5; border-radius: 28px; overflow: hidden; background: var(--paper-2); }
+.brands-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.brands-body { text-align: left; }
 .available { display: inline-flex; align-items: center; gap: 14px; font-size: 18px; font-weight: 500; margin-bottom: 48px; }
 .dot { width: 14px; height: 14px; flex: none; border-radius: 50%; background: var(--hot); box-shadow: 0 0 0 0 #ff3d8b80; animation: pulse 2s infinite; }
 @keyframes pulse { 70% { box-shadow: 0 0 0 12px #ff3d8b00; } 100% { box-shadow: 0 0 0 0 #ff3d8b00; } }
-.logos { display: grid; grid-template-columns: repeat(5, 1fr); gap: 40px 32px; max-width: 1100px; margin: 0 auto; align-items: center; }
+.logos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px clamp(16px, 2.5vw, 32px); align-items: center; }
 .logos li { display: grid; place-items: center; height: 48px; }
-.logos img { max-height: 30px; max-width: 120px; width: auto; height: auto; object-fit: contain; filter: brightness(0); opacity: .38; transition: opacity .3s var(--ease), transform .3s var(--ease), filter .3s var(--ease); }
+.logos img { max-height: 30px; max-width: min(120px, 100%); width: auto; height: auto; object-fit: contain; filter: brightness(0); opacity: .38; transition: opacity .3s var(--ease), transform .3s var(--ease), filter .3s var(--ease); }
 @media (hover: hover) { .logos li:hover img { opacity: 1; transform: scale(1.08) rotate(-3deg); } }
 
 /* ============ Mi trabajo (oscuro) ============ */
@@ -312,7 +334,9 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; padding-ri
   .scroll-arrow { bottom: 110px; }
   .hero-actions { width: 100%; }
   .hero-actions .btn { flex: 1; }
-  .logos { grid-template-columns: repeat(3, 1fr); gap: 28px 18px; }
+  .brands { grid-template-columns: 1fr; }
+  .brands-img { aspect-ratio: 1 / 1; }
+  .logos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 18px; }
   .logos img { max-width: 84px; max-height: 24px; }
   .work { padding-top: 90px; }
   .work-top { align-items: flex-start; flex-direction: column; }
@@ -337,6 +361,4 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; padding-ri
   .loader { display: none; }
 }
 
-/* Si el JavaScript no llega a cargar, el loader se quita solo */
-.loader { animation: loaderOut .5s 5s forwards; }
-@keyframes loaderOut { to { opacity: 0; visibility: hidden; } }
+

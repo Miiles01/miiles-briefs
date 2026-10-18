@@ -41,12 +41,6 @@
     </li>`;
 
   document.getElementById('app').innerHTML = `
-  <!-- Loader: cortina de color con el logo; sube con el borde curvo -->
-  <div class="loader" aria-hidden="true">
-    <div class="loader-mark">${shape.flower('var(--ink)')}</div>
-    <div class="loader-name"><span>${esc(D.nombre)}</span></div>
-  </div>
-
   <nav class="nav" aria-label="Principal">
     <a href="#top" class="logo">${esc(D.nombre)}<span>Creadora UGC</span></a>
     <div class="nav-right">
@@ -82,8 +76,11 @@
   <main>
     <!-- 02 · MARCAS -->
     <section class="brands" id="marcas">
-      <p class="available"><span class="dot"></span><span class="t-words">${esc(D.marcas.titulo)}</span></p>
-      <ul class="logos">${D.marcas.logos.map(l => `<li><img src="${esc(l.src)}" alt="${esc(l.nombre)}" loading="lazy" decoding="async"></li>`).join('')}</ul>
+      <figure class="brands-img"><img src="media/marcas-laura.jpg" alt="${esc(D.nombre)} sentada en un cubo blanco" loading="lazy" decoding="async"></figure>
+      <div class="brands-body">
+        <p class="available"><span class="dot"></span><span class="t-words">${esc(D.marcas.titulo)}</span></p>
+        <ul class="logos">${D.marcas.logos.map(l => `<li><img src="${esc(l.src)}" alt="${esc(l.nombre)}" loading="lazy" decoding="async"></li>`).join('')}</ul>
+      </div>
     </section>
 
     <!-- 03 · CONTENIDO: carrusel de reels sobre fondo oscuro -->
