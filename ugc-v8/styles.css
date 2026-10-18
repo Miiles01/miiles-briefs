@@ -48,17 +48,11 @@ html.has-loader .loader { position: fixed; inset: 0; z-index: 0; display: grid; 
 html.has-loader, html.has-loader body { overflow: hidden; height: 100%; overscroll-behavior: none; }
 html.has-loader #app { position: relative; z-index: 1; height: 100vh; height: 100svh; overflow: hidden; background: var(--cream); transform: translateY(100vh); will-change: transform; }
 .loader-inner { will-change: transform; }
-.loader-word { display: block; font-family: var(--font); font-stretch: 112%; font-weight: 500; font-size: clamp(60px, 14vw, 230px); letter-spacing: -.04em; line-height: 1; white-space: nowrap; }
-/* Cada letra sube desde una máscara con aire por todos lados: nunca se corta */
-.loader .m { display: inline-block; overflow: hidden; vertical-align: top; padding: .08em .06em .16em; margin: -.08em -.06em -.16em; }
-.loader .m > span { display: inline-block; transform: translateY(115%); }
-.loader.go .m > span { animation: ld-rise .9s var(--ease) both; }
-.loader .m:nth-child(2) > span { animation-delay: .05s; } .loader .m:nth-child(3) > span { animation-delay: .1s; }
-.loader .m:nth-child(4) > span { animation-delay: .15s; } .loader .m:nth-child(5) > span { animation-delay: .2s; }
-.loader .m:nth-child(6) > span { animation-delay: .25s; } .loader .m:nth-child(7) > span { animation-delay: .3s; }
-.loader .m:nth-child(8) > span { animation-delay: .35s; } .loader .m:nth-child(9) > span { animation-delay: .4s; }
-.loader .m:nth-child(10) > span { animation-delay: .45s; }
-@keyframes ld-rise { from { transform: translateY(115%); } to { transform: none; } }
+@font-face { font-family: "Pinyon Script"; font-style: normal; font-weight: 400; font-display: swap; src: url("media/fonts/pinyon.woff2") format("woff2"); }
+/* "Portafolio" en la script del logo; entra con fade de la palabra completa (sin máscaras: no se corta y las letras siguen unidas) */
+.loader-word { display: block; font-family: var(--script); font-weight: 400; font-size: clamp(72px, 17vw, 280px); line-height: 1.3; letter-spacing: 0; white-space: nowrap; padding: .1em .2em .25em; opacity: 0; }
+.loader.go .loader-word { animation: ld-fade 1.3s var(--ease) both; }
+@keyframes ld-fade { from { opacity: 0; transform: translateY(.12em); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
 .loader-count { position: absolute; right: var(--pad); bottom: 22px; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .loader-shade { position: absolute; inset: 0; background: #021a0d; opacity: 0; pointer-events: none; }
 
@@ -119,8 +113,13 @@ a:hover .roll > span, button:hover .roll > span { transform: translateY(-100%); 
 .intro { position: relative; margin-top: 9rem; padding-inline: var(--pad); }
 .intro .label { position: absolute; top: .5em; }
 .intro .indent { width: 12rem; }
-/* Frase de presentación: más grande para que resalte sobre el resto */
-.intro .h-m { font-size: clamp(1.9rem, 4.3vw, 4rem); line-height: 1.06; letter-spacing: -.02em; max-width: 22ch; }
+/* Frase de presentación: grande y centrada */
+.intro { text-align: center; }
+.intro .label { position: static; margin-bottom: 1.5rem; }
+.intro .indent { display: none; }
+.intro .h-m { font-size: clamp(1.9rem, 4.3vw, 4rem); line-height: 1.08; letter-spacing: -.02em; max-width: 22ch; margin-inline: auto; text-wrap: balance; }
+/* Frase secundaria de "Mi trabajo": discreta */
+.manifesto-line { max-width: 28ch; }
 .color-change .word { color: var(--mint); }
 .is-green .color-change .word { color: #ffffff4d; }
 

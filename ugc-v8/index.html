@@ -14,16 +14,17 @@
   <link rel="preload" as="image" href="https://wearemiiles.com/ugc-v4/media/hero.jpg" fetchpriority="high">
   <script>(function(){var r=document.documentElement;if("scrollRestoration" in history)history.scrollRestoration="manual";window.scrollTo(0,0);if(!matchMedia("(prefers-reduced-motion: reduce)").matches){r.classList.add("has-loader");setTimeout(function(){r.classList.remove("has-loader")},9000);}})();</script>
   <link rel="preload" href="media/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="media/fonts/pinyon.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
-  <!-- Loader de entrada (como la V6): "Portafolio" sobre verde; la página entra desde abajo -->
+  <!-- Loader de entrada (como la V6): "Portafolio" en la script del logo sobre verde; la página entra desde abajo -->
   <div class="loader" aria-hidden="true">
-    <div class="loader-inner"><span class="loader-word"><span class="m"><span>P</span></span><span class="m"><span>o</span></span><span class="m"><span>r</span></span><span class="m"><span>t</span></span><span class="m"><span>a</span></span><span class="m"><span>f</span></span><span class="m"><span>o</span></span><span class="m"><span>l</span></span><span class="m"><span>i</span></span><span class="m"><span>o</span></span></span></div>
+    <div class="loader-inner"><span class="loader-word">Portafolio</span></div>
     <span class="loader-count">0</span>
     <div class="loader-shade"></div>
   </div>
@@ -42,7 +43,7 @@
           if (t < 1) requestAnimationFrame(tick);
         })();
       }
-      (document.fonts ? document.fonts.load('500 100px "Archivo"') : Promise.resolve()).then(start, start);
+      (document.fonts ? document.fonts.load('400 100px "Pinyon Script"') : Promise.resolve()).then(start, start);
       setTimeout(start, 600);
     })();
   </script>
@@ -51,7 +52,7 @@
   <div id="app"></div>
 
   <script src="data.js?v=3"></script>
-  <script src="render.js?v=3"></script>
+  <script src="render.js?v=5"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
