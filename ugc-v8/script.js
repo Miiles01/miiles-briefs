@@ -5,7 +5,6 @@
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const piezas = (window.UGC && UGC.contenido.piezas) || [];
   const isVideo = src => /\.(mp4|webm|mov)(\?|$)/i.test(src);
-  const loader = d.querySelector('.page-loader');
   let lenis = null;
 
   /* Posiciones finales del collage del hero (en vw / vh), escritorio y móvil */
@@ -117,12 +116,11 @@
     $('.collage_img').forEach((el, i) => { const [x, y, r] = pos[i]; el.style.transform = `translate(${x}vw, ${y}vh) rotate(${r}deg)`; el.style.opacity = 1; });
   };
   if (!window.gsap || !window.ScrollTrigger || reduce) {
-    loader && loader.remove();
+    root.classList.remove('has-loader');
     placeCollage();
     $('a[href^="#"]').forEach(a => a.addEventListener('click', () => setMenu(false)));
     return;
   }
-  loader.style.animation = 'none';
   root.classList.add('js');
   gsap.registerPlugin(ScrollTrigger);
   if (window.SplitText) gsap.registerPlugin(SplitText);
@@ -157,18 +155,31 @@
   $('.mask_reveal img').forEach(i => gsap.set(i, { scale: 1.25 }));
 
   const fontsReady = d.fonts ? Promise.race([d.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve();
+
+  // Loader: la página entra desde abajo mientras el verde se aleja y se oscurece
+  const loaderOut = new Promise(res => {
+    if (!root.classList.contains('has-loader')) { lenis && lenis.start(); return res(); }
+    const app = d.getElementById('app');
+    const since = window.__loaderStart ? (performance.now() - window.__loaderStart) / 1000 : 0;
+    gsap.timeline({ delay: Math.max(.15, 1.65 - since) })
+      .to('.loader-inner', { scale: .9, yPercent: -6, duration: 1.1, ease: 'power3.inOut' }, 0)
+      .to('.loader-shade', { opacity: .55, duration: 1.1, ease: 'power2.in' }, 0)
+      .fromTo(app, { y: () => innerHeight }, { y: 0, duration: 1.1, ease: 'power3.inOut', immediateRender: false }, 0)
+      .add(res, .55)
+      .add(() => { root.classList.remove('has-loader'); gsap.set(app, { clearProps: 'transform' }); scrollTo(0, 0); lenis && lenis.start(); ScrollTrigger.refresh(); });
+  });
   fontsReady.then(() => {
     const desktop = innerWidth >= 992;
 
-    /* ---------- Loader + entrada del hero ---------- */
-    gsap.timeline({ defaults: { ease: 'expo.out' } })
-      .to(loader, { scaleY: 0, duration: 1.8 })
-      .to('.hero_image-reveal', { height: '100%', duration: 2.4 }, '<+.7')
+    /* ---------- Entrada del hero (al salir el loader) ---------- */
+    const heroIn = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } })
+      .to('.hero_image-reveal', { height: '100%', duration: 2.4 }, 0)
       .fromTo('.header_main-image', { scale: desktop ? 1.3 : 1.1 }, { scale: 1, duration: 2.2 }, '<')
       .to('.header_word span', { yPercent: 0, duration: 1, stagger: .14 }, '<+.5')
       .to('.navbar', { yPercent: 0, duration: 1 }, '<+.3')
       .to('.header_foot', { opacity: 1, y: 0, duration: 1 }, '<')
-      .add(() => { loader.remove(); lenis && lenis.start(); }, '<+.2');
+      ;
+    loaderOut.then(() => heroIn.play());
 
     /* ---------- Hero con scroll: la foto crece, se achica y salen más fotos ---------- */
     const mm = gsap.matchMedia();
@@ -210,11 +221,8 @@
     });
 
     /* ---------- Títulos que entran línea por línea ---------- */
-    $('[data-reveal]').forEach(el => {
-      if (!window.SplitText) return gsap.from(el, { opacity: 0, y: 40, duration: 1, scrollTrigger: { trigger: el, start: 'top 80%', once: true } });
-      SplitText.create(el, { type: 'lines', mask: 'lines', linesClass: 'split-line', autoSplit: true,
-        onSplit: self => gsap.from(self.lines, { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: .15, scrollTrigger: { trigger: el, start: 'top 80%', once: true } }) });
-    });
+    // Fade simple de todo el título (sin máscaras: la letra nunca se corta)
+    $('[data-reveal]').forEach(el => gsap.from(el, { opacity: 0, y: 30, duration: 1.1, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 85%', once: true } }));
 
     /* ---------- Imágenes con máscara: se descubren desde abajo ---------- */
     $('.mask_reveal').forEach(el => {
@@ -260,8 +268,6 @@
     ScrollTrigger.refresh();
   });
 
-  // Red de seguridad: el loader nunca se queda tapando la página
-  setTimeout(() => { if (d.body.contains(loader)) { loader.remove(); lenis && lenis.start(); gsap.set(['.hero_image-reveal', '.header_word span', '.navbar', '.header_foot'], { clearProps: 'all' }); } }, 6000);
 
   /* ---------- Botones magnéticos ---------- */
   if (fine) $('.btn, .round').forEach(b => {

@@ -39,8 +39,28 @@ p { font-size: 1rem; line-height: 1.4; }
 .split-line { padding-bottom: .1em; margin-bottom: -.1em; }
 
 /* ============ Loader ============ */
-.page-loader { position: fixed; inset: 0; background: var(--green); z-index: 100; transform-origin: top; animation: loaderOut .6s 5s forwards; }
-@keyframes loaderOut { to { transform: scaleY(0); visibility: hidden; } }
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; src: url("media/fonts/archivo.woff2") format("woff2"); }
+
+/* ============ Loader de entrada (como la V6): "Portafolio" sobre verde ============ */
+.loader { display: none; }
+html.has-loader .loader { position: fixed; inset: 0; z-index: 0; display: grid; place-items: center; background: var(--green); color: var(--cream); overflow: hidden; }
+/* Durante el loader no se puede hacer scroll y solo se mueve una pantalla */
+html.has-loader, html.has-loader body { overflow: hidden; height: 100%; overscroll-behavior: none; }
+html.has-loader #app { position: relative; z-index: 1; height: 100vh; height: 100svh; overflow: hidden; background: var(--cream); transform: translateY(100vh); will-change: transform; }
+.loader-inner { will-change: transform; }
+.loader-word { display: block; font-family: var(--font); font-stretch: 112%; font-weight: 500; font-size: clamp(60px, 14vw, 230px); letter-spacing: -.04em; line-height: 1; white-space: nowrap; }
+/* Cada letra sube desde una máscara con aire por todos lados: nunca se corta */
+.loader .m { display: inline-block; overflow: hidden; vertical-align: top; padding: .08em .06em .16em; margin: -.08em -.06em -.16em; }
+.loader .m > span { display: inline-block; transform: translateY(115%); }
+.loader.go .m > span { animation: ld-rise .9s var(--ease) both; }
+.loader .m:nth-child(2) > span { animation-delay: .05s; } .loader .m:nth-child(3) > span { animation-delay: .1s; }
+.loader .m:nth-child(4) > span { animation-delay: .15s; } .loader .m:nth-child(5) > span { animation-delay: .2s; }
+.loader .m:nth-child(6) > span { animation-delay: .25s; } .loader .m:nth-child(7) > span { animation-delay: .3s; }
+.loader .m:nth-child(8) > span { animation-delay: .35s; } .loader .m:nth-child(9) > span { animation-delay: .4s; }
+.loader .m:nth-child(10) > span { animation-delay: .45s; }
+@keyframes ld-rise { from { transform: translateY(115%); } to { transform: none; } }
+.loader-count { position: absolute; right: var(--pad); bottom: 22px; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.loader-shade { position: absolute; inset: 0; background: #021a0d; opacity: 0; pointer-events: none; }
 
 /* ============ Navegación ============ */
 .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; padding: 1rem var(--pad); color: var(--green); transition: color .4s var(--ease); }
@@ -96,9 +116,11 @@ a:hover .roll > span, button:hover .roll > span { transform: translateY(-100%); 
 .logos li { display: grid; place-items: center; height: 48px; }
 .logos img { width: auto; height: auto; max-height: 30px; max-width: min(120px, 100%); object-fit: contain; filter: brightness(0) saturate(100%) invert(30%) sepia(76%) saturate(1220%) hue-rotate(124deg) brightness(88%) contrast(97%); opacity: .55; transition: opacity .4s var(--ease), transform .4s var(--ease); }
 @media (hover: hover) { .logos li:hover img { opacity: 1; transform: scale(1.08); } }
-.intro { position: relative; margin-top: 9rem; }
+.intro { position: relative; margin-top: 9rem; padding-inline: var(--pad); }
 .intro .label { position: absolute; top: .5em; }
 .intro .indent { width: 12rem; }
+/* Frase de presentación: más grande para que resalte sobre el resto */
+.intro .h-m { font-size: clamp(1.9rem, 4.3vw, 4rem); line-height: 1.06; letter-spacing: -.02em; max-width: 22ch; }
 .color-change .word { color: var(--mint); }
 .is-green .color-change .word { color: #ffffff4d; }
 
@@ -274,7 +296,7 @@ a:hover .roll > span, button:hover .roll > span { transform: translateY(-100%); 
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
-  .page-loader { display: none; }
+  .loader { display: none; }
   .collage_img { opacity: 1; }
 }
 /* Foto de Moda (barco): la cara arriba, se encuadra desde el rostro */

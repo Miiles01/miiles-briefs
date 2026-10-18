@@ -12,22 +12,50 @@
   <meta name="format-detection" content="telephone=no">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23087a43'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23f7f5ea' font-family='serif' font-style='italic'%3El%3C/text%3E%3C/svg%3E">
   <link rel="preload" as="image" href="https://wearemiiles.com/ugc-v4/media/hero.jpg" fetchpriority="high">
+  <script>(function(){var r=document.documentElement;if("scrollRestoration" in history)history.scrollRestoration="manual";window.scrollTo(0,0);if(!matchMedia("(prefers-reduced-motion: reduce)").matches){r.classList.add("has-loader");setTimeout(function(){r.classList.remove("has-loader")},9000);}})();</script>
+  <link rel="preload" href="media/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,400;112,500;112,600&family=Pinyon+Script&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
+
+  <!-- Loader de entrada (como la V6): "Portafolio" sobre verde; la página entra desde abajo -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner"><span class="loader-word"><span class="m"><span>P</span></span><span class="m"><span>o</span></span><span class="m"><span>r</span></span><span class="m"><span>t</span></span><span class="m"><span>a</span></span><span class="m"><span>f</span></span><span class="m"><span>o</span></span><span class="m"><span>l</span></span><span class="m"><span>i</span></span><span class="m"><span>o</span></span></span></div>
+    <span class="loader-count">0</span>
+    <div class="loader-shade"></div>
+  </div>
+  <script>
+    // Arranca en cuanto está la fuente (máx. 600 ms), sin esperar a GSAP
+    (function () {
+      if (!document.documentElement.classList.contains("has-loader")) return;
+      var ld = document.querySelector(".loader"), num = ld.querySelector(".loader-count"), go = false;
+      function start() {
+        if (go) return; go = true;
+        window.__loaderStart = performance.now();
+        ld.classList.add("go");
+        (function tick() {
+          var t = Math.min(1, (performance.now() - window.__loaderStart) / 1400);
+          num.textContent = Math.round(100 * (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2));
+          if (t < 1) requestAnimationFrame(tick);
+        })();
+      }
+      (document.fonts ? document.fonts.load('500 100px "Archivo"') : Promise.resolve()).then(start, start);
+      setTimeout(start, 600);
+    })();
+  </script>
 
   <!-- Todo el contenido sale de data.js y lo arma render.js -->
   <div id="app"></div>
 
   <script src="data.js?v=3"></script>
-  <script src="render.js?v=2"></script>
+  <script src="render.js?v=3"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
