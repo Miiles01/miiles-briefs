@@ -32,7 +32,6 @@
     </figure>`;
 
   document.getElementById('app').innerHTML = `
-  <div class="page-loader" aria-hidden="true"></div>
 
   <nav class="navbar" aria-label="Principal">
     <div class="nav-side">
@@ -77,7 +76,7 @@
     <section class="section applause container" id="marcas">
       <p class="label center">${esc(D.nombre)} · UGC</p>
       <h2 class="sr">${esc(D.marcas.titulo)}</h2>
-      <div class="row h-l" data-center aria-hidden="true"><span>Marcas que</span><div class="thumb mask_reveal"><img src="${esc(D.medios.portada)}" alt="" loading="lazy" decoding="async"></div></div>
+      <div class="row h-l" data-center aria-hidden="true"><span>Marcas que</span><div class="thumb mask_reveal"><img src="media/marcas-laura.jpg" alt="" loading="lazy" decoding="async"></div></div>
       <div class="row h-l row-right" data-center="left" aria-hidden="true"><span>confiaron en mí</span></div>
       <ul class="logos">${D.marcas.logos.map(l => `<li><img src="${esc(l.src)}" alt="${esc(l.nombre)}" loading="lazy" decoding="async"></li>`).join('')}</ul>
 
