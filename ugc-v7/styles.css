@@ -111,7 +111,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; padding-ri
 .pill-b { transform: rotate(5deg); }
 .pill img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.15); transition: opacity .6s var(--ease), transform 1.2s var(--ease); }
 .pill img.on { opacity: 1; transform: none; }
-.hero-foot { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 340px) auto auto; align-items: center; gap: 24px 32px; padding-left: 6%; }
+.hero-foot { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 380px) auto; align-items: center; gap: 24px 32px; padding-left: 6%; }
 .hero-intro { font-size: 15px; line-height: 1.5; color: #fbf7f2cc; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .hero-socials { display: flex; gap: 8px; }
