@@ -28,7 +28,21 @@
     const y = scrollY;
     if (!root.classList.contains('lock')) nav.classList.toggle('is-hidden', y > lastY && y > 300);
     lastY = y;
+    toneSoon();
   }, { passive: true });
+
+  // Color del navbar según el fondo que tiene debajo (claro → tinta, oscuro/color → blanco)
+  const lum = c => { const m = c.match(/[\d.]+/g); if (!m || (m[3] !== undefined && +m[3] === 0)) return null; return (.2126 * m[0] + .7152 * m[1] + .0722 * m[2]) / 255; };
+  const setTone = () => {
+    const h = nav.offsetHeight / 2;
+    let el = d.elementsFromPoint(innerWidth / 2, h).find(e => !nav.contains(e)), l = null;
+    while (el && l === null) { l = lum(getComputedStyle(el).backgroundColor); el = el.parentElement; }
+    nav.classList.toggle('on-light', l !== null && l > .6);
+  };
+  let toneRaf = 0;
+  const toneSoon = () => { if (!toneRaf) toneRaf = requestAnimationFrame(() => { toneRaf = 0; setTone(); }); };
+  addEventListener('resize', toneSoon);
+  addEventListener('load', toneSoon);
 
   /* ---------- Pastillas del hero: las fotos se intercambian solas ---------- */
   const pills = $('.pill');
@@ -200,11 +214,12 @@
 
   fontsReady.then(() => {
     /* ---------- Loader → entrada del hero ---------- */
-    const heroChars = window.SplitText ? SplitText.create('.hero-title .lw', { type: 'words,chars', mask: 'chars' }).chars : $('.hero-title .lw');
-    gsap.set(heroChars, { yPercent: 110 });
-    gsap.set('.pill', { scale: 0 });
-    gsap.set('.hero .shape', { scale: 0, rotate: -120 });
-    gsap.set(['.hero-intro', '.hero-actions .btn', '.hero-socials a', '.badge', '.scroll-arrow'], { opacity: 0, y: 24 });
+    // Entrada con fade (sin máscaras, así la letra nunca se corta)
+    const heroWords = window.SplitText ? SplitText.create('.hero-title .lw', { type: 'words' }).words : $('.hero-title .lw');
+    gsap.set(heroWords, { opacity: 0, y: 24, filter: 'blur(6px)' });
+    gsap.set('.pill', { opacity: 0, scale: .85 });
+    gsap.set('.hero .shape', { opacity: 0, scale: .4 });
+    gsap.set(['.hero-intro', '.hero-actions .btn', '.hero-socials a', '.scroll-arrow'], { opacity: 0, y: 24 });
     gsap.set('.nav', { yPercent: -120 });
 
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -213,13 +228,13 @@
       .to('.loader-mark', { rotate: 180, duration: .8, ease: 'power2.inOut' }, '+=.15')
       .to(loader, { yPercent: -100, borderBottomLeftRadius: '50% 22vh', borderBottomRightRadius: '50% 22vh', duration: 1.1, ease: 'expo.inOut' }, '-=.3')
       .add(() => { loader.remove(); lenis && lenis.start(); ScrollTrigger.refresh(); })
-      .to(heroChars, { yPercent: 0, duration: 1, ease: 'power3.out', stagger: { amount: .55 } }, '-=.65')
-      .to('.pill', { scale: 1, duration: .9, ease: 'back.out(1.8)', stagger: .12 }, '-=.6')
-      .to('.hero .shape', { scale: 1, rotate: 0, duration: 1.1, ease: 'back.out(1.5)', stagger: .1 }, '<')
+      .to(heroWords, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1, ease: 'power2.out', stagger: .09, clearProps: 'filter' }, '-=.65')
+      .to('.pill', { opacity: 1, scale: 1, duration: 1, ease: 'power2.out', stagger: .12 }, '-=.9')
+      .to('.hero .shape', { opacity: 1, scale: 1, duration: 1, ease: 'back.out(1.6)', stagger: .1 }, '<')
       .to('.hero-intro', { opacity: 1, y: 0, duration: .8 }, '-=.8')
       .to('.hero-actions .btn', { opacity: 1, y: 0, duration: .7, stagger: .08 }, '-=.6')
       .to('.hero-socials a', { opacity: 1, y: 0, duration: .6, stagger: .06 }, '-=.5')
-      .to(['.badge', '.scroll-arrow'], { opacity: 1, y: 0, duration: .7 }, '-=.5')
+      .to('.scroll-arrow', { opacity: 1, y: 0, duration: .7 }, '-=.5')
       .to('.nav', { yPercent: 0, duration: .9, ease: 'expo.out' }, '-=1');
 
     /* ---------- Títulos: letra por letra ---------- */
@@ -248,7 +263,8 @@
     // La sección clara "sube" con el borde curvo
     gsap.fromTo('.curve', { scaleY: .5 }, { scaleY: 1.8, ease: 'none', scrollTrigger: heroST });
     gsap.to('.hero-title', { yPercent: narrow ? -6 : -14, ease: 'none', scrollTrigger: heroST });
-    gsap.to('.hero .shape', { yPercent: -60, ease: 'none', scrollTrigger: heroST });
+    // Filas del titular: la 1 va a la izquierda, la 2 a la derecha y la 3 a la izquierda
+    [-1, 1, -1].forEach((dir, i) => gsap.to(`.hero-title .l${i + 1}`, { xPercent: dir * (narrow ? 8 : 10), ease: 'none', scrollTrigger: heroST }));
 
     // El bloque oscuro de "Mi trabajo" se abre al llegar
     gsap.fromTo('.work', { clipPath: narrow ? 'inset(0% 3% 0% 3% round 28px 28px 0 0)' : 'inset(0% 6% 0% 6% round 28px 28px 0 0)' },
