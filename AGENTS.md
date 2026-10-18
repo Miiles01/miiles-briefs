@@ -14,3 +14,10 @@
 
 ## Ilustraciones y Dark Mode
 - Al integrar ilustraciones que tengan fondos transparentes, asegúrate de que el contenedor o forma que las sostiene tenga un color de fondo definido (por ejemplo, blanco en modo claro y negro en modo oscuro).
+
+## Portafolios UGC: hero sin CTAs
+- En los portafolios UGC **no** se ponen botones tipo "Ver mi trabajo" / "Contáctame" debajo del texto del hero. El hero lleva solo titular, párrafo corto y redes; el contacto vive en el navbar y en la sección final.
+
+## Portafolios UGC: menú hamburguesa
+- Cuando el navbar sea de menú hamburguesa, el menú se abre como panel a **media pantalla** (desde un lado, con el resto oscurecido) y con un botón visible de **Cerrar**. Nunca a pantalla completa.
+- Con menú hamburguesa el navbar va **sin fondo**: solo flotan el logo y el botón.

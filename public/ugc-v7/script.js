@@ -219,7 +219,7 @@
     gsap.set(heroWords, { opacity: 0, y: 24, filter: 'blur(6px)' });
     gsap.set('.pill', { opacity: 0, scale: .85 });
     gsap.set('.hero .shape', { opacity: 0, scale: .4 });
-    gsap.set(['.hero-intro', '.hero-actions .btn', '.hero-socials a', '.scroll-arrow'], { opacity: 0, y: 24 });
+    gsap.set(['.hero-intro', '.hero-socials a', '.scroll-arrow'], { opacity: 0, y: 24 });
     gsap.set('.nav', { yPercent: -120 });
 
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -232,7 +232,6 @@
       .to('.pill', { opacity: 1, scale: 1, duration: 1, ease: 'power2.out', stagger: .12 }, '-=.9')
       .to('.hero .shape', { opacity: 1, scale: 1, duration: 1, ease: 'back.out(1.6)', stagger: .1 }, '<')
       .to('.hero-intro', { opacity: 1, y: 0, duration: .8 }, '-=.8')
-      .to('.hero-actions .btn', { opacity: 1, y: 0, duration: .7, stagger: .08 }, '-=.6')
       .to('.hero-socials a', { opacity: 1, y: 0, duration: .6, stagger: .06 }, '-=.5')
       .to('.scroll-arrow', { opacity: 1, y: 0, duration: .7 }, '-=.5')
       .to('.nav', { yPercent: 0, duration: .9, ease: 'expo.out' }, '-=1');

@@ -72,10 +72,6 @@
     </h1>
     <div class="hero-foot">
       <p class="hero-intro">${esc(D.intro)}</p>
-      <div class="hero-actions">
-        <a href="#trabajo" class="btn btn-hot">Ver mi trabajo ${arrow}</a>
-        <a href="#contacto" class="btn btn-line">Contáctame</a>
-      </div>
       <div class="hero-socials">${D.redes.map(r => `<a href="${esc(r.url)}" ${ext} aria-label="${esc(r.nombre)}">${icons[r.nombre] || ''}</a>`).join('')}</div>
     </div>
 
