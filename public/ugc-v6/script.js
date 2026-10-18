@@ -7,7 +7,7 @@
   const isVideo = src => /\.(mp4|webm|mov)(\?|$)/i.test(src);
   let lenis = null;
 
-  /* ---------- Menú a pantalla completa ---------- */
+  /* ---------- Menú: panel a media pantalla ---------- */
   const menu = d.getElementById('menu'), menuBtn = d.querySelector('.menu-btn');
   const setMenu = open => {
     menu.classList.toggle('open', open);
@@ -19,7 +19,8 @@
     lenis && (open ? lenis.stop() : lenis.start());
   };
   menuBtn.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
-  matchMedia('(min-width: 1181px)').addEventListener('change', e => e.matches && setMenu(false));
+  d.querySelector('.menu-close').addEventListener('click', () => setMenu(false));
+  d.querySelector('.menu-scrim').addEventListener('click', () => setMenu(false));
 
   /* ---------- Navegación: se esconde al bajar, vuelve al subir; enlace activo ---------- */
   const top = d.querySelector('.top');

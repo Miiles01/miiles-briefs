@@ -52,7 +52,9 @@
     </nav>
   </header>
 
+  <div class="menu-scrim" aria-hidden="true"></div>
   <div class="menu" id="menu" aria-hidden="true">
+    <button class="menu-close" type="button" aria-label="Cerrar menú">Cerrar <span aria-hidden="true">✕</span></button>
     <nav class="menu-links wrap" aria-label="Móvil">${nav.map(([h, t], i) => `<a href="${h}" style="--i:${i}"><span>${esc(t)}</span></a>`).join('')}</nav>
     <div class="menu-foot wrap">
       <a href="mailto:${esc(D.contacto.email)}">${esc(D.contacto.email)}</a>
