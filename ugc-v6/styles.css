@@ -2,7 +2,7 @@
 /* Layout: titular gigante en Manrope 800, cintas en movimiento, bloques de 20px de radio y cierre negro. */
 :root {
   /* Paleta en tonos de azul */
-  --bg: #f3f6fc;
+  --bg: #ffffff;
   --ink: #0a1b4d;             /* azul marino: textos y contornos */
   --muted: #5a6788;
   --line: #d3dcf0;            /* solo para el contorno de etiquetas y la barra del carrusel */
@@ -10,7 +10,7 @@
   --blue: #2357ff;            /* azul eléctrico: botones y acentos */
   --sky: #8fb2ff;
   --inverse: #081740;
-  --inverse-ink: #f3f6fc;
+  --inverse-ink: #ffffff;
   --radius: 20px;
   --gutter: clamp(16px, 4vw, 48px);
   --font: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -160,8 +160,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .reel-bar span { position: absolute; top: 0; left: 0; bottom: 0; width: 20%; background: var(--blue); border-radius: 3px; transition: transform .25s var(--ease); }
 /* Cursor "Arrastra": círculo azul con flechas, solo transform/opacity para que vaya fluido */
 .drag-cursor { position: fixed; z-index: 90; top: 0; left: 0; width: 104px; height: 104px; margin: -52px 0 0 -52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; gap: .35rem;
-  background: radial-gradient(circle at 30% 25%, #6f95ff 0%, var(--blue) 55%, #1739c9 100%); color: #fff; font-size: .8rem; font-weight: 700; letter-spacing: .01em;
-  box-shadow: 0 18px 40px -16px #2357ffb3, inset 0 1px 0 #ffffff40; pointer-events: none; transform: scale(0); opacity: 0; will-change: transform, opacity; contain: layout paint; }
+  background: var(--blue); color: #fff; font-size: .8rem; font-weight: 700; letter-spacing: .01em;
+  pointer-events: none; transform: scale(0); opacity: 0; will-change: transform, opacity; contain: layout paint; }
 .drag-cursor svg { width: 12px; height: 12px; flex: none; opacity: .85; }
 
 /* Visor grande */
@@ -233,7 +233,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @media (hover: hover) { .quote:hover { transform: translateY(-4px) rotate(-.4deg); } }
 
 /* ============ Contacto + redes ============ */
-.cta { background: radial-gradient(120% 140% at 50% 0%, #2f63ff 0%, #133bbf 45%, #081740 100%); color: var(--inverse-ink); border-radius: var(--radius); padding: clamp(48px, 8vw, 100px) var(--gutter); text-align: center; margin: 0 var(--gutter); display: flex; flex-direction: column; align-items: center; }
+.cta { background: var(--blue); color: var(--inverse-ink); border-radius: var(--radius); padding: clamp(48px, 8vw, 100px) var(--gutter); text-align: center; margin: 0 var(--gutter); display: flex; flex-direction: column; align-items: center; }
 .cta-star { width: 36px; height: 36px; margin-bottom: 20px; }
 .cta-kicker { font-size: 1.15rem; opacity: .7; max-width: 36ch; }
 .cta-title { font-size: clamp(2.6rem, 7vw, 6rem); font-weight: 800; letter-spacing: -.05em; line-height: 1; margin: 12px 0 32px; text-wrap: balance; }
@@ -321,3 +321,5 @@ html.has-loader #app { visibility: visible; position: relative; z-index: 1; back
 @keyframes ld-rise { from { transform: translateY(110%); } to { transform: none; } }
 .loader-count { position: absolute; right: var(--gutter); bottom: 22px; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; color: #dbe5ff; }
 .loader-shade { position: absolute; inset: 0; background: #020a24; opacity: 0; pointer-events: none; }
+/* Mientras corre el loader el hero espera oculto; GSAP lo muestra ya con sus estados iniciales (sin parpadeo) */
+html.hero-hold .top, html.hero-hold .hero, html.hero-hold .hero + .marquee, html.hero-hold .hero-img { visibility: hidden; }
