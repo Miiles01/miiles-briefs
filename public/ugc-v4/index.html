@@ -20,10 +20,12 @@
    5 Testimonios
    6 Footer / contacto con redes destacadas
 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Archivo:wdth,wght@125,700&display=swap">
+<link rel="preload" href="media/fonts/archivo-700-125.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="media/fonts/cormorant-italic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+  @font-face { font-family: "Archivo"; font-style: normal; font-weight: 700; font-stretch: 125%; font-display: swap; src: url("media/fonts/archivo-700-125.woff2") format("woff2"); }
+  @font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400; font-display: swap; src: url("media/fonts/cormorant-italic.woff2") format("woff2"); }
+  @font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 400; font-display: swap; src: url("media/fonts/cormorant-regular.woff2") format("woff2"); }
   :root {
     --accent: #ff340a;          /* único color de texto */
     --bg: #f2f2f2;              /* hero, marcas, testimonios, footer */
@@ -95,6 +97,7 @@
   }
   .block { position: relative; min-width: 0; }
   .block.img { overflow: hidden; background: #d6d6d6; }
+  .about-img { aspect-ratio: 4 / 5; align-self: start; }
 
   /* Marcas: logos en el color de acento (máscara sobre el SVG) */
   .brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.2vw 2.4vw; align-items: center; }
@@ -235,7 +238,15 @@
   .loader-hi { display: block; font-family: var(--serif); font-style: italic; font-size: clamp(28px, 4.2vw, 72px); line-height: 1.1; }
   .loader-name { display: block; font-family: var(--logo); font-weight: 700; font-stretch: 125%; font-size: clamp(64px, 17vw, 330px); line-height: 0.9; letter-spacing: 0.01em; margin-top: 0.08em; }
   .loader .m { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.02em 0.06em; }
-  .loader .m > span { display: inline-block; }
+  .loader .m > span { display: inline-block; transform: translateY(110%); }
+  .loader.go .m > span { animation: ld-rise 0.9s var(--ease-smooth-out) both; animation-delay: calc(var(--i, 0) * 0.06s); }
+  .loader-hi .m > span { --i: 0; } .loader-hi .m + .m > span { --i: 1; }
+  .loader-name .m:nth-child(1) > span { --i: 2; } .loader-name .m:nth-child(2) > span { --i: 3; }
+  .loader-name .m:nth-child(3) > span { --i: 4; } .loader-name .m:nth-child(4) > span { --i: 5; }
+  .loader-name .m:nth-child(5) > span { --i: 6; }
+  @keyframes ld-rise { from { transform: translateY(110%); } to { transform: none; } }
+  .loader-inner { will-change: transform; }
+  .loader-shade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
   .loader-count { position: absolute; right: var(--gutter); bottom: 22px; font: 16px var(--sans); font-variant-numeric: tabular-nums; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -250,12 +261,35 @@
 <body>
 
 <div class="loader" aria-hidden="true">
-  <div>
+  <div class="loader-inner">
     <span class="loader-hi"><span class="m"><span>Hola,</span></span> <span class="m"><span>soy</span></span></span>
     <span class="loader-name"><span class="m"><span>L</span></span><span class="m"><span>a</span></span><span class="m"><span>u</span></span><span class="m"><span>r</span></span><span class="m"><span>a</span></span></span>
   </div>
   <span class="loader-count">0</span>
+  <div class="loader-shade"></div>
 </div>
+<script>
+  // Arranca el loader en cuanto están las fuentes (máx. 600 ms), sin esperar a GSAP
+  (function () {
+    if (!document.documentElement.classList.contains("is-loading")) return;
+    var ld = document.querySelector(".loader"), num = ld.querySelector(".loader-count"), started = false;
+    function start() {
+      if (started) return; started = true;
+      window.__loaderStart = performance.now();
+      ld.classList.add("go");
+      (function tick() {
+        var t = Math.min(1, (performance.now() - window.__loaderStart) / 1400);
+        num.textContent = Math.round(100 * (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2));
+        if (t < 1) requestAnimationFrame(tick);
+      })();
+    }
+    var fonts = document.fonts ? Promise.all([
+      document.fonts.load('700 100px "Archivo"'), document.fonts.load('italic 400 40px "Cormorant Garamond"')
+    ]) : Promise.resolve();
+    fonts.then(start, start);
+    setTimeout(start, 600);
+  })();
+</script>
 
 <header class="site-header">
   <a class="logo" href="#inicio" data-scroll>Laura</a>
@@ -395,8 +429,8 @@
     </div>
 
     <div class="grid">
-      <div id="sobre-mi" class="block img" data-img-reveal data-scrub-img style="grid-area: 1 / 2 / 22 / 12; z-index: 12;">
-        <img src="media/sobre-mi-laura.jpg" alt="Retrato de Laura" loading="lazy" style="object-position: 50% 30%;">
+      <div id="sobre-mi" class="block img about-img" data-img-reveal style="grid-area: 1 / 2 / 22 / 11; z-index: 12;">
+        <img src="media/sobre-mi-laura.jpg" alt="Retrato de Laura" loading="lazy" style="object-position: 50% 25%;">
       </div>
       <div class="block" style="grid-area: 1 / 14 / 8 / 26; z-index: 11;">
         <h2 class="h2" data-split style="margin-bottom: 0.4em;">Sobre mí</h2>
@@ -539,16 +573,15 @@
         return el.querySelectorAll(".wi");
       }
 
-      // Loader: "Hola, soy / Laura" sobre rojo; luego la página entra desde abajo (moveFromBottomEasing)
+      // Loader: la página entra desde abajo mientras el rojo se aleja y se oscurece
       var loader = document.querySelector(".loader");
       var moving = [header, document.getElementById("smooth-wrapper")];
-      var count = { v: 0 }, countEl = loader.querySelector(".loader-count");
-      var load = gsap.timeline();
-      load.from(".loader-hi .m > span", { yPercent: 110, duration: 0.8, ease: "power4.out", stagger: 0.08 }, 0.15)
-          .from(".loader-name .m > span", { yPercent: 110, duration: 1, ease: "power4.out", stagger: 0.06 }, 0.35)
-          .to(count, { v: 100, duration: 1.7, ease: "power2.inOut", onUpdate: function () { countEl.textContent = Math.round(count.v); } }, 0.1)
-          .to(".loader > div", { yPercent: -18, autoAlpha: 0, duration: 0.9, ease: "power3.in" }, 2.05)
-          .fromTo(moving, { y: function () { return window.innerHeight; } }, { y: 0, duration: 1.1, ease: "power3.inOut", immediateRender: false }, 2.05)
+      var since = window.__loaderStart ? (performance.now() - window.__loaderStart) / 1000 : 0;
+      var wait = Math.max(0.15, 1.65 - since);
+      var load = gsap.timeline({ delay: wait });
+      load.to(".loader-inner", { scale: 0.9, yPercent: -6, duration: 1.1, ease: "power3.inOut" }, 0)
+          .to(".loader-shade", { opacity: 0.55, duration: 1.1, ease: "power2.in" }, 0)
+          .fromTo(moving, { y: function () { return window.innerHeight; } }, { y: 0, duration: 1.1, ease: "power3.inOut", immediateRender: false }, 0)
           .add(function () {
             document.documentElement.classList.remove("is-loading");
             gsap.set(moving, { clearProps: "transform" });
@@ -556,7 +589,7 @@
           });
 
       // Entrada del hero (después del loader)
-      var intro = gsap.timeline({ defaults: { ease: "power4.out" }, delay: 2.45 });
+      var intro = gsap.timeline({ defaults: { ease: "power4.out" }, delay: wait + 0.45 });
       document.querySelectorAll('[data-split="intro-chars"]').forEach(function (el, i) {
         intro.from(split(el, true), { yPercent: 110, duration: 1.2, stagger: 0.045 }, i * 0.12);
       });
