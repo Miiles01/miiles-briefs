@@ -11,9 +11,9 @@ window.UGC = (() => {
     intro: 'Soy Laura. Hago videos y fotos que se sienten como la recomendación de una amiga: reales, cercanos y pensados para que tu producto se vea en uso.',
 
     medios: {
-      hero: MEDIA + 'hero.jpg',          // retrato principal (horizontal)
-      portada: MEDIA + 'portada.jpg',    // foto horizontal a sangre
-      sobreMi: MEDIA + 'sobre-mi.jpg'
+      hero: 'media/hero.jpg',          // retrato principal (horizontal)
+      portada: 'media/portada.jpg',    // foto horizontal a sangre
+      sobreMi: 'media/sobre-mi.jpg'  // recorte 4:5 (893×1116)
     },
 
     // Frase de la imagen a todo el ancho (sale del párrafo del hero)

@@ -151,7 +151,7 @@
             ${D.sobreMi.parrafos.map(p => `<p class="muted line">${esc(p)}</p>`).join('')}
             <a class="btn dark" href="#contacto">Contáctame</a>
           </div>
-          <div class="ratio-23 split-img" data-img="sobre-mi" data-src="${esc(D.medios.sobreMi)}"><div class="media-fill"></div></div>
+          <div class="ratio-23 split-img about-photo" data-img="sobre-mi" data-src="${esc(D.medios.sobreMi)}"><div class="media-fill"></div></div>
         </div>
       </div>
     </section>
