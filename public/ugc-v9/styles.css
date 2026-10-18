@@ -44,8 +44,9 @@ ul { list-style: none; }
 .logo { position: fixed; top: var(--pad); left: var(--pad); z-index: 51; font-family: var(--serif); font-size: 40px; line-height: .86; color: var(--cream); mix-blend-mode: difference; letter-spacing: -.03em; }
 .header { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; justify-content: flex-end; align-items: center; gap: 28px; padding: var(--pad); pointer-events: none; transition: transform .5s var(--ease); }
 .header.is-hidden { transform: translateY(-140%); }
-/* Links del navbar sobre una capa oscura translúcida: se leen sobre fondos claros y oscuros */
-.nav-links { pointer-events: auto; display: flex; align-items: center; gap: 22px; padding: 12px 22px; border-radius: 999px; font: 500 14px var(--sans); color: var(--cream); background: rgba(22,22,22,.62); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); }
+/* Links del navbar: solo texto; cambian de color según el fondo de la sección que tienen debajo */
+.nav-links { pointer-events: auto; display: flex; align-items: center; gap: 22px; font: 500 14px var(--sans); color: var(--cream); text-shadow: 0 1px 12px rgba(0,0,0,.18); transition: color .35s var(--ease); }
+.nav-links.on-light { color: var(--ink); text-shadow: 0 1px 12px rgba(255,255,255,.35); }
 .header-actions { pointer-events: auto; display: flex; gap: 12px; align-items: center; }
 .burger { display: none; width: 52px; height: 52px; border-radius: 50%; background: var(--ink); place-items: center; transition: transform .5s var(--ease); }
 @media (hover: hover) { .burger:hover { transform: scale(1.08); } }
