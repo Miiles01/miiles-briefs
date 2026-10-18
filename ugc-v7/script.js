@@ -5,7 +5,6 @@
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const piezas = (window.UGC && UGC.contenido.piezas) || [];
   const isVideo = src => /\.(mp4|webm|mov)(\?|$)/i.test(src);
-  const loader = d.querySelector('.loader');
   let lenis = null;
 
   /* ---------- Menú a pantalla completa ---------- */
@@ -175,11 +174,10 @@
 
   /* ---------- Sin GSAP o con movimiento reducido: página estática funcional ---------- */
   if (!window.gsap || !window.ScrollTrigger || reduce) {
-    loader && loader.remove();
+    root.classList.remove('has-loader', 'hero-hold');
     $('a[href^="#"]').forEach(a => a.addEventListener('click', () => setMenu(false)));
     return;
   }
-  loader.style.animation = 'none';
 
   root.classList.add('js');
   gsap.registerPlugin(ScrollTrigger);
@@ -212,6 +210,19 @@
   };
   const fontsReady = d.fonts ? Promise.race([d.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve();
 
+  // Loader: la página entra desde abajo mientras el lima se aleja y se oscurece
+  const loaderOut = new Promise(res => {
+    if (!root.classList.contains('has-loader')) { lenis && lenis.start(); return res(); }
+    const app = d.getElementById('app');
+    const since = window.__loaderStart ? (performance.now() - window.__loaderStart) / 1000 : 0;
+    gsap.timeline({ delay: Math.max(.15, 1.65 - since) })
+      .to('.loader-inner', { scale: .9, yPercent: -6, duration: 1.1, ease: 'power3.inOut' }, 0)
+      .to('.loader-shade', { opacity: .55, duration: 1.1, ease: 'power2.in' }, 0)
+      .fromTo(app, { y: () => innerHeight }, { y: 0, duration: 1.1, ease: 'power3.inOut', immediateRender: false }, 0)
+      .add(res, .55)
+      .add(() => { root.classList.remove('has-loader'); gsap.set(app, { clearProps: 'transform' }); scrollTo(0, 0); lenis && lenis.start(); ScrollTrigger.refresh(); });
+  });
+
   fontsReady.then(() => {
     /* ---------- Loader → entrada del hero ---------- */
     // Entrada con fade (sin máscaras, así la letra nunca se corta)
@@ -222,37 +233,27 @@
     gsap.set(['.hero-intro', '.hero-socials a', '.scroll-arrow'], { opacity: 0, y: 24 });
     gsap.set('.nav', { yPercent: -120 });
 
-    const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    intro.from('.loader-mark', { scale: 0, rotate: -180, duration: .9, ease: 'back.out(1.6)' })
-      .from('.loader-name span', { yPercent: 110, duration: .6 }, '-=.35')
-      .to('.loader-mark', { rotate: 180, duration: .8, ease: 'power2.inOut' }, '+=.15')
-      .to(loader, { yPercent: -100, borderBottomLeftRadius: '50% 22vh', borderBottomRightRadius: '50% 22vh', duration: 1.1, ease: 'expo.inOut' }, '-=.3')
-      .add(() => { loader.remove(); lenis && lenis.start(); ScrollTrigger.refresh(); })
-      .to(heroWords, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1, ease: 'power2.out', stagger: .09, clearProps: 'filter' }, '-=.65')
+    // La entrada se arma pausada (estados iniciales ya puestos) y se reproduce cuando sale el loader
+    const intro = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+    intro
+      .to(heroWords, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1, ease: 'power2.out', stagger: .09, clearProps: 'filter' }, 0)
       .to('.pill', { opacity: 1, scale: 1, duration: 1, ease: 'power2.out', stagger: .12 }, '-=.9')
       .to('.hero .shape', { opacity: 1, scale: 1, duration: 1, ease: 'back.out(1.6)', stagger: .1 }, '<')
       .to('.hero-intro', { opacity: 1, y: 0, duration: .8 }, '-=.8')
       .to('.hero-socials a', { opacity: 1, y: 0, duration: .6, stagger: .06 }, '-=.5')
       .to('.scroll-arrow', { opacity: 1, y: 0, duration: .7 }, '-=.5')
       .to('.nav', { yPercent: 0, duration: .9, ease: 'expo.out' }, '-=1');
+    root.classList.remove('hero-hold');
+    loaderOut.then(() => intro.play());
 
-    /* ---------- Títulos: letra por letra ---------- */
-    $('.t-chars').forEach(el => {
-      const chars = window.SplitText ? SplitText.create(el, { type: 'words,chars' }).chars : [el];
-      const tl = gsap.timeline({ paused: true }).from(chars, { opacity: 0, yPercent: 48, duration: 1, ease: 'power2.inOut', stagger: { amount: .6 } });
-      replay(el, tl);
-    });
-    /* ---------- Párrafos: palabra por palabra ---------- */
-    $('.t-words').forEach(el => {
-      const words = window.SplitText ? SplitText.create(el, { type: 'words' }).words : [el];
-      const tl = gsap.timeline({ paused: true }).from(words, { opacity: 0, yPercent: 24, duration: 1.3, ease: 'power2.out', stagger: { amount: .55 } });
+    /* ---------- Títulos y párrafos: fade simple de todo el bloque (la letra nunca se corta) ---------- */
+    $('.t-chars, .t-words').forEach(el => {
+      const tl = gsap.timeline({ paused: true }).from(el, { opacity: 0, y: 24, duration: 1, ease: 'power2.out' });
       replay(el, tl);
     });
     ScrollTrigger.refresh();
   });
 
-  // Red de seguridad: si algo tarda demasiado, el loader no se queda tapando la página
-  setTimeout(() => { if (d.body.contains(loader)) { gsap.to(loader, { opacity: 0, duration: .4, onComplete: () => loader.remove() }); lenis && lenis.start(); gsap.set(['.nav', '.hero *'], { clearProps: 'all' }); } }, 6000);
 
   /* ---------- Scroll: curva del hero, parallax y cortinas ---------- */
   const mm = gsap.matchMedia();
