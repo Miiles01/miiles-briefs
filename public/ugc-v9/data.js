@@ -13,9 +13,9 @@ window.UGC = (() => {
     medios: {
       hero: MEDIA + 'hero.jpg',          // retrato principal (horizontal)
       portada: MEDIA + 'portada.jpg',    // foto horizontal a sangre
-      sobreMi: MEDIA + 'sobre-mi.jpg',
+      sobreMi: 'media/sobre-mi.jpg',
       // Fotos que cambian dentro del domo mientras crece (la última, horizontal, cuando ya llena la pantalla)
-      domo: ['foto-5.jpg', 'foto-1.jpg', 'foto-3.jpg', 'portada.jpg'].map(f => MEDIA + f)
+      domo: [1, 2, 3, 4].map(n => `media/domo-${n}.jpg`)
     },
 
     // Cintas inclinadas
