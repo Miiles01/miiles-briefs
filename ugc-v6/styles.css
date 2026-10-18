@@ -63,7 +63,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .flip { display: grid; transform: scaleX(-1); }
 
 /* ============ Navegación ============ */
-.top { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 85%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: transform .5s var(--ease); }
+/* Navbar sin fondo: solo flotan el logo y el botón de menú */
+.top { position: sticky; top: 0; z-index: 50; pointer-events: none; transition: transform .5s var(--ease); }
+.top a, .top button { pointer-events: auto; }
+.top .logo { padding: .55rem 1.1rem; margin-left: -.35rem; border-radius: 999px; background: var(--bg); box-shadow: 0 8px 24px -14px #0a1b4d40; }
 .top.is-hidden { transform: translateY(-100%); }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-block: 18px; }
 .logo { display: inline-flex; align-items: flex-start; gap: .25rem; font-weight: 800; font-size: 1.5rem; letter-spacing: -.03em; line-height: 1; }
@@ -82,12 +85,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .menu-btn.on .menu-dots i:first-child { transform: translateY(2.75px) rotate(45deg); }
 .menu-btn.on .menu-dots i:last-child { transform: translateY(-2.75px) rotate(-45deg); }
 
-/* Menú a pantalla completa */
-.menu { position: fixed; inset: 0; z-index: 60; background: var(--inverse); color: var(--inverse-ink); display: flex; flex-direction: column; justify-content: flex-end; gap: 2.5rem; padding-block: 6rem calc(2rem + env(safe-area-inset-bottom));
-  clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .7s var(--ease), visibility 0s .7s; }
-.menu.open { clip-path: inset(0); visibility: visible; transition: clip-path .7s var(--ease), visibility 0s; }
+/* Menú: panel a la mitad de la pantalla (desde la derecha) con botón de cerrar; el resto se oscurece */
+.menu { position: fixed; top: 0; right: 0; bottom: 0; width: min(86vw, max(50vw, 360px)); z-index: 80; background: var(--inverse); color: var(--inverse-ink); display: flex; flex-direction: column; justify-content: flex-end; gap: 2.5rem; padding-block: 6rem calc(2rem + env(safe-area-inset-bottom));
+  transform: translateX(100%); visibility: hidden; transition: transform .7s var(--ease), visibility 0s .7s; }
+.menu.open { transform: none; visibility: visible; transition: transform .7s var(--ease), visibility 0s; }
+.menu-scrim { position: fixed; inset: 0; z-index: 79; background: #081740; opacity: 0; visibility: hidden; cursor: pointer; transition: opacity .5s var(--ease), visibility 0s .5s; }
+html.lock .menu-scrim { opacity: .4; visibility: visible; transition: opacity .5s var(--ease), visibility 0s; }
+.menu-close { position: absolute; top: 22px; right: var(--gutter); display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: 0 1.1rem; border-radius: 999px; background: var(--inverse-ink); color: var(--ink); font-weight: 600; transition: transform .3s var(--ease); }
+@media (hover: hover) { .menu-close:hover { transform: scale(1.05); } }
+.menu-close:active { transform: scale(.96); }
 .menu-links { display: flex; flex-direction: column; }
-.menu-links a { overflow: hidden; font-weight: 800; font-size: clamp(2.4rem, 9vw, 5rem); letter-spacing: -.045em; line-height: 1.08; padding-block: .06em .18em; margin-bottom: -.18em; }
+.menu-links a { overflow: hidden; font-weight: 800; font-size: clamp(2.2rem, 5vw, 4.5rem); letter-spacing: -.045em; line-height: 1.08; padding-block: .06em .18em; margin-bottom: -.18em; }
 .menu-links a span { display: block; transform: translateY(110%); transition: transform .7s var(--ease) calc(.12s + var(--i) * .05s); }
 .menu.open .menu-links a span { transform: none; }
 .menu-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: .9rem; color: #f6f5f2aa; }
@@ -275,8 +283,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* Navbar en todas las pantallas: logo + botón de menú hamburguesa que abre el menú completo */
 .nav-links { display: none; }
 .menu-btn { display: inline-flex; }
-html.lock .top { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
-html.lock .top .logo { color: var(--inverse-ink); position: relative; z-index: 70; }
+
 @media (max-width: 991px) {
   .services { grid-template-columns: repeat(2, 1fr); }
   .quotes { grid-template-columns: repeat(2, 1fr); }
