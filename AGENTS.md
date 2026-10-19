@@ -21,3 +21,8 @@
 ## Portafolios UGC: menú hamburguesa
 - Cuando el navbar sea de menú hamburguesa, el menú se abre como panel a **media pantalla** (desde un lado, con el resto oscurecido) y con un botón visible de **Cerrar**. Nunca a pantalla completa.
 - Con menú hamburguesa el navbar va **sin fondo**: solo flotan el logo y el botón.
+
+## Portafolios UGC en Lovable (dominios)
+- V10 → repo Miiles01/rotate-display → https://ugc10.lovable.app/
+- V11 → repo Miiles01/media-portfolio-garden → https://ugc11.lovable.app/
+- Se trabaja en `main` de cada repo (Lovable sincroniza solo); el sitio público se actualiza cuando se da Publish en Lovable.
