@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dsgn interior — Animation Recreation</title>
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans for premium modern editorial look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <div class="homepage welcome page-home">
+      <!-- Header -->
+      <header class="header transparent">
+        <div class="header-logo">
+          <a href="#"><strong>dsgn</strong> interior</a>
+        </div>
+        
+        <nav class="menu-desktop">
+          <ul class="menu-links">
+            <li><a href="#projects"><span>Projects</span></a></li>
+            <li><a href="#archive"><span>dsgn Archive</span></a></li>
+            <li><a href="#office"><span>Office</span></a></li>
+          </ul>
+          <div class="languages">
+            <a href="#" class="lang">SV</a>
+            <a href="#" class="lang active">EN</a>
+          </div>
+        </nav>
+
+        <button class="menu-toggle" aria-label="Menu">
+          <span class="menu-toggle-open">Menu</span>
+        </button>
+      </header>
+
+      <!-- Full-screen Parallax Slider (Swiper) -->
+      <main class="home-banners swiper">
+        <div class="swiper-wrapper">
+
+          <!-- Slide 0: Hero with Video & Split Entrance Title -->
+          <header id="banner-0" class="banner swiper-slide">
+            <div class="media work-banner" data-swiper-parallax="60%">
+              <div class="video-container">
+                <video autoplay muted loop playsinline poster="https://dsgninterior.se/media/site/e0076c9638-1772034604/fellowmind-_officesholm_v1-1408x-1920x1080-crop-q90.jpg">
+                  <source src="https://dsgninterior.se/media/site/3f48a9c4bc-1787651003/fellowmind-stockholm.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <h1 class="banner-title" data-swiper-parallax="100%">
+              <span class="split" data-swiper-parallax="-60">
+                designing interiors<br>connecting people
+              </span>
+            </h1>
+          </header>
+
+          <!-- Slide 1: Fellowmind Göteborg -->
+          <div id="banner-1" class="banner swiper-slide">
+            <div class="media work-banner" data-swiper-parallax="60%">
+              <img src="https://dsgninterior.se/media/pages/projekt/fellowmind-goteborg/5b5fbbf23e-1772034873/34_fellowmind_goteborg_fotograf-marcus-stork_2022_dsgn-interior_webb-1920x1080-crop-q90.jpg" alt="Fellowmind Göteborg" />
+            </div>
+            <h2 class="banner-title" data-swiper-parallax="100%">
+              <span data-swiper-parallax="-60">Fellowmind Göteborg</span>
+            </h2>
+          </div>
+
+          <!-- Slide 2: Car.info -->
+          <div id="banner-2" class="banner swiper-slide">
+            <div class="media work-banner" data-swiper-parallax="60%">
+              <img src="https://dsgninterior.se/media/pages/projekt/car-info/49673fc429-1772034789/220914-carinfo-malmo-1076_u-1920x1080-crop-49-9-48-0-q90.jpg" alt="Car.info" />
+            </div>
+            <h2 class="banner-title" data-swiper-parallax="100%">
+              <span data-swiper-parallax="-60">Car.info</span>
+            </h2>
+          </div>
+
+          <!-- Slide 3: Stretch Care -->
+          <div id="banner-3" class="banner swiper-slide">
+            <div class="media work-banner" data-swiper-parallax="60%">
+              <img src="https://dsgninterior.se/media/pages/projekt/stretch-care/9f17d3d1da-1772034720/dsc08658-1920x1080-crop-50-2-47-8-q90.jpg" alt="Stretch Care" />
+            </div>
+            <h2 class="banner-title" data-swiper-parallax="100%">
+              <span data-swiper-parallax="-60">Stretch Care</span>
+            </h2>
+          </div>
+
+          <!-- Slide 4: Tarsier -->
+          <div id="banner-4" class="banner swiper-slide">
+            <div class="media work-banner" data-swiper-parallax="60%">
+              <img src="https://dsgninterior.se/media/pages/projekt/tarsier/e6b6bbdf8b-1772034657/16-dsc01476-1920x1080-crop-49-7-48-2-q90.jpg" alt="Tarsier" />
+            </div>
+            <h2 class="banner-title" data-swiper-parallax="100%">
+              <span data-swiper-parallax="-60">Tarsier</span>
+            </h2>
+          </div>
+
+          <!-- Slide 5: Fellowmind Malmö -->
+          <div id="banner-5" class="banner swiper-slide">
+            <div class="media work-banner" data-swiper-parallax="60%">
+              <img src="https://dsgninterior.se/media/pages/projekt/fellowmind-malmo/87cf443272-1772034981/fellowmind15714_u-1920x1080-crop-49-9-48-0-q90.jpg" alt="Fellowmind Malmö" />
+            </div>
+            <h2 class="banner-title" data-swiper-parallax="100%">
+              <span data-swiper-parallax="-60">Fellowmind Malmö</span>
+            </h2>
+          </div>
+
+          <!-- Slide 6: Helo -->
+          <div id="banner-6" class="banner swiper-slide">
+            <div class="media work-banner" data-swiper-parallax="60%">
+              <img src="https://dsgninterior.se/media/pages/projekt/helo/2c3ee19191-1776343248/3-dsc09126-1920x1080-crop-47-7-83-9-q90.jpg" alt="Helo" />
+            </div>
+            <h2 class="banner-title" data-swiper-parallax="100%">
+              <span data-swiper-parallax="-60">Helo</span>
+            </h2>
+          </div>
+
+        </div>
+
+        <!-- Vertical Pagination Bullets -->
+        <div class="banners-pagination">
+          <div class="swiper-pagination"></div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <ul class="footer-grid">
+          <li class="contacts">
+            <a href="mailto:info@dsgninterior.se">info@dsgninterior.se</a>
+            <a href="tel:+46040262640">+46 040 26 26 40</a>
+          </li>
+          <li class="address">
+            <a href="#" target="_blank" rel="noopener">
+              <span>Tessins väg 14</span>
+              <span>217 58 Malmö</span>
+            </a>
+          </li>
+          <li class="scroll">
+            <span>Scroll to explore</span>
+          </li>
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Interactive Demo Controller Bar -->
+    <div class="demo-controller">
+      <button id="btn-replay" class="ctrl-btn" title="Replay intro animation">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+        </svg>
+        <span>Replay Intro</span>
+      </button>
+
+      <div class="ctrl-divider"></div>
+
+      <button id="btn-prev" class="ctrl-btn-icon" title="Previous Slide">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+      </button>
+      
+      <span id="slide-indicator" class="ctrl-indicator">1 / 7</span>
+
+      <button id="btn-next" class="ctrl-btn-icon" title="Next Slide">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- GSAP 3 -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- Main Script -->
+  <script src="script.js"></script>
+</body>
+</html>

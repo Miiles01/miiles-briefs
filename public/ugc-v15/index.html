@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paul Kalkbrenner — Official Website</title>
+  <meta name="description" content="Explore the music of Paul Kalkbrenner. Live performances, recordings, and over two decades of electronic music.">
+
+  <!-- Typography: Syne (Brutalist display) & Space Mono / Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-barba="wrapper">
+
+  <!-- 1. Custom Interactive Cursor -->
+  <div class="custom-cursor" data-cursor>
+    <div class="cursor-dot"></div>
+    <div class="cursor-badge">
+      <span class="cursor-text" data-cursor-text-target>VIEW</span>
+    </div>
+  </div>
+
+  <!-- 2. Sticky Navigation Bar -->
+  <nav class="nav" data-nav-status>
+    <div class="nav-container">
+      <!-- Brand Logo / Monogram -->
+      <a href="#hero" class="nav-logo" data-cursor-hover data-cursor-text="PK">
+        <span class="logo-mark">PK</span>
+        <span class="logo-title">PAUL KALKBRENNER</span>
+      </a>
+
+      <!-- Desktop Links -->
+      <ul class="nav-menu">
+        <li><a href="#recordings" class="nav-link" data-cursor-hover data-cursor-text="LISTEN">RECORDINGS</a></li>
+        <li><a href="#tour" class="nav-link" data-cursor-hover data-cursor-text="TOUR">TOUR DATES</a></li>
+        <li><a href="#experience" class="nav-link" data-cursor-hover data-cursor-text="FLOW">EXPERIENCE</a></li>
+        <li><a href="#setup" class="nav-link" data-cursor-hover data-cursor-text="GEAR">LIVE SETUP</a></li>
+        <li><a href="#newsletter" class="nav-link" data-cursor-hover data-cursor-text="JOIN">NEWSLETTER</a></li>
+      </ul>
+
+      <!-- Sound Toggle (Web Audio API Synth) & Mobile Hamburger -->
+      <div class="nav-actions">
+        <button class="sound-toggle" data-sound-toggle data-cursor-hover data-cursor-text="AUDIO" aria-label="Toggle Sound">
+          <span class="sound-label">SOUND</span>
+          <div class="sound-equalizer">
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+          </div>
+          <span class="sound-state" id="sound-state-text">OFF</span>
+        </button>
+
+        <button class="menu-toggle-btn" data-menu-toggle aria-label="Open Menu">
+          <span class="menu-btn-line"></span>
+          <span class="menu-btn-line"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Fullscreen Drawer Menu (Mobile & Overlay) -->
+  <div class="menu-overlay" data-menu-wrap>
+    <div class="menu-overlay-inner">
+      <div class="menu-overlay-top">
+        <span class="mono-meta">NAVIGATION // BERLIN, DE</span>
+        <button class="menu-close-btn" data-menu-close aria-label="Close Menu">✕ CLOSE</button>
+      </div>
+      <ul class="menu-overlay-links">
+        <li><a href="#recordings" class="menu-overlay-link" data-menu-item><span>01</span> RECORDINGS</a></li>
+        <li><a href="#tour" class="menu-overlay-link" data-menu-item><span>02</span> TOUR DATES</a></li>
+        <li><a href="#experience" class="menu-overlay-link" data-menu-item><span>03</span> EXPERIENCE</a></li>
+        <li><a href="#setup" class="menu-overlay-link" data-menu-item><span>04</span> LIVE HARDWARE</a></li>
+        <li><a href="#newsletter" class="menu-overlay-link" data-menu-item><span>05</span> NEWSLETTER</a></li>
+      </ul>
+      <div class="menu-overlay-footer">
+        <span class="mono-meta">ELECTRONIC MUSICIAN & PRODUCER</span>
+        <span class="mono-meta">1992 — PRESENT</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Scrollable Content Container -->
+  <main class="main-content" data-barba="container" data-barba-namespace="home">
+
+    <!-- 3. Hero Section -->
+    <section class="section hero" id="hero" data-home-hero>
+      <div class="container hero-container">
+        
+        <!-- Technical Badges -->
+        <div class="hero-meta-row">
+          <div class="hero-meta-item">
+            <span class="meta-dot"></span>
+            <span class="mono-meta">LIVE ELECTRONIC PERFORMANCE</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="mono-meta">BERLIN // GERMANY</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="mono-meta">TEMPO: 128 - 132 BPM</span>
+          </div>
+        </div>
+
+        <!-- Monumental Hero Typography with Inline Audio Waveform Canvas -->
+        <div class="hero-title-wrap">
+          <h1 class="hero-title">
+            <span class="hero-name-first" data-h1>Paul</span>
+            <!-- Inline Interactive Waveform / Oscilloscope (vector replacement for photo cycle) -->
+            <span class="hero-inline-visual" data-cursor-hover data-cursor-text="SYNTH">
+              <canvas id="hero-oscilloscope" width="320" height="130"></canvas>
+              <div class="oscilloscope-hud">
+                <span class="hud-tag">SIGNAL: ACTIVE</span>
+                <span class="hud-hz" id="hud-frequency">440 Hz</span>
+              </div>
+            </span>
+            <span class="hero-name-last" data-h1>Kalkbrenner</span>
+          </h1>
+        </div>
+
+        <!-- Hero Subtitle & CTA -->
+        <div class="hero-bottom-row">
+          <p class="hero-lead">
+            Shaping the sonic architecture of electronic music for over two decades. Completely live, raw and uncompromised.
+          </p>
+          <div class="hero-cta-group">
+            <a href="#recordings" class="btn btn-primary" data-button data-cursor-hover data-cursor-text="DISCS">
+              <span data-button-text>EXPLORE RECORDINGS</span>
+            </a>
+            <a href="#tour" class="btn btn-outline" data-button data-cursor-hover data-cursor-text="DATES">
+              <span data-button-text>UPCOMING TOUR</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Scroll Explore Indicator -->
+        <a href="#experience" class="hero-scroll-indicator" aria-label="Scroll down">
+          <div class="scroll-mouse">
+            <span class="scroll-wheel"></span>
+          </div>
+          <span class="scroll-text">SCROLL TO DISCOVER</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. Experience Kinetic Scrub Section (data-experience-wrap) -->
+    <section class="section experience" id="experience" data-experience-wrap>
+      <div class="experience-header">
+        <span class="section-tag">[ 01 // SOUND MANIFESTO ]</span>
+        <h2 class="section-subtitle">Experience the Pulse</h2>
+      </div>
+
+      <div class="experience-track" data-experience-track>
+        <div class="experience-column" data-experience-col>
+          <div class="exp-grid-box">
+            <span class="exp-num">01</span>
+            <h3 class="exp-title">ANALOG</h3>
+            <p class="exp-desc">Zero playback. Every track is reconstructed live using multi-track analog mixers and hardware synthesizers.</p>
+          </div>
+        </div>
+        <div class="experience-column" data-experience-col>
+          <div class="exp-grid-box highlight-green">
+            <span class="exp-num">02</span>
+            <h3 class="exp-title">ACOUSTICS</h3>
+            <p class="exp-desc">Wall-of-sound frequencies sculpted specifically for stadium-scale sound systems and festival grounds.</p>
+          </div>
+        </div>
+        <div class="experience-column" data-experience-col>
+          <div class="exp-grid-box">
+            <span class="exp-num">03</span>
+            <h3 class="exp-title">UNFILTERED</h3>
+            <p class="exp-desc">Direct emotional resonance without artificial drops, driven by melodic tension and hypnotic basslines.</p>
+          </div>
+        </div>
+        <div class="experience-column" data-experience-col>
+          <div class="exp-grid-box">
+            <span class="exp-num">04</span>
+            <h3 class="exp-title">BERLIN HERITAGE</h3>
+            <p class="exp-desc">From early 90s underground clubs like E-Werk and Tresor to headlining global arenas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Infinite Kinetic Marquee -->
+    <div class="marquee-strip" aria-hidden="true">
+      <div class="marquee-inner">
+        <span>PAUL KALKBRENNER • LIVE ON STAGE • SKY AND SAND • BERLIN CALLING • ANALOG LIVE MIXER • NO CDJs • 100% LIVE HARDWARE •</span>
+        <span>PAUL KALKBRENNER • LIVE ON STAGE • SKY AND SAND • BERLIN CALLING • ANALOG LIVE MIXER • NO CDJs • 100% LIVE HARDWARE •</span>
+      </div>
+    </div>
+
+    <!-- 6. Recordings & Discography Section -->
+    <section class="section recordings" id="recordings" data-section-theme="dark">
+      <div class="container">
+        
+        <div class="section-head-flex">
+          <div>
+            <span class="section-tag">[ 02 // CATALOGUE ]</span>
+            <h2 class="section-title">FEATURED RECORDINGS</h2>
+          </div>
+          <p class="section-lead-text">
+            Eight studio albums, seminal soundtracks and countless live cuts crafted over 25 years.
+          </p>
+        </div>
+
+        <!-- Discography Grid -->
+        <div class="albums-grid">
+
+          <!-- Album 1: Berlin Calling -->
+          <article class="album-card" data-album-id="berlin-calling" data-cursor-hover data-cursor-text="PREVIEW">
+            <div class="album-cover-wrap">
+              <!-- Geometric Vector Vinyl Simulation (No raster images) -->
+              <div class="album-art-vector art-berlin-calling">
+                <div class="vector-cover-inner">
+                  <span class="vector-cover-title">BERLIN CALLING</span>
+                  <span class="vector-cover-sub">ORIGINAL SOUNDTRACK</span>
+                  <div class="vector-waveform-icon">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <span class="vector-catalog">BPITCH CONTROL // BPC185</span>
+                </div>
+              </div>
+              <!-- Sliding Vinyl Disc Vector -->
+              <div class="vinyl-disc-vector">
+                <div class="vinyl-groove"></div>
+                <div class="vinyl-label">
+                  <span class="vinyl-pk">PK</span>
+                  <span class="vinyl-rpm">33 RPM</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="album-info">
+              <div class="album-meta">
+                <span class="album-year">2008</span>
+                <span class="album-type">ALBUM // PLATINUM</span>
+              </div>
+              <h3 class="album-name">Berlin Calling</h3>
+              <ul class="tracklist">
+                <li class="track-item" data-track="sky-and-sand">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Sky and Sand</span>
+                  <span class="track-len">03:59</span>
+                </li>
+                <li class="track-item" data-track="aaron">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Aaron</span>
+                  <span class="track-len">06:01</span>
+                </li>
+                <li class="track-item" data-track="revolte">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Revolte</span>
+                  <span class="track-len">04:08</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Album 2: Parts of Life -->
+          <article class="album-card" data-album-id="parts-of-life" data-cursor-hover data-cursor-text="PREVIEW">
+            <div class="album-cover-wrap">
+              <div class="album-art-vector art-parts-of-life">
+                <div class="vector-cover-inner">
+                  <span class="vector-cover-title">PARTS OF LIFE</span>
+                  <span class="vector-cover-sub">STUDIO ALBUM VIII</span>
+                  <div class="vector-waveform-icon">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <span class="vector-catalog">SONY MUSIC // 2018</span>
+                </div>
+              </div>
+              <div class="vinyl-disc-vector">
+                <div class="vinyl-groove"></div>
+                <div class="vinyl-label label-green">
+                  <span class="vinyl-pk">PK</span>
+                  <span class="vinyl-rpm">33 RPM</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="album-info">
+              <div class="album-meta">
+                <span class="album-year">2018</span>
+                <span class="album-type">STUDIO ALBUM</span>
+              </div>
+              <h3 class="album-name">Parts of Life</h3>
+              <ul class="tracklist">
+                <li class="track-item" data-track="part-three">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Part Three</span>
+                  <span class="track-len">03:45</span>
+                </li>
+                <li class="track-item" data-track="part-six">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Part Six</span>
+                  <span class="track-len">04:22</span>
+                </li>
+                <li class="track-item" data-track="part-eight">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Part Eight</span>
+                  <span class="track-len">05:14</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Album 3: 7 -->
+          <article class="album-card" data-album-id="album-7" data-cursor-hover data-cursor-text="PREVIEW">
+            <div class="album-cover-wrap">
+              <div class="album-art-vector art-seven">
+                <div class="vector-cover-inner">
+                  <span class="vector-cover-title large-num">7</span>
+                  <span class="vector-cover-sub">STUDIO ALBUM VII</span>
+                  <div class="vector-waveform-icon">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <span class="vector-catalog">COLUMBIA // 2015</span>
+                </div>
+              </div>
+              <div class="vinyl-disc-vector">
+                <div class="vinyl-groove"></div>
+                <div class="vinyl-label">
+                  <span class="vinyl-pk">PK</span>
+                  <span class="vinyl-rpm">33 RPM</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="album-info">
+              <div class="album-meta">
+                <span class="album-year">2015</span>
+                <span class="album-type">STUDIO ALBUM</span>
+              </div>
+              <h3 class="album-name">7 (Seven)</h3>
+              <ul class="tracklist">
+                <li class="track-item" data-track="cloud-rider">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Cloud Rider</span>
+                  <span class="track-len">03:54</span>
+                </li>
+                <li class="track-item" data-track="feed-your-head">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Feed Your Head</span>
+                  <span class="track-len">05:46</span>
+                </li>
+                <li class="track-item" data-track="mothertrucker">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Mothertrucker</span>
+                  <span class="track-len">05:22</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Album 4: Kabelmann EP -->
+          <article class="album-card" data-album-id="kabelmann" data-cursor-hover data-cursor-text="PREVIEW">
+            <div class="album-cover-wrap">
+              <div class="album-art-vector art-kabelmann">
+                <div class="vector-cover-inner">
+                  <span class="vector-cover-title">KABELMANN</span>
+                  <span class="vector-cover-sub">EXTENDED PLAY</span>
+                  <div class="vector-waveform-icon">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <span class="vector-catalog">VIRGIN // RECENT</span>
+                </div>
+              </div>
+              <div class="vinyl-disc-vector">
+                <div class="vinyl-groove"></div>
+                <div class="vinyl-label label-white">
+                  <span class="vinyl-pk">PK</span>
+                  <span class="vinyl-rpm">45 RPM</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="album-info">
+              <div class="album-meta">
+                <span class="album-year">LATEST</span>
+                <span class="album-type">CONCEPT EP</span>
+              </div>
+              <h3 class="album-name">Kabelmann</h3>
+              <ul class="tracklist">
+                <li class="track-item" data-track="kabelmann-1">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Kabelmann Part 1</span>
+                  <span class="track-len">04:12</span>
+                </li>
+                <li class="track-item" data-track="kabelmann-2">
+                  <button class="track-play-btn" aria-label="Play track">▶</button>
+                  <span class="track-title">Kabelmann Part 2</span>
+                  <span class="track-len">04:48</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Tour Dates Section (data-section-theme="green") -->
+    <section class="section tour-dates" id="tour" data-section-theme="green">
+      <div class="container">
+        
+        <div class="tour-top-row">
+          <div class="tour-headline-wrap">
+            <span class="section-tag">[ 03 // LIVE AGENDA ]</span>
+            <h2 class="section-title">UPCOMING PERFORMANCES</h2>
+          </div>
+          <div class="tour-filter-tabs">
+            <button class="tour-tab active" data-filter="all">ALL CONCERTS</button>
+            <button class="tour-tab" data-filter="festival">FESTIVALS</button>
+            <button class="tour-tab" data-filter="headline">HEADLINE SHOWS</button>
+          </div>
+        </div>
+
+        <!-- Tour Table -->
+        <div class="tour-table" role="table">
+          <div class="tour-table-header" role="row">
+            <span class="th-col th-date">DATE</span>
+            <span class="th-col th-city">CITY</span>
+            <span class="th-col th-venue">EVENT / VENUE</span>
+            <span class="th-col th-type">TYPE</span>
+            <span class="th-col th-action">STATUS</span>
+          </div>
+
+          <div class="tour-table-body">
+            
+            <!-- Date 1 -->
+            <div class="tour-row" data-type="headline" data-cursor-hover data-cursor-text="TICKETS">
+              <div class="tour-col col-date">
+                <span class="tour-day">14</span>
+                <span class="tour-month">NOV 2026</span>
+              </div>
+              <div class="tour-col col-city">
+                <span class="city-name">Berlin</span>
+                <span class="country-name">Germany</span>
+              </div>
+              <div class="tour-col col-venue">Velodrom Arena</div>
+              <div class="tour-col col-type"><span class="badge-type">HEADLINE</span></div>
+              <div class="tour-col col-action">
+                <a href="#tickets" class="btn btn-ticket" data-button>
+                  <span data-button-text>TICKETS</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Date 2 -->
+            <div class="tour-row" data-type="festival" data-cursor-hover data-cursor-text="TICKETS">
+              <div class="tour-col col-date">
+                <span class="tour-day">28</span>
+                <span class="tour-month">NOV 2026</span>
+              </div>
+              <div class="tour-col col-city">
+                <span class="city-name">Amsterdam</span>
+                <span class="country-name">Netherlands</span>
+              </div>
+              <div class="tour-col col-venue">Ziggo Dome</div>
+              <div class="tour-col col-type"><span class="badge-type badge-fest">FESTIVAL</span></div>
+              <div class="tour-col col-action">
+                <a href="#tickets" class="btn btn-ticket" data-button>
+                  <span data-button-text>TICKETS</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Date 3 -->
+            <div class="tour-row" data-type="headline" data-cursor-hover data-cursor-text="TICKETS">
+              <div class="tour-col col-date">
+                <span class="tour-day">05</span>
+                <span class="tour-month">DEC 2026</span>
+              </div>
+              <div class="tour-col col-city">
+                <span class="city-name">London</span>
+                <span class="country-name">United Kingdom</span>
+              </div>
+              <div class="tour-col col-venue">Drumsheds</div>
+              <div class="tour-col col-type"><span class="badge-type">HEADLINE</span></div>
+              <div class="tour-col col-action">
+                <a href="#tickets" class="btn btn-ticket" data-button>
+                  <span data-button-text>TICKETS</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Date 4 -->
+            <div class="tour-row" data-type="headline" data-cursor-hover data-cursor-text="TICKETS">
+              <div class="tour-col col-date">
+                <span class="tour-day">19</span>
+                <span class="tour-month">DEC 2026</span>
+              </div>
+              <div class="tour-col col-city">
+                <span class="city-name">Madrid</span>
+                <span class="country-name">Spain</span>
+              </div>
+              <div class="tour-col col-venue">WiZink Center</div>
+              <div class="tour-col col-type"><span class="badge-type">HEADLINE</span></div>
+              <div class="tour-col col-action">
+                <a href="#tickets" class="btn btn-ticket" data-button>
+                  <span data-button-text>TICKETS</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Date 5 -->
+            <div class="tour-row" data-type="festival" data-cursor-hover data-cursor-text="TICKETS">
+              <div class="tour-col col-date">
+                <span class="tour-day">31</span>
+                <span class="tour-month">DEC 2026</span>
+              </div>
+              <div class="tour-col col-city">
+                <span class="city-name">Paris</span>
+                <span class="country-name">France</span>
+              </div>
+              <div class="tour-col col-venue">Paris Expo Porte de Versailles</div>
+              <div class="tour-col col-type"><span class="badge-type badge-fest">NYE SPECIAL</span></div>
+              <div class="tour-col col-action">
+                <a href="#tickets" class="btn btn-ticket" data-button>
+                  <span data-button-text>SOLD OUT</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Date 6 -->
+            <div class="tour-row" data-type="headline" data-cursor-hover data-cursor-text="TICKETS">
+              <div class="tour-col col-date">
+                <span class="tour-day">16</span>
+                <span class="tour-month">JAN 2027</span>
+              </div>
+              <div class="tour-col col-city">
+                <span class="city-name">Tokyo</span>
+                <span class="country-name">Japan</span>
+              </div>
+              <div class="tour-col col-venue">AgeHa Arena Live</div>
+              <div class="tour-col col-type"><span class="badge-type">HEADLINE</span></div>
+              <div class="tour-col col-action">
+                <a href="#tickets" class="btn btn-ticket" data-button>
+                  <span data-button-text>TICKETS</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8. Live Setup Architecture Section (Technical Hardware Interface) -->
+    <section class="section live-setup" id="setup">
+      <div class="container">
+        
+        <div class="section-head-flex">
+          <div>
+            <span class="section-tag">[ 04 // HARDWARE ARCHITECTURE ]</span>
+            <h2 class="section-title">THE ANALOG LIVE RIG</h2>
+          </div>
+          <p class="section-lead-text">
+            Paul Kalkbrenner performs live without pre-rendered stereo masters or DJ CDJs. Stems are split into individual mixer channels in real time.
+          </p>
+        </div>
+
+        <!-- Interactive Vector Synth Mixer Console -->
+        <div class="console-rack">
+          <div class="rack-header">
+            <span class="rack-label">PK-CUSTOM LIVE MATRIX // REVISION 2.4</span>
+            <div class="rack-status">
+              <span class="led-indicator active"></span>
+              <span>BUS POWER: 230V OK</span>
+            </div>
+          </div>
+
+          <div class="rack-faders-grid">
+            
+            <div class="fader-channel">
+              <span class="ch-name">KICK</span>
+              <div class="fader-meter"><div class="meter-fill" style="height: 85%;"></div></div>
+              <div class="fader-track"><div class="fader-knob" style="bottom: 78%;"></div></div>
+              <span class="ch-db">+2.5 dB</span>
+            </div>
+
+            <div class="fader-channel">
+              <span class="ch-name">BASS</span>
+              <div class="fader-meter"><div class="meter-fill" style="height: 72%;"></div></div>
+              <div class="fader-track"><div class="fader-knob" style="bottom: 65%;"></div></div>
+              <span class="ch-db">0.0 dB</span>
+            </div>
+
+            <div class="fader-channel">
+              <span class="ch-name">HI-HATS</span>
+              <div class="fader-meter"><div class="meter-fill" style="height: 60%;"></div></div>
+              <div class="fader-track"><div class="fader-knob" style="bottom: 55%;"></div></div>
+              <span class="ch-db">-1.2 dB</span>
+            </div>
+
+            <div class="fader-channel">
+              <span class="ch-name">LEAD SYNTH</span>
+              <div class="fader-meter"><div class="meter-fill" style="height: 90%;"></div></div>
+              <div class="fader-track"><div class="fader-knob" style="bottom: 82%;"></div></div>
+              <span class="ch-db">+3.8 dB</span>
+            </div>
+
+            <div class="fader-channel">
+              <span class="ch-name">PAD / ATMOS</span>
+              <div class="fader-meter"><div class="meter-fill" style="height: 48%;"></div></div>
+              <div class="fader-track"><div class="fader-knob" style="bottom: 45%;"></div></div>
+              <span class="ch-db">-4.0 dB</span>
+            </div>
+
+            <div class="fader-channel">
+              <span class="ch-name">VOCAL STUBS</span>
+              <div class="fader-meter"><div class="meter-fill" style="height: 70%;"></div></div>
+              <div class="fader-track"><div class="fader-knob" style="bottom: 68%;"></div></div>
+              <span class="ch-db">+0.5 dB</span>
+            </div>
+
+            <div class="fader-channel channel-master">
+              <span class="ch-name">MASTER</span>
+              <div class="fader-meter meter-stereo">
+                <div class="meter-fill" style="height: 95%;"></div>
+                <div class="meter-fill" style="height: 93%;"></div>
+              </div>
+              <div class="fader-track"><div class="fader-knob knob-red" style="bottom: 90%;"></div></div>
+              <span class="ch-db">0.0 dB</span>
+            </div>
+
+          </div>
+
+          <div class="rack-footer">
+            <span class="mono-meta">SAMPLE RATE: 96.0 kHz // 24-BIT UNCOMPRESSED</span>
+            <span class="mono-meta">DIRECT OUT // FOOH L/R</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 9. Newsletter Section -->
+    <section class="section newsletter" id="newsletter" data-section-theme="dark">
+      <div class="container newsletter-container">
+        <span class="section-tag">[ 05 // DIRECT DISPATCH ]</span>
+        <h2 class="newsletter-headline">
+          Join the inner circle for unreleased cuts, tour tickets presale and live recordings.
+        </h2>
+
+        <form class="newsletter-form" id="newsletter-form" onsubmit="return false;">
+          <div class="input-wrap">
+            <input type="email" class="newsletter-input" placeholder="ENTER YOUR EMAIL ADDRESS" required>
+            <button type="submit" class="btn btn-submit" data-button data-cursor-hover data-cursor-text="SUBMIT">
+              <span data-button-text>SUBSCRIBE</span>
+            </button>
+          </div>
+          <div class="form-feedback" id="form-feedback"></div>
+          <p class="form-note">No spam. Only essential tour updates, releases and concert access codes.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- 10. Footer with Parallax Reveal (data-footer-parallax) -->
+    <footer class="footer" data-footer-parallax>
+      <div class="container footer-container">
+        
+        <!-- Big Brand Stamp -->
+        <div class="footer-hero-brand">
+          <span class="footer-title">PAUL KALKBRENNER</span>
+        </div>
+
+        <div class="footer-grid">
+          
+          <div class="footer-col">
+            <h4 class="footer-col-title">PLATFORMS</h4>
+            <ul class="footer-links">
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">Spotify</a></li>
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">Apple Music</a></li>
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">SoundCloud</a></li>
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">YouTube</a></li>
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">Beatport</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">CONNECT</h4>
+            <ul class="footer-links">
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">Instagram</a></li>
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">Facebook</a></li>
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">TikTok</a></li>
+              <li><a href="#" target="_blank" rel="noopener" data-cursor-hover data-cursor-text="LINK">Twitter / X</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">MANAGEMENT & BOOKING</h4>
+            <ul class="footer-links">
+              <li><a href="mailto:management@paulkalkbrenner.net" data-cursor-hover data-cursor-text="MAIL">Management</a></li>
+              <li><a href="mailto:booking@paulkalkbrenner.net" data-cursor-hover data-cursor-text="MAIL">Worldwide Booking</a></li>
+              <li><a href="mailto:press@paulkalkbrenner.net" data-cursor-hover data-cursor-text="MAIL">Press Inquiries</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col footer-col-meta">
+            <h4 class="footer-col-title">SYSTEM</h4>
+            <div class="footer-meta-block">
+              <span class="mono-meta">BERLIN CALLING // ARCHIVE</span>
+              <span class="mono-meta">© <span id="current-year">2026</span> PAUL KALKBRENNER</span>
+              <a href="#hero" class="back-to-top" data-cursor-hover data-cursor-text="TOP">↑ BACK TO TOP</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- GSAP 3 + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <!-- Application Script -->
+  <script src="script.js"></script>
+</body>
+</html>
