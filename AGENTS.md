@@ -25,4 +25,5 @@
 ## Portafolios UGC en Lovable (dominios)
 - V10 → repo Miiles01/rotate-display → https://ugc10.lovable.app/
 - V11 → repo Miiles01/media-portfolio-garden → https://ugc11.lovable.app/
+- V12 → repo Miiles01/portfolio-painter-43 → https://ugc12.lovable.app/
 - Se trabaja en `main` de cada repo (Lovable sincroniza solo); el sitio público se actualiza cuando se da Publish en Lovable.
