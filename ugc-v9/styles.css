@@ -80,6 +80,10 @@ a:hover .roll > span:last-child, .btn:hover .roll > span:last-child { transform:
 .hero .line-mask > span { white-space: nowrap; }
 .o-mark { position: relative; display: inline-block; }
 .o-mark svg { position: absolute; left: 50%; bottom: -.04em; width: .62em; height: 1.05em; transform: translateX(-50%); overflow: visible; pointer-events: none; }
+/* El dibujo de la "o" entra solo con fade (sin trazo): no parpadea */
+.o-mark .draw { opacity: 0; transition: opacity .9s var(--ease); }
+.o-mark .draw path, .o-mark .draw ellipse, .o-mark .draw line { stroke-dasharray: none; stroke-dashoffset: 0; transition: none; }
+.o-mark .draw.in, .no-io .o-mark .draw { opacity: 1; }
 .hero .tag { margin-top: 40px; font-size: 16px; }
 .hero-intro { max-width: 46ch; margin-top: 18px; font-size: 17px; line-height: 1.5; color: #3d3d3d; }
 .hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
