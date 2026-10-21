@@ -1,3 +1,16 @@
+# === Miiles: páginas de usuarios (wearemiiles.com/<usuario>) ===
+# Va antes de las reglas de Miiles Briefs. Solo aplica cuando la dirección no es un
+# archivo o carpeta real y tampoco es una ruta de la app de Briefs (React).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/miiles-site\.php
+  RewriteCond %{REQUEST_URI} !^/(trabajo|brief|briefs|admin|plantilla-01)(/|$)
+  RewriteRule ^([a-z0-9][a-z0-9_-]*(/.*)?)$ /miiles-site.php?miiles_path=$1 [L,QSA]
+</IfModule>
+# === Fin Miiles ===
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
