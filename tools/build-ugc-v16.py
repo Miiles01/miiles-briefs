@@ -66,7 +66,9 @@ page = f"""<!doctype html>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script type="importmap">{{"imports":{{"three/webgpu":"./js/three/three.webgpu.min.js","three/tsl":"./js/three/three.tsl.min.js","./js/three/three.core.js":"./js/three/three.core.min.js"}}}}</script>
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');
+// Si la intro no arrancó en 6 s (red lenta o un script bloqueado), se muestra la página igual
+setTimeout(function () {{ if (window.__introStarted) return; document.documentElement.classList.remove('js'); var p = document.querySelector('.preloader'); if (p) p.style.display = 'none'; }}, 6000);</script>
 </head>
 <body>
 
