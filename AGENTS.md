@@ -29,4 +29,5 @@
 - V13 → repo Miiles01/ugc13 → publicado estático en https://wearemiiles.com/ugc-v13/ (public/ugc-v13). Se compila como SPA con un vite.config aparte (React + Tailwind, alias @ → ugc13/src, base /ugc-v13/, la foto del hero de Lovable se sirve desde media/portada-laura.jpg); tras cambiar ugc13 hay que recompilar y volver a copiar.
 - V14 → dsgn interior (slider vertical paralaje + SplitText reveal) → publicado estático en https://wearemiiles.com/ugc-v14/ (public/ugc-v14).
 - V15 → Paul Kalkbrenner (estructura y animaciones analógicas sin imágenes + sintetizador Web Audio API) → publicado estático en https://wearemiiles.com/ugc-v15/ (public/ugc-v15).
+- V16 → Diana (editorial en negro, cuadrícula 3D de Codrops On-Scroll Columns & Rows variación 15 en Mi trabajo, videos sin audio) → publicado estático en https://wearemiiles.com/ugc-v16/ (public/ugc-v16). Textos y fotos en tools/build-ugc-v16.py.
 - Se trabaja en `main` de cada repo (Lovable sincroniza solo); el sitio público se actualiza cuando se da Publish en Lovable.
