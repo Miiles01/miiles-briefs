@@ -23,12 +23,13 @@ if (reduce) {
   gsap.set('.fade-up', { y: 24 });
   const pre = gsap.timeline({
     onComplete: () => { document.querySelector('.preloader').style.display = 'none'; gsap.ticker.lagSmoothing(0); lenis.start(); },
+    onStart: () => { window.__introStarted = true; },
   });
-  const ready = Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 2500))]);
+  const ready = Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1200))]);
   ready.then(() => {
-    pre.to('.preload-text', { opacity: 1, duration: 0.6, delay: 0.2 })
-       .to('.preload-text', { opacity: 0, duration: 0.5, delay: 0.7 })
-       .to('.preloader', { yPercent: -102, duration: 1.1, ease: 'expo.inOut' }, '+=0.15')
+    pre.to('.preload-text', { opacity: 1, duration: 0.5 })
+       .to('.preload-text', { opacity: 0, duration: 0.4, delay: 0.5 })
+       .to('.preloader', { yPercent: -102, duration: 1, ease: 'expo.inOut' }, '+=0.05')
        .add(intro(), '-=0.45');
   });
 }
