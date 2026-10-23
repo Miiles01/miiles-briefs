@@ -1,8 +1,8 @@
-# Genera public/ugc-v16/index.html a partir de los datos de Diana.
+# Genera public/ugc-v14/index.html a partir de los datos de Diana.
 # Para cambiar textos o fotos: edita DATA y vuelve a correr este script.
 import html, json, os
 
-OUT = os.path.join(os.path.dirname(__file__), "..", "public", "ugc-v16", "index.html")
+OUT = os.path.join(os.path.dirname(__file__), "..", "public", "ugc-v14", "index.html")
 
 DATA = {
     "name": "Diana",
@@ -60,7 +60,7 @@ page = f"""<!doctype html>
 <title>{e(d['name'])} · Creadora de contenido UGC</title>
 <meta name="description" content="{e(d['name'])}, {e(d['role'])} para marcas de {e(d['script'])}.">
 <meta property="og:title" content="{e(d['name'])} · Creadora de contenido UGC">
-<meta property="og:image" content="https://wearemiiles.com/ugc-v16/{m['hero']}">
+<meta property="og:image" content="https://wearemiiles.com/ugc-v14/{m['hero']}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
