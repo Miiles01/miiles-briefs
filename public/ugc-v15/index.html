@@ -44,6 +44,13 @@
   .hero { position: relative; height: 100vh; height: 100svh; overflow: hidden; }
   .hero picture, .hero_img { width: 100%; height: 100%; }
   .hero_img { object-fit: cover; object-position: 50% 30%; }
+  .hero_intro { position: absolute; top: 3em; right: 3em; z-index: 2; width: 24em; color: var(--dark); }
+  .hero_intro p { font-size: 1.5em; line-height: 1.35; letter-spacing: -.01em; }
+  .hero_stats { display: flex; gap: 2.4em; margin-top: 1.6em; }
+  .hero_stats b { display: block; font-size: 2.6em; font-weight: 600; line-height: 1; letter-spacing: -.03em; }
+  .hero_stats span { font-size: 1.1em; opacity: .7; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
   /* 2 · NAV sticky */
   .nav { position: sticky; top: 0; z-index: 1000; margin-top: -1px; background: var(--light); color: var(--dark); }
@@ -55,7 +62,9 @@
   .nav_side.is--right { justify-content: flex-end; }
   .nav_logo-contain { position: absolute; inset: 0 3em; pointer-events: none; }
   .nav_logo { position: absolute; left: 0; right: 0; top: 1.7em; margin: 0 auto; width: 11.4em; pointer-events: auto; }
+  .nav_logo { --p: 0; }
   .nav_logo svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .nav_logo text { fill: color-mix(in srgb, var(--light) calc(var(--p) * 100%), currentColor); }
 
   /* 3 · TITULAR en 4 líneas con máscara */
   .header { padding: 8.78em 3em 0; }
@@ -127,6 +136,8 @@
     .nav_side { font-size: 1.45em; gap: 1.1em; }
     .nav_side.is--right { display: none; }
     .nav_logo { width: 9em; top: 1.9em; left: auto; right: 0; margin: 0; }
+    .hero_intro { top: 3em; left: 3em; right: auto; width: 34em; color: #fff; }
+    .hero_intro p { font-size: 1.7em; }
     h1 { font-size: 5.6em; }
     .sticky-circle_element { width: 24em; height: 24em; border-radius: 24em; }
     .about_text { font-size: 3.2em; }
@@ -149,6 +160,14 @@
       <source media="(max-width: 767px)" srcset="media/hero-m.jpg">
       <img class="hero_img" src="media/hero.jpg" alt="Diana, creadora de contenido UGC" fetchpriority="high">
     </picture>
+    <div class="hero_intro">
+      <p>Hola, soy Diana. Creo videos y fotos UGC para marcas de belleza, skincare y lifestyle que se sienten reales y venden.</p>
+      <div class="hero_stats">
+        <div><b>+10K</b><span>seguidores</span></div>
+        <div><b>+40</b><span>marcas</span></div>
+        <div><b>+300</b><span>videos</span></div>
+      </div>
+    </div>
   </div>
 
   <div class="wrapper">
@@ -162,7 +181,7 @@
         <div class="nav_logo-contain">
           <a href="#" class="nav_logo go" aria-label="Diana, inicio">
             <svg viewBox="0 0 640 150" aria-hidden="true">
-              <text x="320" y="122" text-anchor="middle" font-family="Inter Tight, Arial, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="626" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
+              <text x="320" y="122" text-anchor="middle" font-family="Inter Tight, Arial, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="626" lengthAdjust="spacingAndGlyphs" >Diana</text>
             </svg>
           </a>
         </div>
@@ -262,6 +281,7 @@
 
 <script src="gsap.min.js"></script>
 <script src="ScrollTrigger.min.js"></script>
+<script src="lenis.min.js"></script>
 <script>
   gsap.registerPlugin(ScrollTrigger);
   const $$ = (s) => [...document.querySelectorAll(s)];
@@ -269,19 +289,28 @@
   const DARK = getComputedStyle(document.documentElement).getPropertyValue('--dark').trim();
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Smooth scroll con Lenis, sincronizado con ScrollTrigger
+  const lenis = reduce ? null : new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+  if (lenis) {
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
   // Anclas: el nav es sticky, así que se baja hasta la sección menos la altura del nav
   $$('a.go').forEach((a) => a.addEventListener('click', (e) => {
     const id = a.getAttribute('href');
     e.preventDefault();
     const target = id === '#' ? document.querySelector('.nav') : document.querySelector(id);
     const navH = document.querySelector('.nav').offsetHeight;
-    window.scrollTo({ top: target.getBoundingClientRect().top + scrollY - (id === '#' ? 0 : navH), behavior: 'smooth' });
+    const top = target.getBoundingClientRect().top + scrollY - (id === '#' ? 0 : navH);
+    lenis ? lenis.scrollTo(top, { duration: 1.4 }) : window.scrollTo({ top, behavior: 'smooth' });
   }));
 
   if (!reduce) {
     // A · Logo: arranca a todo el ancho pegado al borde de la foto y se encoge al centro del nav
     gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } })
-      .from('.nav_logo', { y: '-90%', width: '100%', duration: 1 });
+      .from('.nav_logo', { y: '-125%', width: '100%', '--p': 1, duration: 1 });
 
     // B · Titular: cada línea baja 100% dentro de su máscara al hacer scroll
     $$('.header_text-move').forEach((el) => {
