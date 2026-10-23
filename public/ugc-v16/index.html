@@ -215,15 +215,16 @@ img,video{display:block;max-width:100%}
 /* 13. CONTACTO */
 .contact-wrap{display:flex;justify-content:space-between;gap:7.5em}
 .contact-form{width:50%}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:2em}
-.field{width:100%;padding:.8em 0;border:0;border-bottom:1px solid color-mix(in srgb,var(--fg) 40%,transparent);background:transparent;color:var(--fg);font:inherit;font-size:1.175em;outline:none;border-radius:0}
-.field:focus{border-bottom-color:var(--fg)}
-.field::placeholder{color:var(--fg);opacity:.5}
-.field.is-message{grid-column:1/-1;padding-bottom:3em;resize:none}
-.form-btn{margin-top:2.5em;padding:.7em 2em;border:1px solid var(--fg);border-radius:1em;background:transparent;color:var(--fg);font:inherit;font-size:1.25em;cursor:pointer;transition:background-color .3s var(--ease-quart),color .3s}
-.form-btn:hover{background:var(--fg);color:var(--bg)}
-.contact-direct{display:flex;flex-wrap:wrap;gap:1.5em;margin-top:2.5em;font-size:1.175em}
-.contact-direct a{box-shadow:inset 0 -1px 0 currentColor}
+.contact-lead{max-width:30em;font-size:1.5em;line-height:1.5;opacity:.8}
+.contact-list{display:flex;flex-direction:column;gap:1.4em;margin-top:3em}
+.contact-row{display:flex;flex-direction:column;gap:.2em}
+.contact-row_label{font-size:1.05em;color:var(--brand)}
+.contact-row_value{font-size:2.6em;line-height:1.15;letter-spacing:-.03em;transition:opacity .3s}
+.contact-row:hover .contact-row_value{opacity:.6}
+.contact-actions{display:flex;flex-wrap:wrap;gap:1em;margin-top:3em}
+.contact-actions .main-button{font:inherit;font-size:1.2em;cursor:pointer}
+.main-button.is--solid{background:var(--brand)}
+.main-button.is--solid span{color:var(--bg)}
 .contact-photo{width:45%;min-height:34em;border-radius:1em;overflow:hidden}
 .contact-photo img{width:100%;height:100%;object-fit:cover}
 
@@ -305,7 +306,8 @@ img,video{display:block;max-width:100%}
   .contact-wrap{flex-direction:column;gap:5em}
   .contact-form,.contact-photo{width:100%}
   .contact-photo{min-height:0;aspect-ratio:4/3}
-  .form-grid{grid-template-columns:1fr}
+  .contact-row_value{font-size:2.9em;overflow-wrap:anywhere}
+  .contact-lead{font-size:1.9em}
   .popup_flex{flex-direction:column-reverse}
   .popup_content{width:100%;height:55%;padding:4em 3em}
   .popup_visual{width:100%;height:45%}
@@ -545,17 +547,17 @@ img,video{display:block;max-width:100%}
       <div class="contact-wrap">
         <div class="contact-form">
           <div class="std-h2-title-contain reveal"><p class="label">Contacto</p><h2>Hagamos algo <span class="pink">juntas</span></h2></div>
-          <form id="contact-form">
-            <div class="form-grid">
-              <input class="field" name="nombre" placeholder="Nombre" autocomplete="name" required>
-              <input class="field" name="marca" placeholder="Marca">
-              <input class="field" name="correo" type="email" placeholder="Correo" autocomplete="email" required>
-              <input class="field" name="telefono" placeholder="Teléfono" autocomplete="tel">
-              <textarea class="field is-message" name="mensaje" placeholder="Cuéntame de tu producto y lo que necesitas"></textarea>
-            </div>
-            <button class="form-btn" type="submit">Enviar</button>
-          </form>
-          <div class="contact-direct"><a href="mailto:hola@dianacreativa.com">hola@dianacreativa.com</a><a href="https://wa.me/5215500000000" target="_blank" rel="noopener">WhatsApp</a></div>
+          <p class="contact-lead reveal">Cuéntame de tu marca y del producto que quieres mostrar. Te respondo en menos de 24 horas.</p>
+          <div class="contact-list reveal">
+            <a class="contact-row" href="mailto:hola@dianacreativa.com"><span class="contact-row_label">Correo</span><span class="contact-row_value">hola@dianacreativa.com</span></a>
+            <a class="contact-row" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span class="contact-row_label">WhatsApp</span><span class="contact-row_value">+52 55 0000 0000</span></a>
+            <a class="contact-row" href="https://instagram.com/" target="_blank" rel="noopener"><span class="contact-row_label">Instagram</span><span class="contact-row_value">@dianacreativa</span></a>
+            <a class="contact-row" href="https://tiktok.com/" target="_blank" rel="noopener"><span class="contact-row_label">TikTok</span><span class="contact-row_value">@dianacreativa</span></a>
+          </div>
+          <div class="contact-actions reveal">
+            <a class="main-button is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span>Escríbeme por WhatsApp</span></a>
+            <button class="main-button" type="button" data-copy="hola@dianacreativa.com"><span>Copiar correo</span></button>
+          </div>
         </div>
         <div class="contact-photo"><img src="media/contacto.jpg?v=2" alt="Diana con lentes blancos y fondo azul" loading="lazy"></div>
       </div>
@@ -784,13 +786,6 @@ $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
   setTimeout(() => { label.textContent = txt; }, 1800);
 }));
 
-/* Formulario: abre el correo con los datos ya escritos */
-$('#contact-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const f = new FormData(e.target);
-  const body = `Nombre: ${f.get('nombre')}\nMarca: ${f.get('marca')}\nCorreo: ${f.get('correo')}\nTeléfono: ${f.get('telefono')}\n\n${f.get('mensaje')}`;
-  location.href = `mailto:hola@dianacreativa.com?subject=${encodeURIComponent('Colaboración con ' + (f.get('marca') || f.get('nombre')))}&body=${encodeURIComponent(body)}`;
-});
 
 /* Videos sin audio: solo se reproducen mientras se ven */
 const io = new IntersectionObserver(entries => entries.forEach(({ target, isIntersecting }) => {
