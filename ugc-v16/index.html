@@ -10,8 +10,8 @@
 
 <!--
   UGC V16 · Diana. Estructura y animaciones tipo "Nuno Space" (Webflow + GSAP) reescritas en JS simple:
-  logo que se encoge al nav, titular enmascarado, círculo sticky, reveal con blur, galería Swiper con
-  cursor "arrastra", cortina, texto gigante contorneado, popup FLIP, paquetes con tilt 3D y cambio de tema
+  "Diana" en modo diferencia sobre el hero, titular enmascarado, círculo sticky, reveal con blur, galería Swiper con
+  cursor "arrastra", cortina, texto gigante en movimiento, popup FLIP, paquetes con tilt 3D y cambio de tema
   negro → rosa. Escala fluida: body { font-size: 1vw } y todo en em (tope a 1440px).
 -->
 
@@ -61,7 +61,7 @@ img,video{display:block;max-width:100%}
 .is--hero picture,.hero_img{width:100%;height:100%}
 .hero_img{object-fit:cover;object-position:50% 30%}
 /* Capa sobre la foto: arriba el texto y los datos, abajo los botones y "Diana" gigante en modo diferencia */
-.hero_layer{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:4em 4.38em 3em;color:var(--black);pointer-events:none}
+.hero_layer{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:4em 4.38em 1.6em;color:var(--black);pointer-events:none}
 .hero_top{display:flex;justify-content:space-between;align-items:flex-start;gap:4em}
 .hero_intro{width:28em}
 .hero_intro p{font-size:1.5em;line-height:1.35}
@@ -71,7 +71,7 @@ img,video{display:block;max-width:100%}
 .hero_stats{display:flex;gap:3em;text-align:right}
 .hero_stats b{display:block;font-size:3.4em;font-weight:600;line-height:1;letter-spacing:-.03em;color:#e47f9c}
 .hero_stats span{font-size:1.1em;opacity:.75}
-.hero_bottom{display:flex;flex-direction:column;gap:1.6em}
+.hero_bottom{display:flex;flex-direction:column;gap:2em}
 .hero_actions{display:flex;flex-wrap:wrap;gap:.8em;pointer-events:auto}
 .hero_btn{display:inline-flex;align-items:center;gap:.6em;padding:.95em 1.8em;border-radius:100vw;font:600 1.15em var(--font);cursor:pointer;border:1px solid var(--black);background:transparent;color:var(--black);transition:background-color .4s var(--ease-quart),color .4s var(--ease-quart),transform .4s var(--ease-quart)}
 .hero_btn svg{width:1.2em;height:1.2em}
@@ -79,7 +79,7 @@ img,video{display:block;max-width:100%}
 .hero_btn.is--solid{background:var(--black);color:var(--pink)}
 .hero_btn.is--solid:hover{background:#e47f9c;color:var(--black);border-color:#e47f9c}
 .hero_btn:not(.is--solid):hover{background:var(--black);color:var(--pink)}
-.hero_name{display:block;width:100%;height:auto;color:#fff;mix-blend-mode:difference;overflow:visible}
+.hero_name{display:block;width:84%;height:auto;margin:0 auto;color:#fff;mix-blend-mode:difference;overflow:visible}  /* más chico y pegado abajo para no tapar la cara */
 
 /* 3. NAV sticky + logo que se encoge */
 .nav{position:sticky;top:0;z-index:1000;background:var(--bg);margin-top:-1px}
@@ -107,7 +107,7 @@ img,video{display:block;max-width:100%}
 .sticky-circle_wrap{height:300vh}
 .sticky-circle{position:sticky;top:0;height:100vh;padding-top:6em;display:flex;justify-content:center;align-items:center;overflow:hidden}
 .sticky-circle_element{width:35em;height:35em;border-radius:35em;overflow:hidden;display:flex;justify-content:center;align-items:center;position:relative}
-.sticky-circle_img{flex:none;width:100vw;height:100vh;object-fit:cover;object-position:50% 45%}
+.sticky-circle_img{flex:none;width:100vw;height:100vh;object-fit:cover;object-position:50% 40%}
 
 /* 5. REVEAL con blur */
 .reveal{opacity:0;transform:translateY(10%);filter:blur(10px)}
@@ -161,8 +161,8 @@ img,video{display:block;max-width:100%}
 
 /* 9. TEXTO GIGANTE CONTORNEADO */
 .scroll-section{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8em 0}
-.heading-md{position:relative;z-index:2;white-space:nowrap;font-size:7.2em;line-height:1.1;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:.013em var(--fg);transition:color .5s var(--ease-quart)}
-.heading-md.fill{color:var(--fg)}
+/* Texto sólido (sin contorno); solo cambia de color junto con el tema */
+.heading-md{position:relative;z-index:2;white-space:nowrap;font-size:7.2em;line-height:1.15;letter-spacing:-.05em;color:var(--fg)}
 
 /* 10. CAMPAÑAS: tarjetas + POPUP FLIP */
 .team_grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6em}
@@ -344,7 +344,6 @@ img,video{display:block;max-width:100%}
     <div class="hero_bottom">
       <div class="hero_actions">
         <a class="hero_btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2.1 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>Escríbeme por WhatsApp</a>
-        <button class="hero_btn" type="button" data-copy="hola@dianacreativa.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copiar correo</span></button>
       </div>
       <svg class="hero_name" viewBox="0 0 640 132" aria-hidden="true">
         <text x="320" y="118" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="630" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
@@ -396,7 +395,7 @@ img,video{display:block;max-width:100%}
     <div class="sticky-circle_wrap">
       <div class="sticky-circle">
         <div class="sticky-circle_element">
-          <img class="sticky-circle_img" src="media/flores.jpg" alt="Diana acostada entre flores" loading="lazy">
+          <img class="sticky-circle_img" src="media/circulo.jpg" alt="Diana recostada con playera azul" loading="lazy">
         </div>
       </div>
     </div>
@@ -558,7 +557,7 @@ img,video{display:block;max-width:100%}
           </form>
           <div class="contact-direct"><a href="mailto:hola@dianacreativa.com">hola@dianacreativa.com</a><a href="https://wa.me/5215500000000" target="_blank" rel="noopener">WhatsApp</a></div>
         </div>
-        <div class="contact-photo"><img src="media/contacto.jpg" alt="Diana recostada con playera azul" loading="lazy"></div>
+        <div class="contact-photo"><img src="media/contacto.jpg?v=2" alt="Diana con lentes blancos y fondo azul" loading="lazy"></div>
       </div>
     </div>
   </section>
@@ -693,10 +692,6 @@ if (!reduce) {
     const dir = i % 2 === 0 ? 1 : -1, em = () => parseFloat(getComputedStyle(row).fontSize);
     gsap.fromTo(row, { x: () => -dir * 12 * em() }, { x: () => dir * 8 * em(), ease: 'none',
       scrollTrigger: { trigger: '.scroll-section', start: 'top bottom', end: 'bottom top', scrub: 0.5, invalidateOnRefresh: true } });
-  });
-  rows.forEach(r => {
-    r.addEventListener('mouseenter', () => rows.forEach(x => x.classList.add('fill')));
-    r.addEventListener('mouseleave', () => rows.forEach(x => x.classList.remove('fill')));
   });
 } else {
   $$('.img-curtain').forEach(cur => cur.remove());
