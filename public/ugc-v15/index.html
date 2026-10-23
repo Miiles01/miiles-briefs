@@ -38,6 +38,7 @@
     background: var(--light); color: var(--dark);
     -webkit-font-smoothing: antialiased;
   }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   ::selection { background: var(--dark); color: var(--light); }
 
   /* 1 · HERO: foto a pantalla completa; el nav vive justo debajo */
@@ -47,7 +48,7 @@
   .hero_intro { position: absolute; top: 3em; right: 3em; z-index: 2; width: 24em; color: var(--dark); }
   .hero_intro p { font-size: 1.5em; line-height: 1.35; letter-spacing: -.01em; }
   .hero_stats { display: flex; gap: 2.4em; margin-top: 1.6em; }
-  .hero_stats b { display: block; font-size: 2.6em; font-weight: 600; line-height: 1; letter-spacing: -.03em; }
+  .hero_stats b { display: block; font-size: 2.6em; font-weight: 600; line-height: 1; letter-spacing: -.03em; color: #e98aa3; }
   .hero_stats span { font-size: 1.1em; opacity: .7; }
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -101,6 +102,7 @@
   .grid_text-item.is--active { opacity: 1; }
   .grid_text-title { font-size: 19em; font-weight: 600; line-height: .84; letter-spacing: -.05em; white-space: nowrap; }
   .grid_wrapper { position: relative; z-index: 2; }
+  .grid_mobile-title { display: none; }
   .grid_wrapper.is--alt { padding-bottom: 23.7em; }
   .grid_list { display: flex; flex-wrap: wrap; padding-top: 3.6em; }
   .grid_item { padding: .36em; }
@@ -112,6 +114,27 @@
   .grid_item:nth-child(6n+4) { width: 31.25%; margin-top: 24%; }
   .grid_item:nth-child(6n+5) { width: 31.25%; margin-right: 6.25%; margin-top: -12%; }
   .grid_item:nth-child(6n+6) { width: 25%;    margin-right: 25%;   margin-top: -8%; }
+
+  /* Marcas: dos filas en movimiento continuo, en sentidos opuestos */
+  .brands { position: relative; z-index: 2; padding: 9em 0 6em; overflow: hidden; }
+  .brands_label { text-align: center; font-size: 1.15em; opacity: .7; }
+  .brands_title { text-align: center; font-size: 5.5em; font-weight: 600; line-height: .95; letter-spacing: -.04em; margin: .2em 3em .6em; }
+  .brands_title em { font-weight: 300; }
+  .marquee { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+  .marquee.is--rev { animation-direction: reverse; animation-duration: 44s; }
+  .marquee_group { display: flex; flex: none; }
+  .marquee span { font-size: 6.5em; font-weight: 600; letter-spacing: -.04em; line-height: 1.15; padding: 0 .45em; white-space: nowrap; }
+  .marquee span:nth-child(even) { font-weight: 300; font-style: italic; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* Testimonios */
+  .quotes { position: relative; z-index: 2; padding: 8em 3em 2em; }
+  .quotes_label { text-align: center; font-size: 1.15em; opacity: .7; }
+  .quotes_title { text-align: center; font-size: 5.5em; font-weight: 600; line-height: .95; letter-spacing: -.04em; margin-top: .2em; }
+  .quotes_title em { font-weight: 300; }
+  .quotes_list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4em; margin-top: 6em; }
+  .quote blockquote { font-size: 2.3em; line-height: 1.25; letter-spacing: -.02em; }
+  .quote figcaption { margin-top: 1.2em; font-size: 1.2em; opacity: .7; }
 
   /* 7 · CONTACTO + footer */
   .contact { position: relative; z-index: 2; padding: 12em 3em 3em; text-align: center; }
@@ -126,7 +149,7 @@
   .contact_socials { display: flex; justify-content: center; gap: 2.4em; margin-top: 5em; font-size: 1.3em; }
   .contact_socials a { opacity: .75; transition: opacity .3s; }
   .contact_socials a:hover { opacity: 1; }
-  .footer_name { margin-top: .12em; font-size: 26em; font-weight: 600; line-height: .84; letter-spacing: -.055em; padding-bottom: .04em; }
+  .footer_name { display: block; width: 100%; height: auto; margin-top: 6em; overflow: visible; }
   .footer_bottom { display: flex; justify-content: space-between; font-size: 1.1em; opacity: .7; padding-top: 1.5em; }
 
   /* Móvil: sube la escala base para que se lea */
@@ -136,21 +159,39 @@
     .nav_side { font-size: 1.45em; gap: 1.1em; }
     .nav_side.is--right { display: none; }
     .nav_logo { width: 9em; top: 1.9em; left: auto; right: 0; margin: 0; }
-    .hero_intro { top: 3em; left: 3em; right: auto; width: 34em; color: #fff; }
-    .hero_intro p { font-size: 1.7em; }
-    h1 { font-size: 5.6em; }
+    /* Móvil: el texto va abajo sobre un degradado oscuro, el nombre en rosa justo encima y la foto queda libre arriba */
+    .hero::after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .55)); pointer-events: none; }
+    .hero_intro { top: auto; bottom: 3.5em; left: 3em; right: 3em; width: auto; color: #fff; }
+    .hero_intro p { font-size: 1.75em; max-width: 26em; }
+    .hero_stats b { font-size: 3em; }
+    .hero_stats span { font-size: 1.3em; }
+    h1 { font-size: 5.6em; line-height: .95; }
+    .header_text-wrap { overflow: visible; }
     .sticky-circle_element { width: 24em; height: 24em; border-radius: 24em; }
     .about_text { font-size: 3.2em; }
     .categories { margin: 0; }
     .categories_link-text { font-size: 2.6em; }
-    .grid_text-title { font-size: 8em; }
+    /* Móvil: una pieza grande por fila, con el nombre del bloque arriba y sin el título fijo */
+    .grid-section { padding: 0 3em; }
+    .grid_text-wrap { display: none; }
+    .grid_mobile-title { display: block; padding: 1.2em 0 .2em; font-size: 9em; font-weight: 600; line-height: .9; letter-spacing: -.05em; }
+    .grid_wrapper { padding-top: 6em; }
+    .grid_wrapper.is--alt { padding-bottom: 10em; }
+    .grid_list { padding-top: 2em; gap: 3em; }
+    .grid_item, .grid_item:nth-child(n) { width: 84%; margin: 0; padding: 0; }
+    .grid_item:nth-child(even) { margin-left: auto; }
+    .grid_element { padding-top: 160%; }
     .contact_title { font-size: 6em; }
+    .brands_title, .quotes_title { font-size: 4.6em; margin-left: 0; margin-right: 0; }
+    .marquee span { font-size: 5em; }
+    .quotes_list { grid-template-columns: 1fr; gap: 4em; margin-top: 4em; }
+    .quote blockquote { font-size: 2.6em; }
+    .quote figcaption { font-size: 1.5em; }
     .pill { font-size: 1.8em; }
     .contact_socials { font-size: 1.6em; }
-    .footer_name { font-size: 14em; }
     .footer_bottom { flex-direction: column; gap: .4em; align-items: center; font-size: 1.4em; }
   }
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } .marquee { animation: none; } }
 </style>
 </head>
 <body>
@@ -189,12 +230,13 @@
       </div>
     </nav>
 
-    <section class="header" aria-label="Contenido que se siente real y vende">
+    <!-- Frase sin letras con rabito abajo (g, j, p, q, y): la máscara de cada línea no las corta -->
+    <section class="header" aria-label="Historias reales contadas con tu marca">
       <div class="header_text">
-        <div class="header_text-wrap"><div class="header_text-move"><h1>Contenido</h1></div></div>
-        <div class="header_text-wrap"><div class="header_text-move"><h1 class="is--alt">que se siente</h1></div></div>
-        <div class="header_text-wrap"><div class="header_text-move"><h1>real y</h1></div></div>
-        <div class="header_text-wrap"><div class="header_text-move"><h1>vende</h1></div></div>
+        <div class="header_text-wrap"><div class="header_text-move"><h1>Historias</h1></div></div>
+        <div class="header_text-wrap"><div class="header_text-move"><h1 class="is--alt">reales</h1></div></div>
+        <div class="header_text-wrap"><div class="header_text-move"><h1>contadas</h1></div></div>
+        <div class="header_text-wrap"><div class="header_text-move"><h1>con tu marca</h1></div></div>
       </div>
 
       <div class="sticky-circle_wrap">
@@ -209,6 +251,14 @@
     <section class="about" id="sobre-mi">
       <p class="about_label">Sobre mí</p>
       <p class="about_text">Grabo videos y fotos que suenan a <em>recomendación de amiga</em>: idea, guion, grabación y edición vertical, listos para TikTok, Reels o anuncios.</p>
+    </section>
+
+    <section class="brands" id="marcas">
+      <p class="brands_label">Marcas</p>
+      <h2 class="brands_title">Marcas con las que <em>he colaborado</em></h2>
+      <div class="marquee" aria-hidden="true"><div class="marquee_group"><span>L'Oréal</span><span>Sephora</span><span>Zara</span><span>Garnier</span><span>Nyx</span><span>Bershka</span><span>Mango</span><span>Rare Beauty</span><span>Cahre</span></div><div class="marquee_group"><span>L'Oréal</span><span>Sephora</span><span>Zara</span><span>Garnier</span><span>Nyx</span><span>Bershka</span><span>Mango</span><span>Rare Beauty</span><span>Cahre</span></div></div>
+      <div class="marquee is--rev" aria-hidden="true"><div class="marquee_group"><span>L'Oréal</span><span>Sephora</span><span>Zara</span><span>Garnier</span><span>Nyx</span><span>Bershka</span><span>Mango</span><span>Rare Beauty</span><span>Cahre</span></div><div class="marquee_group"><span>L'Oréal</span><span>Sephora</span><span>Zara</span><span>Garnier</span><span>Nyx</span><span>Bershka</span><span>Mango</span><span>Rare Beauty</span><span>Cahre</span></div></div>
+      <p class="sr-only">L'Oréal, Sephora, Zara, Garnier, Nyx, Bershka, Mango, Rare Beauty, Cahre</p>
     </section>
 
     <section class="categories-section" id="nichos">
@@ -235,6 +285,7 @@
       </div>
 
       <div class="grid_wrapper">
+        <p class="grid_mobile-title">Unboxing</p>
         <div class="grid_list">
           <div class="grid_item"><div class="grid_element"><video class="grid_img" src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div></div>
           <div class="grid_item"><div class="grid_element"><img class="grid_img" src="media/w02.jpg" alt="Abriendo la caja del producto" loading="lazy"></div></div>
@@ -243,6 +294,7 @@
         </div>
       </div>
       <div class="grid_wrapper">
+        <p class="grid_mobile-title">Skincare</p>
         <div class="grid_list">
           <div class="grid_item"><div class="grid_element"><video class="grid_img" src="media/video-4.mp4" poster="media/poster-4.jpg" muted loop playsinline preload="none" aria-label="Video de skincare"></video></div></div>
           <div class="grid_item"><div class="grid_element"><img class="grid_img" src="media/w03.jpg" alt="Sérum aplicado en la cara" loading="lazy"></div></div>
@@ -253,12 +305,23 @@
         </div>
       </div>
       <div class="grid_wrapper is--alt">
+        <p class="grid_mobile-title">Retratos</p>
         <div class="grid_list">
           <div class="grid_item"><div class="grid_element"><img class="grid_img" src="media/r1.jpg" alt="Retrato de Diana con fondo azul" loading="lazy"></div></div>
           <div class="grid_item"><div class="grid_element"><img class="grid_img" src="media/r2.jpg" alt="Diana con lentes blancos" loading="lazy"></div></div>
           <div class="grid_item"><div class="grid_element"><img class="grid_img" src="media/r3.jpg" alt="Diana sonriendo" loading="lazy"></div></div>
           <div class="grid_item"><div class="grid_element"><img class="grid_img" src="media/poster-1.jpg" alt="Diana a cámara" loading="lazy"></div></div>
         </div>
+      </div>
+    </section>
+
+    <section class="quotes" id="testimonios">
+      <p class="quotes_label">Testimonios</p>
+      <h2 class="quotes_title">Lo que dicen <em>las marcas</em></h2>
+      <div class="quotes_list">
+        <figure class="quote"><blockquote>“Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio.”</blockquote><figcaption>Marca de skincare</figcaption></figure>
+        <figure class="quote"><blockquote>“Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta.”</blockquote><figcaption>Marca de moda</figcaption></figure>
+        <figure class="quote"><blockquote>“Entendió el producto a la primera y lo contó como alguien que de verdad lo usa.”</blockquote><figcaption>Marca de lifestyle</figcaption></figure>
       </div>
     </section>
 
@@ -274,7 +337,10 @@
         <a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok</a>
         <a href="https://youtube.com/" target="_blank" rel="noopener">YouTube</a>
       </div>
-      <p class="footer_name" aria-hidden="true">Diana</p>
+      <!-- Mismo "Diana" estirado del logo del hero, a todo el ancho del footer -->
+      <svg class="footer_name" viewBox="0 0 640 150" aria-hidden="true">
+        <text x="320" y="122" text-anchor="middle" font-family="Inter Tight, Arial, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="626" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
+      </svg>
       <div class="footer_bottom"><span>© 2026 Diana</span><span>Plantilla UGC de We Are Miiles</span></div>
     </section>
   </div>
@@ -307,13 +373,23 @@
     lenis ? lenis.scrollTo(top, { duration: 1.4 }) : window.scrollTo({ top, behavior: 'smooth' });
   }));
 
+  const isMobile = matchMedia('(max-width: 767px)').matches;
+  // En móvil el nombre grande arranca justo encima del texto del hero (que está abajo)
+  const mobileLogoY = () => {
+    const hero = document.querySelector('.hero'), logo = document.querySelector('.nav_logo');
+    const introTop = document.querySelector('.hero_intro').getBoundingClientRect().top + scrollY;
+    const fullH = document.querySelector('.nav_logo-contain').offsetWidth * 150 / 640;
+    return introTop - 14 - fullH - (hero.offsetHeight + logo.offsetTop);
+  };
   if (!reduce) {
     // A · Logo: arranca a todo el ancho pegado al borde de la foto y se encoge al centro del nav
     gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } })
-      .from('.nav_logo', { y: '-125%', width: '100%', '--p': 1, duration: 1 });
+      .from('.nav_logo', { y: () => isMobile ? mobileLogoY() : '-100%', width: '100%', '--p': 1, duration: 1 });
+    // El texto del hero se desvanece al empezar a bajar, para que no choque con el nombre
+    gsap.to('.hero_intro', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '35% top', scrub: true } });
 
-    // B · Titular: cada línea baja 100% dentro de su máscara al hacer scroll
-    $$('.header_text-move').forEach((el) => {
+    // B · Titular: cada línea baja 100% dentro de su máscara al hacer scroll (en móvil queda como título normal)
+    if (!isMobile) $$('.header_text-move').forEach((el) => {
       gsap.timeline({ scrollTrigger: { trigger: el, start: '-100% top', end: '30% top', scrub: 0.8 } })
         .to(el, { y: '100%', duration: 1 });
     });
@@ -325,8 +401,10 @@
         { width: circle, height: circle, borderRadius: circle },
         { width: '100vw', height: '100vh', borderRadius: '0em', duration: 1 });
 
-    // F · Parallax: 3 velocidades según la columna
-    [{ sel: '.grid_item:nth-child(3n+1)', y: '-30%', scrub: 1 },
+    // F · Parallax: 3 velocidades según la columna (solo tablet y desktop; en móvil cada pieza entra con un fade)
+    if (matchMedia('(max-width: 767px)').matches) {
+      $$('.grid_item').forEach((el) => gsap.from(el, { y: 60, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%' } }));
+    } else [{ sel: '.grid_item:nth-child(3n+1)', y: '-30%', scrub: 1 },
      { sel: '.grid_item:nth-child(3n+2)', y: '-50%', scrub: 2 },
      { sel: '.grid_item:nth-child(3n+3)', y: '-70%', scrub: 1.5 }].forEach(({ sel, y, scrub }) => {
       $$(sel).forEach((el) => gsap.timeline({ scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub } }).to(el, { y, duration: 1 }));
@@ -354,7 +432,7 @@
     onEnter: () => setActive(i), onEnterBack: () => setActive(i)
   }));
   // Al llegar al contacto se apaga el título gigante para que no quede detrás del texto
-  ScrollTrigger.create({ trigger: '.contact', start: 'top 85%',
+  ScrollTrigger.create({ trigger: '.quotes', start: 'top 85%',
     onEnter: () => setActive(-1), onLeaveBack: () => setActive(titles.length - 1) });
 
   // Videos sin audio: solo se reproducen mientras se ven
