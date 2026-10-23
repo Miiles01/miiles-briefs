@@ -111,11 +111,13 @@ export async function createStage() {
 
   // Recorta el lienzo al área de la sección para que el "piso" no tape lo de antes ni lo de después
   const clip = () => {
+    // Arriba se corta donde empieza la cuadrícula (no la sección), así el piso no se asoma bajo el título ni bajo "Sobre mí"
     const r = section.getBoundingClientRect();
+    const top = grid.getBoundingClientRect().top;
     const h = window.innerHeight;
-    const visible = r.bottom > 0 && r.top < h;
+    const visible = r.bottom > 0 && top < h;
     canvas.style.visibility = visible ? 'visible' : 'hidden';
-    canvas.style.clipPath = `inset(${Math.max(0, r.top)}px 0 ${Math.max(0, h - r.bottom)}px 0)`;
+    canvas.style.clipPath = `inset(${Math.max(0, top)}px 0 ${Math.max(0, h - r.bottom)}px 0)`;
     return visible;
   };
 
