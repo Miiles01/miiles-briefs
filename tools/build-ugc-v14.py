@@ -1,6 +1,6 @@
 # Genera public/ugc-v14/index.html a partir de los datos de Diana.
 # Para cambiar textos o fotos: edita DATA y vuelve a correr este script.
-import html, json, os
+import hashlib, html, json, os
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "public", "ugc-v14", "index.html")
 
@@ -39,6 +39,15 @@ DATA = {
 }
 
 e = html.escape
+ROOT = os.path.dirname(OUT)
+# Versión por contenido: cada cambio en CSS/JS cambia la URL y el navegador no usa la copia vieja en caché
+def ver(*files):
+    h = hashlib.md5()
+    for f in files:
+        h.update(open(os.path.join(ROOT, f), "rb").read())
+    return h.hexdigest()[:8]
+V_CSS = ver("styles.css")
+V_JS = ver("main.js", "grid.js")
 d = DATA
 m = d["media"]
 COLS, ROWS = 4, 6
@@ -64,7 +73,7 @@ page = f"""<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v={V_CSS}">
 <script type="importmap">{{"imports":{{"three/webgpu":"./js/three/three.webgpu.min.js","three/tsl":"./js/three/three.tsl.min.js","./js/three/three.core.js":"./js/three/three.core.min.js"}}}}</script>
 <script>document.documentElement.classList.add('js');
 // Si la intro no arrancó en 6 s (red lenta o un script bloqueado), se muestra la página igual
@@ -186,10 +195,11 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
   <div class="footer-bottom">© 2026 {e(d['name'])} · Plantilla UGC de We Are Miiles</div>
 </footer>
 
-<script src="js/gsap.min.js"></script>
-<script src="js/ScrollTrigger.min.js"></script>
-<script src="js/lenis.min.js"></script>
-<script src="main.js"></script>
+<script src="js/gsap.min.js?v=3.13"></script>
+<script src="js/ScrollTrigger.min.js?v=3.13"></script>
+<script src="js/lenis.min.js?v=1"></script>
+<script>window.__v = "{V_JS}"</script>
+<script src="main.js?v={V_JS}"></script>
 </body>
 </html>
 """
