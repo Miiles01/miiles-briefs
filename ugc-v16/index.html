@@ -339,9 +339,6 @@ img,video{display:block;max-width:100%}
       </div>
     </div>
     <div class="hero_bottom">
-      <div class="hero_actions">
-        <a class="hero_btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2.1 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>Escríbeme por WhatsApp</a>
-      </div>
       <svg class="hero_name" viewBox="0 0 640 132" aria-hidden="true">
         <text x="320" y="118" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="630" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
       </svg>
@@ -662,7 +659,7 @@ if (!reduce) {
   /* A. Logo: grande sobre el hero → se encoge dentro del nav */
   /* A. "Diana" gigante sube y se agranda con el scroll; el logo pequeño del nav aparece cuando el hero sale */
   gsap.to('.hero_name', { yPercent: -18, scale: 1.06, transformOrigin: '50% 100%', ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: 'bottom top', scrub: 1 } });
-  gsap.to('.hero_top, .hero_actions', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '40% top', scrub: true } });
+  gsap.to('.hero_top', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '40% top', scrub: true } });
   gsap.from('.nav_logo', { opacity: 0, y: 20, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: '70% top', end: 'bottom top', scrub: true } });
 
   /* B. Titular: cada línea baja y se oculta en su máscara (en móvil queda como título normal) */
