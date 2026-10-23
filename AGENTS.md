@@ -28,5 +28,7 @@
 - V12 → repo Miiles01/portfolio-painter-43 → https://ugc12.lovable.app/
 - V13 → repo Miiles01/ugc13 → publicado estático en https://wearemiiles.com/ugc-v13/ (public/ugc-v13). Se compila como SPA con un vite.config aparte (React + Tailwind, alias @ → ugc13/src, base /ugc-v13/, la foto del hero de Lovable se sirve desde media/portada-laura.jpg); tras cambiar ugc13 hay que recompilar y volver a copiar.
 - V14 → Diana (editorial en negro, cuadrícula 3D de Codrops On-Scroll Columns & Rows variación 15 en Mi trabajo, videos sin audio) → publicado estático en https://wearemiiles.com/ugc-v14/ (public/ugc-v14). Textos y fotos en tools/build-ugc-v14.py.
+- V15 → Diana en rosa con texto negro, estructura y animaciones de minimal-goods.webflow.io (logo que se encoge al nav, titular enmascarado, círculo que crece, tema rosa/negro, título fijo del grid, parallax) → publicado estático en https://wearemiiles.com/ugc-v15/ (public/ugc-v15, un solo index.html).
+- Recursos para más adelante: https://ruben-menu.webflow.io/ (título animado, mención honorífica).
 - Referencias (no publicadas, componentes para reutilizar): referencias/dsgn-interior (slider vertical paralaje + SplitText) y referencias/paul-kalkbrenner (animaciones analógicas + sintetizador Web Audio).
 - Se trabaja en `main` de cada repo (Lovable sincroniza solo); el sitio público se actualiza cuando se da Publish en Lovable.
