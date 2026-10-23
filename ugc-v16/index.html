@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diana · Creadora de contenido UGC</title>
+<meta name="description" content="Diana, creadora de contenido UGC para marcas de belleza, skincare y lifestyle.">
+<meta property="og:title" content="Diana · Creadora de contenido UGC">
+<meta property="og:image" content="https://wearemiiles.com/ugc-v16/media/hero.jpg">
+
+<!--
+  UGC V16 · Diana. Estructura y animaciones tipo "Nuno Space" (Webflow + GSAP) reescritas en JS simple:
+  logo que se encoge al nav, titular enmascarado, círculo sticky, reveal con blur, galería Swiper con
+  cursor "arrastra", cortina, texto gigante contorneado, popup FLIP, paquetes con tilt 3D y cambio de tema
+  negro → rosa. Escala fluida: body { font-size: 1vw } y todo en em (tope a 1440px).
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="js/swiper-bundle.min.css">
+<link rel="preload" href="media/hero.jpg" as="image" media="(min-width: 768px)">
+<link rel="preload" href="media/hero-m.jpg" as="image" media="(max-width: 767px)">
+
+<style>
+/* 1. TOKENS · el tema (--bg, --fg, --brand, --line) lo anima GSAP: negro → rosa al pasar "Sobre mí" */
+:root{
+  --black:#0a0a0a;
+  --pink:#f6c7d3;
+  --pink-press:#d98aa0;
+  --bg:#0a0a0a;
+  --fg:#f4efe9;
+  --brand:#f6c7d3;
+  --line:#f4efe9;
+  --ease-quart:cubic-bezier(.165,.84,.44,1);
+  --ease-sine:cubic-bezier(.39,.575,.565,1);
+  --font:"Manrope", system-ui, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--bg);overflow-x:clip}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:1vw;font-weight:500;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media (min-width:1440px){ body{font-size:14.4px} }
+h1,h2,h3,h4,p{margin:0;font-weight:400}
+h1{font-size:13em;letter-spacing:-.045em;line-height:1.05}
+h2{font-size:4.5em;letter-spacing:-.03em;line-height:1.1;text-wrap:balance}
+h3{font-size:2.8em;font-weight:300;line-height:1.3}
+p{font-size:1.175em}
+a{color:inherit;text-decoration:none}
+img,video{display:block;max-width:100%}
+::selection{background:var(--pink);color:#000}
+.container{width:100%;max-width:1440px;margin:0 auto;padding:7.28em 4.38em}
+.section{position:relative}
+.pink{color:var(--brand)}
+.label{font-size:1.175em;color:var(--brand);margin-bottom:1em}
+
+/* 2. HERO */
+.is--hero{position:relative;height:100vh;height:100svh;overflow:hidden}
+.is--hero picture,.hero_img{width:100%;height:100%}
+.hero_img{object-fit:cover;object-position:50% 30%}
+.hero_intro{position:absolute;top:4em;left:4.38em;z-index:2;width:26em;color:#0a0a0a}
+.hero_intro p{font-size:1.5em;line-height:1.35}
+.hero_stats{display:flex;gap:2.4em;margin-top:1.4em}
+.hero_stats b{display:block;font-size:2.6em;font-weight:600;line-height:1;letter-spacing:-.03em;color:#e47f9c}
+.hero_stats span{font-size:1.1em;opacity:.75}
+
+/* 3. NAV sticky + logo que se encoge */
+.nav{position:sticky;top:0;z-index:1000;background:var(--bg);margin-top:-1px}
+.nav .container{padding-top:0;padding-bottom:0}
+.nav_top{position:relative;z-index:1;width:100%;min-height:6em;padding:1.88em 0;display:flex;justify-content:space-between;align-items:center}
+.nav_logo-contain{position:absolute;inset:0;z-index:1;display:flex;justify-content:center;align-items:center;pointer-events:none}
+.nav_logo{position:absolute;width:10em;max-width:100%;color:var(--brand);pointer-events:auto}
+.nav_logo svg{display:block;width:100%;height:auto;overflow:visible}
+.nav_coords{position:relative;z-index:2;color:var(--brand)}
+.menu{position:relative;z-index:2;display:flex;align-items:center}
+.menu_link{position:relative;display:flex;align-items:center;overflow:hidden;margin-left:1.6em;padding:.5em 0}
+.menu_p{will-change:transform}
+.menu_line{position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--brand)}
+.burger{display:none;position:relative;z-index:2;cursor:pointer;flex-direction:column;justify-content:center;align-items:center;width:4.4em;height:4.4em;padding:0 .9em;border:0;background:none}
+.burger span{display:block;width:100%;height:2px;background:var(--line)}
+.burger span + span{margin-top:4px}
+.menu_close{display:none}
+
+/* 4. HEADER + CÍRCULO STICKY */
+.is--header .container{text-align:center;padding-top:8.78em;padding-bottom:4em}
+.header_text-wrap{position:relative;overflow:hidden;padding:0 .05em}
+.header_text-move{padding-bottom:.04em}
+.header_text h1 em{font-style:normal;color:var(--brand);font-weight:300}
+.header_sub{max-width:34em;margin:3em auto 0;font-size:1.5em;line-height:1.5;opacity:.8}
+.sticky-circle_wrap{height:300vh}
+.sticky-circle{position:sticky;top:0;height:100vh;padding-top:6em;display:flex;justify-content:center;align-items:center;overflow:hidden}
+.sticky-circle_element{width:35em;height:35em;border-radius:35em;overflow:hidden;display:flex;justify-content:center;align-items:center;position:relative}
+.sticky-circle_img{flex:none;width:100vw;height:100vh;object-fit:cover;object-position:50% 45%}
+
+/* 5. REVEAL con blur */
+.reveal{opacity:0;transform:translateY(10%);filter:blur(10px)}
+
+/* 6. SERVICIOS / MARCAS (grid de 3) */
+.std-h2-title-contain{margin-bottom:3em}
+.amen-grid{display:grid;grid-template-columns:repeat(3,1fr);column-gap:2.8em;row-gap:3.5em}
+.amen-item{display:flex;align-items:center;gap:1.25em}
+.amen-icon{flex:none;width:3.6em;height:3.6em;color:var(--brand)}
+.amen-icon svg{width:100%;height:100%}
+.amen-h3{font-size:2.3em;line-height:1.15}
+.brand-logo{flex:none;width:2.2em;height:2.2em;border-radius:.6em;display:grid;place-items:center;background:var(--brand);color:var(--bg);font-weight:700;font-size:1.8em;letter-spacing:-.04em}
+
+/* 7. GALERÍA SWIPER + CURSOR "ARRASTRA" */
+.is-team{overflow:hidden}
+.is-team .container{display:flex;flex-direction:column;padding-right:11em}
+.team_header-flex{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:3.1em}
+.team_header-spacer{padding-bottom:1em}
+.swiper.is-team{width:100%;overflow:visible;cursor:none}
+.swiper-wrapper.is-team{align-items:center}
+.swiper-wrapper.is-team *{user-select:none}
+.swiper-slide.is-team{flex:none;margin-right:9.37%}
+.swiper-slide.is-team:nth-child(3n+1){width:34.11%}
+.swiper-slide.is-team:nth-child(3n+2){width:19.96%}
+.swiper-slide.is-team:nth-child(3n+3){width:27.01%}
+.team_link{display:block;width:100%;cursor:none}
+.team_photo-height{position:relative;width:100%;padding-top:133.66%;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);transition:clip-path .6s}
+.team_photo-height img,.team_photo-height video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:filter .3s}
+.team_link:hover img,.team_link:hover video{filter:saturate(0)}
+@media (pointer:fine){ .team_photo-height.scaled{clip-path:polygon(4% 4%,96% 4%,96% 96%,4% 96%)} }
+.cursor{position:fixed;inset:0;z-index:2000;display:none;justify-content:center;align-items:center;pointer-events:none;opacity:0;transition:opacity .2s}
+@media (pointer:fine){ .cursor{display:flex} body:hover .cursor{opacity:1} }
+.cursor_dot{width:76px;height:76px;transition:opacity .2s,scale .2s}
+.cursor_dot.hide{opacity:0;scale:.6}
+.cursor_embed{width:100%;height:100%;border-radius:50%;display:flex;justify-content:center;align-items:center;background:var(--pink);color:#000;font-size:12px;font-weight:700;opacity:0;transform:scale(.5);transition:all .2s}
+.cursor_dot.show .cursor_embed,.popup-open .cursor_embed{opacity:1;transform:scale(1)}
+.cursor_embed .c-close{display:none}
+.popup-open .cursor_embed .c-drag{display:none}
+.popup-open .cursor_embed .c-close{display:inline}
+.popup-open{cursor:none}
+
+/* 8. SOBRE MÍ (dispara el cambio de tema) + CORTINA ROSA */
+.frens-grid{display:grid;grid-template-columns:.9fr 1fr;gap:4em;align-items:center}
+.frens-text{display:flex;flex-direction:column;align-items:flex-start;gap:2.4em}
+.sentence-h2{font-size:3.8em}
+.pink-underline{box-shadow:inset 0 -.14em 0 0 var(--brand)}
+.frens-media{width:100%;max-width:30em;margin:0 auto}
+.img-parent{position:relative;width:100%;height:42em;overflow:hidden}
+.img-child{width:100%;height:100%;object-fit:cover}
+.img-curtain{position:absolute;inset:0;background:var(--pink)}
+
+/* 9. TEXTO GIGANTE CONTORNEADO */
+.scroll-section{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8em 0}
+.heading-md{position:relative;z-index:2;white-space:nowrap;font-size:7.2em;line-height:1.1;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:.013em var(--fg);transition:color .5s var(--ease-quart)}
+.heading-md.fill{color:var(--fg)}
+
+/* 10. CAMPAÑAS: tarjetas + POPUP FLIP */
+.team_grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2em}
+.team_card{display:flex;flex-direction:column;width:100%;cursor:pointer}
+.team_image{position:relative;width:100%;padding-top:72%}
+.image{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:1em;object-fit:cover}
+.friend-meta{display:flex;flex-direction:column;width:98%;margin-top:.8em}
+.friend-title{display:flex;justify-content:space-between;width:100%;margin-bottom:.2em;overflow:hidden}
+.team_name{font-size:1.7em;font-weight:600;line-height:1.2}
+.friend-coords{line-height:1.3;opacity:.7}
+.friend-arrow{width:1.7em;height:1.7em;opacity:0;transform:translateY(101%) scale(.5);transition:transform .75s var(--ease-quart),opacity .75s var(--ease-quart)}
+.team_card:hover .friend-arrow{opacity:1;transform:none}
+.popup{position:fixed;inset:0;z-index:1500;display:none;height:100vh}
+.popup_bg{position:absolute;inset:0;z-index:1;background:#0a0a0a;opacity:0}
+.popup_wrapper{position:relative;z-index:2;height:100%}
+.popup_item{display:none;height:100vh}
+.popup_item.active{display:block}
+.popup_flex{display:flex;justify-content:space-between;align-items:center;height:100%}
+.popup_content{position:relative;z-index:1;width:55%;height:100%;padding:2.2em;display:flex;justify-content:center;align-items:center;opacity:0;color:#f4efe9}
+.popup_contain{width:100%;max-width:41em}
+.popup_name{color:var(--pink);font-size:6em;font-weight:600;line-height:1;letter-spacing:-.04em}
+.popup_title{margin:1em 0 1.2em;opacity:.7}
+.popup_hint{margin-top:2.4em;font-size:1em;opacity:.5}
+.popup_visual{position:relative;z-index:2;flex:none;width:45%;height:100%;padding:1em}
+.popup_img{position:relative;width:100%;height:100%}
+
+/* 11. PAQUETES con tilt 3D */
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2em;perspective:1000px}
+.plans-grid > .std-h2-title-contain{grid-column:1/-1;margin-bottom:0}
+.plan-card{perspective:1000px}
+.plan-inner{height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:2em;padding:2.4em 2em;border:1px solid var(--brand);border-radius:2em;transform-style:preserve-3d}
+.plan-row{display:flex;justify-content:center;align-items:center;gap:1em}
+.plan-title{font-size:3.1em;letter-spacing:-.03em;line-height:1}
+.plan-feats{display:flex;flex-direction:column;align-items:center;gap:.6em;text-align:center;line-height:1.5;filter:blur(3.3px);transition:filter .4s var(--ease-quart)}
+.plan-card.is-hovered .plan-feats{filter:blur(0)}
+.plan-price{font-size:2.5em;font-weight:600}
+.plan-btn{display:flex;flex-direction:column}
+.main-button{display:flex;justify-content:center;align-items:center;overflow:hidden;padding:.93em 3.33em;border:1px solid var(--brand);border-radius:1.3em;font-size:1em;background:transparent;transition:background-color .5s var(--ease-quart)}
+.main-button span{color:var(--fg);transition:color .35s var(--ease-sine)}
+.main-button:hover{background:var(--brand)}
+.main-button:hover span{color:var(--bg)}
+.main-button:active{background:var(--pink-press)}
+
+/* 12. TESTIMONIOS */
+.quotes_list{display:grid;grid-template-columns:repeat(3,1fr);gap:3em}
+.quote blockquote{margin:0;font-size:2em;line-height:1.3;letter-spacing:-.02em}
+.quote figcaption{margin-top:1.2em;color:var(--brand)}
+
+/* 13. CONTACTO */
+.contact-wrap{display:flex;justify-content:space-between;gap:7.5em}
+.contact-form{width:50%}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:2em}
+.field{width:100%;padding:.8em 0;border:0;border-bottom:1px solid color-mix(in srgb,var(--fg) 40%,transparent);background:transparent;color:var(--fg);font:inherit;font-size:1.175em;outline:none;border-radius:0}
+.field:focus{border-bottom-color:var(--fg)}
+.field::placeholder{color:var(--fg);opacity:.5}
+.field.is-message{grid-column:1/-1;padding-bottom:3em;resize:none}
+.form-btn{margin-top:2.5em;padding:.7em 2em;border:1px solid var(--fg);border-radius:1em;background:transparent;color:var(--fg);font:inherit;font-size:1.25em;cursor:pointer;transition:background-color .3s var(--ease-quart),color .3s}
+.form-btn:hover{background:var(--fg);color:var(--bg)}
+.contact-direct{display:flex;flex-wrap:wrap;gap:1.5em;margin-top:2.5em;font-size:1.175em}
+.contact-direct a{box-shadow:inset 0 -1px 0 currentColor}
+.contact-photo{width:45%;min-height:34em;border-radius:1em;overflow:hidden}
+.contact-photo img{width:100%;height:100%;object-fit:cover}
+
+/* 14. FOOTER */
+.footer .container{padding-top:3em;padding-bottom:3em}
+.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4em}
+.footer-card{display:flex;flex-direction:column;align-items:flex-start;gap:1.4em}
+.footer-title{font-size:1.7em;font-weight:600;line-height:1.1}
+.footer-links{display:grid;grid-template-columns:1fr 1fr;column-gap:3.25em;row-gap:.8em}
+.footer-links a,.footer-list a,.footer-list p{opacity:.7;transition:opacity .3s}
+.footer-links a:hover,.footer-list a:hover{opacity:1}
+.footer-list{display:flex;flex-direction:column;gap:.8em}
+.footer-name{display:block;width:100%;height:auto;margin-top:5em;color:var(--brand);overflow:visible}
+.footer-bottom{display:flex;justify-content:space-between;margin-top:1.5em;opacity:.6}
+
+/* 15. RESPONSIVE */
+@media (max-width:991px){
+  p{font-size:14px}
+  .container{padding-left:3em;padding-right:3em}
+  .nav_top{padding:2.4em 0}
+  .burger{display:flex;width:6em;height:5em;margin-left:auto}
+  /* Menú: panel a media pantalla desde la derecha, con botón Cerrar (nunca pantalla completa) */
+  .menu_overlay{position:fixed;inset:0;z-index:9;background:rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+  .menu-open .menu_overlay{opacity:1;visibility:visible}
+  .menu{position:fixed;top:0;right:0;bottom:0;z-index:10;display:none;flex-direction:column;justify-content:center;align-items:flex-start;width:min(86vw,max(50vw,360px));padding:6em 3em 3em;background:var(--bg);color:var(--fg)}
+  .menu_link{margin-left:0}
+  .menu_p{font-size:max(30px,4.6vw);line-height:1.3;letter-spacing:-.03em}
+  .menu_close{display:inline-flex;position:absolute;top:22px;right:22px;align-items:center;gap:8px;padding:10px 18px;border:0;border-radius:999px;background:var(--fg);color:var(--bg);font:600 14px var(--font);cursor:pointer}
+  .heading-md{font-size:9vw}
+  .cursor{display:none}
+  .popup_name{font-size:7em}
+  .is-team .container{padding-right:3em}
+}
+@media (max-width:767px){
+  body{font-size:2.4vw}
+  p{font-size:15px}
+  h1{font-size:6.8em;line-height:1.02}
+  h2{font-size:5.4em}
+  .hero_intro{top:auto;bottom:3em;left:3em;right:3em;width:auto;color:#fff}
+  .is--hero::after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,.6));pointer-events:none}
+  .hero_intro p{font-size:1.75em;max-width:26em}
+  .hero_stats b{font-size:3em}
+  .hero_stats span{font-size:1.3em}
+  .nav_coords{display:none}
+  .nav_logo-contain{justify-content:flex-start}
+  .nav_logo{width:9em}
+  .header_sub{font-size:1.8em}
+  .sticky-circle_element{width:28em;height:28em;border-radius:28em}
+  .amen-grid{grid-template-columns:1fr 1fr;column-gap:2em;row-gap:3em}
+  .amen-h3{font-size:2.6em}
+  .amen-icon{width:4.6em;height:4.6em}
+  .team_grid{grid-template-columns:1fr;gap:4em}
+  .team_name{font-size:2.6em}
+  .team_header-flex{display:block}
+  .swiper-slide.is-team{margin-right:5%}
+  .swiper-slide.is-team:nth-child(n){width:72%}
+  .frens-grid{grid-template-columns:1fr;gap:5em}
+  .frens-media{max-width:none}
+  .img-parent{height:auto;aspect-ratio:4/5}
+  .sentence-h2{font-size:5.4em}
+  .heading-md{font-size:13em}
+  .scroll-section{padding:12em 0}
+  .plans-grid{grid-template-columns:1fr;gap:3em}
+  .plan-inner{padding:4em 3em;border-radius:3em}
+  .plan-title{font-size:5.4em}
+  .plan-price{font-size:4.4em}
+  .plan-feats{filter:none}
+  .main-button{font-size:1.8em}
+  .quotes_list{grid-template-columns:1fr;gap:4em}
+  .quote blockquote{font-size:3em}
+  .contact-wrap{flex-direction:column;gap:5em}
+  .contact-form,.contact-photo{width:100%}
+  .contact-photo{min-height:0;aspect-ratio:4/3}
+  .form-grid{grid-template-columns:1fr}
+  .popup_flex{flex-direction:column-reverse}
+  .popup_content{width:100%;height:55%;padding:4em 3em}
+  .popup_visual{width:100%;height:45%}
+  .popup_name{font-size:9em}
+  .footer-grid{grid-template-columns:1fr;gap:5em}
+  .footer-title{font-size:2.6em}
+  .footer-bottom{flex-direction:column;gap:.4em;align-items:center;font-size:1.4em}
+}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} .reveal{opacity:1;transform:none;filter:none} }
+</style>
+</head>
+<body>
+
+<div class="cursor" aria-hidden="true">
+  <div class="cursor_dot hide"><div class="cursor_embed"><span class="c-drag">arrastra</span><span class="c-close">cerrar</span></div></div>
+</div>
+
+<!-- 1. HERO -->
+<header class="section is--hero">
+  <picture>
+    <source media="(max-width: 767px)" srcset="media/hero-m.jpg">
+    <img class="hero_img" src="media/hero.jpg" alt="Diana, creadora de contenido UGC" fetchpriority="high">
+  </picture>
+  <div class="hero_intro">
+    <p>Hola, soy Diana. Creo videos y fotos UGC para marcas de belleza, skincare y lifestyle que se sienten reales y venden.</p>
+    <div class="hero_stats">
+      <div><b>+10K</b><span>seguidores</span></div>
+      <div><b>+40</b><span>marcas</span></div>
+      <div><b>+300</b><span>videos</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrapper">
+
+  <!-- 2. NAV sticky -->
+  <nav class="section nav" aria-label="Principal">
+    <div class="container">
+      <div class="nav_top">
+        <div class="nav_logo-contain">
+          <a href="#inicio" class="nav_logo go" aria-label="Diana, inicio">
+            <svg viewBox="0 0 320 110" aria-hidden="true">
+              <text x="160" y="86" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="104" letter-spacing="-6" fill="currentColor">Diana</text>
+            </svg>
+          </a>
+        </div>
+        <p class="nav_coords">Creadora de contenido UGC</p>
+        <div class="menu_overlay"></div>
+        <div class="menu" id="menu">
+          <button class="menu_close" aria-label="Cerrar menú">Cerrar <span aria-hidden="true">×</span></button>
+          <a href="#servicios" class="menu_link go"><p class="menu_p">Servicios</p><div class="menu_line"></div></a>
+          <a href="#trabajo" class="menu_link go"><p class="menu_p">Trabajo</p><div class="menu_line"></div></a>
+          <a href="#campanas" class="menu_link go"><p class="menu_p">Campañas</p><div class="menu_line"></div></a>
+          <a href="#paquetes" class="menu_link go"><p class="menu_p">Paquetes</p><div class="menu_line"></div></a>
+          <a href="#contacto" class="menu_link go"><p class="menu_p">Contacto</p><div class="menu_line"></div></a>
+        </div>
+        <button class="burger" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 3. HEADER + CÍRCULO -->
+  <section class="section is--header" id="inicio">
+    <div class="container">
+      <!-- Sin letras con rabito abajo (g, j, p, q, y) para que la máscara no las corte -->
+      <div class="header_text" aria-label="Contenido real.">
+        <div class="header_text-wrap"><div class="header_text-move"><h1>Contenido</h1></div></div>
+        <div class="header_text-wrap"><div class="header_text-move"><h1><em>real.</em></h1></div></div>
+      </div>
+      <p class="header_sub reveal">Videos y fotos que suenan a recomendación de amiga, listos para TikTok, Reels o anuncios.</p>
+    </div>
+    <div class="sticky-circle_wrap">
+      <div class="sticky-circle">
+        <div class="sticky-circle_element">
+          <img class="sticky-circle_img" src="media/flores.jpg" alt="Diana acostada entre flores" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SERVICIOS -->
+  <section class="section" id="servicios">
+    <div class="container">
+      <div class="std-h2-title-contain reveal"><p class="label">Servicios</p><h2>Lo que hago <span class="pink">para tu marca</span></h2></div>
+      <div class="amen-grid">
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16l18-9 18 9-18 9z"/><path d="M6 16v16l18 9 18-9V16M24 25v16"/></svg></div><h3 class="amen-h3">Unboxing</h3></div>
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 4h8v8l4 6v24a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V18l4-6z"/></svg></div><h3 class="amen-h3">Rutinas de skincare</h3></div>
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M24 4l6 13 14 2-10 10 2 14-12-7-12 7 2-14L4 19l14-2z"/></svg></div><h3 class="amen-h3">Reseñas honestas</h3></div>
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="12" y="4" width="24" height="40" rx="4"/><path d="M21 19l8 5-8 5z"/></svg></div><h3 class="amen-h3">Reels y TikToks</h3></div>
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="12" width="40" height="28" rx="4"/><circle cx="24" cy="26" r="8"/><path d="M16 12l3-5h10l3 5"/></svg></div><h3 class="amen-h3">Foto de producto</h3></div>
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 20v8h8l12 10V10L16 20z"/><path d="M34 18a8 8 0 0 1 0 12"/></svg></div><h3 class="amen-h3">Anuncios para Meta y TikTok</h3></div>
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="18" y="4" width="12" height="24" rx="6"/><path d="M10 22a14 14 0 0 0 28 0M24 36v8"/></svg></div><h3 class="amen-h3">Voz en off</h3></div>
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 6v36M38 6v36M10 16h28M10 32h28"/></svg></div><h3 class="amen-h3">Edición vertical</h3></div>
+        <div class="amen-item reveal"><div class="amen-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 40V8h22l10 10v22z"/><path d="M16 22h16M16 30h12"/></svg></div><h3 class="amen-h3">Guion e idea</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. GALERÍA: trabajos -->
+  <section class="section is-team" id="trabajo">
+    <div class="container">
+      <div class="team_header-flex">
+        <div>
+          <div class="team_header-spacer"><p class="label">Mi trabajo</p><h2>Contenido que <span class="pink">sí se ve</span></h2></div>
+          <p>Unboxing, skincare y retratos. Arrastra para ver más.</p>
+        </div>
+      </div>
+      <div class="swiper is-team">
+        <div class="swiper-wrapper is-team">
+          <div class="swiper-slide is-team"><a class="team_link"><div class="team_photo-height"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div></a></div>
+          <div class="swiper-slide is-team"><a class="team_link"><div class="team_photo-height"><img src="media/w02.jpg" alt="Abriendo la caja" loading="lazy" draggable="false"></div></a></div>
+          <div class="swiper-slide is-team"><a class="team_link"><div class="team_photo-height"><video src="media/video-4.mp4" poster="media/poster-4.jpg" muted loop playsinline preload="none" aria-label="Video de skincare"></video></div></a></div>
+          <div class="swiper-slide is-team"><a class="team_link"><div class="team_photo-height"><img src="media/w03.jpg" alt="Sérum en la cara" loading="lazy" draggable="false"></div></a></div>
+          <div class="swiper-slide is-team"><a class="team_link"><div class="team_photo-height"><video src="media/video-2.mp4" poster="media/poster-2.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div></a></div>
+          <div class="swiper-slide is-team"><a class="team_link"><div class="team_photo-height"><img src="media/w08.jpg" alt="Crema en primer plano" loading="lazy" draggable="false"></div></a></div>
+          <div class="swiper-slide is-team"><a class="team_link"><div class="team_photo-height"><video src="media/video-3.mp4" poster="media/poster-3.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div></a></div>
+          <div class="swiper-slide is-team"><a class="team_link"><div class="team_photo-height"><img src="media/w15.jpg" alt="Diana con el sérum" loading="lazy" draggable="false"></div></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. SOBRE MÍ: aquí cambia el tema negro → rosa -->
+  <section class="section is--frens" id="sobre-mi">
+    <div class="container">
+      <div class="frens-grid">
+        <div class="frens-text reveal">
+          <p class="label">Sobre mí</p>
+          <h2 class="sentence-h2">Hago contenido como lo haría <span class="pink-underline">una amiga</span></h2>
+          <p>Me encargo de todo: idea, guion, grabación y edición en formato vertical.<br><br>Pruebo cada producto antes de grabar, así lo que ves es lo que de verdad pienso.<br><br>Trabajo con marcas de belleza, skincare, moda y lifestyle.</p>
+        </div>
+        <div class="frens-media">
+          <div class="img-parent">
+            <img class="img-child" src="media/sobre-mi.jpg" alt="Diana con lentes blancos y fondo azul" loading="lazy">
+            <div class="img-curtain"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. TEXTO GIGANTE + CAMPAÑAS -->
+  <section class="section">
+    <div class="scroll-section" aria-hidden="true">
+      <p class="heading-md">Contenido UGC · Diana · Contenido UGC · Diana · Contenido UGC · Diana · Contenido UGC · Diana ·</p>
+      <p class="heading-md">Belleza · Skincare · Lifestyle · Belleza · Skincare · Lifestyle · Belleza · Skincare · Lifestyle ·</p>
+    </div>
+
+    <div class="container" id="campanas">
+      <div class="std-h2-title-contain reveal"><p class="label">Campañas</p><h2>Proyectos <span class="pink">recientes</span></h2></div>
+      <div class="team_grid">
+        <div class="team_item reveal"><div class="team_card" data-name="Cahre" data-title="Skincare · Unboxing y reseña" data-desc="Tres videos verticales mostrando el empaque, la textura de la crema y la rutina de noche. Pensados para anuncios en Meta."><div class="team_image"><img class="image" src="media/w08.jpg" alt="Crema Cahre en primer plano" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Cahre</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Skincare · 3 videos</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Sérum Glow" data-title="Skincare · Tutorial" data-desc="Tutorial de cómo aplicar el sérum en la mañana, con primeros planos del gotero y del resultado en la piel."><div class="team_image"><img class="image" src="media/w03.jpg" alt="Sérum aplicado en la cara" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Sérum Glow</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Skincare · Tutorial</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Caja Sorpresa" data-title="Lifestyle · Unboxing" data-desc="Unboxing de una caja de suscripción mensual: reacción real, detalle de cada producto y llamado a la acción al final."><div class="team_image"><img class="image" src="media/w13.jpg" alt="Caja abierta con productos" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Caja Sorpresa</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Lifestyle · Unboxing</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Bruma Fresh" data-title="Belleza · Reseña" data-desc="Reseña honesta de una bruma facial después de una semana de uso, grabada en casa con luz natural."><div class="team_image"><img class="image" src="media/w05.jpg" alt="Diana con una bruma facial" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Bruma Fresh</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Belleza · Reseña</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Kraft Co." data-title="Lifestyle · Foto de producto" data-desc="Sesión de fotos de producto sobre mesa de madera para tienda en línea y redes sociales."><div class="team_image"><img class="image" src="media/w02.jpg" alt="Manos abriendo una caja" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Kraft Co.</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Lifestyle · Fotos</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Gotas Vita" data-title="Skincare · Anuncio" data-desc="Anuncio corto de 15 segundos con gancho en los primeros 2, pensado para TikTok Ads."><div class="team_image"><img class="image" src="media/w10.jpg" alt="Gotero de sérum" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Gotas Vita</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Skincare · Anuncio</p></div></div></div>
+      </div>
+    </div>
+
+    <div class="popup" aria-hidden="true">
+      <div class="popup_bg"></div>
+      <div class="popup_wrapper"><div class="popup_list"></div></div>
+    </div>
+  </section>
+
+  <!-- 8. MARCAS -->
+  <section class="section" id="marcas">
+    <div class="container">
+      <div class="std-h2-title-contain reveal"><p class="label">Marcas</p><h2>Marcas con las que <span class="pink">he colaborado</span></h2></div>
+      <div class="amen-grid">
+        <div class="amen-item reveal"><div class="brand-logo">L</div><h3 class="amen-h3">L'Oréal</h3></div>
+        <div class="amen-item reveal"><div class="brand-logo">S</div><h3 class="amen-h3">Sephora</h3></div>
+        <div class="amen-item reveal"><div class="brand-logo">G</div><h3 class="amen-h3">Garnier</h3></div>
+        <div class="amen-item reveal"><div class="brand-logo">N</div><h3 class="amen-h3">Nyx</h3></div>
+        <div class="amen-item reveal"><div class="brand-logo">R</div><h3 class="amen-h3">Rare Beauty</h3></div>
+        <div class="amen-item reveal"><div class="brand-logo">C</div><h3 class="amen-h3">Cahre</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. PAQUETES con tilt 3D -->
+  <section class="section" id="paquetes">
+    <div class="container">
+      <div class="plans-grid">
+        <div class="std-h2-title-contain reveal"><p class="label">Paquetes</p><h2>Elige <span class="pink">cómo trabajamos</span></h2></div>
+        <div class="plan-card reveal"><div class="plan-inner">
+          <div class="plan-row plan-head"><h4 class="plan-title">Prueba</h4></div>
+          <div class="plan-feats"><p>1 video vertical de hasta 30 s</p><p>Guion incluido</p><p>1 ronda de cambios</p></div>
+          <div class="plan-row"><h3 class="plan-price">$0,000</h3></div>
+          <div class="plan-btn"><a href="#contacto" class="main-button go"><span>Lo quiero</span></a></div>
+        </div></div>
+        <div class="plan-card reveal"><div class="plan-inner">
+          <div class="plan-row plan-head"><h4 class="plan-title">Campaña</h4></div>
+          <div class="plan-feats"><p>3 videos y 5 fotos</p><p>Versiones con y sin texto</p><p>Derechos de uso para anuncios</p></div>
+          <div class="plan-row"><h3 class="plan-price">$0,000</h3></div>
+          <div class="plan-btn"><a href="#contacto" class="main-button go"><span>Lo quiero</span></a></div>
+        </div></div>
+        <div class="plan-card reveal"><div class="plan-inner">
+          <div class="plan-row plan-head"><h4 class="plan-title">Mensual</h4></div>
+          <div class="plan-feats"><p>8 videos al mes</p><p>Calendario de contenido</p><p>Reporte de resultados</p></div>
+          <div class="plan-row"><h3 class="plan-price">$0,000/mes</h3></div>
+          <div class="plan-btn"><a href="#contacto" class="main-button go"><span>Lo quiero</span></a></div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. TESTIMONIOS -->
+  <section class="section" id="testimonios">
+    <div class="container">
+      <div class="std-h2-title-contain reveal"><p class="label">Testimonios</p><h2>Lo que dicen <span class="pink">las marcas</span></h2></div>
+      <div class="quotes_list">
+        <figure class="quote reveal"><blockquote>“Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio.”</blockquote><figcaption>Marca de skincare</figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta.”</blockquote><figcaption>Marca de moda</figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Entendió el producto a la primera y lo contó como alguien que de verdad lo usa.”</blockquote><figcaption>Marca de lifestyle</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. CONTACTO -->
+  <section class="section" id="contacto">
+    <div class="container">
+      <div class="contact-wrap">
+        <div class="contact-form">
+          <div class="std-h2-title-contain reveal"><p class="label">Contacto</p><h2>Hagamos algo <span class="pink">juntas</span></h2></div>
+          <form id="contact-form">
+            <div class="form-grid">
+              <input class="field" name="nombre" placeholder="Nombre" autocomplete="name" required>
+              <input class="field" name="marca" placeholder="Marca">
+              <input class="field" name="correo" type="email" placeholder="Correo" autocomplete="email" required>
+              <input class="field" name="telefono" placeholder="Teléfono" autocomplete="tel">
+              <textarea class="field is-message" name="mensaje" placeholder="Cuéntame de tu producto y lo que necesitas"></textarea>
+            </div>
+            <button class="form-btn" type="submit">Enviar</button>
+          </form>
+          <div class="contact-direct"><a href="mailto:hola@dianacreativa.com">hola@dianacreativa.com</a><a href="https://wa.me/5215500000000" target="_blank" rel="noopener">WhatsApp</a></div>
+        </div>
+        <div class="contact-photo"><img src="media/contacto.jpg" alt="Diana recostada con playera azul" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. FOOTER -->
+  <footer class="section footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-card">
+          <p class="footer-title">Redes</p>
+          <div class="footer-list"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://youtube.com/" target="_blank" rel="noopener">YouTube</a></div>
+        </div>
+        <div class="footer-card">
+          <p class="footer-title">Navegación</p>
+          <div class="footer-links"><a href="#servicios" class="go">Servicios</a><a href="#trabajo" class="go">Trabajo</a><a href="#campanas" class="go">Campañas</a><a href="#marcas" class="go">Marcas</a><a href="#paquetes" class="go">Paquetes</a><a href="#contacto" class="go">Contacto</a></div>
+        </div>
+        <div class="footer-card">
+          <p class="footer-title">Contacto</p>
+          <div class="footer-list"><a href="mailto:hola@dianacreativa.com">hola@dianacreativa.com</a><a href="https://wa.me/5215500000000" target="_blank" rel="noopener">WhatsApp</a></div>
+        </div>
+      </div>
+      <svg class="footer-name" viewBox="0 0 640 150" aria-hidden="true">
+        <text x="320" y="122" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="626" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
+      </svg>
+      <div class="footer-bottom"><span>© 2026 Diana</span><span>Plantilla UGC de We Are Miiles</span></div>
+    </div>
+  </footer>
+</div>
+
+<script src="js/gsap.min.js"></script>
+<script src="js/ScrollTrigger.min.js"></script>
+<script src="js/lenis.min.js"></script>
+<script src="js/swiper-bundle.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+const root = document.documentElement;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = matchMedia('(max-width: 767px)').matches;
+
+/* Smooth scroll (Lenis) sincronizado con ScrollTrigger */
+const lenis = reduce ? null : new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+if (lenis) { lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+const scrollToTarget = (sel) => {
+  const target = sel === '#inicio' ? $('.nav') : $(sel);
+  if (!target) return;
+  const top = target.getBoundingClientRect().top + scrollY - (sel === '#inicio' ? 0 : $('.nav').offsetHeight);
+  lenis ? lenis.scrollTo(top, { duration: 1.4 }) : scrollTo({ top, behavior: 'smooth' });
+};
+
+/* Menú: panel lateral a media pantalla en tablet y móvil */
+const menu = $('.menu'), burger = $('.burger'), overlay = $('.menu_overlay');
+const menuLinks = $$('.menu_link'), menuTexts = $$('.menu_p');
+const [lineTop, lineMid, lineBot] = burger.children;
+let menuOpen = false;
+gsap.matchMedia().add('(max-width: 991px)', () => {
+  gsap.set(menu, { xPercent: 101, display: 'none' });
+  gsap.set(menuTexts, { yPercent: 101 });
+  return () => { menuOpen = false; document.body.classList.remove('menu-open'); lenis?.start(); gsap.set([menu, ...menuTexts, lineTop, lineMid, lineBot], { clearProps: 'all' }); };
+});
+function openMenu() {
+  menuOpen = true; burger.setAttribute('aria-expanded', 'true'); document.body.classList.add('menu-open'); lenis?.stop();
+  gsap.killTweensOf([menu, lineTop, lineMid, lineBot, ...menuTexts]);
+  gsap.set(menu, { display: 'flex' });
+  gsap.timeline()
+    .to(menu, { xPercent: 0, duration: 1.1, ease: 'power3.out' }, 0)
+    .to(lineTop, { y: 6, rotation: 45, duration: 0.5, ease: 'power3.out' }, 0)
+    .to(lineBot, { y: -6, rotation: -45, duration: 0.5, ease: 'power3.out' }, 0)
+    .to(lineMid, { xPercent: 100, opacity: 0, duration: 0.5, ease: 'power3.out' }, 0)
+    .to(menuTexts, { yPercent: 0, duration: 1.2, ease: 'power4.out', stagger: 0.08 }, 0.45);
+}
+function closeMenu(after) {
+  if (!menuOpen) { after?.(); return; }
+  menuOpen = false; burger.setAttribute('aria-expanded', 'false'); document.body.classList.remove('menu-open');
+  gsap.killTweensOf([menu, lineTop, lineMid, lineBot, ...menuTexts]);
+  gsap.timeline({ onComplete: () => { gsap.set(menu, { display: 'none' }); lenis?.start(); after?.(); } })
+    .to(menuTexts, { yPercent: 101, duration: 0.6, ease: 'power3.in', stagger: { each: 0.05, from: 'end' } }, 0)
+    .to([lineTop, lineBot], { y: 0, rotation: 0, duration: 0.5, ease: 'power3.out' }, 0.1)
+    .to(lineMid, { xPercent: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 0.1)
+    .to(menu, { xPercent: 101, duration: 0.8, ease: 'power3.inOut' }, 0.3);
+}
+burger.addEventListener('click', () => (menuOpen ? closeMenu() : openMenu()));
+$('.menu_close').addEventListener('click', () => closeMenu());
+overlay.addEventListener('click', () => closeMenu());
+addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+$$('a.go').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  const sel = a.getAttribute('href');
+  closeMenu(() => scrollToTarget(sel));
+}));
+
+/* Hover de links: línea rosa que entra y sale, los demás se atenúan */
+gsap.set('.menu_line', { xPercent: -101 });
+menuLinks.forEach(link => {
+  const line = $('.menu_line', link), siblings = menuLinks.filter(l => l !== link);
+  link.addEventListener('mouseenter', () => {
+    gsap.fromTo(line, { xPercent: -101 }, { xPercent: 0, duration: 0.5, ease: 'power3.out', overwrite: true });
+    gsap.to(siblings, { opacity: 0.3, duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+  });
+  link.addEventListener('mouseleave', () => {
+    gsap.to(line, { xPercent: 101, duration: 0.5, ease: 'power3.out', overwrite: true });
+    gsap.to(siblings, { opacity: 1, duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+  });
+});
+
+if (!reduce) {
+  /* A. Logo: grande sobre el hero → se encoge dentro del nav */
+  gsap.from('.nav_logo', {
+    y: () => isMobile ? -($('.hero_intro').offsetHeight + 36) - $('.nav_logo-contain').offsetWidth * 110 / 320 : '-100%',
+    width: isMobile ? '100%' : '60%', duration: 1, ease: 'none',
+    scrollTrigger: { trigger: '.is--hero', start: 'top top', end: 'bottom top', scrub: 1, invalidateOnRefresh: true }
+  });
+  gsap.to('.hero_intro', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '35% top', scrub: true } });
+
+  /* B. Titular: cada línea baja y se oculta en su máscara (en móvil queda como título normal) */
+  if (!isMobile) $$('.header_text-move').forEach(el => gsap.to(el, {
+    y: '100%', duration: 1, scrollTrigger: { trigger: el, start: '-100% top', end: '30% top', scrub: 0.8 }
+  }));
+
+  /* C. Círculo sticky: redondo → pantalla completa */
+  const c = isMobile ? '28em' : '35em';
+  gsap.fromTo('.sticky-circle_element', { width: c, height: c, borderRadius: c },
+    { width: '100vw', height: '100vh', borderRadius: '0em', ease: 'none',
+      scrollTrigger: { trigger: '.sticky-circle_wrap', start: 'top top', end: 'bottom bottom', scrub: 0.185 } });
+
+  /* D. Reveal con blur en lotes */
+  ScrollTrigger.batch('.reveal', { start: 'top 88%', once: true,
+    onEnter: els => gsap.to(els, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6, ease: 'power2.out', stagger: 0.12 }) });
+
+  /* F. Cortina rosa que sube y revela la foto */
+  $$('.img-curtain').forEach(cur => gsap.to(cur, { yPercent: 101, duration: 2, ease: 'power3.out', scrollTrigger: { trigger: cur.parentElement, start: 'top 85%', once: true } }));
+
+  /* G. Texto gigante: dos filas en sentidos opuestos */
+  const rows = $$('.heading-md');
+  rows.forEach((row, i) => {
+    const dir = i % 2 === 0 ? 1 : -1, em = () => parseFloat(getComputedStyle(row).fontSize);
+    gsap.fromTo(row, { x: () => -dir * 12 * em() }, { x: () => dir * 8 * em(), ease: 'none',
+      scrollTrigger: { trigger: '.scroll-section', start: 'top bottom', end: 'bottom top', scrub: 0.5, invalidateOnRefresh: true } });
+  });
+  rows.forEach(r => {
+    r.addEventListener('mouseenter', () => rows.forEach(x => x.classList.add('fill')));
+    r.addEventListener('mouseleave', () => rows.forEach(x => x.classList.remove('fill')));
+  });
+} else {
+  $$('.img-curtain').forEach(cur => cur.remove());
+}
+
+/* E. Cambio de tema: negro → rosa al pasar "Sobre mí" (vuelve a negro al subir) */
+gsap.timeline({ scrollTrigger: { trigger: '.is--frens', start: 'top bottom', end: 'bottom top', scrub: true } })
+  .to(root, { '--bg': '#f6c7d3', '--fg': '#0a0a0a', '--brand': '#0a0a0a', '--line': '#0a0a0a', duration: 0.18, ease: 'none' }, 0.62)
+  .to({}, { duration: 0.2 }, 0.8);
+
+/* J. Galería Swiper + cursor "arrastra" */
+const teamSwiper = new Swiper('.swiper.is-team', { slidesPerView: 'auto', keyboard: true, speed: 800, mousewheel: { forceToAxis: true }, freeMode: true });
+const dot = $('.cursor_dot'), photos = $$('.team_photo-height');
+let dragTimeout;
+teamSwiper.on('progress', () => {
+  clearTimeout(dragTimeout);
+  photos.forEach(p => p.classList.add('scaled')); dot.classList.add('hide');
+  dragTimeout = setTimeout(() => { photos.forEach(p => p.classList.remove('scaled')); dot.classList.remove('hide'); }, 100);
+});
+if (matchMedia('(pointer: fine)').matches) {
+  const xTo = gsap.quickTo(dot, 'x', { duration: 0.45, ease: 'power3' }), yTo = gsap.quickTo(dot, 'y', { duration: 0.45, ease: 'power3' });
+  addEventListener('mousemove', e => { xTo(e.clientX - innerWidth / 2); yTo(e.clientY - innerHeight / 2); dot.classList.remove('hide'); });
+  const sw = $('.swiper.is-team');
+  sw.addEventListener('mouseenter', () => dot.classList.add('show'));
+  sw.addEventListener('mouseleave', () => dot.classList.remove('show'));
+}
+
+/* K. Popup con animación FLIP: la foto viaja de la tarjeta al popup */
+const cards = $$('.team_card'), popup = $('.popup'), popupList = $('.popup_list');
+const esc = s => s.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+cards.forEach(card => {
+  const img = $('.image', card);
+  popupList.insertAdjacentHTML('beforeend', `
+    <div class="popup_item"><div class="popup_flex">
+      <div class="popup_content"><div class="popup_contain">
+        <h2 class="popup_name">${esc(card.dataset.name)}</h2>
+        <p class="popup_title">${esc(card.dataset.title)}</p>
+        <p>${esc(card.dataset.desc)}</p>
+        <p class="popup_hint">Toca en cualquier lugar para cerrar</p>
+      </div></div>
+      <div class="popup_visual"><div class="popup_img"><img class="image" src="${img.getAttribute('src')}" alt=""></div></div>
+    </div></div>`);
+});
+const popupItems = $$('.popup_item');
+const diff = (a, b) => { a = a.getBoundingClientRect(); b = b.getBoundingClientRect(); return { x: a.left - b.left, y: a.top - b.top, width: a.width, height: a.height }; };
+let activeIndex = -1;
+cards.forEach((card, i) => card.addEventListener('click', () => {
+  activeIndex = i;
+  const cardImg = $('.image', card), item = popupItems[i], popupImg = $('.image', item);
+  popupItems.forEach(p => p.classList.remove('active')); item.classList.add('active');
+  popup.style.display = 'block'; cardImg.style.opacity = 0;
+  document.body.classList.add('popup-open'); lenis?.stop();
+  gsap.fromTo(popupImg, diff(cardImg, popupImg), { x: 0, y: 0, width: '100%', height: '100%', duration: 0.5, ease: 'power2.inOut' });
+  gsap.to('.popup_bg', { opacity: 1, duration: 0.2, delay: 0.2 });
+  gsap.to($('.popup_content', item), { opacity: 1, duration: 0.2, delay: 0.3 });
+}));
+popup.addEventListener('click', () => {
+  if (activeIndex < 0) return;
+  const item = popupItems[activeIndex], popupImg = $('.image', item), cardImg = $('.image', cards[activeIndex]);
+  document.body.classList.remove('popup-open');
+  gsap.to('.popup_bg', { opacity: 0, duration: 0.2 });
+  gsap.to($('.popup_content', item), { opacity: 0, duration: 0.2 });
+  gsap.fromTo(popupImg, { x: 0, y: 0, width: '100%', height: '100%' }, { ...diff(cardImg, popupImg), duration: 0.5, ease: 'power2.inOut',
+    onComplete: () => { cardImg.style.opacity = 1; popup.style.display = 'none'; gsap.set(popupImg, { clearProps: 'all' }); lenis?.start(); activeIndex = -1; } });
+});
+
+/* L. Paquetes con tilt 3D según el mouse (solo con mouse) */
+if (matchMedia('(pointer: fine)').matches) $$('.plan-card').forEach(card => {
+  const inner = $('.plan-inner', card), head = $('.plan-head', card), feats = $('.plan-feats', card), btn = $('.plan-btn', card);
+  const q = (el, p) => gsap.quickTo(el, p, { duration: 0.5, ease: 'power3' });
+  const rx = q(inner, 'rotationX'), ry = q(inner, 'rotationY'), hx = q(head, 'xPercent'), hy = q(head, 'yPercent'),
+        fx = q(feats, 'xPercent'), fy = q(feats, 'yPercent'), bx = q(btn, 'xPercent'), by = q(btn, 'y');
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * 2 - 1, py = (e.clientY - r.top) / r.height * 2 - 1;
+    ry(px * 10); rx(-py * 10); hx(px * 3); hy(py * 3); fx(px * 2); fy(py * 2); bx(px * 2); by(py * 20);
+  });
+  card.addEventListener('mouseenter', () => { card.classList.add('is-hovered'); gsap.to(head, { scale: 1.12, duration: 0.4, ease: 'power3.out' }); gsap.to(btn, { scale: 1.1, duration: 0.45, ease: 'power3.out' }); });
+  card.addEventListener('mouseleave', () => { card.classList.remove('is-hovered'); rx(0); ry(0); hx(0); hy(0); fx(0); fy(0); bx(0); by(0); gsap.to([head, btn], { scale: 1, duration: 0.4, ease: 'power3.out' }); });
+});
+else $$('.plan-card').forEach(c => c.classList.add('is-hovered'));
+
+/* Formulario: abre el correo con los datos ya escritos */
+$('#contact-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const body = `Nombre: ${f.get('nombre')}\nMarca: ${f.get('marca')}\nCorreo: ${f.get('correo')}\nTeléfono: ${f.get('telefono')}\n\n${f.get('mensaje')}`;
+  location.href = `mailto:hola@dianacreativa.com?subject=${encodeURIComponent('Colaboración con ' + (f.get('marca') || f.get('nombre')))}&body=${encodeURIComponent(body)}`;
+});
+
+/* Videos sin audio: solo se reproducen mientras se ven */
+const io = new IntersectionObserver(entries => entries.forEach(({ target, isIntersecting }) => {
+  if (isIntersecting && !reduce) { target.preload = 'auto'; target.play().catch(() => {}); } else target.pause();
+}), { threshold: 0.15 });
+$$('video').forEach(v => { v.muted = true; io.observe(v); });
+
+addEventListener('load', () => ScrollTrigger.refresh());
+</script>
+</body>
+</html>
