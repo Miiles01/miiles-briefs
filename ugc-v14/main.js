@@ -132,7 +132,7 @@ if (!reduce) {
   const io = new IntersectionObserver(entries => {
     if (!entries.some(en => en.isIntersecting)) return;
     io.disconnect();
-    import('./grid.js')
+    import(`./grid.js?v=${window.__v || ''}`)
       .then(mod => mod.createStage())
       .then(stage => stage.show())
       .catch(err => console.warn(`La cuadrícula se muestra sin WebGL (${err.message}).`));
