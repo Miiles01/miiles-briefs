@@ -203,5 +203,8 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
 </body>
 </html>
 """
+import re
+# También las fotos y videos llevan versión por contenido, así un cambio de foto con el mismo nombre se ve al instante
+page = re.sub(r'(media/[\w.-]+\.(?:jpg|png|webp|mp4))(?=[\'")\s])', lambda mm: f"{mm.group(1)}?v={ver(mm.group(1))}", page)
 open(OUT, "w").write(page)
 print("ok", len(page))
