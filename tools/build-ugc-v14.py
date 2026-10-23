@@ -15,8 +15,8 @@ DATA = {
     ],
     "works_title": ("Mi", "trabajo"),
     "works_sub": "Videos y fotos para marcas de belleza, moda y lifestyle.",
-    "works": [f"media/v{v}-{t}.jpg" for t in (1, 4, 7) for v in range(1, 5)],
-    "videos": [(f"media/video-{i}.mp4", f"media/v{i}-1.jpg") for i in range(1, 5)],
+    "works": [f"media/w{i:02d}.jpg" for i in range(1, 17)],
+    "videos": [(f"media/video-{i}.mp4", f"media/poster-{i}.jpg") for i in range(1, 5)],
     "niches_script": "Nichos",
     "niches": ["Belleza y skincare", "Moda", "Lifestyle", "Bienestar"],
     "niches_title": ("Contenido para", "belleza, moda", "y la vida diaria"),
@@ -33,8 +33,8 @@ DATA = {
     "whatsapp": "https://wa.me/5215500000000",
     "socials": [("Instagram", "https://instagram.com/"), ("TikTok", "https://tiktok.com/"), ("YouTube", "https://youtube.com/")],
     "media": {
-        "hero": "media/v1-1.jpg", "t1": "media/v1-4.jpg", "t2": "media/v3-4.jpg", "t3": "media/v4-4.jpg",
-        "feat": "media/v3-7.jpg", "c1": "media/v2-1.jpg", "c2": "media/v4-7.jpg", "wide": "media/v2-4.jpg",
+        "hero": "media/poster-1.jpg", "t1": "media/t1.jpg", "t2": "media/t2.jpg", "t3": "media/t3.jpg",
+        "feat": "media/feat.jpg", "c1": "media/c1.jpg", "c2": "media/c2.jpg", "wide": "media/wide.jpg",
     },
 }
 
@@ -70,9 +70,9 @@ page = f"""<!doctype html>
 <meta name="description" content="{e(d['name'])}, {e(d['role'])} para marcas de {e(d['script'])}.">
 <meta property="og:title" content="{e(d['name'])} · Creadora de contenido UGC">
 <meta property="og:image" content="https://wearemiiles.com/ugc-v14/{m['hero']}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@300,400,500,700,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v={V_CSS}">
 <script type="importmap">{{"imports":{{"three/webgpu":"./js/three/three.webgpu.min.js","three/tsl":"./js/three/three.tsl.min.js","./js/three/three.core.js":"./js/three/three.core.min.js"}}}}</script>
 <script>document.documentElement.classList.add('js');
@@ -104,9 +104,9 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
 <main>
   <section class="section hero" id="inicio">
     <div class="hero_home">
+      <p class="script fade-up">{e(d['role'])}</p>
       <h1 class="reveal-lines"><span class="line"><span>{e(d['name'])}</span></span></h1>
-      <p class="hero-role alt fade-up">{e(d['role'])}</p>
-      <div class="script fade-up">{e(d['script'])}</div>
+      <p class="hero-role fade-up">Contenido para marcas de {e(d['script'])}</p>
     </div>
   </section>
 
