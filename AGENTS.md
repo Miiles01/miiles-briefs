@@ -17,6 +17,7 @@
 
 ## Portafolios UGC: hero sin CTAs
 - En los portafolios UGC **no** se ponen botones tipo "Ver mi trabajo" / "Contáctame" debajo del texto del hero. El hero lleva solo titular, párrafo corto y redes; el contacto vive en el navbar y en la sección final.
+- Excepción pedida para Diana (V16): el hero lleva botones de contacto directo (WhatsApp y copiar correo). Nunca "Ver mi trabajo".
 
 ## Portafolios UGC: menú hamburguesa
 - Cuando el navbar sea de menú hamburguesa, el menú se abre como panel a **media pantalla** (desde un lado, con el resto oscurecido) y con un botón visible de **Cerrar**. Nunca a pantalla completa.

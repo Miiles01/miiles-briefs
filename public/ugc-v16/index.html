@@ -50,7 +50,7 @@ h3{font-size:2.8em;font-weight:300;line-height:1.3}
 p{font-size:1.175em}
 a{color:inherit;text-decoration:none}
 img,video{display:block;max-width:100%}
-::selection{background:var(--pink);color:#000}
+::selection{background:var(--pink);color:var(--black)}
 .container{width:100%;max-width:1440px;margin:0 auto;padding:7.28em 4.38em}
 .section{position:relative}
 .pink{color:var(--brand)}
@@ -60,11 +60,26 @@ img,video{display:block;max-width:100%}
 .is--hero{position:relative;height:100vh;height:100svh;overflow:hidden}
 .is--hero picture,.hero_img{width:100%;height:100%}
 .hero_img{object-fit:cover;object-position:50% 30%}
-.hero_intro{position:absolute;top:4em;left:4.38em;z-index:2;width:26em;color:#0a0a0a}
+/* Capa sobre la foto: arriba el texto y los datos, abajo los botones y "Diana" gigante en modo diferencia */
+.hero_layer{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:4em 4.38em 3em;color:var(--black);pointer-events:none}
+.hero_top{display:flex;justify-content:space-between;align-items:flex-start;gap:4em}
+.hero_intro{width:28em}
 .hero_intro p{font-size:1.5em;line-height:1.35}
-.hero_stats{display:flex;gap:2.4em;margin-top:1.4em}
-.hero_stats b{display:block;font-size:2.6em;font-weight:600;line-height:1;letter-spacing:-.03em;color:#e47f9c}
+.hero_role{display:inline-flex;align-items:center;gap:.6em;margin-bottom:1.2em;font-size:1.1em}
+.hero_role i{width:.6em;height:.6em;border-radius:50%;background:#e47f9c;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.6);opacity:.5}}
+.hero_stats{display:flex;gap:3em;text-align:right}
+.hero_stats b{display:block;font-size:3.4em;font-weight:600;line-height:1;letter-spacing:-.03em;color:#e47f9c}
 .hero_stats span{font-size:1.1em;opacity:.75}
+.hero_bottom{display:flex;flex-direction:column;gap:1.6em}
+.hero_actions{display:flex;flex-wrap:wrap;gap:.8em;pointer-events:auto}
+.hero_btn{display:inline-flex;align-items:center;gap:.6em;padding:.95em 1.8em;border-radius:100vw;font:600 1.15em var(--font);cursor:pointer;border:1px solid var(--black);background:transparent;color:var(--black);transition:background-color .4s var(--ease-quart),color .4s var(--ease-quart),transform .4s var(--ease-quart)}
+.hero_btn svg{width:1.2em;height:1.2em}
+.hero_btn:hover{transform:translateY(-2px)}
+.hero_btn.is--solid{background:var(--black);color:var(--pink)}
+.hero_btn.is--solid:hover{background:#e47f9c;color:var(--black);border-color:#e47f9c}
+.hero_btn:not(.is--solid):hover{background:var(--black);color:var(--pink)}
+.hero_name{display:block;width:100%;height:auto;color:#fff;mix-blend-mode:difference;overflow:visible}
 
 /* 3. NAV sticky + logo que se encoge */
 .nav{position:sticky;top:0;z-index:1000;background:var(--bg);margin-top:-1px}
@@ -127,7 +142,7 @@ img,video{display:block;max-width:100%}
 @media (pointer:fine){ .cursor{display:flex} body:hover .cursor{opacity:1} }
 .cursor_dot{width:76px;height:76px;transition:opacity .2s,scale .2s}
 .cursor_dot.hide{opacity:0;scale:.6}
-.cursor_embed{width:100%;height:100%;border-radius:50%;display:flex;justify-content:center;align-items:center;background:var(--pink);color:#000;font-size:12px;font-weight:700;opacity:0;transform:scale(.5);transition:all .2s}
+.cursor_embed{width:100%;height:100%;border-radius:50%;display:flex;justify-content:center;align-items:center;background:var(--pink);color:var(--black);font-size:12px;font-weight:700;opacity:0;transform:scale(.5);transition:all .2s}
 .cursor_dot.show .cursor_embed,.popup-open .cursor_embed{opacity:1;transform:scale(1)}
 .cursor_embed .c-close{display:none}
 .popup-open .cursor_embed .c-drag{display:none}
@@ -150,9 +165,9 @@ img,video{display:block;max-width:100%}
 .heading-md.fill{color:var(--fg)}
 
 /* 10. CAMPAÑAS: tarjetas + POPUP FLIP */
-.team_grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2em}
+.team_grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6em}
 .team_card{display:flex;flex-direction:column;width:100%;cursor:pointer}
-.team_image{position:relative;width:100%;padding-top:72%}
+.team_image{position:relative;width:100%;padding-top:177.78%}  /* 9:16, tamaño reel */
 .image{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:1em;object-fit:cover}
 .friend-meta{display:flex;flex-direction:column;width:98%;margin-top:.8em}
 .friend-title{display:flex;justify-content:space-between;width:100%;margin-bottom:.2em;overflow:hidden}
@@ -161,7 +176,7 @@ img,video{display:block;max-width:100%}
 .friend-arrow{width:1.7em;height:1.7em;opacity:0;transform:translateY(101%) scale(.5);transition:transform .75s var(--ease-quart),opacity .75s var(--ease-quart)}
 .team_card:hover .friend-arrow{opacity:1;transform:none}
 .popup{position:fixed;inset:0;z-index:1500;display:none;height:100vh}
-.popup_bg{position:absolute;inset:0;z-index:1;background:#0a0a0a;opacity:0}
+.popup_bg{position:absolute;inset:0;z-index:1;background:var(--black);opacity:0}
 .popup_wrapper{position:relative;z-index:2;height:100%}
 .popup_item{display:none;height:100vh}
 .popup_item.active{display:block}
@@ -173,6 +188,7 @@ img,video{display:block;max-width:100%}
 .popup_hint{margin-top:2.4em;font-size:1em;opacity:.5}
 .popup_visual{position:relative;z-index:2;flex:none;width:45%;height:100%;padding:1em}
 .popup_img{position:relative;width:100%;height:100%}
+.popup_img .image{object-fit:cover}
 
 /* 11. PAQUETES con tilt 3D */
 .plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2em;perspective:1000px}
@@ -220,8 +236,7 @@ img,video{display:block;max-width:100%}
 .footer-links a,.footer-list a,.footer-list p{opacity:.7;transition:opacity .3s}
 .footer-links a:hover,.footer-list a:hover{opacity:1}
 .footer-list{display:flex;flex-direction:column;gap:.8em}
-.footer-name{display:block;width:100%;height:auto;margin-top:5em;color:var(--brand);overflow:visible}
-.footer-bottom{display:flex;justify-content:space-between;margin-top:1.5em;opacity:.6}
+.footer-bottom{display:flex;justify-content:space-between;margin-top:5em;opacity:.6}
 
 /* 15. RESPONSIVE */
 @media (max-width:991px){
@@ -241,16 +256,22 @@ img,video{display:block;max-width:100%}
   .popup_name{font-size:7em}
   .is-team .container{padding-right:3em}
 }
+@media (max-width:991px) and (min-width:768px){ .team_grid{grid-template-columns:repeat(2,1fr)} }
 @media (max-width:767px){
   body{font-size:2.4vw}
   p{font-size:15px}
   h1{font-size:6.8em;line-height:1.02}
   h2{font-size:5.4em}
-  .hero_intro{top:auto;bottom:3em;left:3em;right:3em;width:auto;color:#fff}
-  .is--hero::after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,.6));pointer-events:none}
-  .hero_intro p{font-size:1.75em;max-width:26em}
-  .hero_stats b{font-size:3em}
-  .hero_stats span{font-size:1.3em}
+  .hero_layer{justify-content:flex-end;gap:2.4em;padding:3em;color:#fff;background:linear-gradient(to bottom,rgba(10,10,10,0) 35%,rgba(10,10,10,.7))}
+  .hero_top{flex-direction:column;gap:2em}
+  .hero_intro{width:auto}
+  .hero_intro p{font-size:1.8em}
+  .hero_role{font-size:1.5em}
+  .hero_stats{text-align:left;gap:2.4em}
+  .hero_stats b{font-size:4em}
+  .hero_stats span{font-size:1.4em}
+  .hero_btn{font-size:1.6em;border-color:#fff;color:#fff}
+  .hero_btn.is--solid{background:var(--pink);color:var(--black);border-color:var(--pink)}
   .nav_coords{display:none}
   .nav_logo-contain{justify-content:flex-start}
   .nav_logo{width:9em}
@@ -259,7 +280,10 @@ img,video{display:block;max-width:100%}
   .amen-grid{grid-template-columns:1fr 1fr;column-gap:2em;row-gap:3em}
   .amen-h3{font-size:2.6em}
   .amen-icon{width:4.6em;height:4.6em}
-  .team_grid{grid-template-columns:1fr;gap:4em}
+  /* Campañas en móvil: carrusel horizontal de reels */
+  .team_grid{display:flex;gap:1.6em;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -3em;padding:0 3em 1em;scrollbar-width:none}
+  .team_grid::-webkit-scrollbar{display:none}
+  .team_item{flex:none;width:68%;scroll-snap-align:start}
   .team_name{font-size:2.6em}
   .team_header-flex{display:block}
   .swiper-slide.is-team{margin-right:5%}
@@ -305,12 +329,26 @@ img,video{display:block;max-width:100%}
     <source media="(max-width: 767px)" srcset="media/hero-m.jpg">
     <img class="hero_img" src="media/hero.jpg" alt="Diana, creadora de contenido UGC" fetchpriority="high">
   </picture>
-  <div class="hero_intro">
-    <p>Hola, soy Diana. Creo videos y fotos UGC para marcas de belleza, skincare y lifestyle que se sienten reales y venden.</p>
-    <div class="hero_stats">
-      <div><b>+10K</b><span>seguidores</span></div>
-      <div><b>+40</b><span>marcas</span></div>
-      <div><b>+300</b><span>videos</span></div>
+  <div class="hero_layer">
+    <div class="hero_top">
+      <div class="hero_intro">
+        <p class="hero_role"><i></i> Disponible para nuevas colaboraciones</p>
+        <p>Hola, soy Diana. Creo videos y fotos UGC para marcas de belleza, skincare y lifestyle que se sienten reales y venden.</p>
+      </div>
+      <div class="hero_stats">
+        <div><b>+10K</b><span>seguidores</span></div>
+        <div><b>+40</b><span>marcas</span></div>
+        <div><b>+300</b><span>videos</span></div>
+      </div>
+    </div>
+    <div class="hero_bottom">
+      <div class="hero_actions">
+        <a class="hero_btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2.1 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>Escríbeme por WhatsApp</a>
+        <button class="hero_btn" type="button" data-copy="hola@dianacreativa.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copiar correo</span></button>
+      </div>
+      <svg class="hero_name" viewBox="0 0 640 132" aria-hidden="true">
+        <text x="320" y="118" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="630" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
+      </svg>
     </div>
   </div>
 </header>
@@ -435,12 +473,10 @@ img,video{display:block;max-width:100%}
     <div class="container" id="campanas">
       <div class="std-h2-title-contain reveal"><p class="label">Campañas</p><h2>Proyectos <span class="pink">recientes</span></h2></div>
       <div class="team_grid">
-        <div class="team_item reveal"><div class="team_card" data-name="Cahre" data-title="Skincare · Unboxing y reseña" data-desc="Tres videos verticales mostrando el empaque, la textura de la crema y la rutina de noche. Pensados para anuncios en Meta."><div class="team_image"><img class="image" src="media/w08.jpg" alt="Crema Cahre en primer plano" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Cahre</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Skincare · 3 videos</p></div></div></div>
-        <div class="team_item reveal"><div class="team_card" data-name="Sérum Glow" data-title="Skincare · Tutorial" data-desc="Tutorial de cómo aplicar el sérum en la mañana, con primeros planos del gotero y del resultado en la piel."><div class="team_image"><img class="image" src="media/w03.jpg" alt="Sérum aplicado en la cara" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Sérum Glow</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Skincare · Tutorial</p></div></div></div>
-        <div class="team_item reveal"><div class="team_card" data-name="Caja Sorpresa" data-title="Lifestyle · Unboxing" data-desc="Unboxing de una caja de suscripción mensual: reacción real, detalle de cada producto y llamado a la acción al final."><div class="team_image"><img class="image" src="media/w13.jpg" alt="Caja abierta con productos" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Caja Sorpresa</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Lifestyle · Unboxing</p></div></div></div>
-        <div class="team_item reveal"><div class="team_card" data-name="Bruma Fresh" data-title="Belleza · Reseña" data-desc="Reseña honesta de una bruma facial después de una semana de uso, grabada en casa con luz natural."><div class="team_image"><img class="image" src="media/w05.jpg" alt="Diana con una bruma facial" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Bruma Fresh</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Belleza · Reseña</p></div></div></div>
-        <div class="team_item reveal"><div class="team_card" data-name="Kraft Co." data-title="Lifestyle · Foto de producto" data-desc="Sesión de fotos de producto sobre mesa de madera para tienda en línea y redes sociales."><div class="team_image"><img class="image" src="media/w02.jpg" alt="Manos abriendo una caja" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Kraft Co.</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Lifestyle · Fotos</p></div></div></div>
-        <div class="team_item reveal"><div class="team_card" data-name="Gotas Vita" data-title="Skincare · Anuncio" data-desc="Anuncio corto de 15 segundos con gancho en los primeros 2, pensado para TikTok Ads."><div class="team_image"><img class="image" src="media/w10.jpg" alt="Gotero de sérum" loading="lazy"></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Gotas Vita</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Skincare · Anuncio</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Cahre" data-title="Skincare · Unboxing y reseña" data-desc="Tres videos verticales mostrando el empaque, la textura de la crema y la rutina de noche. Pensados para anuncios en Meta."><div class="team_image"><video class="image" src="media/video-2.mp4" poster="media/poster-2.jpg" muted loop playsinline preload="none" aria-label="Video de Cahre"></video></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Cahre</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Skincare · 3 videos</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Caja Sorpresa" data-title="Lifestyle · Unboxing" data-desc="Unboxing de una caja de suscripción: reacción real, detalle de cada producto y llamado a la acción al final."><div class="team_image"><video class="image" src="media/video-3.mp4" poster="media/poster-3.jpg" muted loop playsinline preload="none" aria-label="Video de Caja Sorpresa"></video></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Caja Sorpresa</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Lifestyle · Unboxing</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Sérum Glow" data-title="Skincare · Tutorial" data-desc="Tutorial de cómo aplicar el sérum en la mañana, con primeros planos del gotero y del resultado en la piel."><div class="team_image"><video class="image" src="media/video-4.mp4" poster="media/poster-4.jpg" muted loop playsinline preload="none" aria-label="Video de Sérum Glow"></video></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Sérum Glow</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Skincare · Tutorial</p></div></div></div>
+        <div class="team_item reveal"><div class="team_card" data-name="Bruma Fresh" data-title="Belleza · Reseña" data-desc="Reseña honesta de una bruma facial después de una semana de uso, grabada en casa con luz natural."><div class="team_image"><video class="image" src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de Bruma Fresh"></video></div><div class="friend-meta"><div class="friend-title"><span class="team_name">Bruma Fresh</span><svg class="friend-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></div><p class="friend-coords">Belleza · Reseña</p></div></div></div>
       </div>
     </div>
 
@@ -544,9 +580,6 @@ img,video{display:block;max-width:100%}
           <div class="footer-list"><a href="mailto:hola@dianacreativa.com">hola@dianacreativa.com</a><a href="https://wa.me/5215500000000" target="_blank" rel="noopener">WhatsApp</a></div>
         </div>
       </div>
-      <svg class="footer-name" viewBox="0 0 640 150" aria-hidden="true">
-        <text x="320" y="122" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="626" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
-      </svg>
       <div class="footer-bottom"><span>© 2026 Diana</span><span>Plantilla UGC de We Are Miiles</span></div>
     </div>
   </footer>
@@ -631,12 +664,10 @@ menuLinks.forEach(link => {
 
 if (!reduce) {
   /* A. Logo: grande sobre el hero → se encoge dentro del nav */
-  gsap.from('.nav_logo', {
-    y: () => isMobile ? -($('.hero_intro').offsetHeight + 36) - $('.nav_logo-contain').offsetWidth * 110 / 320 : '-100%',
-    width: isMobile ? '100%' : '60%', duration: 1, ease: 'none',
-    scrollTrigger: { trigger: '.is--hero', start: 'top top', end: 'bottom top', scrub: 1, invalidateOnRefresh: true }
-  });
-  gsap.to('.hero_intro', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '35% top', scrub: true } });
+  /* A. "Diana" gigante sube y se agranda con el scroll; el logo pequeño del nav aparece cuando el hero sale */
+  gsap.to('.hero_name', { yPercent: -18, scale: 1.06, transformOrigin: '50% 100%', ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: 'bottom top', scrub: 1 } });
+  gsap.to('.hero_top, .hero_actions', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '40% top', scrub: true } });
+  gsap.from('.nav_logo', { opacity: 0, y: 20, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: '70% top', end: 'bottom top', scrub: true } });
 
   /* B. Titular: cada línea baja y se oculta en su máscara (en móvil queda como título normal) */
   if (!isMobile) $$('.header_text-move').forEach(el => gsap.to(el, {
@@ -673,7 +704,7 @@ if (!reduce) {
 
 /* E. Cambio de tema: negro → rosa al pasar "Sobre mí" (vuelve a negro al subir) */
 gsap.timeline({ scrollTrigger: { trigger: '.is--frens', start: 'top bottom', end: 'bottom top', scrub: true } })
-  .to(root, { '--bg': '#f6c7d3', '--fg': '#0a0a0a', '--brand': '#0a0a0a', '--line': '#0a0a0a', duration: 0.18, ease: 'none' }, 0.62)
+  .to(root, { '--bg': '#f6c7d3', '--fg': '#0a0a0a', '--brand': '#0a0a0a', '--line': '#0a0a0a', /* mismo negro que --black */ duration: 0.18, ease: 'none' }, 0.62)
   .to({}, { duration: 0.2 }, 0.8);
 
 /* J. Galería Swiper + cursor "arrastra" */
@@ -698,6 +729,9 @@ const cards = $$('.team_card'), popup = $('.popup'), popupList = $('.popup_list'
 const esc = s => s.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 cards.forEach(card => {
   const img = $('.image', card);
+  const media = img.tagName === 'VIDEO'
+    ? `<video class="image" src="${img.getAttribute('src')}" poster="${img.getAttribute('poster')}" muted loop playsinline autoplay></video>`
+    : `<img class="image" src="${img.getAttribute('src')}" alt="">`;
   popupList.insertAdjacentHTML('beforeend', `
     <div class="popup_item"><div class="popup_flex">
       <div class="popup_content"><div class="popup_contain">
@@ -706,7 +740,7 @@ cards.forEach(card => {
         <p>${esc(card.dataset.desc)}</p>
         <p class="popup_hint">Toca en cualquier lugar para cerrar</p>
       </div></div>
-      <div class="popup_visual"><div class="popup_img"><img class="image" src="${img.getAttribute('src')}" alt=""></div></div>
+      <div class="popup_visual"><div class="popup_img">${media}</div></div>
     </div></div>`);
 });
 const popupItems = $$('.popup_item');
@@ -746,6 +780,14 @@ if (matchMedia('(pointer: fine)').matches) $$('.plan-card').forEach(card => {
   card.addEventListener('mouseleave', () => { card.classList.remove('is-hovered'); rx(0); ry(0); hx(0); hy(0); fx(0); fy(0); bx(0); by(0); gsap.to([head, btn], { scale: 1, duration: 0.4, ease: 'power3.out' }); });
 });
 else $$('.plan-card').forEach(c => c.classList.add('is-hovered'));
+
+/* Botón de copiar correo */
+$$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+  const label = $('span', btn), txt = label.textContent;
+  try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = '¡Correo copiado!'; }
+  catch { location.href = 'mailto:' + btn.dataset.copy; return; }
+  setTimeout(() => { label.textContent = txt; }, 1800);
+}));
 
 /* Formulario: abre el correo con los datos ya escritos */
 $('#contact-form').addEventListener('submit', e => {
