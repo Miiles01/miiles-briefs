@@ -97,7 +97,7 @@ img,video{display:block;max-width:100%}
 
 /* 4. HEADER + CÍRCULO STICKY */
 .is--header .container{text-align:center;padding-top:8.78em;padding-bottom:4em}
-.header_text-wrap{position:relative;overflow:hidden;padding:0 .05em}
+.header_text-wrap{position:relative;overflow:hidden;padding:0 .05em 2.4em;margin-bottom:-2.4em}  /* aire abajo para que no se corte la "q" */
 .header_text-move{padding-bottom:.04em}
 .header_text h1 em{font-style:normal;color:var(--brand);font-weight:300}
 .header_sub{max-width:34em;margin:3em auto 0;font-size:1.5em;line-height:1.5;opacity:.8}
@@ -379,10 +379,9 @@ img,video{display:block;max-width:100%}
   <!-- 3. HEADER + CÍRCULO -->
   <section class="section is--header" id="inicio">
     <div class="container">
-      <!-- Sin letras con rabito abajo (g, j, p, q, y) para que la máscara no las corte -->
-      <div class="header_text" aria-label="Contenido real.">
+      <div class="header_text" aria-label="Contenido que conecta">
         <div class="header_text-wrap"><div class="header_text-move"><h1>Contenido</h1></div></div>
-        <div class="header_text-wrap"><div class="header_text-move"><h1><em>real.</em></h1></div></div>
+        <div class="header_text-wrap"><div class="header_text-move"><h1><em>que conecta</em></h1></div></div>
       </div>
       <p class="header_sub reveal">Videos y fotos que suenan a recomendación de amiga, listos para TikTok, Reels o anuncios.</p>
     </div>
