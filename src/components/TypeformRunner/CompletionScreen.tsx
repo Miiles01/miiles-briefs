@@ -9,10 +9,12 @@ interface CompletionScreenProps {
   briefTitle?: string;
   answers?: Record<string, any>;
   onReset?: () => void;
+  message?: string;
 }
 
 export const CompletionScreen: React.FC<CompletionScreenProps> = ({
   submissionId,
+  message = 'Nuestro equipo ya está analizando tus respuestas para preparar una propuesta estratégica a tu medida.',
 }) => {
   useEffect(() => {
     // Fire confetti celebration with official Miiles brand colors (Azul #4059F1 y Rosa #FCB5B9)
@@ -78,7 +80,7 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
         transition={{ delay: 0.15 }}
         className="text-sm sm:text-base text-neutral-900 dark:text-neutral-100 mt-3 max-w-md font-normal leading-relaxed"
       >
-        Nuestro equipo ya está analizando tus respuestas para preparar una propuesta estratégica a tu medida.
+        {message}
       </motion.p>
 
       {/* Code Badge */}

@@ -95,8 +95,51 @@ export const BriefRunner: React.FC = () => {
       }
       return true;
     }
+    if (currentQuestion.type === 'email' && typeof val === 'string') {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+    }
+    if (currentQuestion.type === 'phone' && typeof val === 'string') {
+      return val.replace(/\D/g, '').length >= 8;
+    }
     if (typeof val === 'string') return val.trim().length > 0;
     return true;
+  };
+
+  // Envío final: nombre, correo y teléfono salen de las preguntas de cada brief
+  const submit = (finalAnswers: Record<string, any>) => {
+    const clientName =
+      finalAnswers['b-name'] ||
+      finalAnswers['brand-name'] ||
+      finalAnswers['web-project-name'] ||
+      finalAnswers['growth-brand'] ||
+      finalAnswers['ugc-name'] ||
+      'Cliente Miiles';
+    const clientContact =
+      finalAnswers['contact-info'] ||
+      finalAnswers['web-contact'] ||
+      finalAnswers['growth-contact'] ||
+      '';
+    const clientEmail =
+      finalAnswers['ugc-email'] ||
+      (clientContact.includes('@') ? clientContact.split('|')[0].trim() : 'contacto@cliente.com');
+
+    const newId = addSubmission({
+      briefId: template.id,
+      briefTitle: template.title,
+      clientName,
+      clientEmail,
+      clientPhone: finalAnswers['ugc-whatsapp'] || undefined,
+      clientCompany: clientName,
+      answers: finalAnswers,
+      estimatedBudget:
+        finalAnswers['budget-investment'] ||
+        finalAnswers['web-budget'] ||
+        finalAnswers['growth-budget'] ||
+        'A definir',
+    });
+
+    setSubmissionId(newId);
+    setStep('completed');
   };
 
   const handleAnswerAndNext = (val: any) => {
@@ -110,37 +153,7 @@ export const BriefRunner: React.FC = () => {
       setDirection(1);
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
-      // Final submission
-      const clientName =
-        updatedAnswers['b-name'] ||
-        updatedAnswers['brand-name'] ||
-        updatedAnswers['web-project-name'] ||
-        updatedAnswers['growth-brand'] ||
-        'Cliente Miiles';
-      const clientContact =
-        updatedAnswers['contact-info'] ||
-        updatedAnswers['web-contact'] ||
-        updatedAnswers['growth-contact'] ||
-        '';
-
-      const newId = addSubmission({
-        briefId: template.id,
-        briefTitle: template.title,
-        clientName: clientName,
-        clientEmail: clientContact.includes('@')
-          ? clientContact.split('|')[0].trim()
-          : 'contacto@cliente.com',
-        clientCompany: clientName,
-        answers: updatedAnswers,
-        estimatedBudget:
-          updatedAnswers['budget-investment'] ||
-          updatedAnswers['web-budget'] ||
-          updatedAnswers['growth-budget'] ||
-          'A definir',
-      });
-
-      setSubmissionId(newId);
-      setStep('completed');
+      submit(updatedAnswers);
     }
   };
 
@@ -155,37 +168,7 @@ export const BriefRunner: React.FC = () => {
       setDirection(1);
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
-      // Final submission
-      const clientName =
-        answers['b-name'] ||
-        answers['brand-name'] ||
-        answers['web-project-name'] ||
-        answers['growth-brand'] ||
-        'Cliente Miiles';
-      const clientContact =
-        answers['contact-info'] ||
-        answers['web-contact'] ||
-        answers['growth-contact'] ||
-        '';
-
-      const newId = addSubmission({
-        briefId: template.id,
-        briefTitle: template.title,
-        clientName: clientName,
-        clientEmail: clientContact.includes('@')
-          ? clientContact.split('|')[0].trim()
-          : 'contacto@cliente.com',
-        clientCompany: clientName,
-        answers: answers,
-        estimatedBudget:
-          answers['budget-investment'] ||
-          answers['web-budget'] ||
-          answers['growth-budget'] ||
-          'A definir',
-      });
-
-      setSubmissionId(newId);
-      setStep('completed');
+      submit(answers);
     }
   };
 
@@ -339,6 +322,7 @@ export const BriefRunner: React.FC = () => {
                 submissionId={submissionId}
                 briefTitle={template.title}
                 answers={answers}
+                message={template.completionMessage}
                 onReset={() => {
                   setAnswers({});
                   setCurrentQuestionIndex(0);

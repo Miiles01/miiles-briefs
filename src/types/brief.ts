@@ -78,6 +78,7 @@ export interface BriefTemplate {
   welcomeSubtitle: string;
   ctaText?: string; // e.g. 'Empezar'
   submitText?: string; // e.g. 'Finalizar'
+  completionMessage?: string; // Texto de la pantalla final; si falta, se usa el genérico
   questions: Question[];
 }
 

@@ -546,5 +546,94 @@ export const BRIEF_TEMPLATES: BriefTemplate[] = [
         required: true,
       }
     ]
+  },
+  {
+    id: 'ugc-portafolio',
+    slug: 'portafolio-ugc',
+    title: 'Portafolio de creadora',
+    highlightWord: 'UGC',
+    badge: 'UGC',
+    description: 'Cuéntanos quién eres, con qué marcas has trabajado y comparte tus videos para armar tu portafolio de creadora UGC.',
+    icon: 'Video',
+    estimatedTime: '5 min',
+    totalQuestions: 7,
+    welcomeSubtitle: '¡Hola! Con este brief armamos tu portafolio de creadora UGC: cuéntanos quién eres, con qué marcas has trabajado y comparte tus mejores videos.',
+    ctaText: 'Empezar',
+    submitText: 'Finalizar',
+    completionMessage: 'Con tus respuestas vamos a armar tu portafolio de creadora UGC.',
+    questions: [
+      // Sección 1 — Sobre ti
+      {
+        id: 'ugc-name',
+        section: 'Sobre ti',
+        type: 'text',
+        title: '¿Cómo te llamas?',
+        subtitle: 'Así aparecerá tu nombre en tu portafolio.',
+        placeholder: 'Ej. Carolina Ruiz',
+        required: true,
+        allowUndefined: false,
+      },
+      {
+        id: 'ugc-about',
+        section: 'Sobre ti',
+        type: 'textarea',
+        title: '¿Qué haces?',
+        subtitle: 'Cuéntalo con tus palabras. Te sugerimos incluir cuánto tiempo llevas haciéndolo, qué nichos abarcas, por qué lo haces y cuál ha sido tu reto más difícil.',
+        placeholder: 'Ej. Llevo dos años creando contenido UGC para marcas de belleza y bienestar. Lo hago porque...',
+        required: true,
+        allowUndefined: false,
+      },
+      // Sección 2 — Marcas
+      {
+        id: 'ugc-brands',
+        section: 'Marcas',
+        type: 'textarea',
+        title: '¿Con qué marcas has trabajado?',
+        subtitle: 'Escribe sus nombres separados por comas. Si todavía no has trabajado con marcas, cuéntanos con cuáles te gustaría.',
+        placeholder: 'Ej. Sephora, Natura, Farmacias del Ahorro',
+        required: true,
+        allowUndefined: true,
+      },
+      // Sección 3 — Trabajos
+      {
+        id: 'ugc-works',
+        section: 'Trabajos',
+        type: 'textarea',
+        title: 'Comparte los enlaces de tus videos',
+        subtitle: 'Pega un enlace por línea: TikTok, Instagram, YouTube o Google Drive. Mientras más variedad, mejor.',
+        placeholder: 'https://www.tiktok.com/@tuusuario/video/...\nhttps://www.instagram.com/reel/...',
+        required: true,
+        allowUndefined: false,
+      },
+      // Sección 4 — Contacto
+      {
+        id: 'ugc-socials',
+        section: 'Contacto',
+        type: 'textarea',
+        title: '¿Cuáles son tus redes sociales?',
+        subtitle: 'Escribe tu usuario o el enlace de cada una: Instagram, TikTok, YouTube, LinkedIn o las que uses.',
+        placeholder: 'Instagram: @tuusuario\nTikTok: @tuusuario',
+        required: true,
+        allowUndefined: false,
+      },
+      {
+        id: 'ugc-email',
+        section: 'Contacto',
+        type: 'email',
+        title: '¿Cuál es tu correo?',
+        subtitle: 'Las marcas lo usarán para escribirte desde tu portafolio.',
+        placeholder: 'nombre@correo.com',
+        required: true,
+      },
+      {
+        id: 'ugc-whatsapp',
+        section: 'Contacto',
+        type: 'phone',
+        title: '¿Cuál es tu número de WhatsApp?',
+        subtitle: 'Con la clave de tu país, para que las marcas te escriban directo.',
+        placeholder: '+52 55 1234 5678',
+        required: true,
+      }
+    ]
   }
 ];
