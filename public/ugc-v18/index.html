@@ -163,6 +163,58 @@ body.is-locked{overflow:hidden}
 .social a{font-size:16px;color:rgba(0,0,0,.8)}
 .footer-note{margin-top:60px;font-size:13px;color:rgba(36,35,16,.6)}
 
+
+/* ===== Hero: números ===== */
+.hero-stats{display:flex;justify-content:flex-end;gap:22px;margin-top:22px;color:#fff;text-align:right}
+.hero-stats b{display:block;font-family:var(--serif);font-weight:500;font-size:32px;line-height:1;color:var(--yellow)}
+.hero-stats span{font-size:13px;opacity:.85}
+
+/* ===== Títulos de sección ===== */
+.eyebrow{font-size:14px;font-weight:500;color:var(--orange);margin-bottom:14px}
+.section-title{font-family:var(--serif);font-weight:500;color:var(--ink);font-size:clamp(44px,5.4vw,84px);line-height:1.02;letter-spacing:-.01em;text-wrap:balance;padding-bottom:.06em}
+.section-title em{font-weight:400}
+
+/* ===== Mi trabajo ===== */
+.work{background:var(--sand);padding:120px 6% 160px}
+.work__head{max-width:900px;margin:0 auto 70px;text-align:center}
+.work__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;max-width:1300px;margin:0 auto}
+.reel{margin:0}
+.reel--down{margin-top:90px}
+.reel__media{position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:6px}
+.reel figcaption{display:flex;justify-content:space-between;gap:10px;margin-top:12px;font-size:14px;color:var(--ink-85)}
+.reel figcaption b{font-family:var(--serif);font-weight:500;font-size:19px;color:var(--ink)}
+
+/* ===== Marcas ===== */
+.brands{background:var(--clay);padding:130px 6%;text-align:center}
+.brands__grid{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:46px 30px;max-width:1100px;margin:70px auto 0;padding:0;align-items:center;justify-items:center}
+.brand__logo{display:block;height:34px;width:calc(34px * var(--r));max-width:100%;background:var(--ink);-webkit-mask:var(--src) center/contain no-repeat;mask:var(--src) center/contain no-repeat;opacity:.85;transition:opacity .3s,background-color .3s}
+.brand:hover .brand__logo{opacity:1;background:var(--orange)}
+
+/* ===== Nichos ===== */
+.niches{background:var(--sand);padding:130px 6%}
+.niches__inner{max-width:1100px;margin:0 auto}
+.niche-list{list-style:none;margin:0;padding:0}
+.niche-list li{display:grid;grid-template-columns:70px 1fr 1fr;align-items:baseline;gap:20px;padding:22px 0}
+.niche-num{font-size:14px;color:var(--orange)}
+.niche-name{font-family:var(--serif);font-weight:500;font-size:clamp(40px,5vw,76px);line-height:1.05;color:var(--ink);padding-bottom:.06em}
+.niche-name em{font-weight:400}
+.niche-desc{font-size:16px;color:var(--ink-85)}
+
+/* ===== CTA ===== */
+.cta-band{background:#000;color:#fff;padding:130px 6%;text-align:center}
+.cta-band__title{font-family:var(--serif);font-weight:500;color:var(--yellow);font-size:clamp(44px,6vw,92px);line-height:1.05;padding-bottom:.06em;text-wrap:balance}
+.cta-band__title em{font-weight:400}
+.cta-band__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:40px}
+.cta-band .c-btn{border-color:#fff;color:#fff}
+.cta-band .c-btn.is--solid,.cta-band .c-btn:hover{background:var(--yellow);border-color:var(--yellow);color:#000}
+
+/* ===== Testimonios ===== */
+.quotes{background:var(--clay);padding:130px 6%;text-align:center}
+.quotes__list{display:grid;grid-template-columns:repeat(3,1fr);gap:50px;max-width:1200px;margin:70px auto 0;text-align:left}
+.quote{margin:0}
+.quote blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(22px,2vw,28px);line-height:1.35;color:var(--ink)}
+.quote figcaption{margin-top:16px;font-size:14px;color:var(--orange)}
+
 /* ===== Aparición ===== */
 .reveal{opacity:0;transform:translateY(50px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
 .reveal.sm{transform:translateY(20px)}
@@ -177,6 +229,9 @@ body.is-locked{overflow:hidden}
   .first-text-block{width:76%;margin-left:14%}
   .second-text-block{left:12%;width:84%}
   .side-note{max-width:160px}
+  .work__grid{grid-template-columns:repeat(2,1fr);max-width:640px}
+  .brands__grid{grid-template-columns:repeat(4,1fr)}
+  .quotes__list{grid-template-columns:1fr;max-width:640px;margin-left:auto;margin-right:auto}
 }
 /* ===== Móvil ===== */
 @media (max-width:767px){
@@ -213,6 +268,19 @@ body.is-locked{overflow:hidden}
   .right-pair{margin:0 auto;flex-direction:row;gap:12px;width:100%}
   .small-wrap{width:50%}
   .third-text-block{width:100%;margin:100px 0}
+  .hero-stats{justify-content:center;text-align:center;margin-top:16px}
+  .hero-stats b{font-size:26px}
+  .work{padding:90px 6% 110px}
+  .work__grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .reel--down{margin-top:50px}
+  .reel figcaption{flex-direction:column;gap:2px}
+  .reel figcaption b{font-size:17px}
+  .brands,.niches,.quotes,.cta-band{padding:90px 6%}
+  .brands__grid{grid-template-columns:repeat(3,1fr);gap:34px 20px}
+  .brand__logo{height:24px;width:calc(24px * var(--r))}
+  .niche-list li{grid-template-columns:1fr;gap:4px;padding:18px 0}
+  .niche-name{font-size:12vw}
+  .quotes__list{grid-template-columns:1fr;gap:40px}
   .page-3{padding:100px 6% 50px}
   .contact{margin-top:100px}
   .contact small{font-size:14px}
@@ -234,7 +302,7 @@ body.is-locked{overflow:hidden}
   <div class="nav-inner">
     <a href="#inicio" class="logo go">Carolina</a>
     <div class="sections">
-      <a href="#trabajo" class="go">Trabajo</a><a href="#sobre-mi" class="go">Sobre mí</a><a href="#contacto" class="go">Contacto</a>
+      <a href="#mi-trabajo" class="go">Trabajo</a><a href="#marcas" class="go">Marcas</a><a href="#sobre-mi" class="go">Sobre mí</a><a href="#testimonios" class="go">Testimonios</a><a href="#contacto" class="go">Contacto</a>
     </div>
     <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="panel"><span></span><span></span></button>
   </div>
@@ -244,8 +312,10 @@ body.is-locked{overflow:hidden}
   <div class="panel__overlay"></div>
   <div class="panel__box">
     <button class="panel__close" aria-label="Cerrar menú">Cerrar <span aria-hidden="true">×</span></button>
-    <a href="#trabajo" class="go">Trabajo</a>
+    <a href="#mi-trabajo" class="go">Trabajo</a>
+    <a href="#marcas" class="go">Marcas</a>
     <a href="#sobre-mi" class="go">Sobre mí</a>
+    <a href="#testimonios" class="go">Testimonios</a>
     <a href="#contacto" class="go">Contacto</a>
   </div>
 </div>
@@ -268,6 +338,7 @@ body.is-locked{overflow:hidden}
             <div class="header">
               <p class="heading-smal-2 reveal">y vende</p>
               <p class="paragraph-3 reveal sm">Videos y fotos UGC para marcas de moda, belleza y lifestyle</p>
+              <div class="hero-stats reveal sm"><div><b>+12K</b><span>seguidores</span></div><div><b>+35</b><span>marcas</span></div><div><b>+250</b><span>videos</span></div></div>
             </div>
           </div>
         </div>
@@ -341,6 +412,60 @@ body.is-locked{overflow:hidden}
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- MI TRABAJO: piezas en formato reel -->
+  <section class="work" id="mi-trabajo">
+    <div class="work__head">
+      <p class="eyebrow reveal sm">Mi trabajo</p>
+      <h2 class="section-title reveal">Contenido <em>que se ve</em> y se queda</h2>
+    </div>
+    <div class="work__grid">
+      <figure class="reel reveal"><div class="reel__media curtain"><div class="ph"></div></div><figcaption><b>Unboxing</b><span>Moda · 30 s</span></figcaption></figure>
+      <figure class="reel reel--down reveal"><div class="reel__media curtain"><div class="ph b"></div></div><figcaption><b>Rutina de skincare</b><span>Belleza · 45 s</span></figcaption></figure>
+      <figure class="reel reveal"><div class="reel__media curtain"><div class="ph c"></div></div><figcaption><b>Reseña honesta</b><span>Lifestyle · 20 s</span></figcaption></figure>
+      <figure class="reel reel--down reveal"><div class="reel__media curtain"><div class="ph"></div></div><figcaption><b>Anuncio para Meta</b><span>Moda · 15 s</span></figcaption></figure>
+    </div>
+  </section>
+
+  <!-- MARCAS -->
+  <section class="brands" id="marcas">
+    <p class="eyebrow reveal sm">Marcas</p>
+    <h2 class="section-title reveal">Marcas con las que <em>he colaborado</em></h2>
+    <ul class="brands__grid"><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.59"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Bershka" style="--src:url(media/marcas/bershka-1.svg);--r:4.20"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Chanel" style="--src:url(media/marcas/chanel-2.svg);--r:1.51"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="DJI" style="--src:url(media/marcas/dji-1.svg);--r:1.74"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:4.20"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:4.20"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Pull&Bear" style="--src:url(media/marcas/pull-bear-2.svg);--r:4.20"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.75"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Shein" style="--src:url(media/marcas/shein.svg);--r:4.20"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Spotify" style="--src:url(media/marcas/spotify-logo.svg);--r:3.33"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Versace" style="--src:url(media/marcas/versace.svg);--r:4.20"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Vichy" style="--src:url(media/marcas/vichy-laboratoires.svg);--r:1.00"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Vogue" style="--src:url(media/marcas/vogue.svg);--r:3.85"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.20"></span></li><li class="brand reveal sm"><span class="brand__logo" role="img" aria-label="Zoah" style="--src:url(media/marcas/zoah-1.svg);--r:3.29"></span></li></ul>
+  </section>
+
+  <!-- NICHOS -->
+  <section class="niches" id="nichos">
+    <div class="niches__inner">
+      <p class="eyebrow reveal sm">Nichos</p>
+      <ol class="niche-list">
+        <li class="reveal"><span class="niche-num">01</span><span class="niche-name">Moda</span><span class="niche-desc">Hauls, outfits y prendas en movimiento</span></li>
+        <li class="reveal"><span class="niche-num">02</span><span class="niche-name"><em>Belleza</em></span><span class="niche-desc">Maquillaje, skincare y antes y después</span></li>
+        <li class="reveal"><span class="niche-num">03</span><span class="niche-name">Lifestyle</span><span class="niche-desc">Producto en la vida diaria, en casa o de viaje</span></li>
+        <li class="reveal"><span class="niche-num">04</span><span class="niche-name"><em>Bienestar</em></span><span class="niche-desc">Rutinas, suplementos y autocuidado</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CTA a mitad de página -->
+  <section class="cta-band">
+    <p class="cta-band__title reveal">¿Tienes un producto <em>que contar</em>?</p>
+    <div class="cta-band__actions reveal sm">
+      <a class="c-btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+      <a class="c-btn" href="#contacto">Ver contacto</a>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="quotes" id="testimonios">
+    <p class="eyebrow reveal sm">Testimonios</p>
+    <h2 class="section-title reveal">Lo que dicen <em>las marcas</em></h2>
+    <div class="quotes__list">
+      <figure class="quote reveal"><blockquote>“Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio”</blockquote><figcaption>Marca de moda</figcaption></figure>
+      <figure class="quote reveal"><blockquote>“Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta”</blockquote><figcaption>Marca de belleza</figcaption></figure>
+      <figure class="quote reveal"><blockquote>“Entendió el producto a la primera y lo contó como alguien que de verdad lo usa”</blockquote><figcaption>Marca de lifestyle</figcaption></figure>
     </div>
   </section>
 

@@ -21,6 +21,9 @@
 ## Portafolios UGC: hero sin CTAs
 - En los portafolios UGC **no** se ponen botones tipo "Ver mi trabajo" / "Contáctame" debajo del texto del hero. El hero lleva solo titular, párrafo corto y redes; el contacto vive en el navbar y en la sección final.
 
+## Portafolios UGC: secciones obligatorias
+- Toda plantilla UGC, aunque la referencia no las traiga, lleva: hero con números (seguidores, marcas, videos), **Mi trabajo** (piezas en formato reel/foto), **Marcas con las que he colaborado** (con logotipos de `public/ugc-v2/media/marcas/`), **Nichos**, **Sobre mí**, **Testimonios**, un **CTA a mitad de página** (WhatsApp) y **contacto con botones** (WhatsApp, copiar correo) unido al footer.
+
 ## Portafolios UGC: contacto sin formularios
 - **NUNCA** poner formularios en la sección de contacto. Solo datos de contacto (correo, WhatsApp, redes) y botones directos (WhatsApp, copiar correo).
 
