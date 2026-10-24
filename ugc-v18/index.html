@@ -36,6 +36,9 @@ body{background:var(--clay);font-family:var(--sans);color:#333;font-size:15px;li
 h1,h2,h3,p{margin:0;font-weight:inherit}
 a{color:inherit;text-decoration:none}
 body.is-locked{overflow:hidden}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
 
 /* Fotos temporales: se cambian por <img> de Carolina */
 .ph{position:absolute;inset:0;background:linear-gradient(160deg,#cdb8a9,#8c7362 60%,#4a3b31)}
@@ -72,8 +75,16 @@ body.is-locked{overflow:hidden}
 .left-side.on-light{color:var(--ink-85)}
 .left-side div{transform:rotate(-90deg);white-space:nowrap;font-size:12px;letter-spacing:.02em}
 
+/* ===== Hero centrado en 3 filas ===== */
+.hero-center{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:min(1100px,92%);padding-top:40px}
+.hero-title{display:flex;flex-direction:column;align-items:center;font-family:var(--serif);font-weight:600;color:var(--yellow);line-height:.92;letter-spacing:-.03em}
+.hero-line{display:block;font-size:clamp(64px,10vw,168px);padding-bottom:.04em}
+.hero-line.is--alt{font-style:italic;font-weight:400;font-size:clamp(52px,8vw,136px)}
+.hero-sub{max-width:540px;margin-top:28px;color:#fff;font-size:17px;line-height:1.5}
+.hero-center .hero-stats{justify-content:center;text-align:center;margin-top:26px}
+.page-1 > .hero-right{position:absolute;right:4%;top:110px;z-index:4;margin:0;padding:0}
 /* ===== Hero ===== */
-.page-1{position:relative;height:100vh;height:100svh;min-height:640px;overflow:hidden;display:flex;justify-content:center}
+.page-1{position:relative;height:100vh;height:100svh;min-height:640px;overflow:hidden;display:flex;justify-content:center;align-items:center}
 .bg{position:absolute;inset:0;z-index:1;background:#000;overflow:hidden}
 .bg .photo{position:absolute;inset:0;transform:scale(1.3);transition:transform 2.4s cubic-bezier(.2,.7,.2,1);background:radial-gradient(120% 90% at 30% 20%,#6b5a4c 0%,#2a221c 55%,#0b0907 100%)}
 .bg .photo img{width:100%;height:100%;object-fit:cover}
@@ -145,15 +156,15 @@ body.is-locked{overflow:hidden}
 .credits p:not(.star){margin-bottom:6px;font-family:var(--serif);font-size:20px;line-height:1.3;color:var(--ink)}
 .contact{display:inline-block;margin:150px auto 0}
 .contact small{display:block;font-size:16px;color:rgba(36,35,16,.8)}
-.contact h3{margin-top:10px;font-family:var(--serif);font-weight:500;color:var(--orange);font-size:clamp(56px,8vw,112px);line-height:1.05;padding-bottom:.04em}
-.contact .line{height:4px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.7,0,.2,1)}
+.contact h3{margin-top:10px;font-family:var(--serif);font-weight:500;color:var(--ink);font-size:clamp(56px,8vw,112px);line-height:1.05;padding-bottom:.04em}
+.contact .line{height:4px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.7,0,.2,1)}
 .contact:hover .line{transform:scaleX(1)}
 .contact-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:40px}
 .c-btn{display:inline-flex;align-items:center;padding:14px 26px;border-radius:999px;border:1px solid var(--ink);font:500 15px var(--sans);color:var(--ink);background:transparent;cursor:pointer;transition:background-color .3s,color .3s}
 .c-btn:hover,.c-btn.is--solid{background:var(--ink);color:var(--clay)}
-.c-btn.is--solid:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.c-btn.is--solid:hover{background:transparent;color:var(--ink)}
 .social{display:flex;justify-content:space-between;align-items:center;gap:20px;width:min(460px,90%);margin:160px auto 0}
-.social a{font-size:16px;color:rgba(0,0,0,.8)}
+.social a{font-size:16px;color:var(--ink)}
 .footer-note{margin-top:60px;font-size:13px;color:rgba(36,35,16,.6)}
 
 
@@ -231,6 +242,10 @@ body.is-locked{overflow:hidden}
   .sections{display:none}
   .menu-btn{display:flex}
   .page-1{min-height:0}
+  .hero-line{font-size:17vw}
+  .hero-line.is--alt{font-size:13vw}
+  .hero-sub{font-size:15px;margin-top:20px}
+  .page-1 > .hero-right{display:none}
   .text-container{width:100%;margin-top:13vh;justify-content:center}
   .hero-left{width:100%;padding:0 6%}
   .header-big{font-size:21vw;text-align:center}
@@ -307,35 +322,24 @@ body.is-locked{overflow:hidden}
   </div>
 </div>
 
-<div class="left-side" aria-hidden="true"><div>Creadora de contenido UGC · Carolina</div></div>
+<div class="left-side" aria-hidden="true"><div>Carolina · contenido que se vive</div></div>
 
 <main>
   <!-- PÁGINA 1 -->
   <section class="page-1" id="inicio">
-    <div class="text-container">
-      <div class="hero-left">
-        <div class="header-top">
-          <h1 class="header-big reveal">Contenido</h1>
-          <p class="heading-small reveal">que se siente</p>
-        </div>
-        <div class="header-bottom">
-          <p class="header-big reveal" aria-hidden="true">real</p>
-          <div class="img-header">
-            <div class="img-container curtain"><img class="ph-img" src="media/pie.jpg" alt="Carolina de pie frente a las montañas" loading="lazy" style="object-position:50% 80%"></div>
-            <div class="header">
-              <p class="heading-smal-2 reveal">y vende</p>
-              <p class="paragraph-3 reveal sm">Videos y fotos UGC para marcas de moda, belleza y lifestyle</p>
-              <div class="hero-stats reveal sm"><div><b>+12K</b><span>seguidores</span></div><div><b>+35</b><span>marcas</span></div><div><b>+250</b><span>videos</span></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="hero-right">
-        <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram ↗</a>
-        <a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok ↗</a>
-      </div>
+    <div class="hero-center">
+      <h1 class="hero-title" aria-label="Lo grabo como lo vive tu cliente">
+        <span class="hero-line reveal">Lo grabo</span>
+        <span class="hero-line is--alt reveal">como lo vive</span>
+        <span class="hero-line reveal">tu cliente</span>
+      </h1>
+      <p class="hero-sub reveal sm">Videos verticales con alma de recomendación: pruebo tu producto, lo llevo conmigo y lo cuento como se lo contaría a mi mejor amiga</p>
+      <div class="hero-stats reveal sm"><div><b>+12K</b><span>seguidores</span></div><div><b>+35</b><span>marcas</span></div><div><b>+250</b><span>videos</span></div></div>
     </div>
-    <div class="marquee" aria-hidden="true"><div class="marquee-track" id="track"></div></div>
+    <div class="hero-right">
+      <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram ↗</a>
+      <a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok ↗</a>
+    </div>
     <div class="bg"><div class="photo"><picture><source media="(max-width: 767px)" srcset="media/bosque.jpg"><img src="media/hero.jpg" alt="" fetchpriority="high" style="object-position:55% 50%"></picture></div></div>
   </section>
 
@@ -406,7 +410,7 @@ body.is-locked{overflow:hidden}
   <section class="work" id="mi-trabajo">
     <div class="work__head">
       <p class="eyebrow reveal sm">Mi trabajo</p>
-      <h2 class="section-title reveal">Contenido <em>que se ve</em> y se queda</h2>
+      <h2 class="section-title reveal">Piezas que <em>nadie</em> salta</h2>
     </div>
     <div class="work__grid">
       <figure class="reel reveal"><div class="reel__media curtain"><img class="ph-img" src="media/brazos.jpg" alt="Pieza de contenido de Carolina" loading="lazy" style="object-position:50% 40%"></div><figcaption><b>Unboxing</b><span>Moda · 30 s</span></figcaption></figure>
@@ -438,7 +442,7 @@ body.is-locked{overflow:hidden}
 
   <!-- CTA a mitad de página -->
   <section class="cta-band">
-    <p class="cta-band__title reveal">¿Tienes un producto <em>que contar</em>?</p>
+    <p class="cta-band__title reveal">Tu producto merece <em>una buena historia</em></p>
     <div class="cta-band__actions reveal sm">
       <a class="c-btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
       <a class="c-btn" href="#contacto">Ver contacto</a>
@@ -460,13 +464,13 @@ body.is-locked{overflow:hidden}
   <section class="page-3" id="contacto">
     <div class="credits">
       <p class="star">✸</p>
-      <p class="reveal">Contenido para moda, belleza y lifestyle</p>
+      <p class="reveal">Grabado entre montañas, bosques y la vida diaria</p>
       <p class="reveal">Videos verticales · Fotos de producto · Anuncios</p>
-      <p class="reveal">Disponible en todo México</p>
+      <p class="reveal">Con la luz que tenga el día y el producto en mano</p>
     </div>
     <a class="contact" href="mailto:hola@carolinaugc.com">
-      <small>Para colaboraciones y campañas</small>
-      <h3>Escríbeme</h3>
+      <small>¿Tu próxima campaña empieza aquí?</small>
+      <h3>Cuéntame tu idea</h3>
       <div class="line"></div>
     </a>
     <div class="contact-buttons">
@@ -480,13 +484,16 @@ body.is-locked{overflow:hidden}
   </section>
 </main>
 
+<script src="js/lenis.min.js"></script>
 <script>
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Marquee
-$('#track').innerHTML = Array(12).fill('<div class="marquee-item">Disponible para nuevas campañas<span>✸</span></div>').join('');
+// Smooth scroll
+const lenis = reduce ? null : new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+if (lenis) requestAnimationFrame(function raf(t) { lenis.raf(t); requestAnimationFrame(raf); });
+
 
 // Sin loader: la página aparece de inmediato
 requestAnimationFrame(() => { document.body.classList.add('loaded'); startObserver(); });
@@ -515,6 +522,7 @@ const panel = $('#panel'), btn = $('.menu-btn');
 const setMenu = open => {
   panel.classList.toggle('is-open', open); panel.setAttribute('aria-hidden', !open);
   btn.setAttribute('aria-expanded', open); document.body.classList.toggle('is-locked', open);
+  open ? lenis?.stop() : lenis?.start();
 };
 btn.addEventListener('click', () => setMenu(true));
 $('.panel__close').addEventListener('click', () => setMenu(false));
@@ -523,7 +531,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 $$('a.go').forEach(a => a.addEventListener('click', e => {
   const t = a.getAttribute('href'); e.preventDefault(); setMenu(false);
   const el = t === '#inicio' ? document.body : $(t);
-  setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 250);
+  setTimeout(() => lenis ? lenis.scrollTo(t === '#inicio' ? 0 : el, { duration: 1.4 }) : el.scrollIntoView({ behavior: 'smooth' }), 250);
 }));
 
 // Copiar correo
