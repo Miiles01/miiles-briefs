@@ -25,10 +25,10 @@
 <style>
 /* 1. TOKENS · el tema (--bg, --fg, --brand, --line) lo anima GSAP: negro → rosa al pasar "Sobre mí" */
 :root{
-  --black:#0a0a0a;
+  --black:#000000;
   --pink:#f6c7d3;
   --pink-press:#d98aa0;
-  --bg:#0a0a0a;
+  --bg:#000000;
   --fg:#f4efe9;
   --brand:#f6c7d3;
   --line:#f4efe9;
@@ -61,7 +61,7 @@ img,video{display:block;max-width:100%}
 .is--hero picture,.hero_img{width:100%;height:100%}
 .hero_img{object-fit:cover;object-position:50% 30%}
 /* Capa sobre la foto: arriba el texto y los datos, abajo los botones y "Diana" gigante en modo diferencia */
-.hero_layer{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:4em 4.38em 1.6em;color:var(--black);pointer-events:none}
+.hero_layer{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:9em 4.38em 1.6em;color:var(--black);pointer-events:none}
 .hero_top{display:flex;justify-content:space-between;align-items:flex-start;gap:4em}
 .hero_intro{width:28em}
 .hero_intro p{font-size:1.5em;line-height:1.35}
@@ -79,7 +79,14 @@ img,video{display:block;max-width:100%}
 .hero_name{display:block;width:84%;height:auto;margin:0 auto;color:#fff;mix-blend-mode:difference;overflow:visible}  /* más chico y pegado abajo para no tapar la cara */
 
 /* 3. NAV sticky + logo que se encoge */
-.nav{position:sticky;top:0;z-index:1000;background:var(--bg);margin-top:-1px}
+/* Nav fijo arriba: transparente sobre el hero, con fondo al bajar; se oculta al hacer scroll hacia abajo y vuelve al subir */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--bg);transition:transform .5s var(--ease-quart),background-color .3s}
+.nav.is-hidden{transform:translateY(-100%)}
+.nav.is-top{background:transparent}
+.nav.is-top .nav_coords,.nav.is-top .nav_logo{color:var(--black)}
+.nav.is-top .burger span{background:var(--black)}
+@media (min-width:992px){ .nav.is-top .menu_link{color:var(--black)} .nav.is-top .menu_line{background:var(--black)} }
+body.menu-open .nav{transform:none}
 .nav .container{padding-top:0;padding-bottom:0}
 .nav_top{position:relative;z-index:1;width:100%;min-height:6em;padding:1.88em 0;display:flex;justify-content:space-between;align-items:center}
 .nav_logo-contain{position:absolute;inset:0;z-index:1;display:flex;justify-content:center;align-items:center;pointer-events:none}
@@ -260,7 +267,7 @@ img,video{display:block;max-width:100%}
   p{font-size:15px}
   h1{font-size:6.8em;line-height:1.02}
   h2{font-size:5.4em}
-  .hero_layer{justify-content:flex-end;gap:2.4em;padding:3em;color:#fff;background:linear-gradient(to bottom,rgba(10,10,10,0) 35%,rgba(10,10,10,.7))}
+  .hero_layer{justify-content:flex-end;gap:2.4em;padding:3em;color:#fff;background:linear-gradient(to bottom,rgba(0,0,0,0) 35%,rgba(0,0,0,.7))}
   .hero_top{flex-direction:column;gap:2em}
   .hero_intro{width:auto}
   .hero_intro p{font-size:1.8em}
@@ -271,6 +278,8 @@ img,video{display:block;max-width:100%}
   .hero_btn.is--solid{background:var(--pink);color:var(--black);border-color:var(--pink)}
   .nav_coords{display:none}
   .nav_logo-contain{justify-content:flex-start}
+  .nav.is-top .nav_logo{color:#fff}
+  .nav.is-top .burger span{background:#fff}
   .nav_logo{width:9em}
   .header_sub{font-size:1.8em}
   .sticky-circle_element{width:28em;height:28em;border-radius:28em}
@@ -659,7 +668,7 @@ if (!reduce) {
   /* A. "Diana" gigante sube y se agranda con el scroll; el logo pequeño del nav aparece cuando el hero sale */
   gsap.to('.hero_name', { yPercent: -18, scale: 1.06, transformOrigin: '50% 100%', ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: 'bottom top', scrub: 1 } });
   gsap.to('.hero_top', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '40% top', scrub: true } });
-  gsap.from('.nav_logo', { opacity: 0, y: 20, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: '70% top', end: 'bottom top', scrub: true } });
+
 
   /* B. Titular: cada línea baja y se oculta en su máscara (en móvil queda como título normal) */
   if (!isMobile) $$('.header_text-move').forEach(el => gsap.to(el, {
@@ -692,7 +701,7 @@ if (!reduce) {
 
 /* E. Cambio de tema: negro → rosa al pasar "Sobre mí" (vuelve a negro al subir) */
 gsap.timeline({ scrollTrigger: { trigger: '.is--frens', start: 'top bottom', end: 'bottom top', scrub: true } })
-  .to(root, { '--bg': '#f6c7d3', '--fg': '#0a0a0a', '--brand': '#0a0a0a', '--line': '#0a0a0a', /* mismo negro que --black */ duration: 0.18, ease: 'none' }, 0.62)
+  .to(root, { '--bg': '#f6c7d3', '--fg': '#000000', '--brand': '#000000', '--line': '#000000', /* mismo negro puro que --black */ duration: 0.18, ease: 'none' }, 0.62)
   .to({}, { duration: 0.2 }, 0.8);
 
 /* J. Galería Swiper + cursor "arrastra" */
@@ -768,6 +777,17 @@ if (matchMedia('(pointer: fine)').matches) $$('.plan-card').forEach(card => {
   card.addEventListener('mouseleave', () => { card.classList.remove('is-hovered'); rx(0); ry(0); hx(0); hy(0); fx(0); fy(0); bx(0); by(0); gsap.to([head, btn], { scale: 1, duration: 0.4, ease: 'power3.out' }); });
 });
 else $$('.plan-card').forEach(c => c.classList.add('is-hovered'));
+
+/* Nav: transparente sobre el hero; se oculta al bajar y aparece al subir */
+const navEl = $('.nav'), heroEl = $('.is--hero');
+let lastY = scrollY;
+const onNavScroll = () => {
+  const y = scrollY;
+  navEl.classList.toggle('is-top', y < heroEl.offsetHeight - navEl.offsetHeight);
+  if (Math.abs(y - lastY) > 6) { navEl.classList.toggle('is-hidden', y > lastY && y > 200 && !menuOpen); lastY = y; }
+};
+addEventListener('scroll', onNavScroll, { passive: true });
+onNavScroll();
 
 /* Botón de copiar correo */
 $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
