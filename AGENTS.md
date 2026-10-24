@@ -8,6 +8,9 @@
 ## No Textos en Pura Mayúscula
 - **NUNCA** utilices textos en mayúsculas sostenidas completas (evitar clases CSS `uppercase` o textos escritos en bloque mayúsculo). Usa siempre Sentence case (Capitalización natural) o Title case suave con tipografía limpia.
 
+## Títulos sin punto final
+- Los títulos y frases destacadas (h1, h2, titulares de hero) **no** llevan punto final.
+
 ## Cero Dividers / Sin Líneas Separadoras
 - **NUNCA** utilices dividers, elementos `<hr>`, líneas separadoras, `border-b` o `border-t` divisorios entre secciones o tarjetas.
 - El espacio en blanco limpio (`margin`, `padding`, `gap`) es el único separador de jerarquía permitido.
