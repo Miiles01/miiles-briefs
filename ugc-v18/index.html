@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carolina · Creadora de contenido UGC</title>
+<meta name="description" content="Carolina, creadora de contenido UGC para marcas de moda, belleza y lifestyle.">
+
+<!--
+  UGC V18 · Carolina. Estructura editorial basada en "Editorial — Em Design" (Webflow freebie), reescrita en JS simple:
+  loader con letras, hero con titular en serif amarillo sobre foto oscura, marquee, columnas con fotos que se
+  revelan con cortina, círculo que gira, créditos y contacto con subrayado. Fuentes libres: Fraunces + Manrope.
+  Las fotos son bloques temporales (.ph) hasta tener las de Carolina.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Manrope',system-ui,sans-serif;
+  --yellow:#fad200;
+  --ink:#242310;
+  --ink-85:rgba(36,35,16,.85);
+  --sand:#e8ddd7;
+  --clay:#dbc9bf;
+  --orange:#db5107;
+  --cream:#e8e4a9;
+  --white-90:rgba(255,255,255,.9);
+}
+*{box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html{background:var(--clay);overflow-x:clip}
+html,body{margin:0}
+body{background:var(--clay);font-family:var(--sans);color:#333;font-size:15px;line-height:1.5}
+h1,h2,h3,p{margin:0;font-weight:inherit}
+a{color:inherit;text-decoration:none}
+body.is-locked{overflow:hidden}
+
+/* Fotos temporales: se cambian por <img> de Carolina */
+.ph{position:absolute;inset:0;background:linear-gradient(160deg,#cdb8a9,#8c7362 60%,#4a3b31)}
+.ph.b{background:linear-gradient(200deg,#d9c6b4,#a48b78 55%,#5c4a3e)}
+.ph.c{background:linear-gradient(140deg,#efe2d6,#bba08c 60%,#6e5949)}
+.ph-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ===== Loader ===== */
+.loading{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;align-items:center;background:#000;transition:opacity .8s ease,visibility .8s}
+.loading.done{opacity:0;visibility:hidden}
+.loading h2{position:absolute;font-family:var(--serif);color:#fff;font-size:clamp(34px,4vw,64px);font-weight:500;line-height:1.1;padding:.1em 0}
+.loading .letter{display:inline-block;opacity:0;transform:translateX(40px)}
+.loading p{position:absolute;bottom:4%;width:80%;text-align:center;color:var(--white-90);font-size:12px;line-height:1.4}
+
+/* ===== Nav (sin fondo) ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;padding:0 4%;transition:transform .5s cubic-bezier(.2,.7,.2,1),color .4s}
+.nav.is-hidden{transform:translateY(-100%)}
+.nav-inner{display:flex;height:84px;justify-content:space-between;align-items:center;color:var(--white-90)}
+.nav.on-light .nav-inner{color:var(--ink)}
+.logo{font-family:var(--serif);font-weight:600;font-size:24px;line-height:1}
+.sections{display:flex;gap:26px}
+.sections a{font-size:14px;font-weight:500;position:relative}
+.sections a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.sections a:hover::after{transform:scaleX(1);transform-origin:left}
+.menu-btn{display:none;width:48px;height:48px;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:0;border:0;background:none;cursor:pointer}
+.menu-btn span{width:26px;height:2px;background:currentColor}
+
+/* Menú: panel a media pantalla con botón Cerrar */
+.panel{position:fixed;inset:0;z-index:40;visibility:hidden}
+.panel.is-open{visibility:visible}
+.panel__overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;transition:opacity .5s}
+.panel.is-open .panel__overlay{opacity:1}
+.panel__box{position:absolute;top:0;right:0;bottom:0;width:min(86vw,max(50vw,340px));background:var(--sand);color:var(--ink);padding:96px 32px 40px;display:flex;flex-direction:column;justify-content:center;gap:10px;transform:translateX(100%);transition:transform .7s cubic-bezier(.7,0,.2,1)}
+.panel.is-open .panel__box{transform:none}
+.panel__box a{font-family:var(--serif);font-size:44px;line-height:1.2}
+.panel__box a:hover{font-style:italic}
+.panel__close{position:absolute;top:22px;right:22px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:0;border-radius:999px;background:var(--ink);color:var(--sand);font:500 14px var(--sans);cursor:pointer}
+
+/* ===== Texto lateral vertical ===== */
+.left-side{position:fixed;left:1.4%;top:0;bottom:0;z-index:6;display:flex;width:40px;align-items:center;justify-content:center;pointer-events:none;transition:color .4s;color:var(--white-90)}
+.left-side.on-light{color:var(--ink-85)}
+.left-side div{transform:rotate(-90deg);white-space:nowrap;font-size:12px;letter-spacing:.02em}
+
+/* ===== Hero ===== */
+.page-1{position:relative;height:100vh;height:100svh;min-height:640px;overflow:hidden;display:flex;justify-content:center}
+.bg{position:absolute;inset:0;z-index:1;background:#000;overflow:hidden}
+.bg .photo{position:absolute;inset:0;transform:scale(1.3);transition:transform 2.4s cubic-bezier(.2,.7,.2,1);background:radial-gradient(120% 90% at 30% 20%,#6b5a4c 0%,#2a221c 55%,#0b0907 100%)}
+.bg .photo img{width:100%;height:100%;object-fit:cover}
+.loaded .bg .photo{transform:scale(1)}
+.bg::after{content:"";position:absolute;inset:0;background:#090909;opacity:.25}
+.text-container{position:relative;z-index:3;display:flex;align-items:flex-start;margin-top:15vh}
+.hero-left{display:flex;flex-direction:column;align-items:center}
+.header-top{display:flex;flex-direction:column;align-items:center}
+.header-big{font-family:var(--serif);font-weight:600;color:var(--yellow);font-size:clamp(84px,12.5vw,200px);line-height:.86;letter-spacing:-.03em;padding-bottom:.06em}
+.heading-small{margin:.2em 0 0 .4em;font-family:var(--serif);font-style:italic;font-weight:400;color:var(--yellow);font-size:clamp(44px,6vw,92px);line-height:.9;text-align:center}
+.header-bottom{position:relative;display:flex;flex-direction:column}
+.img-header{position:relative;display:flex;justify-content:flex-end;align-items:flex-start;width:min(62vw,920px);margin:24px auto 0}
+.img-container{position:absolute;left:0;top:0;width:clamp(200px,26vw,400px);aspect-ratio:8/9;overflow:hidden}
+.header{max-width:42%;padding-top:4px}
+.heading-smal-2{display:block;margin:0 0 40px auto;font-family:var(--serif);font-style:italic;font-weight:400;color:var(--yellow);font-size:clamp(44px,6vw,92px);line-height:.9;text-align:right}
+.paragraph-3{max-width:230px;margin-left:auto;color:#fff;font-size:15px;line-height:1.4;text-align:right}
+.hero-right{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-left:40px;padding-top:12px;font-weight:500;font-size:14px}
+.hero-right a{color:#fff;opacity:.9}
+.hero-right a:hover{opacity:1}
+
+/* ===== Marquee ===== */
+.marquee{position:absolute;bottom:12px;left:0;z-index:5;width:100%;height:36px;overflow:hidden;background:#000}
+.marquee-track{display:flex;width:max-content;height:36px;animation:marquee 30s linear infinite}
+.marquee-item{display:flex;align-items:center;margin:0 14px;color:#fff;white-space:nowrap;font-size:13px}
+.marquee-item span{margin-left:14px;color:var(--yellow)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ===== Página 2: columnas editoriales ===== */
+.page-2{background:var(--sand)}
+.columns{display:flex;width:100%}
+.col-left{position:relative;width:50%;display:flex;flex-direction:column}
+.col-right{position:relative;width:50%;display:flex;flex-direction:column;align-items:flex-end;padding:30vw 5% 0 0}
+.first-text-block{display:flex;flex-direction:column;align-items:flex-start;width:62%;margin:22vw auto 30vw 22%}
+.heading{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:clamp(48px,5vw,76px);line-height:1;padding-bottom:.06em}
+.p-wrap{margin-top:28px}
+.body-copy{font-size:17px;line-height:1.5;color:var(--ink-85)}
+.img-wrap-2{position:relative;height:clamp(380px,48vw,700px)}
+.img-block{position:absolute;bottom:0;overflow:hidden}
+.img-left-1{width:min(78%,550px);height:100%;margin-left:15%}
+.circle-texts{position:relative;margin:28vw 0}
+.second-text-block{position:relative;left:30%;z-index:2;width:66%}
+.title{font-family:var(--serif);font-weight:500;color:var(--ink);font-size:clamp(56px,6vw,96px);line-height:1;padding-bottom:.06em}
+.title em{font-weight:400}
+.row{display:flex;align-items:center;gap:.3em}
+.row-2{margin-left:.6em}
+.row-3{margin-left:1.2em}
+.side-note{display:flex;flex-direction:column;justify-content:center;margin-left:20px;max-width:220px}
+.side-note p{font-size:15px;line-height:1.4;color:var(--ink-85)}
+.circle-wrapper{position:relative;top:-60px;width:clamp(170px,16vw,240px);aspect-ratio:1;margin-left:18%}
+.circle{position:absolute;inset:0;border-radius:50%;background:#856655}
+.circle svg{position:absolute;inset:8%;width:84%;height:84%;animation:spin 18s linear infinite}
+.circle text{font:500 11.5px var(--sans);letter-spacing:.18em;fill:var(--cream)}
+.circle-link{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;text-align:center;color:var(--cream);font-family:var(--serif);font-style:italic;font-size:20px;line-height:1.1;z-index:2}
+@keyframes spin{to{transform:rotate(360deg)}}
+.img-wrap-5{position:relative;left:20%;width:72%;height:clamp(320px,34vw,500px);margin-bottom:24vw}
+.img-left-2{left:0;width:100%;height:100%}
+.images-row{position:relative;display:flex;flex-direction:column;align-items:center;width:90%}
+.img-wrap-1{position:relative;width:100%;height:clamp(460px,56vw,820px);margin:0 auto 34vw}
+.img-right-1{width:100%;height:100%}
+.right-pair{position:relative;display:flex;flex-direction:column;gap:80px;margin:0 8% 0 auto}
+.small-wrap{position:relative;width:clamp(220px,24vw,350px);aspect-ratio:1}
+.small-wrap .img-block{inset:0}
+.third-text-block{position:relative;width:72%;margin:16vw auto 18vw 14%}
+.third-text-block .group{display:flex;flex-direction:column;margin-bottom:22px}
+
+/* ===== Página 3: créditos + contacto ===== */
+.page-3{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100vh;padding:120px 8% 60px;background:var(--clay);text-align:center}
+.star{font-family:var(--serif);font-size:44px;line-height:1;color:var(--ink);margin-bottom:18px}
+.credits p:not(.star){margin-bottom:6px;font-family:var(--serif);font-size:20px;line-height:1.3;color:var(--ink)}
+.contact{display:inline-block;margin:150px auto 0}
+.contact small{display:block;font-size:16px;color:rgba(36,35,16,.8)}
+.contact h3{margin-top:10px;font-family:var(--serif);font-weight:500;color:var(--orange);font-size:clamp(56px,8vw,112px);line-height:1.05;padding-bottom:.04em}
+.contact .line{height:4px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.7,0,.2,1)}
+.contact:hover .line{transform:scaleX(1)}
+.contact-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:40px}
+.c-btn{display:inline-flex;align-items:center;padding:14px 26px;border-radius:999px;border:1px solid var(--ink);font:500 15px var(--sans);color:var(--ink);background:transparent;cursor:pointer;transition:background-color .3s,color .3s}
+.c-btn:hover,.c-btn.is--solid{background:var(--ink);color:var(--clay)}
+.c-btn.is--solid:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.social{display:flex;justify-content:space-between;align-items:center;gap:20px;width:min(460px,90%);margin:160px auto 0}
+.social a{font-size:16px;color:rgba(0,0,0,.8)}
+.footer-note{margin-top:60px;font-size:13px;color:rgba(36,35,16,.6)}
+
+/* ===== Aparición ===== */
+.reveal{opacity:0;transform:translateY(50px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.reveal.sm{transform:translateY(20px)}
+.reveal.in{opacity:1;transform:none}
+.curtain{clip-path:inset(50% 0 0 0);transition:clip-path 1.4s cubic-bezier(.7,0,.2,1)}
+.curtain.in{clip-path:inset(0 0 0 0)}
+
+/* ===== Tablet ===== */
+@media (max-width:991px){
+  .left-side{display:none}
+  .hero-right{display:none}
+  .first-text-block{width:76%;margin-left:14%}
+  .second-text-block{left:12%;width:84%}
+  .side-note{max-width:160px}
+}
+/* ===== Móvil ===== */
+@media (max-width:767px){
+  .sections{display:none}
+  .menu-btn{display:flex}
+  .page-1{min-height:0}
+  .text-container{width:100%;margin-top:13vh;justify-content:center}
+  .hero-left{width:100%;padding:0 6%}
+  .header-big{font-size:21vw;text-align:center}
+  .heading-small,.heading-smal-2{font-size:11vw;margin-left:0;text-align:center}
+  .img-header{flex-direction:column;align-items:center;width:100%;margin-top:18px}
+  .img-container{position:relative;width:62%;margin:18px auto 0}
+  .header{width:100%;max-width:none;order:-1;margin:0}
+  .heading-smal-2{margin:0 auto 14px}
+  .paragraph-3{max-width:none;text-align:center;margin:0 auto}
+  .marquee-track{animation-duration:18s}
+  .columns{flex-direction:column}
+  .col-left,.col-right{width:100%;padding:0 6%}
+  .first-text-block{width:100%;margin:22vh 0 100px}
+  .heading{font-size:15vw}
+  .body-copy{font-size:16px}
+  .img-wrap-2{height:120vw}
+  .img-left-1{width:100%;margin-left:0}
+  .circle-texts{margin:120px 0}
+  .second-text-block{left:0;width:100%}
+  .title{font-size:16vw}
+  .row-2{flex-wrap:wrap;margin-left:.3em}
+  .side-note{max-width:none;margin:12px 0 0;width:100%}
+  .row-3{margin-left:.6em}
+  .circle-wrapper{top:0;margin:40px 0 0 auto}
+  .img-wrap-5{left:0;width:100%;height:110vw;margin-bottom:100px}
+  .images-row{width:100%}
+  .img-wrap-1{height:130vw;margin-bottom:100px}
+  .right-pair{margin:0 auto;flex-direction:row;gap:12px;width:100%}
+  .small-wrap{width:50%}
+  .third-text-block{width:100%;margin:100px 0}
+  .page-3{padding:100px 6% 50px}
+  .contact{margin-top:100px}
+  .contact small{font-size:14px}
+  .social{margin-top:100px}
+  .social a{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.curtain{opacity:1;transform:none;clip-path:none}}
+</style>
+</head>
+<body class="is-locked">
+
+<div class="loading" id="loading" aria-hidden="true">
+  <h2 id="l1">Carolina</h2>
+  <h2 id="l2">Contenido UGC</h2>
+  <p>Moda, belleza y lifestyle</p>
+</div>
+
+<nav class="nav" aria-label="Principal">
+  <div class="nav-inner">
+    <a href="#inicio" class="logo go">Carolina</a>
+    <div class="sections">
+      <a href="#trabajo" class="go">Trabajo</a><a href="#sobre-mi" class="go">Sobre mí</a><a href="#contacto" class="go">Contacto</a>
+    </div>
+    <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="panel"><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="panel" id="panel" aria-hidden="true">
+  <div class="panel__overlay"></div>
+  <div class="panel__box">
+    <button class="panel__close" aria-label="Cerrar menú">Cerrar <span aria-hidden="true">×</span></button>
+    <a href="#trabajo" class="go">Trabajo</a>
+    <a href="#sobre-mi" class="go">Sobre mí</a>
+    <a href="#contacto" class="go">Contacto</a>
+  </div>
+</div>
+
+<div class="left-side" aria-hidden="true"><div>Creadora de contenido UGC · Carolina</div></div>
+
+<main>
+  <!-- PÁGINA 1 -->
+  <section class="page-1" id="inicio">
+    <div class="text-container">
+      <div class="hero-left">
+        <div class="header-top">
+          <h1 class="header-big reveal">Contenido</h1>
+          <p class="heading-small reveal">que se siente</p>
+        </div>
+        <div class="header-bottom">
+          <p class="header-big reveal" aria-hidden="true">real</p>
+          <div class="img-header">
+            <div class="img-container curtain"><div class="ph"></div></div>
+            <div class="header">
+              <p class="heading-smal-2 reveal">y vende</p>
+              <p class="paragraph-3 reveal sm">Videos y fotos UGC para marcas de moda, belleza y lifestyle</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram ↗</a>
+        <a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok ↗</a>
+      </div>
+    </div>
+    <div class="marquee" aria-hidden="true"><div class="marquee-track" id="track"></div></div>
+    <div class="bg"><div class="photo"></div></div>
+  </section>
+
+  <!-- PÁGINA 2 -->
+  <section class="page-2" id="sobre-mi">
+    <div class="columns">
+      <div class="col-left">
+        <div class="first-text-block">
+          <h2 class="heading reveal">Hola,</h2>
+          <h2 class="heading reveal">soy Carolina</h2>
+          <div class="p-wrap">
+            <p class="body-copy reveal sm">Creo contenido que se siente como la recomendación de una amiga: cercano, honesto y pensado para que tu producto se vea en la vida diaria.</p>
+            <p class="body-copy reveal sm" style="margin-top:14px">Me encargo de todo: idea, guion, grabación y edición en formato vertical.</p>
+          </div>
+        </div>
+
+        <div class="img-wrap-2" id="trabajo">
+          <div class="img-block img-left-1 curtain"><div class="ph b"></div></div>
+        </div>
+
+        <div class="circle-texts">
+          <div class="second-text-block">
+            <div class="row reveal"><h2 class="title">Cada</h2><h2 class="title"><em>marca</em></h2></div>
+            <div class="row row-2 reveal">
+              <h2 class="title">tiene</h2>
+              <div class="side-note">
+                <p class="reveal sm">Unboxing, reseñas, tutoriales y anuncios listos para TikTok, Reels o Meta Ads</p>
+              </div>
+            </div>
+            <div class="row row-3 reveal"><h2 class="title">su <em>historia</em></h2></div>
+          </div>
+          <a class="circle-wrapper" href="#contacto" aria-label="Hablemos">
+            <div class="circle">
+              <svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="ring" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs><text><textPath href="#ring">Contenido UGC · Moda · Belleza · Lifestyle ·</textPath></text></svg>
+            </div>
+            <span class="circle-link go-circle">Hablemos ↓</span>
+          </a>
+        </div>
+
+        <div class="img-wrap-5">
+          <div class="img-block img-left-2 curtain"><div class="ph c"></div></div>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <div class="images-row">
+          <div class="img-wrap-1">
+            <div class="img-block img-right-1 curtain"><div class="ph"></div></div>
+          </div>
+          <div class="right-pair">
+            <div class="small-wrap"><div class="img-block curtain"><div class="ph b"></div></div></div>
+            <div class="small-wrap"><div class="img-block curtain"><div class="ph c"></div></div></div>
+          </div>
+        </div>
+        <div class="third-text-block">
+          <div class="group">
+            <p class="body-copy reveal sm">Pruebo cada producto antes de grabar, así lo que ves es lo que de verdad pienso.</p>
+          </div>
+          <div class="group">
+            <p class="body-copy reveal sm">Trabajo con marcas que quieren verse cercanas y vender sin parecer anuncio.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PÁGINA 3 -->
+  <section class="page-3" id="contacto">
+    <div class="credits">
+      <p class="star">✸</p>
+      <p class="reveal">Contenido para moda, belleza y lifestyle</p>
+      <p class="reveal">Videos verticales · Fotos de producto · Anuncios</p>
+      <p class="reveal">Disponible en todo México</p>
+    </div>
+    <a class="contact" href="mailto:hola@carolinaugc.com">
+      <small>Para colaboraciones y campañas</small>
+      <h3>Escríbeme</h3>
+      <div class="line"></div>
+    </a>
+    <div class="contact-buttons">
+      <a class="c-btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener">WhatsApp</a>
+      <button class="c-btn" type="button" data-copy="hola@carolinaugc.com"><span>Copiar correo</span></button>
+    </div>
+    <div class="social">
+      <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok ↗</a><a href="https://youtube.com/" target="_blank" rel="noopener">YouTube ↗</a>
+    </div>
+    <p class="footer-note">© 2026 Carolina · Plantilla UGC de We Are Miiles</p>
+  </section>
+</main>
+
+<script>
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Marquee
+$('#track').innerHTML = Array(12).fill('<div class="marquee-item">Disponible para nuevas campañas<span>✸</span></div>').join('');
+
+// Loader con letras
+function split(el){ el.innerHTML = el.textContent.replace(/\S/g,'<span class="letter">$&</span>'); return $$('.letter', el); }
+function play(letters, startDelay){
+  return Promise.all(letters.map((l,i)=>l.animate([
+    {opacity:0,transform:'translateX(40px)'},{opacity:1,transform:'translateX(0)',offset:.5},
+    {opacity:1,transform:'translateX(0)',offset:.6},{opacity:0,transform:'translateX(-40px)'}
+  ],{duration:2200,delay:startDelay+30*i,easing:'cubic-bezier(.19,1,.22,1)',fill:'forwards'}).finished));
+}
+const loading = $('#loading');
+function finish(){ loading.classList.add('done'); document.body.classList.add('loaded'); document.body.classList.remove('is-locked'); startObserver(); }
+if (reduce) finish();
+else document.fonts.ready.then(() => play(split($('#l1')), 300).then(() => play(split($('#l2')), 100)).then(finish));
+
+// Aparición al hacer scroll
+function startObserver(){
+  const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.15});
+  $$('.reveal,.curtain').forEach(el=>{
+    const grp = el.closest('.p-wrap,.group,.header,.side-note');
+    el.style.transitionDelay = (grp ? [...el.parentElement.children].indexOf(el) * 80 : 0) + 'ms';
+    io.observe(el);
+  });
+}
+
+// Nav: se oculta al bajar, vuelve al subir; cambia a texto oscuro sobre fondos claros
+const nav = $('.nav'), side = $('.left-side'), hero = $('.page-1');
+let lastY = scrollY;
+addEventListener('scroll', () => {
+  const y = scrollY, light = y > hero.offsetHeight - 60;
+  nav.classList.toggle('on-light', light); side.classList.toggle('on-light', light);
+  if (Math.abs(y - lastY) > 6) { nav.classList.toggle('is-hidden', y > lastY && y > 160 && !panel.classList.contains('is-open')); lastY = y; }
+}, { passive: true });
+
+// Menú lateral a media pantalla
+const panel = $('#panel'), btn = $('.menu-btn');
+const setMenu = open => {
+  panel.classList.toggle('is-open', open); panel.setAttribute('aria-hidden', !open);
+  btn.setAttribute('aria-expanded', open); document.body.classList.toggle('is-locked', open);
+};
+btn.addEventListener('click', () => setMenu(true));
+$('.panel__close').addEventListener('click', () => setMenu(false));
+$('.panel__overlay').addEventListener('click', () => setMenu(false));
+addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+$$('a.go').forEach(a => a.addEventListener('click', e => {
+  const t = a.getAttribute('href'); e.preventDefault(); setMenu(false);
+  const el = t === '#inicio' ? document.body : $(t);
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 250);
+}));
+
+// Copiar correo
+$$('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+  const label = $('span', b), txt = label.textContent;
+  try { await navigator.clipboard.writeText(b.dataset.copy); label.textContent = '¡Correo copiado!'; }
+  catch { location.href = 'mailto:' + b.dataset.copy; return; }
+  setTimeout(() => { label.textContent = txt; }, 1800);
+}));
+</script>
+</body>
+</html>
