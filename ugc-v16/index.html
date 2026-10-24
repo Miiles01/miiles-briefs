@@ -89,8 +89,8 @@ img,video{display:block;max-width:100%}
 body.menu-open .nav{transform:none}
 .nav .container{padding-top:0;padding-bottom:0}
 .nav_top{position:relative;z-index:1;width:100%;min-height:6em;padding:1.88em 0;display:flex;justify-content:space-between;align-items:center}
-.nav_logo-contain{position:absolute;inset:0;z-index:1;display:flex;justify-content:center;align-items:center;pointer-events:none}
-.nav_logo{position:absolute;width:10em;max-width:100%;color:var(--brand);pointer-events:auto}
+.nav_logo-contain{position:absolute;inset:0;z-index:1;display:flex;justify-content:flex-start;align-items:center;pointer-events:none}
+.nav_logo{position:absolute;left:0;width:10em;max-width:100%;color:var(--brand);pointer-events:auto}
 .nav_logo svg{display:block;width:100%;height:auto;overflow:visible}
 .nav_coords{position:relative;z-index:2;color:var(--brand)}
 .menu{position:relative;z-index:2;display:flex;align-items:center;margin-left:auto}
@@ -364,7 +364,7 @@ body.menu-open .nav{transform:none}
         <div class="nav_logo-contain">
           <a href="#inicio" class="nav_logo go" aria-label="Diana, inicio">
             <svg viewBox="0 0 320 110" aria-hidden="true">
-              <text x="160" y="86" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="104" letter-spacing="-6" fill="currentColor">Diana</text>
+              <text x="2" y="86" text-anchor="start" font-family="Manrope, sans-serif" font-weight="600" font-size="104" letter-spacing="-6" fill="currentColor">Diana</text>
             </svg>
           </a>
         </div>
