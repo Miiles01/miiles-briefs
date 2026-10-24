@@ -8,9 +8,9 @@
 
 <!--
   UGC V18 · Carolina. Estructura editorial basada en "Editorial — Em Design" (Webflow freebie), reescrita en JS simple:
-  loader con letras, hero con titular en serif amarillo sobre foto oscura, marquee, columnas con fotos que se
+  hero con titular en serif amarillo sobre foto oscura, marquee, columnas con fotos que se
   revelan con cortina, círculo que gira, créditos y contacto con subrayado. Fuentes libres: Fraunces + Manrope.
-  Las fotos son bloques temporales (.ph) hasta tener las de Carolina.
+  Fotos de Carolina en media/.
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,13 +42,6 @@ body.is-locked{overflow:hidden}
 .ph.b{background:linear-gradient(200deg,#d9c6b4,#a48b78 55%,#5c4a3e)}
 .ph.c{background:linear-gradient(140deg,#efe2d6,#bba08c 60%,#6e5949)}
 .ph-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-
-/* ===== Loader ===== */
-.loading{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;align-items:center;background:#000;transition:opacity .8s ease,visibility .8s}
-.loading.done{opacity:0;visibility:hidden}
-.loading h2{position:absolute;font-family:var(--serif);color:#fff;font-size:clamp(34px,4vw,64px);font-weight:500;line-height:1.1;padding:.1em 0}
-.loading .letter{display:inline-block;opacity:0;transform:translateX(40px)}
-.loading p{position:absolute;bottom:4%;width:80%;text-align:center;color:var(--white-90);font-size:12px;line-height:1.4}
 
 /* ===== Nav (sin fondo) ===== */
 .nav{position:fixed;top:0;left:0;right:0;z-index:20;padding:0 4%;transition:transform .5s cubic-bezier(.2,.7,.2,1),color .4s}
@@ -85,7 +78,7 @@ body.is-locked{overflow:hidden}
 .bg .photo{position:absolute;inset:0;transform:scale(1.3);transition:transform 2.4s cubic-bezier(.2,.7,.2,1);background:radial-gradient(120% 90% at 30% 20%,#6b5a4c 0%,#2a221c 55%,#0b0907 100%)}
 .bg .photo img{width:100%;height:100%;object-fit:cover}
 .loaded .bg .photo{transform:scale(1)}
-.bg::after{content:"";position:absolute;inset:0;background:#090909;opacity:.25}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,9,.55),rgba(9,9,9,.35) 45%,rgba(9,9,9,.6))}  /* oscurece la foto para que el titular amarillo se lea */
 .text-container{position:relative;z-index:3;display:flex;align-items:flex-start;margin-top:15vh}
 .hero-left{display:flex;flex-direction:column;align-items:center}
 .header-top{display:flex;flex-direction:column;align-items:center}
@@ -290,13 +283,7 @@ body.is-locked{overflow:hidden}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.curtain{opacity:1;transform:none;clip-path:none}}
 </style>
 </head>
-<body class="is-locked">
-
-<div class="loading" id="loading" aria-hidden="true">
-  <h2 id="l1">Carolina</h2>
-  <h2 id="l2">Contenido UGC</h2>
-  <p>Moda, belleza y lifestyle</p>
-</div>
+<body>
 
 <nav class="nav" aria-label="Principal">
   <div class="nav-inner">
@@ -334,7 +321,7 @@ body.is-locked{overflow:hidden}
         <div class="header-bottom">
           <p class="header-big reveal" aria-hidden="true">real</p>
           <div class="img-header">
-            <div class="img-container curtain"><div class="ph"></div></div>
+            <div class="img-container curtain"><img class="ph-img" src="media/pie.jpg" alt="Carolina de pie frente a las montañas" loading="lazy" style="object-position:50% 80%"></div>
             <div class="header">
               <p class="heading-smal-2 reveal">y vende</p>
               <p class="paragraph-3 reveal sm">Videos y fotos UGC para marcas de moda, belleza y lifestyle</p>
@@ -349,7 +336,7 @@ body.is-locked{overflow:hidden}
       </div>
     </div>
     <div class="marquee" aria-hidden="true"><div class="marquee-track" id="track"></div></div>
-    <div class="bg"><div class="photo"></div></div>
+    <div class="bg"><div class="photo"><picture><source media="(max-width: 767px)" srcset="media/bosque.jpg"><img src="media/hero.jpg" alt="" fetchpriority="high" style="object-position:55% 50%"></picture></div></div>
   </section>
 
   <!-- PÁGINA 2 -->
@@ -366,7 +353,7 @@ body.is-locked{overflow:hidden}
         </div>
 
         <div class="img-wrap-2" id="trabajo">
-          <div class="img-block img-left-1 curtain"><div class="ph b"></div></div>
+          <div class="img-block img-left-1 curtain"><img class="ph-img" src="media/brazos.jpg" alt="Carolina con los brazos arriba en el valle" loading="lazy" style="object-position:50% 40%"></div>
         </div>
 
         <div class="circle-texts">
@@ -389,18 +376,18 @@ body.is-locked{overflow:hidden}
         </div>
 
         <div class="img-wrap-5">
-          <div class="img-block img-left-2 curtain"><div class="ph c"></div></div>
+          <div class="img-block img-left-2 curtain"><img class="ph-img" src="media/pasto.jpg" alt="Carolina acostada en el pasto junto al mar" loading="lazy" style="object-position:50% 70%"></div>
         </div>
       </div>
 
       <div class="col-right">
         <div class="images-row">
           <div class="img-wrap-1">
-            <div class="img-block img-right-1 curtain"><div class="ph"></div></div>
+            <div class="img-block img-right-1 curtain"><img class="ph-img" src="media/bosque.jpg" alt="Carolina en el bosque mirando al cielo" loading="lazy" style="object-position:50% 50%"></div>
           </div>
           <div class="right-pair">
-            <div class="small-wrap"><div class="img-block curtain"><div class="ph b"></div></div></div>
-            <div class="small-wrap"><div class="img-block curtain"><div class="ph c"></div></div></div>
+            <div class="small-wrap"><div class="img-block curtain"><img class="ph-img" src="media/sq-roca.jpg" alt="Carolina sentada en una roca" loading="lazy" style="object-position:50% 40%"></div></div>
+            <div class="small-wrap"><div class="img-block curtain"><img class="ph-img" src="media/sq-pasto.jpg" alt="Carolina descansando entre flores" loading="lazy" style="object-position:50% 50%"></div></div>
           </div>
         </div>
         <div class="third-text-block">
@@ -422,10 +409,10 @@ body.is-locked{overflow:hidden}
       <h2 class="section-title reveal">Contenido <em>que se ve</em> y se queda</h2>
     </div>
     <div class="work__grid">
-      <figure class="reel reveal"><div class="reel__media curtain"><div class="ph"></div></div><figcaption><b>Unboxing</b><span>Moda · 30 s</span></figcaption></figure>
-      <figure class="reel reel--down reveal"><div class="reel__media curtain"><div class="ph b"></div></div><figcaption><b>Rutina de skincare</b><span>Belleza · 45 s</span></figcaption></figure>
-      <figure class="reel reveal"><div class="reel__media curtain"><div class="ph c"></div></div><figcaption><b>Reseña honesta</b><span>Lifestyle · 20 s</span></figcaption></figure>
-      <figure class="reel reel--down reveal"><div class="reel__media curtain"><div class="ph"></div></div><figcaption><b>Anuncio para Meta</b><span>Moda · 15 s</span></figcaption></figure>
+      <figure class="reel reveal"><div class="reel__media curtain"><img class="ph-img" src="media/brazos.jpg" alt="Pieza de contenido de Carolina" loading="lazy" style="object-position:50% 40%"></div><figcaption><b>Unboxing</b><span>Moda · 30 s</span></figcaption></figure>
+      <figure class="reel reel--down reveal"><div class="reel__media curtain"><img class="ph-img" src="media/pie.jpg" alt="Pieza de contenido de Carolina" loading="lazy" style="object-position:50% 60%"></div><figcaption><b>Rutina de skincare</b><span>Belleza · 45 s</span></figcaption></figure>
+      <figure class="reel reveal"><div class="reel__media curtain"><img class="ph-img" src="media/bosque.jpg" alt="Pieza de contenido de Carolina" loading="lazy" style="object-position:50% 40%"></div><figcaption><b>Reseña honesta</b><span>Lifestyle · 20 s</span></figcaption></figure>
+      <figure class="reel reel--down reveal"><div class="reel__media curtain"><img class="ph-img" src="media/pasto.jpg" alt="Pieza de contenido de Carolina" loading="lazy" style="object-position:50% 65%"></div><figcaption><b>Anuncio para Meta</b><span>Moda · 15 s</span></figcaption></figure>
     </div>
   </section>
 
@@ -501,18 +488,8 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 // Marquee
 $('#track').innerHTML = Array(12).fill('<div class="marquee-item">Disponible para nuevas campañas<span>✸</span></div>').join('');
 
-// Loader con letras
-function split(el){ el.innerHTML = el.textContent.replace(/\S/g,'<span class="letter">$&</span>'); return $$('.letter', el); }
-function play(letters, startDelay){
-  return Promise.all(letters.map((l,i)=>l.animate([
-    {opacity:0,transform:'translateX(40px)'},{opacity:1,transform:'translateX(0)',offset:.5},
-    {opacity:1,transform:'translateX(0)',offset:.6},{opacity:0,transform:'translateX(-40px)'}
-  ],{duration:2200,delay:startDelay+30*i,easing:'cubic-bezier(.19,1,.22,1)',fill:'forwards'}).finished));
-}
-const loading = $('#loading');
-function finish(){ loading.classList.add('done'); document.body.classList.add('loaded'); document.body.classList.remove('is-locked'); startObserver(); }
-if (reduce) finish();
-else document.fonts.ready.then(() => play(split($('#l1')), 300).then(() => play(split($('#l2')), 100)).then(finish));
+// Sin loader: la página aparece de inmediato
+requestAnimationFrame(() => { document.body.classList.add('loaded'); startObserver(); });
 
 // Aparición al hacer scroll
 function startObserver(){
