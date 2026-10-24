@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diana · Creadora de contenido UGC</title>
+<meta name="description" content="Diana, creadora de contenido UGC para marcas de belleza, skincare y lifestyle.">
+<meta property="og:title" content="Diana · Creadora de contenido UGC">
+<meta property="og:image" content="https://wearemiiles.com/ugc-v17/media/sonrie.jpg">
+
+<!--
+  UGC V17 · Diana en naranja. Mezcla de las versiones anteriores:
+  - Menú + slider con olas (tricks-menu-slider): ola que cae, links escalonados con número y preview, cursor DRAG
+  - Texto grande de "Sobre mí" (V12/V15), marcas en movimiento (V15), nichos en píldoras (V15),
+    círculo que crece (V15/V16), testimonios (V15), contacto con datos y botones (V16), "Diana" estirado en el footer (V15)
+  Escala fluida: body { font-size: 1vw } y todo en em.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fahkwang:ital,wght@0,500;0,600;1,500&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="js/splide.min.css">
+
+<style>
+:root{
+  --orange:#ff6a1f;
+  --orange-soft:#ff8a4c;
+  --blue:#1d3fd6;
+  --white:#ffffff;
+  --ease-out-sine:cubic-bezier(0.61,1,0.88,1);
+  --ease-out-quart:cubic-bezier(0.25,1,0.5,1);
+  --display:'Fahkwang',sans-serif;
+  --body:'Poppins',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--orange);overflow-x:clip}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{margin:0;background:var(--orange);color:var(--blue);font-family:var(--display);font-weight:600;font-size:1vw;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media (min-width:2000px){ body{font-size:20px} }
+h1,h2,h3,p{margin:0}
+a{color:inherit;text-decoration:none}
+img,video{display:block;max-width:100%}
+::selection{background:var(--blue);color:var(--white)}
+.container{width:100%;max-width:2000px;margin:0 auto;padding:0 4.06em}
+.section{position:relative}
+.label{font-family:var(--body);font-weight:500;font-size:1.15em;color:var(--white);margin-bottom:1em}
+.white{color:var(--white)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ===== Cursor (solo con mouse) ===== */
+.cursor{position:fixed;inset:0;z-index:1000;display:none;justify-content:center;align-items:center;pointer-events:none;opacity:0;transition:opacity .2s ease}
+@media (pointer:fine) and (min-width:992px){ .cursor{display:flex} body:hover .cursor{opacity:1} }
+.cursor.hide-cursor{opacity:0!important}
+.cursor__dot1{width:6px;height:6px;border-radius:50%;background:var(--blue);transition:opacity .35s ease,background-color .35s ease,height .35s ease,width .35s ease}
+.cursor__dot1.is--larger{width:8.23em;height:8.23em;background:var(--orange-soft)}
+.cursor__dot1.opacity-0{opacity:0}
+.cursor__dot2{position:absolute;display:flex;justify-content:center;align-items:center;overflow:hidden;width:52px;height:52px;border:2px solid var(--blue);border-radius:50%;color:transparent;transition:border-color .35s ease,height .35s ease,width .35s ease,background-color .35s ease,color .35s ease}
+.cursor__dot2.is--larger{width:8.23em;height:8.23em;background:var(--blue);color:var(--white)}
+.cursor__dot2.light-ring{width:6em;height:6em;border-color:var(--white)}
+.cursor__text{font-family:var(--body);font-size:1.1em;font-weight:500}
+.cursor__dot1,.cursor__dot2{will-change:transform}
+
+/* ===== Nav (sin fondo: logo y botón flotan) ===== */
+.nav{position:fixed;left:0;top:0;right:0;z-index:900;transition:transform .5s var(--ease-out-quart);pointer-events:none}
+.nav.is-hidden{transform:translateY(-130%)}
+.nav__bar{display:flex;justify-content:space-between;align-items:center;padding-top:1.65em;padding-bottom:1.65em}
+.nav__logo{pointer-events:auto;font-size:2em;letter-spacing:-.04em;color:var(--blue)}
+.trigger{pointer-events:auto;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;width:6em;height:6em;padding:0;background:none;border:0;cursor:pointer}
+.trigger__line{width:2.4em;height:.18em;margin:.25em 0;background:var(--blue);transition:transform .5s var(--ease-out-sine)}
+.trigger__circle{position:absolute;inset:0;border:.16em solid var(--blue);border-radius:50%;pointer-events:none;transition:transform .5s var(--ease-out-sine)}
+.trigger:hover .trigger__circle{transform:scale(.88)}
+
+/* ===== Menú: panel a media pantalla que cae con una ola, con botón Cerrar ===== */
+.menu{position:fixed;inset:0;z-index:950;display:none}
+.menu.is-visible{display:block}
+.menu__overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .5s}
+.menu.is-open .menu__overlay{opacity:1}
+.menu__panel{position:absolute;top:0;right:0;width:min(86vw,max(50vw,380px));height:100%}
+.background{position:absolute;left:0;top:0;right:0;z-index:1;display:flex;flex-direction:column;width:100%;height:101%;transform:translateY(-100%)}
+.background__fill{width:100%;height:100%;flex:0 0 100%;background:var(--blue)}
+.background__wave{display:block;width:100%;height:auto;margin-top:-1px;flex:0 0 auto}
+.background__wave path{fill:var(--blue)}
+.menu__content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;height:100%;padding:7em 4em 4em;color:var(--white);opacity:0}
+.menu__close{position:absolute;top:24px;right:24px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:0;border-radius:999px;background:var(--white);color:var(--blue);font:500 14px var(--body);cursor:pointer}
+.menu__links{display:flex;flex-direction:column;align-items:flex-start}
+.nav-link{position:relative;display:flex;align-items:center;margin:.3em 0}
+.nav-link.is--1{margin-left:6em}
+.nav-link.is--3{margin-left:3em}
+.nav-link:hover .nav-link__text{font-style:italic}
+.nav-link__line{width:0;height:.18em;background:var(--white);flex:0 0 auto;transition:width .5s var(--ease-out-quart)}
+.nav-link:hover .nav-link__line{width:3em;margin-right:.6em}
+.nav-link__contain{display:flex;align-items:flex-start}
+.nav-link__text{font-size:5em;font-weight:500;line-height:1.25;letter-spacing:-.04em;padding:0 .08em;white-space:nowrap}
+.nav-link__num{margin:.8em 0 0 .3em;font-family:var(--body);font-size:1.1em;line-height:1}
+.nav-link__img{position:absolute;top:50%;right:-2em;z-index:-1;width:12em;height:16em;margin-top:-8em;border-radius:.8em;object-fit:cover;opacity:0;transform:scale(.7) rotate(-4deg);transition:opacity .5s var(--ease-out-quart),transform .5s var(--ease-out-quart);pointer-events:none}
+.nav-link:hover .nav-link__img{opacity:.9;transform:scale(1) rotate(-4deg)}
+.menu__icon{width:3em;height:3em;margin-top:3em;transform:scale(0);color:var(--orange)}
+.sublinks{display:flex;flex-wrap:wrap;gap:.4em 2em;margin-top:2em}
+.sublink{position:relative;overflow:hidden;padding-bottom:.2em}
+.sublink__text{font-family:var(--body);font-weight:400;font-size:1.3em}
+.sublink__line{position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--orange);transform:translateX(-101%)}
+
+/* ===== Hero ===== */
+.hero{padding-top:12em;text-align:center}
+.hero__wrap{width:min(60em,92%);margin:0 auto}
+h1{font-size:5.6em;font-weight:600;line-height:1.02;letter-spacing:-.05em;text-wrap:balance}
+h1 em{font-weight:500;color:var(--white)}
+.hero__p{margin:1.4em auto 0;max-width:30em;font-family:var(--body);font-weight:400;font-size:1.3em;line-height:1.6;color:var(--white)}
+.hero__stats{display:flex;justify-content:center;gap:3.5em;margin-top:2.4em}
+.hero__stats b{display:block;font-size:2.6em;line-height:1;letter-spacing:-.04em}
+.hero__stats span{font-family:var(--body);font-weight:400;font-size:1em;color:var(--white)}
+
+/* ===== Slider con olas ===== */
+.slider{margin-top:5em;margin-bottom:8em}
+.slider__frame{position:relative;overflow:hidden}  /* recorta las piezas laterales al ancho de la pantalla */
+.splide__track{overflow:visible!important}
+.splide__slide{height:40vw;min-height:30em;padding:0 .52em}
+@media (min-width:2000px){ .splide__slide{height:800px} }
+.slide{position:relative;width:100%;height:100%;overflow:hidden;background:rgba(29,63,214,.15)}
+.slide img,.slide video{width:100%;height:100%;object-fit:cover}
+.slide__tag{position:absolute;left:1.2em;bottom:4.2em;padding:.5em 1em;border-radius:100vw;background:var(--white);color:var(--blue);font-family:var(--body);font-weight:500;font-size:1em}
+.splide__arrow,.splide__pagination{display:none}
+.splide :focus{outline:none}
+.slider__wave{position:absolute;left:0;top:0;right:0;z-index:2;margin-top:-.6vw;pointer-events:none}
+.slider__wave svg{display:block;width:100%;height:auto}
+.slider__wave svg path{fill:var(--orange)}
+.slider__wave.is--bottom{top:auto;bottom:0;margin-top:0;margin-bottom:-.6vw;transform:rotate(-180deg)}
+.controls{position:relative;z-index:4;display:flex;justify-content:center;align-items:center;margin-top:-1.8em}
+.control{position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;width:3.6em;height:3.6em;margin:0 .5em;border:2px solid var(--blue);border-radius:50%;color:var(--blue);background:var(--orange);cursor:pointer;-webkit-mask-image:-webkit-radial-gradient(center,white,black);transition:transform .2s ease,color .5s var(--ease-out-quart),background-color .2s var(--ease-out-quart)}
+.control:active{transform:scale(.9)}
+.control__fill{position:absolute;top:0;right:0;z-index:1;width:100%;height:100%;margin-top:-100%;margin-right:-100%;border-radius:50%;background:var(--blue);transition:transform .5s var(--ease-out-quart) .1s}
+.control:hover{color:var(--white);background-color:var(--blue);transition:transform .2s ease,color .5s var(--ease-out-quart),background-color .2s var(--ease-out-quart) .4s}
+.control:hover .control__fill{transform:translate(-100%,100%);transition-delay:0s}
+.control__arrow{position:relative;z-index:2;display:block;width:1.5em;height:1.3em}
+.control__arrow.is--flipped{transform:rotate(-180deg)}
+.control__arrow path{fill:currentColor}
+
+/* ===== Sobre mí: texto grande ===== */
+.about{padding:8em 0 6em;text-align:center}
+.about__text{max-width:22em;margin:0 auto;font-size:4em;font-weight:500;line-height:1.12;letter-spacing:-.035em;text-wrap:balance}
+.about__text em{color:var(--white);font-style:normal}
+.about__p{max-width:36em;margin:2em auto 0;font-family:var(--body);font-weight:400;font-size:1.3em;color:var(--white)}
+
+/* ===== Marcas en movimiento ===== */
+.brands{padding:6em 0;overflow:hidden}
+.brands__title{text-align:center;font-size:4.4em;font-weight:500;line-height:1.05;letter-spacing:-.04em;margin:0 1em .7em}
+.marquee{display:flex;width:max-content;animation:marquee 38s linear infinite}
+.marquee.is--rev{animation-direction:reverse;animation-duration:44s}
+.marquee__group{display:flex;flex:none}
+.marquee span{font-size:6em;font-weight:600;letter-spacing:-.04em;line-height:1.2;padding:0 .45em;white-space:nowrap}
+.marquee span:nth-child(even){color:var(--white);font-weight:500;font-style:italic}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ===== Nichos ===== */
+.niches{padding:4em 0 6em}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:.8em;max-width:80em;margin:0 auto}
+.pill{position:relative;padding:.5em 1.6em;border:2px solid var(--blue);border-radius:100vw;font-size:2.6em;font-weight:500;letter-spacing:-.03em;line-height:1.25;transition:background-color .35s,color .35s}
+.pill:hover{background:var(--blue);color:var(--white)}
+
+/* ===== Círculo que crece ===== */
+.circle-wrap{height:300vh}
+.circle-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center}
+.circle{position:relative;overflow:hidden;width:32em;height:32em;border-radius:32em;display:flex;justify-content:center;align-items:center}
+.circle img{flex:none;width:100vw;height:100vh;object-fit:cover;object-position:50% 45%}
+
+/* ===== Testimonios ===== */
+.quotes{padding:8em 0 4em}
+.quotes__title{text-align:center;font-size:4.4em;font-weight:500;line-height:1.05;letter-spacing:-.04em}
+.quotes__list{display:grid;grid-template-columns:repeat(3,1fr);gap:3em;margin-top:4em}
+.quote{margin:0;padding:2.4em;border-radius:1.6em;background:var(--blue);color:var(--white)}
+.quote blockquote{margin:0;font-size:2em;font-weight:500;line-height:1.3;letter-spacing:-.02em}
+.quote figcaption{margin-top:1.2em;font-family:var(--body);font-weight:400;color:var(--orange-soft)}
+
+/* ===== Contacto + footer ===== */
+.contact{padding:10em 0 3em;text-align:center}
+.contact__title{font-size:7em;font-weight:600;line-height:1;letter-spacing:-.05em}
+.contact__title em{color:var(--white);font-weight:500}
+.contact__lead{max-width:30em;margin:1.6em auto 0;font-family:var(--body);font-weight:400;font-size:1.3em;color:var(--white)}
+.contact__list{display:flex;flex-wrap:wrap;justify-content:center;gap:2em 4em;margin-top:4em}
+.contact__row{display:flex;flex-direction:column;gap:.2em}
+.contact__row span:first-child{font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--white)}
+.contact__row span:last-child{font-size:2.4em;font-weight:500;letter-spacing:-.03em;line-height:1.2;transition:opacity .3s}
+.contact__row:hover span:last-child{opacity:.65}
+.contact__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:1em;margin-top:4em}
+.btn{display:inline-flex;align-items:center;gap:.6em;padding:1em 2.2em;border:2px solid var(--blue);border-radius:100vw;background:transparent;color:var(--blue);font:500 1.2em var(--body);cursor:pointer;transition:background-color .35s,color .35s}
+.btn:hover,.btn.is--solid{background:var(--blue);color:var(--white)}
+.btn.is--solid:hover{background:var(--white);color:var(--blue);border-color:var(--white)}
+.footer__name{display:block;width:100%;height:auto;margin-top:8em;color:var(--blue);overflow:visible}
+.footer__bottom{display:flex;justify-content:space-between;margin-top:1.6em;font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--white)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(30px)}
+
+/* ===== Responsive ===== */
+@media (max-width:991px){
+  .container{padding:0 3em}
+  .quotes__list{grid-template-columns:1fr;max-width:56em;margin-left:auto;margin-right:auto}
+}
+@media (max-width:767px){
+  body{font-size:2.6vw}
+  .container{padding:0 5vw}
+  .nav__logo{font-size:2.6em}
+  .trigger{width:5.6em;height:5.6em}
+  .hero{padding-top:9em}
+  h1{font-size:5em}
+  .hero__p{font-size:1.6em}
+  .hero__stats{gap:2.4em}
+  .hero__stats span{font-size:1.3em}
+  /* Slider en móvil: una pieza grande al centro con las vecinas asomándose */
+  .slider{margin-bottom:9em}
+  .splide__slide{height:auto;min-height:0;aspect-ratio:9/15;padding:0 .7em}
+  .slide__tag{font-size:1.4em;bottom:3.4em}
+  .controls{margin-top:-1.4em;font-size:1.3em}
+  .about__text{font-size:3.4em}
+  .about__p{font-size:1.6em}
+  .brands__title,.quotes__title{font-size:4.2em}
+  .marquee span{font-size:5em}
+  .pill{font-size:2.2em}
+  .circle{width:26em;height:26em;border-radius:26em}
+  .quote blockquote{font-size:2.6em}
+  .quote figcaption{font-size:1.4em}
+  .contact__title{font-size:6em}
+  .contact__lead{font-size:1.6em}
+  .contact__list{flex-direction:column;gap:1.6em}
+  .contact__row span:first-child{font-size:1.4em}
+  .contact__row span:last-child{font-size:2.5em;overflow-wrap:anywhere}
+  .btn{font-size:1.6em}
+  .footer__bottom{flex-direction:column;align-items:center;gap:.3em;font-size:1.4em}
+  /* Menú en móvil */
+  .menu__content{padding:6em 2.4em 3em}
+  .nav-link__text{font-size:5.4em}
+  .nav-link.is--1{margin-left:3em}
+  .nav-link.is--3{margin-left:1.5em}
+  .nav-link__img{display:none}
+  .sublink__text{font-size:1.7em}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" aria-hidden="true">
+  <div class="cursor__dot1"></div>
+  <div class="cursor__dot2"><p class="cursor__text">Arrastra</p></div>
+</div>
+
+<!-- Nav -->
+<nav class="nav" aria-label="Principal">
+  <div class="container nav__bar">
+    <a href="#inicio" class="nav__logo go">Diana</a>
+    <button class="trigger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+      <span class="trigger__circle"></span>
+      <span class="trigger__line"></span>
+      <span class="trigger__line"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Menú a media pantalla -->
+<div class="menu" id="menu" aria-hidden="true">
+  <div class="menu__overlay"></div>
+  <div class="menu__panel">
+    <div class="background">
+      <div class="background__fill"></div>
+      <svg class="background__wave" viewBox="0 0 813 165" preserveAspectRatio="none"><path d="M0,0 H813 V0 C610,0 203,0 0,0 Z"/></svg>
+    </div>
+    <div class="menu__content">
+      <button class="menu__close" aria-label="Cerrar menú">Cerrar <span aria-hidden="true">×</span></button>
+      <div class="menu__links">
+        <a href="#trabajo" class="nav-link is--1 go"><img class="nav-link__img" src="media/w03.jpg" alt=""><span class="nav-link__line"></span><span class="nav-link__contain"><span class="nav-link__text">Trabajo</span><span class="nav-link__num">01</span></span></a>
+        <a href="#sobre-mi" class="nav-link is--2 go"><img class="nav-link__img" src="media/azul.jpg" alt=""><span class="nav-link__line"></span><span class="nav-link__contain"><span class="nav-link__text">Sobre mí</span><span class="nav-link__num">02</span></span></a>
+        <a href="#contacto" class="nav-link is--3 go"><img class="nav-link__img" src="media/recostada.jpg" alt=""><span class="nav-link__line"></span><span class="nav-link__contain"><span class="nav-link__text">Contacto</span><span class="nav-link__num">03</span></span></a>
+      </div>
+      <svg class="menu__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 4v32M4 20h32M8.7 8.7l22.6 22.6M31.3 8.7 8.7 31.3"/></svg>
+      <div class="sublinks">
+        <a href="https://instagram.com/" class="sublink" target="_blank" rel="noopener"><span class="sublink__text">Instagram</span><span class="sublink__line"></span></a>
+        <a href="https://tiktok.com/" class="sublink" target="_blank" rel="noopener"><span class="sublink__text">TikTok</span><span class="sublink__line"></span></a>
+        <a href="https://youtube.com/" class="sublink" target="_blank" rel="noopener"><span class="sublink__text">YouTube</span><span class="sublink__line"></span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <!-- Hero -->
+  <section class="section hero" id="inicio">
+    <div class="hero__wrap">
+      <h1>Hola, soy Diana y hago contenido <em>que se siente tuyo</em></h1>
+      <p class="hero__p">Videos y fotos UGC para marcas de belleza, skincare y lifestyle, listos para TikTok, Reels o anuncios.</p>
+      <div class="hero__stats">
+        <div><b>+10K</b><span>seguidores</span></div>
+        <div><b>+40</b><span>marcas</span></div>
+        <div><b>+300</b><span>videos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slider con olas -->
+  <section class="section slider" id="trabajo" aria-label="Mi trabajo">
+    <div class="slider__frame">
+    <div class="slider__wave"><svg viewBox="0 0 804 50.167" aria-hidden="true"><path d="M804,0v16.7c0,0-205,33.5-402,33.5C205,50.2,0,16.7,0,16.7V0H804z"/></svg></div>
+    <div class="splide" aria-label="Trabajos de Diana">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide"><div class="slide"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video><span class="slide__tag">Unboxing</span></div></li>
+          <li class="splide__slide"><div class="slide"><img src="media/sonrie.jpg" alt="Diana sonriendo" loading="lazy"><span class="slide__tag">Retrato</span></div></li>
+          <li class="splide__slide"><div class="slide"><video src="media/video-4.mp4" poster="media/poster-4.jpg" muted loop playsinline preload="none" aria-label="Video de skincare"></video><span class="slide__tag">Skincare</span></div></li>
+          <li class="splide__slide"><div class="slide"><img src="media/w03.jpg" alt="Sérum en la cara" loading="lazy"><span class="slide__tag">Tutorial</span></div></li>
+          <li class="splide__slide"><div class="slide"><img src="media/azul-beso.jpg" alt="Diana con fondo azul" loading="lazy"><span class="slide__tag">Lifestyle</span></div></li>
+          <li class="splide__slide"><div class="slide"><video src="media/video-2.mp4" poster="media/poster-2.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video><span class="slide__tag">Reseña</span></div></li>
+          <li class="splide__slide"><div class="slide"><img src="media/w08.jpg" alt="Crema en primer plano" loading="lazy"><span class="slide__tag">Producto</span></div></li>
+          <li class="splide__slide"><div class="slide"><video src="media/video-3.mp4" poster="media/poster-3.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video><span class="slide__tag">Anuncio</span></div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="slider__wave is--bottom"><svg viewBox="0 0 804 50.167" aria-hidden="true"><path d="M804,0v16.7c0,0-205,33.5-402,33.5C205,50.2,0,16.7,0,16.7V0H804z"/></svg></div>
+    </div>
+    <div class="controls">
+      <button class="control prev-splide" aria-label="Anterior"><span class="control__fill"></span><svg class="control__arrow" viewBox="0 0 24 18"><path d="M24,8H5.5c5-2.9,6.3-7.3,6.4-7.5L10,0C9.9,.2,8,6.2,0,8v2c8,1.8,9.9,7.8,10,8.1l1.9-.6c-.1-.2-1.4-4.6-6.4-7.5H24V8z"/></svg></button>
+      <button class="control next-splide" aria-label="Siguiente"><span class="control__fill"></span><svg class="control__arrow is--flipped" viewBox="0 0 24 18"><path d="M24,8H5.5c5-2.9,6.3-7.3,6.4-7.5L10,0C9.9,.2,8,6.2,0,8v2c8,1.8,9.9,7.8,10,8.1l1.9-.6c-.1-.2-1.4-4.6-6.4-7.5H24V8z"/></svg></button>
+    </div>
+  </section>
+
+  <!-- Sobre mí -->
+  <section class="section about" id="sobre-mi">
+    <div class="container">
+      <p class="label reveal">Sobre mí</p>
+      <p class="about__text reveal">Me encargo de todo: <em>idea, guion, grabación y edición</em> en formato vertical</p>
+      <p class="about__p reveal">Pruebo cada producto antes de grabar, así lo que ves es lo que de verdad pienso. Trabajo con marcas de belleza, skincare, moda y lifestyle.</p>
+    </div>
+  </section>
+
+  <!-- Marcas -->
+  <section class="section brands" id="marcas">
+    <p class="label reveal" style="text-align:center">Marcas</p>
+    <h2 class="brands__title reveal">Marcas con las que he colaborado</h2>
+    <div class="marquee" aria-hidden="true"><div class="marquee__group"><span>L'Oréal</span><span>Sephora</span><span>Garnier</span><span>Nyx</span><span>Rare Beauty</span><span>Cahre</span><span>Mango</span><span>Zara</span></div><div class="marquee__group"><span>L'Oréal</span><span>Sephora</span><span>Garnier</span><span>Nyx</span><span>Rare Beauty</span><span>Cahre</span><span>Mango</span><span>Zara</span></div></div>
+    <div class="marquee is--rev" aria-hidden="true"><div class="marquee__group"><span>Bershka</span><span>Cahre</span><span>Nyx</span><span>Garnier</span><span>Sephora</span><span>Rare Beauty</span><span>L'Oréal</span><span>Mango</span></div><div class="marquee__group"><span>Bershka</span><span>Cahre</span><span>Nyx</span><span>Garnier</span><span>Sephora</span><span>Rare Beauty</span><span>L'Oréal</span><span>Mango</span></div></div>
+    <p class="sr-only">L'Oréal, Sephora, Garnier, Nyx, Rare Beauty, Cahre, Mango, Zara, Bershka</p>
+  </section>
+
+  <!-- Nichos -->
+  <section class="section niches" id="nichos">
+    <div class="container">
+      <p class="label reveal" style="text-align:center">Nichos</p>
+      <div class="pills reveal">
+        <span class="pill">Unboxing</span><span class="pill">Skincare</span><span class="pill">Belleza</span><span class="pill">Moda</span><span class="pill">Lifestyle</span><span class="pill">Reseñas</span><span class="pill">Tutoriales</span><span class="pill">Anuncios</span><span class="pill">Foto de producto</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Círculo que crece -->
+  <section class="section circle-wrap" aria-label="Diana entre flores">
+    <div class="circle-sticky"><div class="circle"><img src="media/flores.jpg" alt="Diana acostada entre flores" loading="lazy"></div></div>
+  </section>
+
+  <!-- Testimonios -->
+  <section class="section quotes" id="testimonios">
+    <div class="container">
+      <p class="label reveal" style="text-align:center">Testimonios</p>
+      <h2 class="quotes__title reveal">Lo que dicen las marcas</h2>
+      <div class="quotes__list">
+        <figure class="quote reveal"><blockquote>“Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio”</blockquote><figcaption>Marca de skincare</figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta”</blockquote><figcaption>Marca de moda</figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Entendió el producto a la primera y lo contó como alguien que de verdad lo usa”</blockquote><figcaption>Marca de lifestyle</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section class="section contact" id="contacto">
+    <div class="container">
+      <p class="label reveal">Contacto</p>
+      <h2 class="contact__title reveal">Hagamos algo <em>juntas</em></h2>
+      <p class="contact__lead reveal">Cuéntame de tu marca y del producto que quieres mostrar. Te respondo en menos de 24 horas.</p>
+      <div class="contact__list reveal">
+        <a class="contact__row" href="mailto:hola@dianacreativa.com"><span>Correo</span><span>hola@dianacreativa.com</span></a>
+        <a class="contact__row" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span>WhatsApp</span><span>+52 55 0000 0000</span></a>
+        <a class="contact__row" href="https://instagram.com/" target="_blank" rel="noopener"><span>Instagram</span><span>@dianacreativa</span></a>
+      </div>
+      <div class="contact__actions reveal">
+        <a class="btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+        <button class="btn" type="button" data-copy="hola@dianacreativa.com"><span>Copiar correo</span></button>
+      </div>
+      <svg class="footer__name" viewBox="0 0 640 150" aria-hidden="true">
+        <text x="320" y="118" text-anchor="middle" font-family="Fahkwang, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="626" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
+      </svg>
+      <div class="footer__bottom"><span>© 2026 Diana</span><span>Plantilla UGC de We Are Miiles</span></div>
+    </div>
+  </section>
+</main>
+
+<script src="js/gsap.min.js"></script>
+<script src="js/ScrollTrigger.min.js"></script>
+<script src="js/lenis.min.js"></script>
+<script src="js/splide.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = matchMedia('(max-width: 767px)').matches;
+const finePointer = matchMedia('(pointer: fine) and (min-width: 992px)').matches;
+
+/* Smooth scroll */
+const lenis = reduce ? null : new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+if (lenis) { lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+const goTo = sel => {
+  const el = sel === '#inicio' ? 0 : $(sel);
+  if (el === null) return;
+  lenis ? lenis.scrollTo(el, { duration: 1.4, offset: sel === '#inicio' ? 0 : -20 }) : (el === 0 ? scrollTo({ top: 0, behavior: 'smooth' }) : el.scrollIntoView({ behavior: 'smooth' }));
+};
+
+/* 1) Slider: 3 por vista con el centro enfocado; en móvil 1 grande con las vecinas asomándose */
+const splide = new Splide('.splide', {
+  perPage: 3, perMove: 1, type: 'loop', focus: 'center', arrows: false, pagination: false, drag: true,
+  breakpoints: { 767: { perPage: 1, padding: '14%' } }
+}).mount();
+$('.next-splide').addEventListener('click', () => splide.go('>'));
+$('.prev-splide').addEventListener('click', () => splide.go('<'));
+// Solo se reproducen los videos de las piezas visibles
+const playVisible = () => $$('.splide__slide').forEach(s => {
+  const v = $('video', s); if (!v) return;
+  if (s.classList.contains('is-visible') && !reduce) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+});
+splide.on('moved visible hidden', playVisible); setTimeout(playVisible, 300);
+$$('video').forEach(v => { v.muted = true; });
+
+/* 2) Cursor: punto y anillo con distinto retraso (solo con mouse) */
+const cursor = $('.cursor'), dot1 = $('.cursor__dot1'), dot2 = $('.cursor__dot2'), cursorText = $('.cursor__text');
+if (finePointer) {
+  let mx = innerWidth / 2, my = innerHeight / 2;
+  const p1 = { x: mx, y: my }, p2 = { x: mx, y: my };
+  addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function loop() {
+    p1.x += (mx - p1.x) * 0.35; p1.y += (my - p1.y) * 0.35;
+    p2.x += (mx - p2.x) * 0.14; p2.y += (my - p2.y) * 0.14;
+    dot1.style.transform = `translate(${p1.x - innerWidth / 2}px, ${p1.y - innerHeight / 2}px)`;
+    dot2.style.transform = `translate(${p2.x - innerWidth / 2}px, ${p2.y - innerHeight / 2}px)`;
+    requestAnimationFrame(loop);
+  })();
+  const toggleLarge = on => { dot1.classList.toggle('is--larger', on); dot2.classList.toggle('is--larger', on); };
+  const trigger = $('.trigger');
+  [$('.splide__list'), trigger].forEach(el => {
+    el.addEventListener('mouseenter', () => toggleLarge(true));
+    el.addEventListener('mouseleave', () => toggleLarge(false));
+  });
+  trigger.addEventListener('mouseenter', () => { cursorText.textContent = 'Abrir'; });
+  trigger.addEventListener('mouseleave', () => { cursorText.textContent = 'Arrastra'; });
+  $$('.control').forEach(el => {
+    el.addEventListener('mouseenter', () => { dot1.classList.add('opacity-0'); dot2.classList.add('light-ring'); });
+    el.addEventListener('mouseleave', () => { dot1.classList.remove('opacity-0'); dot2.classList.remove('light-ring'); });
+  });
+}
+
+/* 3) Menú: el panel cae desde arriba con una ola, los textos aparecen después */
+const ease = { outSine: t => Math.sin(t * Math.PI / 2), outQuart: t => 1 - Math.pow(1 - t, 4) };
+function tween(from, to, dur, delay, easing, set) {
+  return new Promise(res => {
+    const start = performance.now() + delay;
+    (function frame(now) {
+      const t = Math.min(Math.max((now - start) / dur, 0), 1);
+      if (now >= start) set(from + (to - from) * easing(t));
+      t < 1 ? requestAnimationFrame(frame) : res();
+    })(performance.now());
+  });
+}
+const menu = $('.menu'), bg = $('.background'), wave = $('.background__wave path'), menuContent = $('.menu__content'), menuIcon = $('.menu__icon'), trigger = $('.trigger');
+const setWave = p => {
+  const local = p <= 0.5 ? p / 0.5 : (p - 0.5) / 0.5;
+  const d = Math.sin(local * Math.PI) * 165 * 0.9;
+  wave.setAttribute('d', `M0,0 H813 V0 C610,${d} 203,${d} 0,0 Z`);
+};
+let open = false, busy = false;
+async function toggleMenu(force, after) {
+  const next = force === undefined ? !open : force;
+  if (busy || next === open) { after?.(); return; }
+  busy = true; open = next;
+  trigger.setAttribute('aria-expanded', open); menu.setAttribute('aria-hidden', !open);
+  cursor.classList.toggle('hide-cursor', open);
+  if (open) {
+    lenis?.stop(); menu.classList.add('is-visible'); requestAnimationFrame(() => menu.classList.add('is-open'));
+    const a = tween(-100, 0, 700, 0, ease.outSine, v => bg.style.transform = `translateY(${v}%)`);
+    const b = tween(0, 0.5, 800, 0, ease.outSine, setWave);
+    tween(0, 1, 500, 300, ease.outQuart, v => menuIcon.style.transform = `scale(${v})`);
+    const c = tween(0, 1, 300, 400, t => t, v => menuContent.style.opacity = v);
+    await Promise.all([a, b, c]);
+  } else {
+    menu.classList.remove('is-open');
+    tween(1, 0, 200, 0, t => t, v => menuContent.style.opacity = v);
+    tween(1, 0, 500, 200, ease.outQuart, v => menuIcon.style.transform = `scale(${v})`);
+    const a = tween(0, -100, 700, 200, ease.outSine, v => bg.style.transform = `translateY(${v}%)`);
+    const b = tween(0.5, 1, 800, 200, ease.outSine, setWave);
+    await Promise.all([a, b]);
+    menu.classList.remove('is-visible'); setWave(0); lenis?.start();
+  }
+  busy = false; after?.();
+}
+trigger.addEventListener('click', () => toggleMenu());
+$('.menu__close').addEventListener('click', () => toggleMenu(false));
+$('.menu__overlay').addEventListener('click', () => toggleMenu(false));
+addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+$$('a.go').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  const sel = a.getAttribute('href');
+  open ? toggleMenu(false, () => goTo(sel)) : goTo(sel);
+}));
+
+/* 4) Sublinks: la línea entra por la izquierda y sale por la derecha */
+$$('.sublink').forEach(link => {
+  const line = $('.sublink__line', link);
+  link.addEventListener('mouseenter', () => { gsap.fromTo(line, { xPercent: -101 }, { xPercent: 0, duration: 0.5, ease: 'power3.out', overwrite: true }); });
+  link.addEventListener('mouseleave', () => { gsap.to(line, { xPercent: 101, duration: 0.5, ease: 'power3.out', overwrite: true }); });
+});
+
+/* Nav: se oculta al bajar y vuelve al subir */
+const nav = $('.nav'); let lastY = scrollY;
+addEventListener('scroll', () => {
+  const y = scrollY;
+  if (Math.abs(y - lastY) > 6) { nav.classList.toggle('is-hidden', y > lastY && y > 160 && !open); lastY = y; }
+}, { passive: true });
+
+if (!reduce) {
+  /* Reveal al entrar */
+  ScrollTrigger.batch('.reveal', { start: 'top 88%', once: true,
+    onEnter: els => gsap.to(els, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 }) });
+  /* Círculo que crece hasta llenar la pantalla */
+  const c = isMobile ? '26em' : '32em';
+  gsap.fromTo('.circle', { width: c, height: c, borderRadius: c },
+    { width: '100vw', height: '100vh', borderRadius: '0em', ease: 'none',
+      scrollTrigger: { trigger: '.circle-wrap', start: 'top top', end: 'bottom bottom', scrub: 0.4 } });
+  /* Entrada del hero */
+  gsap.from('.hero h1, .hero__p, .hero__stats', { y: 40, opacity: 0, duration: 1.1, ease: 'power3.out', stagger: 0.12, delay: 0.15 });
+  gsap.from('.slider', { y: 80, opacity: 0, duration: 1.3, ease: 'power3.out', delay: 0.35 });
+}
+
+/* Copiar correo */
+$$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+  const label = $('span', btn), txt = label.textContent;
+  try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = '¡Correo copiado!'; }
+  catch { location.href = 'mailto:' + btn.dataset.copy; return; }
+  setTimeout(() => { label.textContent = txt; }, 1800);
+}));
+
+addEventListener('load', () => ScrollTrigger.refresh());
+</script>
+</body>
+</html>
