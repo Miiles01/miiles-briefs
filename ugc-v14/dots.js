@@ -16,7 +16,6 @@
     const stats = kind === 'stats' ? JSON.parse(section.dataset.stats) : null;
     let w = 0, h = 0, dpr = 1, back, front, circles = [], tween, visible = false;
     const count = { p: reduce ? 1 : 0 };
-    const pointer = { x: -9999, y: -9999 };
 
     const layer = () => { const c = document.createElement('canvas'); c.width = w * dpr; c.height = h * dpr; const x = c.getContext('2d'); x.scale(dpr, dpr); return x; };
 
@@ -55,7 +54,7 @@
         });
       } else {
         // Desktop: dos columnas; el tamaño sale del dato más ancho para que nada se corte
-        const size = Math.min(...all.map(v => fit(c, v, 500, w * 0.36, h * 0.42)));
+        const size = Math.min(...all.map(v => fit(c, v, 500, w * 0.34, h * 0.36)));
         const lab = Math.max(18, size * 0.12);
         items.forEach((st, i) => {
           const cx = w * (i ? 0.73 : 0.27), y = h * 0.58;
@@ -93,7 +92,7 @@
 
     function build() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = section.clientWidth; h = section.clientHeight;
+      w = section.clientWidth; h = section.clientHeight; lastW = w; lastH = h;
       canvas.width = w * dpr; canvas.height = h * dpr;
       paintLayers();
       const cols = w < 768 ? 7 : 14;
@@ -115,11 +114,8 @@
       ctx.drawImage(back.canvas, 0, 0);
       ctx.save();
       ctx.beginPath();
-      const reach = Math.max(w, h) * 0.18;
       for (const c of circles) {
-        const d = Math.hypot(c.x - pointer.x, c.y - pointer.y);
-        const boost = d < reach ? 1 + (1 - d / reach) * 0.8 : 1;
-        const r = Math.min(c.r * c.s * boost, c.r * 2.2) * dpr;
+        const r = c.r * c.s * dpr;
         if (r > 0.3) { ctx.moveTo(c.x * dpr + r, c.y * dpr); ctx.arc(c.x * dpr, c.y * dpr, r, 0, Math.PI * 2); }
       }
       ctx.clip();
@@ -159,13 +155,16 @@
       });
     }
 
-    section.addEventListener('pointermove', e => {
-      const r = section.getBoundingClientRect();
-      pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top;
+    // En celular la barra del navegador cambia el alto al hacer scroll: solo se reconstruye
+    // si cambia el ancho o el alto de verdad, para que la ola no se reinicie a cada rato
+    let t, lastW = 0, lastH = 0;
+    addEventListener('resize', () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const nw = section.clientWidth, nh = section.clientHeight;
+        if (nw !== lastW || Math.abs(nh - lastH) > 160) build();
+      }, 200);
     });
-    section.addEventListener('pointerleave', () => { pointer.x = pointer.y = -9999; });
-
-    let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(build);
     build();
   }
