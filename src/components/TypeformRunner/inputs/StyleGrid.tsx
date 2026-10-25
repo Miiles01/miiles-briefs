@@ -14,6 +14,8 @@ export interface BrandStyle {
 }
 
 export const BRAND_STYLES: BrandStyle[] = [
+  // Advercase: archivo propio en public/fonts; mientras no esté, se ve con Fraunces
+  { id: 'organico', label: 'Orgánico', description: 'Suave y natural', fontFamily: "'Advercase', 'Fraunces', serif", fontWeight: 400 },
   { id: 'minimalista', label: 'Minimalista', description: 'Limpio y ligero', fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: '-0.04em' },
   { id: 'elegante', label: 'Elegante', description: 'Editorial y sofisticado', fontFamily: "'Playfair Display', serif", fontWeight: 400, fontStyle: 'italic' },
   { id: 'clasico', label: 'Clásico', description: 'Atemporal, de revista', fontFamily: "'Cormorant Garamond', serif", fontWeight: 500 },
@@ -25,7 +27,6 @@ export const BRAND_STYLES: BrandStyle[] = [
   { id: 'divertido', label: 'Divertido', description: 'Redondo y juguetón', fontFamily: "'Fredoka', sans-serif", fontWeight: 600 },
   { id: 'tech', label: 'Tech', description: 'Digital y preciso', fontFamily: "'Space Mono', monospace", fontWeight: 700 },
   { id: 'futurista', label: 'Futurista', description: 'Y2K, de otro planeta', fontFamily: "'Orbitron', sans-serif", fontWeight: 700 },
-  { id: 'organico', label: 'Orgánico', description: 'Suave y natural', fontFamily: "'Fraunces', serif", fontWeight: 300 },
 ];
 
 const FONTS_URL =
@@ -117,6 +118,10 @@ export const useBrandStyleFonts = () => {
     link.href = FONTS_URL;
     link.setAttribute('data-brand-style-fonts', '');
     document.head.appendChild(link);
+    const face = document.createElement('style');
+    face.textContent =
+      "@font-face{font-family:'Advercase';src:url('/fonts/Advercase.woff2') format('woff2'),url('/fonts/Advercase.otf') format('opentype');font-display:swap}";
+    document.head.appendChild(face);
   }, []);
 };
 
