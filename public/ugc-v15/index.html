@@ -395,7 +395,7 @@
   if (!reduce) {
     // A · Logo: arranca a todo el ancho pegado al borde de la foto y se encoge al centro del nav
     gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } })
-      .from('.nav_logo', { y: () => isMobile ? mobileLogoY() : '-100%', width: '100%', '--p': 1, duration: 1 });
+      .from('.nav_logo', { y: () => isMobile ? mobileLogoY() : '-100%', width: isMobile ? '100%' : '80%', '--p': 1, duration: 1 });
     // El texto del hero se desvanece al empezar a bajar, para que no choque con el nombre
     gsap.to('.hero_intro', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '35% top', scrub: true } });
 
@@ -455,9 +455,10 @@
   $$('video').forEach((v) => { v.muted = true; io.observe(v); });
 </script>
 <script>
-// "Diana" sin estirar: el viewBox toma el ancho natural del texto, así llena el espacio sin deformarse
+// "Diana" del footer sin estirar: el viewBox toma el ancho natural del texto. En el hero se queda
+// el viewBox original (más ancho que el texto) para que el nombre no tape la foto
 (() => {
-  const fit = () => document.querySelectorAll('.nav_logo svg, svg.footer_name').forEach(svg => {
+  const fit = () => document.querySelectorAll('svg.footer_name').forEach(svg => {
     const t = svg.querySelector('text'); if (!t) return;
     const b = t.getBBox(); if (!b.width) return;
     svg.setAttribute('viewBox', `${(b.x - 2).toFixed(1)} 0 ${(b.width + 4).toFixed(1)} 150`);
