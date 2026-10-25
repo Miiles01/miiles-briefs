@@ -132,13 +132,12 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
     <div class="narrow">
       <div class="script">Sobre mí</div>
       {''.join(f'<p>{e(p)}</p>' for p in d['about'])}
-      <a href="#contacto" class="button go"><span>Hablemos de tu marca</span><span class="button_line"></span></a>
     </div>
   </section>
 
   <section class="dots" data-dots="stats" data-stats='{e(json.dumps(d['stats'], ensure_ascii=False))}' aria-label="Estadísticas de la cuenta">
     <canvas class="dots__canvas" aria-hidden="true"></canvas>
-    <div class="dots__meta"><span>Mi cuenta en números</span><span>Pasa el cursor</span></div>
+    <div class="dots__meta"><span>Mi cuenta en números</span><span class="dots__page" aria-hidden="true">1 / 2</span></div>
     <ul class="sr-only">{''.join(f"<li>{e(x['value'])} {e(x['label'])}</li>" for x in d['stats'])}</ul>
   </section>
 
@@ -184,14 +183,10 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
     <div class="quotes__list">{''.join(f'<figure class="quote"><blockquote>“{e(q)}”</blockquote><figcaption>{e(a)}</figcaption></figure>' for q, a in d['quotes'])}</div>
   </section>
 
-  <section class="dots dots--cta" data-dots="cta" data-text="{e(d['cta_dots'])}">
-    <canvas class="dots__canvas" aria-hidden="true"></canvas>
-    <h2 class="sr-only">{e(d['cta_dots'].replace('|', ' '))}</h2>
-    <div class="dots__actions"><a class="pill pill--light" href="{d['whatsapp']}" target="_blank" rel="noopener">Escríbeme por WhatsApp</a></div>
-  </section>
 </main>
 
-<footer class="footer" id="contacto">
+<footer class="footer" id="contacto" data-dots="plain">
+  <canvas class="dots__canvas" aria-hidden="true"></canvas>
   <div class="footer-top">
     <div class="script">Hagamos algo juntas</div>
     <h2>Cuéntame de tu marca <span class="alt">y lo que necesitas</span></h2>
