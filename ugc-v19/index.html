@@ -49,7 +49,7 @@ html.lenis,html.lenis body{height:auto}
 .nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 4vw;transition:transform .5s var(--ease)}
 .nav.is-hidden{transform:translateY(-110%)}
 .logo{font-family:var(--serif);font-size:30px;line-height:1;color:var(--coral)}
-.menu{padding:6px;border-radius:999px;background:var(--lilac);box-shadow:0 12px 30px -16px rgba(167,53,45,.45)}
+.menu{padding:6px;border-radius:999px;background:var(--lilac)}
 .menu__wrap{display:flex}
 .menu__link{position:relative;display:block;padding:13px 22px;border-radius:999px;text-align:center}
 .menu__text{position:relative;z-index:2;font-size:14px;font-weight:500;line-height:1}
@@ -91,15 +91,16 @@ html.lenis,html.lenis body{height:auto}
 .slides.is-dragging{cursor:grabbing}
 .slides__list{display:flex;gap:2vw;width:max-content}
 .slide{position:relative;width:min(29vw,440px);flex:0 0 auto}
-.slide__h{position:relative;padding-top:128%;overflow:hidden;border-radius:4px}
-.slide__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none}
+.slide__h{position:relative;padding-top:128%}
+.slide__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:4px;pointer-events:none;user-select:none}
 .slide__cap{display:flex;justify-content:space-between;margin-top:12px;font-size:14px;color:var(--coral-deep)}
 
-.intro{position:absolute;top:0;left:0;right:0;height:100vh;height:100svh;display:none;align-items:center;justify-content:center;pointer-events:none;z-index:5}
+.intro{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:var(--lilac)}
 .has-intro .intro{display:flex}
-.intro__list{position:relative;width:min(360px,62vw,46vh);aspect-ratio:25/32}
+.intro__list{position:relative;width:min(600px,80vw);aspect-ratio:100/61}
+.is-flipping .slides{position:relative;z-index:45;overflow:visible}
 .intro__item{position:absolute;inset:0}
-.intro__img{position:absolute;left:0;right:0;bottom:0;width:100%;height:0;object-fit:cover}
+.intro__img{position:absolute;left:0;right:0;bottom:0;width:100%;height:0;object-fit:cover;border-radius:4px}
 .has-intro .slide__img{visibility:hidden}
 .has-intro .hero__head > *{opacity:0}
 
@@ -308,7 +309,7 @@ html.lenis,html.lenis body{height:auto}
   <header class="hero" id="inicio">
     <div class="intro" aria-hidden="true">
       <div class="intro__list">
-        <div class="intro__item"><img class="intro__img" src="media/brazos.jpg" alt="" style="object-position:50% 40%"></div>
+        <div class="intro__item"><img class="intro__img" src="media/brazos.jpg" alt="" style="object-position:50% 33%"></div>
         <div class="intro__item"><img class="intro__img" src="media/pie.jpg" alt="" style="object-position:50% 60%"></div>
         <div class="intro__item"><img class="intro__img" src="media/sq-roca.jpg" alt="" style="object-position:50% 40%"></div>
         <div class="intro__item"><img class="intro__img" src="media/bosque.jpg" alt="" style="object-position:50% 40%"></div>
@@ -531,19 +532,27 @@ else if (lenis) requestAnimationFrame(function raf(t) { lenis.raf(t); requestAni
 /* ---------- Intro: las fotos se apilan y vuelan a la fila del hero ---------- */
 if (ok && !reduce) {
   root.classList.add('has-intro');
+  history.scrollRestoration = 'manual'; scrollTo(0, 0);
+  lenis?.stop(); document.body.classList.add('is-locked');
   $$('.intro__img').forEach((img, i) => img.dataset.flipId = 'intro-' + i);
   $$('.slide__img').forEach((img, i) => img.dataset.flipId = 'intro-' + i);
   const imgs = $$('.intro__img');
-  Promise.all(imgs.map(img => img.decode ? img.decode().catch(() => {}) : null)).then(() => {
+  const unlock = () => { document.body.classList.remove('is-locked'); lenis?.start(); };
+  // Igual que la referencia: cada foto crece desde abajo y se apila; luego todas vuelan a la fila del hero
+  Promise.race([Promise.all(imgs.map(img => img.decode ? img.decode().catch(() => {}) : null)), new Promise(r => setTimeout(r, 2500))]).then(() => {
     gsap.timeline()
-      .to(imgs, { height: '100%', duration: .5, ease: 'power2.inOut', stagger: .2 })
+      .to(imgs, { height: '100%', duration: .5, ease: 'power2.inOut', stagger: .32 })
       .add(() => {
         const state = Flip.getState(imgs);
-        root.classList.remove('has-intro');
+        root.classList.add('is-flipping');
+        gsap.set(imgs, { visibility: 'hidden' });
+        gsap.set('.slide__img', { visibility: 'visible' });
         gsap.set('.hero__head > *', { opacity: 0 });
-        Flip.from(state, { targets: '.slide__img', duration: .9, ease: 'power2.inOut', stagger: { each: .08, from: 'end' }, absolute: true });
-        gsap.fromTo('.hero__head > *', { opacity: 0, scale: .85, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: 'power3.out', stagger: .08, delay: .55 });
-      }, '+=.15');
+        gsap.to('.intro', { opacity: 0, duration: .6, ease: 'power1.out', onComplete: () => root.classList.remove('has-intro') });
+        Flip.from(state, { targets: '.slide__img', duration: .9, ease: 'power2.inOut', stagger: { each: .14, from: 'end' }, absolute: true,
+          onComplete: () => { root.classList.remove('is-flipping'); gsap.set('.slide__img', { clearProps: 'all' }); unlock(); } });
+        gsap.fromTo('.hero__head > *', { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: 1, ease: 'power3.out', stagger: .08, delay: 1 });
+      }, '+=.2');
   });
 }
 
