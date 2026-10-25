@@ -392,11 +392,13 @@
     const fullH = document.querySelector('.nav_logo-contain').offsetWidth * 150 / 396;
     return introTop - 14 - fullH - (hero.offsetHeight + logo.offsetTop);
   };
+  // Ancho del nombre en el hero: tablet 88%, desktop un poco menos
+  const heroLogoW = () => innerWidth >= 1200 ? 0.76 : 0.88;
   if (!reduce) {
     // A · Logo: arranca a todo el ancho pegado al borde de la foto y se encoge al centro del nav
     gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } })
       // En el hero el nombre va grande y pegado a la izquierda; al bajar se encoge y se centra en el nav
-      .from('.nav_logo', { y: () => isMobile ? mobileLogoY() : '-100%', x: () => isMobile ? 0 : -document.querySelector('.nav_logo-contain').offsetWidth * 0.06, width: isMobile ? '100%' : '88%', '--p': 1, duration: 1 });
+      .from('.nav_logo', { y: () => isMobile ? mobileLogoY() : '-100%', x: () => isMobile ? 0 : -document.querySelector('.nav_logo-contain').offsetWidth * (1 - heroLogoW()) / 2, width: () => isMobile ? '100%' : heroLogoW() * 100 + '%', '--p': 1, duration: 1 });
     // El texto del hero se desvanece al empezar a bajar, para que no choque con el nombre
     gsap.to('.hero_intro', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '35% top', scrub: true } });
 
