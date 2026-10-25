@@ -122,7 +122,7 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 .brands { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 34px; margin-top: 40px; font-weight: 400; letter-spacing: -0.02em; font-size: clamp(22px, 2.2vw, 30px); }
 .brands li:nth-child(even) { font-weight: 300; }
 
-.quotes { text-align: center; background: var(--bg-2); }
+.quotes { text-align: center; background: var(--bg); }
 .quotes__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 48px); max-width: 1200px; margin: 64px auto 0; text-align: left; }
 .quote blockquote { font-weight: 400; letter-spacing: -0.01em; font-size: clamp(20px, 1.8vw, 25px); line-height: 1.4; }
 .quote figcaption { margin-top: 18px; color: #fff; font-size: 14px; }
