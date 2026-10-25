@@ -81,10 +81,11 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 .image-frame { overflow: hidden; aspect-ratio: 2 / 3; }
 .image-inner { will-change: transform; }
 
-.narrow { max-width: 640px; margin: 0 auto; text-align: center; }
-.narrow p { margin-top: 18px; color: var(--muted); font-size: 17px; }
+.narrow { max-width: 980px; margin: 0 auto; text-align: center; }
+.narrow p { margin-top: 0.9em; color: var(--ink); font-size: clamp(20px, 2.4vw, 34px); line-height: 1.6; letter-spacing: -0.01em; }
+.narrow .lw { display: inline; }
 
-.button { position: relative; overflow: hidden; display: inline-block; margin-top: 40px; font-weight: 500; font-size: 19px; padding-bottom: 4px; }
+.button { position: relative; overflow: hidden; display: inline-block; margin-top: 48px; font-weight: 500; font-size: clamp(20px, 2vw, 28px); padding-bottom: 4px; }
 .button_line { position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: currentColor; }
 
 /* Mi trabajo: cuadrícula de Codrops (On-Scroll Columns & Rows, variación 15) */

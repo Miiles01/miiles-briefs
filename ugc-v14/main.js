@@ -65,7 +65,8 @@ if (!reduce) {
     scrollTrigger: { trigger: '.image-section', start: 'top bottom', end: 'bottom top', scrub: 0.8 } });
 
   // Títulos y bloques entran con un fade suave
-  gsap.utils.toArray('.section h2, .narrow p, .works__head p, .quote, .brands, .niches, .footer-actions').forEach(el =>
+  const lightUp = matchMedia('(min-width: 768px)').matches;
+  gsap.utils.toArray(`.section h2, ${lightUp ? '' : '.narrow p, '}.works__head p, .quote, .brands, .niches, .footer-actions`).forEach(el =>
     gsap.from(el, { opacity: 0, y: 30, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
 }
 
@@ -155,5 +156,23 @@ document.querySelectorAll('.hero-video video').forEach(v => { v.muted = true; vi
   ScrollTrigger.create({
     trigger: '.footer-name', start: 'top 92%', once: true,
     onEnter: () => gsap.to(letters, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08 })
+  });
+})();
+
+// Sobre mí (desktop): cada palabra se enciende y se desenfoca al hacer scroll; en celular queda el fade normal
+(() => {
+  if (reduce || !matchMedia('(min-width: 768px)').matches) return;
+  const paras = document.querySelectorAll('.narrow p');
+  const words = [];
+  paras.forEach(p => {
+    p.setAttribute('aria-label', p.textContent);
+    p.innerHTML = p.textContent.split(/(\s+)/).map(t => /^\s+$/.test(t) ? t : `<span class="lw" aria-hidden="true">${t}</span>`).join('');
+    words.push(...p.querySelectorAll('.lw'));
+  });
+  if (!words.length) return;
+  gsap.set(words, { color: 'rgba(255,255,255,0.15)', filter: 'blur(6px)' });
+  gsap.to(words, {
+    color: '#fff', filter: 'blur(0px)', ease: 'none', stagger: 0.1,
+    scrollTrigger: { trigger: '.narrow', start: 'top center', end: 'bottom center', scrub: true }
   });
 })();
