@@ -59,7 +59,7 @@ html.lenis,html.lenis body{height:auto}
 .sections a.is-on .sections__count{background:#fff}
 .sections__play{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff}
 .sections__play svg{width:8px;height:8px;margin-left:2px}
-.menu-btn{display:none;width:48px;height:48px;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:0;border:0;background:none;cursor:pointer}
+.menu-btn{display:none;width:48px;height:48px;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:0;border:0;background:none;color:inherit;cursor:pointer}
 .menu-btn span{width:26px;height:2px;background:currentColor}
 
 /* Menú: panel a media pantalla con botón Cerrar */
@@ -587,8 +587,8 @@ function initGsap(){
     // "Cada marca tiene su historia": las filas derivan en sentidos opuestos
     $$('.second-text-block .row').forEach((r, i) => gsap.fromTo(r, { x: i % 2 ? '4vw' : '-4vw' }, { x: i % 2 ? '-4vw' : '4vw', ease: 'none',
       scrollTrigger: { trigger: '.second-text-block', start: 'top bottom', end: 'bottom top', scrub: true } }));
-    // Nichos: cada nombre se desliza un poco al pasar
-    $$('.niche-name').forEach((n, i) => gsap.fromTo(n, { x: i % 2 ? 40 : -40 }, { x: 0, ease: 'none',
+    // Nichos: cada nombre se desliza un poco al pasar (en móvil no, para que no se corte en la orilla)
+    if (!narrow) $$('.niche-name').forEach((n, i) => gsap.fromTo(n, { x: i % 2 ? 40 : -40 }, { x: 0, ease: 'none',
       scrollTrigger: { trigger: n, start: 'top bottom', end: 'top 45%', scrub: true } }));
     if (!narrow) {
       // Hero: la foto se queda atrás y el texto sube y se desvanece
