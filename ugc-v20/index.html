@@ -10,7 +10,7 @@
   UGC V20 · Laura. Estructura y animaciones basadas en velocity-tricks.webflow.io:
   titular en dos filas cruzadas, slider infinito que se encoge según la velocidad del arrastre,
   lista de nichos con foto que sigue al cursor y se inclina con su velocidad, cuadrícula de reels
-  que se tuerce con la velocidad del scroll y footer que se revela debajo de la página.
+  que entra con fade y footer que se revela debajo de la página.
   Fuente libre: Figtree. Fotos y videos de Laura en media/.
 -->
 
@@ -56,8 +56,8 @@ html.lenis,html.lenis body{height:auto}
 .menu-btn i::before,.menu-btn i::after{content:"";width:18px;height:1.5px;background:currentColor}
 
 /* Menú a media pantalla con botón Cerrar */
-.panel{position:fixed;inset:0;z-index:60;visibility:hidden}
-.panel.is-open{visibility:visible}
+.panel{position:fixed;inset:0;z-index:60;visibility:hidden;transition:visibility 0s .8s}
+.panel.is-open{visibility:visible;transition:visibility 0s 0s}
 .panel__overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .5s}
 .panel.is-open .panel__overlay{opacity:1}
 .panel__box{position:absolute;top:0;right:0;bottom:0;width:min(88vw,max(50vw,340px));background:var(--deep);padding:110px 6vw 40px 5vw;display:flex;flex-direction:column;justify-content:center;gap:4px;transform:translateX(100%);transition:transform .8s var(--ease)}
@@ -129,12 +129,12 @@ html.lenis,html.lenis body{height:auto}
 .follow__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
 .follow__img.is-on{opacity:1}
 
-/* ===== Mi trabajo: cuadrícula que se tuerce con el scroll ===== */
+/* ===== Mi trabajo: cuadrícula de reels ===== */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vw}
 .grid__item{position:relative}
 .grid__item:nth-child(3n+2){margin-top:7vw}
 .grid__item:nth-child(3n){margin-top:14vw}
-.grid__photo{position:relative;aspect-ratio:9/16;border-radius:2em;overflow:hidden;background:var(--deep);will-change:transform}
+.grid__photo{position:relative;aspect-ratio:9/16;border-radius:2em;overflow:hidden;background:var(--deep)}
 .grid__media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .grid__tag{position:absolute;left:16px;top:16px;z-index:2;padding:7px 14px;border-radius:999px;background:rgba(17,17,17,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:13px;font-weight:500}
 .grid__cap{display:flex;justify-content:space-between;gap:12px;margin-top:16px;font-size:16px}
@@ -167,7 +167,7 @@ html.lenis,html.lenis body{height:auto}
 
 /* ===== Sobre mí ===== */
 .about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:6vw;align-items:center}
-.about__photo{position:relative;aspect-ratio:4/5;border-radius:2em;overflow:hidden;will-change:transform}
+.about__photo{position:relative;aspect-ratio:4/5;border-radius:2em;overflow:hidden}
 .about__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .about__big{font-size:clamp(30px,3.2vw,54px);font-weight:400;line-height:1.1;letter-spacing:-.03em;color:#fff}
 .about__big em{font-style:normal;color:var(--lav)}
@@ -200,6 +200,7 @@ html.lenis,html.lenis body{height:auto}
 /* ===== Aparición ===== */
 .rv{opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
+.grid__item.rv{transform:none;transition:opacity 1.1s ease}
 
 /* ===== Tablet ===== */
 @media (max-width:991px){
@@ -329,7 +330,7 @@ html.lenis,html.lenis body{height:auto}
     <div class="container">
       <div class="s-head">
         <div><span class="eyebrow rv">Mi trabajo · 01</span><h2 class="s-title rv">Piezas que paran el dedo</h2></div>
-        <p class="s-text rv">Reels, anuncios y fotos con tu producto en uso. Baja rápido y mira cómo se mueven</p>
+        <p class="s-text rv">Reels, anuncios y fotos con tu producto en uso, grabados como los vería tu clienta</p>
       </div>
       <div class="grid">
         <figure class="grid__item rv"><div class="grid__photo"><span class="grid__tag">Reel</span><video class="grid__media" data-src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Rutina de cuidado grabada por Laura"></video></div><figcaption class="grid__cap"><b>Rutina de la mañana</b><span>Belleza · 30 s</span></figcaption></figure>
@@ -506,25 +507,6 @@ if (ok && !reduce) {
       onStop: () => gsap.to(items, { scale: 1, ease: 'power1', duration: .4, overwrite: true })
     });
   });
-}
-
-/* ---------- Velocidad del scroll: la cuadrícula se tuerce ---------- */
-if (ok && !reduce) {
-  const skewTargets = '.grid__photo, .about__photo';
-  if (lenis) {
-    const setSkew = gsap.quickTo(skewTargets, 'skewY', { duration: .35, ease: 'power1' });
-    let last = 0;
-    gsap.ticker.add(() => {
-      const v = gsap.utils.clamp(-7, 7, lenis.velocity * .35);
-      if (Math.abs(v - last) > .05) { setSkew(v); last = v; }
-    });
-  } else {
-    Observer.create({
-      target: window, type: 'scroll,wheel',
-      onChangeY: self => gsap.to(skewTargets, { skewY: gsap.utils.clamp(-7, 7, self.velocityY * .001), ease: 'power1', duration: .2, overwrite: true }),
-      onStop: () => gsap.to(skewTargets, { skewY: 0, ease: 'power1', duration: .1, overwrite: true })
-    });
-  }
 }
 
 /* ---------- Nichos: la foto sigue al cursor y se inclina con su velocidad ---------- */
