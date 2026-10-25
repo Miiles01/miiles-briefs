@@ -94,6 +94,8 @@
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = section.clientWidth; h = section.clientHeight; lastW = w; lastH = h;
       canvas.width = w * dpr; canvas.height = h * dpr;
+      // Tamaño fijo en px: si la barra del navegador cambia el alto, el dibujo no se estira
+      canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
       paintLayers();
       const cols = w < 768 ? 7 : 14;
       const space = w / cols;
@@ -162,7 +164,7 @@
       clearTimeout(t);
       t = setTimeout(() => {
         const nw = section.clientWidth, nh = section.clientHeight;
-        if (nw !== lastW || Math.abs(nh - lastH) > 160) build();
+        if (nw !== lastW || nh > lastH || lastH - nh > 160) build();
       }, 200);
     });
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(build);

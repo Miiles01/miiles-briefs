@@ -25,9 +25,10 @@ DATA = {
     "brands": ["L'Oréal", "Sephora", "Zara", "Bershka", "Nyx", "Garnier", "Mango", "Rare Beauty"],
     "quotes_title": ("Lo que dicen", "de mi trabajo"),
     "quotes": [
-        ("Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio.", "Marca de skincare"),
-        ("Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta.", "Marca de moda"),
-        ("Entendió el producto a la primera y lo contó como alguien que de verdad lo usa.", "Marca de lifestyle"),
+        # (reseña, quién la escribe, marca, logo, proporción del logo)
+        ("Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio.", "Brand Manager · Skincare", "La Roche-Posay", "media/marcas/la-roche-posay.svg", 4.2),
+        ("Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta.", "Social Media Lead · Moda", "Zara", "media/marcas/zara.svg", 4.2),
+        ("Entendió el producto a la primera y lo contó como alguien que de verdad lo usa.", "Marketing · Lifestyle", "Samsung", "media/marcas/samsung-8.svg", 3.75),
     ],
     "stats": [{"value": "+12K", "label": "seguidores"}, {"value": "+35", "label": "marcas"}, {"value": "+250", "label": "videos"}, {"value": "4.8%", "label": "engagement"}],
     "cta_dots": "¿Grabamos tu|próxima campaña?",
@@ -117,7 +118,7 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
   </section>
 
   <section class="section">
-    <h2 class="statement"><span class="alt">{e(d['statement'][0])}</span> {e(d['statement'][1])}<br>{e(d['statement'][2])} <span class="alt">{e(d['statement'][3])}</span></h2>
+    <h2 class="statement"><span class="alt">{e(d['statement'][0])}</span> {e(d['statement'][1])} <br>{e(d['statement'][2])} <span class="alt">{e(d['statement'][3])}</span></h2>
   </section>
 
   <section class="section">
@@ -180,7 +181,11 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
 
   <section class="section quotes">
     <h2>{e(d['quotes_title'][0])} <span class="alt">{e(d['quotes_title'][1])}</span></h2>
-    <div class="quotes__list">{''.join(f'<figure class="quote"><blockquote>“{e(q)}”</blockquote><figcaption>{e(a)}</figcaption></figure>' for q, a in d['quotes'])}</div>
+    <div class="quotes__list">{''.join(f"""<figure class="quote">
+      <div class="quote__top"><span class="quote__logo" role="img" aria-label="{e(b)}" style="--src:url({logo});--r:{r}"></span><span class="quote__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span></div>
+      <blockquote>“{e(q)}”</blockquote>
+      <figcaption><b>{e(b)}</b><span>{e(a)}</span></figcaption>
+    </figure>""" for q, a, b, logo, r in d['quotes'])}</div>
   </section>
 
 </main>
