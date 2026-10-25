@@ -150,8 +150,6 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 /* Preloader */
 .preloader { position: fixed; inset: 0; z-index: 1001; background: var(--bg-2); display: flex; align-items: center; justify-content: center; }
 .preload-text { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.03em; color: var(--ink); font-size: clamp(56px, 8vw, 110px); padding: 0.1em 0.2em; opacity: 0; }
-.js .fade-up { opacity: 0; }
-.js .reveal-lines .line > span { transform: translateY(110%); }
 
 /* Efecto de puntos: estadísticas y CTA */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
