@@ -182,7 +182,7 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
   <section class="section quotes">
     <h2>{e(d['quotes_title'][0])} <span class="alt">{e(d['quotes_title'][1])}</span></h2>
     <div class="quotes__list">{''.join(f"""<figure class="quote">
-      <div class="quote__top"><span class="quote__logo" role="img" aria-label="{e(b)}" style="--src:url({logo});--r:{r}"></span><span class="quote__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span></div>
+      <div class="quote__top"><span class="quote__logo" role="img" aria-label="{e(b)}" style="--src:url({logo});--r:{r}"></span></div>
       <blockquote>“{e(q)}”</blockquote>
       <figcaption><b>{e(b)}</b><span>{e(a)}</span></figcaption>
     </figure>""" for q, a, b, logo, r in d['quotes'])}</div>

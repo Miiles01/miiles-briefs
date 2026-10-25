@@ -129,7 +129,6 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 .quote { display: flex; flex-direction: column; gap: 26px; padding: clamp(26px, 2.6vw, 38px); border-radius: 24px; background: #111; }
 .quote__top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
 .quote__logo { display: block; height: 22px; width: calc(22px * var(--r)); max-width: 60%; background: #fff; -webkit-mask: var(--src) left center / contain no-repeat; mask: var(--src) left center / contain no-repeat; }
-.quote__stars { color: #fff; font-size: 15px; letter-spacing: 3px; white-space: nowrap; }
 .quote blockquote { flex: 1; font-weight: 400; letter-spacing: -0.01em; font-size: clamp(20px, 1.8vw, 25px); line-height: 1.4; }
 .quote figcaption { display: flex; flex-direction: column; gap: 2px; color: #fff; font-size: 15px; }
 .quote figcaption b { font-weight: 500; }

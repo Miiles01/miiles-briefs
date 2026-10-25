@@ -24,6 +24,9 @@
 ## Portafolios UGC: secciones obligatorias
 - Toda plantilla UGC, aunque la referencia no las traiga, lleva: hero con números (seguidores, marcas, videos), **Mi trabajo** (piezas en formato reel/foto), **Marcas con las que he colaborado** (con logotipos de `public/ugc-v2/media/marcas/`), **Nichos**, **Sobre mí**, **Testimonios**, un **CTA a mitad de página** (WhatsApp) y **contacto con botones** (WhatsApp, copiar correo) unido al footer.
 
+## Portafolios UGC: reseñas sin estrellas
+- **NUNCA** poner estrellas (★★★★★) ni calificaciones en los testimonios. La reseña lleva logo de la marca, texto y quién la escribe.
+
 ## Portafolios UGC: contacto sin formularios
 - **NUNCA** poner formularios en la sección de contacto. Solo datos de contacto (correo, WhatsApp, redes) y botones directos (WhatsApp, copiar correo).
 
