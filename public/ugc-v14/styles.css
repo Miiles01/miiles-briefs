@@ -164,6 +164,11 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
   .quotes__list { grid-template-columns: 1fr; max-width: 560px; }
 }
 @media (max-width: 767px) {
+  /* Marcas: la foto es horizontal; en celular va completa arriba y el texto debajo, sin estirarla */
+  .image-section { display: block; min-height: 0; padding: 0 0 clamp(70px, 18vw, 110px); }
+  .image-section .hero-image_inner { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: 30% 40%; transform: none !important; }
+  .image-section .overlay_soft { display: none; }
+  .image-section .content { margin: 0 auto; padding: 48px var(--pad) 0; }
   .trittico { grid-template-columns: 1fr 1fr; } .trittico .image-frame:first-child { display: none; }
   .split, .composition, .footer-body { grid-template-columns: 1fr; }
   .hero-videos { grid-template-columns: 1fr 1fr; }
