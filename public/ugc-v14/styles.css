@@ -135,11 +135,12 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 .pill:hover { background: rgba(244, 242, 238, 0.14); }
 .pill--light { background: var(--ink); color: var(--bg); }
 .pill--light:hover { background: var(--accent); color: var(--bg); }
-.footer-body { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 16px; max-width: 900px; margin: 110px auto 0; }
+.footer-body { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 16px; max-width: 640px; margin: 110px auto 0; }
 .label { font-weight: 500; font-size: 16px; margin-bottom: 14px; color: #fff; }
 .footer-link { position: relative; overflow: hidden; display: table; margin: 0 auto 6px; padding-bottom: 2px; font-size: 15px; }
 .button_line-alt { position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: var(--ink); transform: translateX(-102%); }
-.footer-name { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.035em; font-size: clamp(110px, 26vw, 380px); line-height: 0.9; margin: 70px 0 0; padding: 0.06em 0 0.12em; color: var(--soft); }
+.footer-name { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.035em; font-size: clamp(110px, 26vw, 380px); line-height: 0.9; margin: 70px 0 0; padding: 0.06em 0 0.12em; color: #fff; overflow: hidden; }
+.footer-name .fn-l { display: inline-block; will-change: transform; }
 .footer-bottom { font-size: 13px; color: var(--muted); }
 
 /* Preloader */

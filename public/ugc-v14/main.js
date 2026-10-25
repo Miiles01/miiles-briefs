@@ -146,3 +146,14 @@ const videoIO = new IntersectionObserver(entries => entries.forEach(({ target, i
   else target.pause();
 }), { threshold: 0.2 });
 document.querySelectorAll('.hero-video video').forEach(v => { v.muted = true; videoIO.observe(v); });
+
+// Footer: "Diana" entra letra por letra desde abajo
+(() => {
+  const letters = document.querySelectorAll('.footer-name .fn-l');
+  if (!letters.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.set(letters, { y: 0, yPercent: 105 });
+  ScrollTrigger.create({
+    trigger: '.footer-name', start: 'top 92%', once: true,
+    onEnter: () => gsap.to(letters, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08 })
+  });
+})();

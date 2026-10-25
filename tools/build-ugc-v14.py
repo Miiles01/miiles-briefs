@@ -189,9 +189,8 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
   <div class="footer-body">
     <div class="footer-col"><div class="label">Contacto</div><a class="footer-link" href="mailto:{e(d['email'])}">{e(d['email'])}<span class="button_line-alt"></span></a></div>
     <div class="footer-col"><div class="label">Social</div>{''.join(f'<a class="footer-link" href="{u}" target="_blank" rel="noopener">{e(n)}<span class="button_line-alt"></span></a>' for n, u in d['socials'])}</div>
-    <div class="footer-col"><div class="label">Páginas</div>{''.join(f'<a class="footer-link go" href="#{i}">{e(t)}<span class="button_line-alt"></span></a>' for i, t in nav[1:5])}</div>
   </div>
-  <p class="footer-name">{e(d['name'])}</p>
+  <p class="footer-name" aria-label="{e(d['name'])}">{''.join(f'<span class="fn-l" aria-hidden="true">{e(c)}</span>' for c in d['name'])}</p>
   <div class="footer-bottom">© 2026 {e(d['name'])} · Plantilla UGC de We Are Miiles</div>
 </footer>
 
