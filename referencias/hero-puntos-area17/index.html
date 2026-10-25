@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero de puntos (AREA 17)</title>
+<!--
+  Componente guardado: hero de puntos basado en area17-award-winning-rebuild.webflow.io.
+  Dos capas a pantalla completa; la de enfrente se ve a través de una cuadrícula de círculos
+  que crecen y se encogen en ola (yoyo infinito con stagger). El original usa Paper.js;
+  aquí está reescrito en canvas 2D + GSAP, sin dependencias extra.
+  Pensado para usarse como primera sección de una plantilla UGC.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--back:#111;--back-ink:#f4f1ea;--front-ink:#b8a5ff}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--back);font-family:'Figtree',system-ui,sans-serif}
+.dots-hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:var(--back)}
+.dots-hero__canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* Texto accesible: el canvas es decorativo */
+.dots-hero__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.dots-hero__meta{position:absolute;left:6vw;right:6vw;bottom:5vh;z-index:2;display:flex;justify-content:space-between;gap:20px;color:var(--back-ink);font-size:15px;mix-blend-mode:difference}
+</style>
+</head>
+<body>
+
+<section class="dots-hero" data-dots-hero
+  data-back-text="Contenido real"
+  data-front-text="Laura"
+  data-front-img="foto.jpg"
+  data-cols="14" data-cols-mobile="7">
+  <canvas class="dots-hero__canvas" aria-hidden="true"></canvas>
+  <h1 class="dots-hero__sr">Laura · Contenido real</h1>
+  <div class="dots-hero__meta"><span>Creadora de contenido UGC</span><span>Desliza ↓</span></div>
+</section>
+
+<script src="gsap.min.js"></script>
+<script>
+/* Hero de puntos: dos capas y una cuadrícula de círculos que revela la de enfrente */
+function initDotsHero(section) {
+  const canvas = section.querySelector('.dots-hero__canvas');
+  const ctx = canvas.getContext('2d');
+  const css = getComputedStyle(section);
+  const colors = {
+    back: css.getPropertyValue('--back').trim() || '#111',
+    backInk: css.getPropertyValue('--back-ink').trim() || '#fff',
+    frontInk: css.getPropertyValue('--front-ink').trim() || '#b8a5ff'
+  };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const img = new Image();
+  let back, front, circles = [], tween, w, h, dpr;
+
+  // Texto lo más grande posible dentro del ancho disponible
+  const drawFitText = (c, text, color, maxW, maxH, weight = 500) => {
+    let size = 100;
+    c.font = `${weight} ${size}px Figtree, system-ui, sans-serif`;
+    size = Math.min(size * maxW / c.measureText(text).width, maxH);
+    c.font = `${weight} ${size}px Figtree, system-ui, sans-serif`;
+    c.fillStyle = color; c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillText(text, w * dpr / 2, h * dpr / 2);
+  };
+  const layer = () => { const c = document.createElement('canvas'); c.width = w * dpr; c.height = h * dpr; return c.getContext('2d'); };
+
+  function build() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = section.clientWidth; h = section.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+
+    // Capa de atrás: fondo oscuro con texto claro
+    back = layer();
+    back.fillStyle = colors.back; back.fillRect(0, 0, w * dpr, h * dpr);
+    drawFitText(back, section.dataset.backText, colors.backInk, w * dpr * .9, h * dpr * .42);
+
+    // Capa de enfrente: foto a sangre con texto de color encima
+    front = layer();
+    if (img.complete && img.naturalWidth) {
+      const s = Math.max(w / img.naturalWidth, h / img.naturalHeight) * dpr;
+      const iw = img.naturalWidth * s, ih = img.naturalHeight * s;
+      front.drawImage(img, (w * dpr - iw) / 2, (h * dpr - ih) / 2, iw, ih);
+      front.fillStyle = 'rgba(0,0,0,.25)'; front.fillRect(0, 0, w * dpr, h * dpr);
+    } else { front.fillStyle = colors.frontInk; front.fillRect(0, 0, w * dpr, h * dpr); }
+    drawFitText(front, section.dataset.frontText, colors.frontInk, w * dpr * .8, h * dpr * .6);
+
+    // Cuadrícula de círculos (columna por columna, como el original)
+    const cols = +(innerWidth < 768 ? section.dataset.colsMobile : section.dataset.cols) || 14;
+    const space = w / cols;
+    circles = [];
+    for (let x = 0; x < w; x += space)
+      for (let y = 0; y < h; y += space)
+        circles.push({ x: x + space / 2, y: y + space / 2, r: space / 2, s: .001 });
+
+    tween?.kill();
+    if (reduce) circles.forEach(c => c.s = 1.2);
+    else tween = gsap.fromTo(circles, { s: .001 }, { s: 2, duration: 2, repeat: -1, yoyo: true, stagger: .01, ease: 'power1.inOut' });
+  }
+
+  function render() {
+    if (!back) return;
+    ctx.drawImage(back.canvas, 0, 0);
+    ctx.save();
+    ctx.beginPath();
+    circles.forEach(c => { const r = c.r * c.s * dpr; if (r > .2) { ctx.moveTo(c.x * dpr + r, c.y * dpr); ctx.arc(c.x * dpr, c.y * dpr, r, 0, Math.PI * 2); } });
+    ctx.clip();
+    ctx.drawImage(front.canvas, 0, 0);
+    ctx.restore();
+  }
+
+  img.onload = build;
+  img.src = section.dataset.frontImg || '';
+  document.fonts?.ready.then(build);
+  build();
+  gsap.ticker.add(render);
+  let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
+}
+
+document.querySelectorAll('[data-dots-hero]').forEach(initDotsHero);
+</script>
+</body>
+</html>
