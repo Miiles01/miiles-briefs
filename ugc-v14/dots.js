@@ -31,34 +31,38 @@
       return n.includes('.') ? v.toFixed(1) : String(Math.round(v));
     });
 
+    // Estadísticas de dos en dos: se muestran grandes y cambian a las siguientes dos
+    const PER = 2;
+    let page = 0;
+    const pages = () => Math.ceil(stats.length / PER);
     function paintStats(c, bg, fg, sub) {
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
+      const items = stats.slice(page * PER, page * PER + PER);
+      const all = stats.map(st => st.value);
       const narrow = w < 768;
-      const n = stats.length;
       c.textBaseline = 'alphabetic';
+      c.textAlign = narrow ? 'left' : 'center';
       if (narrow) {
-        // Celular: número grande y su etiqueta debajo, una fila por dato
-        const rowH = (h - 120) / n;
-        const size = Math.min(...stats.map(st => fit(c, st.value, 500, w * 0.86, rowH * 0.62)));
-        const lab = Math.max(15, size * 0.2);
-        stats.forEach((st, i) => {
-          const y = 96 + rowH * i + size * 0.86;
-          c.textAlign = 'left';
+        // Celular: los dos datos uno arriba del otro, ocupando casi todo el ancho
+        const size = Math.min(...all.map(v => fit(c, v, 500, w * 0.86, h * 0.26)));
+        const lab = Math.max(16, size * 0.17);
+        items.forEach((st, i) => {
+          const y = h * (i ? 0.78 : 0.42);
           c.font = `500 ${size}px ${FONT}`; c.fillStyle = fg;
-          c.fillText(partial(st.value, count.p), w * 0.06, y);
+          c.fillText(partial(st.value, count.p), w * 0.07, y);
           c.font = `400 ${lab}px ${FONT}`; c.fillStyle = sub;
-          c.fillText(st.label, w * 0.06 + 4, y + lab * 1.4);
+          c.fillText(st.label, w * 0.07 + 4, y + lab * 1.5);
         });
       } else {
-        const colW = w / n;
-        const size = Math.min(...stats.map(s => fit(c, s.value, 500, colW * 0.8, h * 0.3)));
-        stats.forEach((s, i) => {
-          const cx = colW * (i + 0.5), y = h * 0.56;
-          c.textAlign = 'center';
+        // Desktop: dos columnas; el tamaño sale del dato más ancho para que nada se corte
+        const size = Math.min(...all.map(v => fit(c, v, 500, w * 0.36, h * 0.42)));
+        const lab = Math.max(18, size * 0.12);
+        items.forEach((st, i) => {
+          const cx = w * (i ? 0.73 : 0.27), y = h * 0.58;
           c.font = `500 ${size}px ${FONT}`; c.fillStyle = fg;
-          c.fillText(partial(s.value, count.p), cx, y);
-          c.font = `400 ${Math.max(16, size * 0.14)}px ${FONT}`; c.fillStyle = sub;
-          c.fillText(s.label, cx, y + Math.max(30, size * 0.3));
+          c.fillText(partial(st.value, count.p), cx, y);
+          c.font = `400 ${lab}px ${FONT}`; c.fillStyle = sub;
+          c.fillText(st.label, cx, y + lab * 2.2);
         });
       }
     }
@@ -77,6 +81,10 @@
       if (stats) {
         paintStats(back, INK, WHITE, 'rgba(255,255,255,.6)');
         paintStats(front, BLUE, INK, 'rgba(0,0,0,.7)');
+      } else if (kind === 'plain') {
+        // Fondo de sección (footer): solo los dos colores; el contenido HTML va encima
+        back.fillStyle = INK; back.fillRect(0, 0, w, h);
+        front.fillStyle = BLUE; front.fillRect(0, 0, w, h);
       } else {
         paintCta(back, INK, WHITE);
         paintCta(front, BLUE, INK);
@@ -135,9 +143,19 @@
 
     // Conteo de los números al entrar (solo estadísticas)
     if (stats && !reduce) {
+      const pager = section.querySelector('.dots__page');
+      const show = () => {
+        if (pager) pager.textContent = `${page + 1} / ${pages()}`;
+        count.p = 0; paintLayers();
+        gsap.to(count, { p: 1, duration: 1.6, ease: 'power3.out', onUpdate: paintLayers });
+      };
+      let timer = null;
       ScrollTrigger.create({
-        trigger: section, start: 'top 65%', once: true,
-        onEnter: () => gsap.to(count, { p: 1, duration: 1.8, ease: 'power3.out', onUpdate: paintLayers })
+        trigger: section, start: 'top 65%', end: 'bottom 35%',
+        onEnter: () => { show(); timer = timer || setInterval(() => { if (visible) { page = (page + 1) % pages(); show(); } }, 4200); },
+        onEnterBack: () => { timer = timer || setInterval(() => { if (visible) { page = (page + 1) % pages(); show(); } }, 4200); },
+        onLeave: () => { clearInterval(timer); timer = null; },
+        onLeaveBack: () => { clearInterval(timer); timer = null; }
       });
     }
 
