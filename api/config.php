@@ -16,12 +16,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // =========================================================================
-// ⚠️ CONFIGURA AQUÍ TUS CREDENCIALES DE HOSTGATOR (cPanel -> MySQL Databases)
+// Credenciales de MySQL (Hostinger → hPanel → Bases de datos → MySQL)
+// Se leen del archivo miiles-db.php FUERA de public_html (no se sube al repo ni
+// queda visible en la web). Ese archivo solo define las 4 variables:
+//   <?php
+//   $DB_HOST = 'localhost';
+//   $DB_NAME = 'u123456789_briefs';
+//   $DB_USER = 'u123456789_admin';
+//   $DB_PASS = '...';
 // =========================================================================
 $DB_HOST = 'localhost';
-$DB_NAME = 'uablinco_miiles_briefs';
-$DB_USER = 'uablinco_admin';
-$DB_PASS = 'a1z2u3l4@A';
+$DB_NAME = '';
+$DB_USER = '';
+$DB_PASS = '';
+foreach ([dirname(__DIR__, 2) . '/miiles-db.php', __DIR__ . '/miiles-db.php'] as $credFile) {
+    if (is_readable($credFile)) { require $credFile; break; }
+}
 
 // Opcional: Correo donde recibir notificación cuando un cliente envíe un brief
 $NOTIFICATION_EMAIL = 'hola@miiles.com'; // Cambiar a tu correo de Miiles Studio
@@ -31,6 +41,7 @@ $NOTIFICATION_EMAIL = 'hola@miiles.com'; // Cambiar a tu correo de Miiles Studio
  */
 function getDBConnection() {
     global $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS;
+    if ($DB_NAME === '' || $DB_USER === '') return null;
 
     try {
         $dsn = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=utf8mb4";
