@@ -52,6 +52,9 @@ html.lenis,html.lenis body{height:auto}
 .bgs{position:fixed;inset:0;z-index:-1;background:#000}
 .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease}
 .bg.is-on{opacity:1}
+.bg--sentada{object-position:30% 30%}
+.bg--podcast{object-position:80% 35%}
+@media (max-width:767px){.bg--sentada{object-position:52% 30%}.bg--podcast{object-position:56% 30%}}
 .bgs::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.45))}
 
 /* ===== Nav ===== */
@@ -251,9 +254,9 @@ html.lenis,html.lenis body{height:auto}
 <body>
 
 <div class="bgs" aria-hidden="true">
-  <picture><source media="(max-width: 767px)" srcset="media/sobre-mi.jpg"><img class="bg is-on" data-bg="hero" src="media/sentada.jpg" alt="" style="object-position:30% 30%"></picture>
-  <picture><source media="(max-width: 767px)" srcset="media/foto-4.jpg"><img class="bg" data-bg="cta" src="media/podcast.jpg" alt="" loading="lazy" style="object-position:80% 35%"></picture>
-  <picture><source media="(max-width: 767px)" srcset="media/foto-3.jpg"><img class="bg" data-bg="contacto" src="media/sentada.jpg" alt="" loading="lazy" style="object-position:30% 30%"></picture>
+  <img class="bg bg--sentada is-on" data-bg="hero" src="media/sentada.jpg" alt="">
+  <img class="bg bg--podcast" data-bg="cta" src="media/podcast.jpg" alt="" loading="lazy">
+  <img class="bg bg--sentada" data-bg="contacto" src="media/sentada.jpg" alt="" loading="lazy">
 </div>
 
 <nav class="nav" aria-label="Principal">
