@@ -9,18 +9,13 @@ gsap.ticker.lagSmoothing(500, 33);
 lenis.stop();
 
 /* Preloader: el nombre en script aparece y se va, el panel sube y entra el hero */
-const intro = () => {
-  const hero = gsap.timeline({ defaults: { ease: 'expo.out' } });
-  hero.to('.reveal-lines .line > span', { yPercent: 0, duration: 1.4 })
-      .to('.fade-up', { opacity: 1, y: 0, duration: 1.2, stagger: 0.12 }, '-=1.0');
-  return hero;
-};
+// El texto del hero ya no lleva animación de entrada: queda visible tal cual
+gsap.set('.fade-up', { opacity: 1, y: 0 });
+const intro = () => gsap.timeline();
 if (reduce) {
   document.querySelector('.preloader').style.display = 'none';
   lenis.start();
 } else {
-  gsap.set('.reveal-lines .line > span', { y: 0, yPercent: 110 });
-  gsap.set('.fade-up', { y: 24 });
   const pre = gsap.timeline({
     onComplete: () => { document.querySelector('.preloader').style.display = 'none'; gsap.ticker.lagSmoothing(0); lenis.start(); },
     onStart: () => { window.__introStarted = true; },
