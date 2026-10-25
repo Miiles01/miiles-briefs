@@ -97,7 +97,7 @@ html.lenis,html.lenis body{height:auto}
 
 .intro{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:var(--lilac)}
 .has-intro .intro{display:flex}
-.intro__list{position:relative;width:min(600px,80vw);aspect-ratio:100/61}
+.intro__list{position:relative;height:min(56vh,520px,96vw);aspect-ratio:25/32}
 .is-flipping .slides{position:relative;z-index:45;overflow:visible}
 .intro__item{position:absolute;inset:0}
 .intro__img{position:absolute;left:0;right:0;bottom:0;width:100%;height:0;object-fit:cover;border-radius:4px}
@@ -182,14 +182,8 @@ html.lenis,html.lenis body{height:auto}
 .about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:6vw;align-items:center;max-width:1300px;margin:0 auto}
 .about__title{font-weight:500;font-size:clamp(42px,5.4vw,86px);line-height:.98;letter-spacing:-.04em;padding-bottom:.06em}
 .about__p{margin-top:20px;font-size:17px;color:var(--coral-deep);max-width:460px}
-.about__small{display:flex;align-items:center;gap:18px;margin-top:40px}
-.img1__wrap{position:relative;width:150px;height:150px;flex:0 0 auto;border-radius:24px;background:var(--sand)}
-.img1,.img2{display:none;width:100%;height:100%;object-fit:cover;border-radius:24px;cursor:pointer}
-.img1.visible,.img2.visible{display:block}
-.about__hint{font-size:14px;color:var(--coral-deep)}
+.img2{display:block;width:100%;height:100%;object-fit:cover;border-radius:24px}
 .img2__wrap{position:relative;aspect-ratio:4/3;border-radius:24px;background:var(--lilac)}
-.img2__quote{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:10%;font-family:var(--serif);font-style:italic;font-size:clamp(28px,3vw,46px);line-height:1.15}
-.img2__quote small{margin-top:18px;font-family:var(--sans);font-style:normal;font-size:14px;color:var(--coral-deep)}
 .img2{position:relative;z-index:2}
 
 /* ===== Testimonios: se reacomodan al tocarlos (Flip) ===== */
@@ -262,7 +256,6 @@ html.lenis,html.lenis body{height:auto}
   .cards{grid-template-columns:1fr}
   .card{min-height:360px}
   .card.hovered .card__num{font-size:130px}
-  .img1__wrap{width:120px;height:120px}
   .quotes{grid-template-columns:1fr}
   .quote:first-child{min-height:300px}
   .contact{padding:0 4vw 24px}
@@ -309,7 +302,7 @@ html.lenis,html.lenis body{height:auto}
   <header class="hero" id="inicio">
     <div class="intro" aria-hidden="true">
       <div class="intro__list">
-        <div class="intro__item"><img class="intro__img" src="media/brazos.jpg" alt="" style="object-position:50% 33%"></div>
+        <div class="intro__item"><img class="intro__img" src="media/brazos.jpg" alt="" style="object-position:50% 40%"></div>
         <div class="intro__item"><img class="intro__img" src="media/pie.jpg" alt="" style="object-position:50% 60%"></div>
         <div class="intro__item"><img class="intro__img" src="media/sq-roca.jpg" alt="" style="object-position:50% 40%"></div>
         <div class="intro__item"><img class="intro__img" src="media/bosque.jpg" alt="" style="object-position:50% 40%"></div>
@@ -451,14 +444,9 @@ html.lenis,html.lenis body{height:auto}
           <h2 class="about__title rv">Hola, soy <em>Carolina</em></h2>
           <p class="about__p rv">Grabo lo que vivo y vivo lo que grabo. Si un producto no me convence, no lo grabo; si me encanta, se nota en cada toma.</p>
           <p class="about__p rv">Me encargo de la idea, el guion, la grabación y la edición en formato vertical, con entregas listas para TikTok, Reels y Meta Ads.</p>
-          <div class="about__small rv">
-            <div class="img1__wrap"><img class="img1 visible" src="media/sq-pasto.jpg" alt="Carolina descansando entre flores" data-flip-id="about-img" loading="lazy"></div>
-            <p class="about__hint">Toca mi foto para verla en grande</p>
-          </div>
         </div>
         <div class="img2__wrap rv">
-          <p class="img2__quote">“La mejor toma casi nunca es la primera, es la que sale cuando ya me olvidé de la cámara”<small>Carolina</small></p>
-          <img class="img2" src="media/pasto.jpg" alt="Carolina acostada en el pasto junto al mar" data-flip-id="about-img" loading="lazy" style="object-position:50% 72%">
+          <img class="img2 visible" src="media/pasto.jpg" alt="Carolina acostada en el pasto junto al mar" data-flip-id="about-img" loading="lazy" style="object-position:50% 72%">
         </div>
       </div>
     </div>
@@ -646,20 +634,6 @@ cards.forEach(card => {
   card.addEventListener('focus', () => { if (card.matches(':focus-visible')) toggleCard(card, true); });
   card.addEventListener('blur', () => toggleCard(card, false));
 });
-
-/* ---------- Sobre mí: la foto chica viaja al marco grande ---------- */
-const img1 = $('.img1'), img2 = $('.img2');
-const aboutTo = big => {
-  if (img2.classList.contains('visible') === big) return;
-  const from = big ? img1 : img2, to = big ? img2 : img1;
-  const state = getState(from);
-  from.classList.remove('visible'); to.classList.add('visible');
-  flip(state, { targets: to, duration: 1.3, fade: true, absolute: true, ease: 'power1.inOut' });
-  $('.about__hint').textContent = big ? 'Toca la foto grande para regresarla' : 'Toca mi foto para verla en grande';
-};
-img1.addEventListener('click', () => aboutTo(true));
-img2.addEventListener('click', () => aboutTo(false));
-if (ok && !reduce) ScrollTrigger.create({ trigger: '.img2__wrap', start: 'top 45%', once: true, onEnter: () => aboutTo(true) });
 
 /* ---------- Testimonios: la opinión tocada pasa a ser la grande ---------- */
 const quotes = $('.quotes');
