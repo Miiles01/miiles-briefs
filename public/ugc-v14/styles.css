@@ -4,7 +4,7 @@
   --ink: #f4f2ee;
   --muted: rgba(244, 242, 238, 0.62);
   --soft: rgba(244, 242, 238, 0.08);
-  --accent: #6f8fff;
+  --accent: #ffffff; /* sin azul: todo en blanco */
   --f-display: "Cabinet Grotesk", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Cabinet Grotesk", "Helvetica Neue", Arial, sans-serif;
   --pad: clamp(18px, 4vw, 42px);
@@ -26,8 +26,8 @@ ul { list-style: none; }
 h1, h2 { font-family: var(--f-display); font-weight: 400; line-height: 1.08; letter-spacing: -0.02em; text-wrap: balance; }
 h1 { font-size: clamp(96px, 20vw, 300px); font-weight: 400; line-height: 0.92; letter-spacing: -0.035em; }
 h2 { font-size: clamp(36px, 4.8vw, 72px); }
-.alt { font-weight: 300; color: var(--accent); }
-.script { font-family: var(--f-body); font-weight: 500; color: var(--accent); font-size: 16px; line-height: 1.4; margin-bottom: 18px; }
+.alt { font-weight: 300; color: #fff; }
+.script { font-family: var(--f-body); font-weight: 500; color: #fff; font-size: 16px; line-height: 1.4; margin-bottom: 18px; }
 
 /* Nav flotante sin fondo */
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px var(--pad); mix-blend-mode: difference; color: #fff; }
@@ -51,7 +51,7 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 .menu__links { display: flex; flex-direction: column; gap: 6px; opacity: 0; }
 .menu__link { position: relative; overflow: hidden; display: block; height: 1.2em; font-family: var(--f-display); font-weight: 400; letter-spacing: -0.02em; font-size: clamp(36px, 4.6vw, 62px); line-height: 1.2; }
 .menu__link span { display: block; transition: transform 0.45s var(--ease-quint); }
-.menu__link .alt-t { position: absolute; inset: 100% 0 auto 0; font-weight: 300; color: var(--accent); }
+.menu__link .alt-t { position: absolute; inset: 100% 0 auto 0; font-weight: 300; color: #fff; }
 .menu__link:hover span { transform: translateY(-100%); }
 .menu__social { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 14px; color: var(--muted); opacity: 0; }
 .menu__social a:hover { color: var(--ink); }
@@ -115,7 +115,7 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 .composition .image-frame:nth-child(2) { aspect-ratio: 3 / 4; margin-bottom: -10%; }
 
 .image-section { position: relative; min-height: 100vh; overflow: hidden; display: grid; place-items: center; text-align: center; padding: 120px var(--pad); color: #fff; }
-.image-section .script, .image-section .alt { color: #b9c9ff; }
+.image-section .script, .image-section .alt { color: #fff; }
 .image-section .hero-image_inner { position: absolute; inset: 0; height: 100%; }
 .overlay_soft { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.55); }
 .image-section .content { position: relative; max-width: 900px; }
@@ -125,7 +125,7 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 .quotes { text-align: center; background: var(--bg-2); }
 .quotes__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 48px); max-width: 1200px; margin: 64px auto 0; text-align: left; }
 .quote blockquote { font-weight: 400; letter-spacing: -0.01em; font-size: clamp(20px, 1.8vw, 25px); line-height: 1.4; }
-.quote figcaption { margin-top: 18px; color: var(--accent); font-size: 14px; }
+.quote figcaption { margin-top: 18px; color: #fff; font-size: 14px; }
 
 /* Contacto + footer */
 .footer { padding: clamp(90px, 12vw, 160px) var(--pad) 32px; text-align: center; overflow: hidden; }
@@ -136,7 +136,7 @@ h2 { font-size: clamp(36px, 4.8vw, 72px); }
 .pill--light { background: var(--ink); color: var(--bg); }
 .pill--light:hover { background: var(--accent); color: var(--bg); }
 .footer-body { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 16px; max-width: 900px; margin: 110px auto 0; }
-.label { font-weight: 500; font-size: 16px; margin-bottom: 14px; color: var(--accent); }
+.label { font-weight: 500; font-size: 16px; margin-bottom: 14px; color: #fff; }
 .footer-link { position: relative; overflow: hidden; display: table; margin: 0 auto 6px; padding-bottom: 2px; font-size: 15px; }
 .button_line-alt { position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: var(--ink); transform: translateX(-102%); }
 .footer-name { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.035em; font-size: clamp(110px, 26vw, 380px); line-height: 0.9; margin: 70px 0 0; padding: 0.06em 0 0.12em; color: var(--soft); }

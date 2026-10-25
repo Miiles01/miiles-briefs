@@ -6,7 +6,7 @@ OUT = os.path.join(os.path.dirname(__file__), "..", "public", "ugc-v14", "index.
 
 DATA = {
     "name": "Diana",
-    "role": "creadora de contenido UGC",
+    "role": "Creadora de contenido UGC",
     "script": "belleza, moda y lifestyle",
     "statement": ("Contenido que se siente", "real", "y hace que tu marca", "se vea en uso"),
     "about": [
@@ -67,7 +67,7 @@ page = f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(d['name'])} · Creadora de contenido UGC</title>
-<meta name="description" content="{e(d['name'])}, {e(d['role'])} para marcas de {e(d['script'])}.">
+<meta name="description" content="{e(d['name'])}, {e(d['role'][0].lower() + d['role'][1:])} para marcas de {e(d['script'])}.">
 <meta property="og:title" content="{e(d['name'])} · Creadora de contenido UGC">
 <meta property="og:image" content="https://wearemiiles.com/ugc-v14/{m['hero']}">
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
