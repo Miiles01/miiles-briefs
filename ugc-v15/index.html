@@ -62,7 +62,7 @@
   .nav_side a:hover::after { transform: scaleX(1); transform-origin: left; }
   .nav_side.is--right { justify-content: flex-end; }
   .nav_logo-contain { position: absolute; inset: 0 3em; pointer-events: none; }
-  .nav_logo { position: absolute; left: 0; right: 0; top: 1.7em; margin: 0 auto; width: 11.4em; pointer-events: auto; }
+  .nav_logo { position: absolute; left: 0; right: 0; top: 1.7em; margin: 0 auto; width: 7.05em; pointer-events: auto; }
   .nav_logo { --p: 0; }
   .nav_logo svg { display: block; width: 100%; height: auto; overflow: visible; }
   .nav_logo text { fill: color-mix(in srgb, var(--light) calc(var(--p) * 100%), currentColor); }
@@ -163,7 +163,7 @@
     .nav_inner { padding: 2.2em 3em; }
     .nav_side { font-size: 1.45em; gap: 1.1em; }
     .nav_side.is--right { display: none; }
-    .nav_logo { width: 9em; top: 1.9em; left: auto; right: 0; margin: 0; }
+    .nav_logo { width: 5.6em; top: 1.9em; left: auto; right: 0; margin: 0; }
     /* Móvil: el texto va abajo sobre un degradado oscuro, el nombre en rosa justo encima y la foto queda libre arriba */
     .hero::after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .55)); pointer-events: none; }
     .hero_intro { top: auto; bottom: 3.5em; left: 3em; right: 3em; width: auto; color: #fff; }
@@ -232,7 +232,7 @@
         </div>
         <div class="nav_logo-contain">
           <a href="#" class="nav_logo go" aria-label="Diana, inicio">
-            <svg viewBox="0 0 640 150" aria-hidden="true">
+            <svg viewBox="122 0 396 150" aria-hidden="true">
               <text x="320" y="122" text-anchor="middle" font-family="Inter Tight, Arial, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" >Diana</text>
             </svg>
           </a>
@@ -389,13 +389,14 @@
   const mobileLogoY = () => {
     const hero = document.querySelector('.hero'), logo = document.querySelector('.nav_logo');
     const introTop = document.querySelector('.hero_intro').getBoundingClientRect().top + scrollY;
-    const fullH = document.querySelector('.nav_logo-contain').offsetWidth * 150 / 640;
+    const fullH = document.querySelector('.nav_logo-contain').offsetWidth * 150 / 396;
     return introTop - 14 - fullH - (hero.offsetHeight + logo.offsetTop);
   };
   if (!reduce) {
     // A · Logo: arranca a todo el ancho pegado al borde de la foto y se encoge al centro del nav
     gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } })
-      .from('.nav_logo', { y: () => isMobile ? mobileLogoY() : '-100%', width: isMobile ? '100%' : '92%', '--p': 1, duration: 1 });
+      // En el hero el nombre va grande y pegado a la izquierda; al bajar se encoge y se centra en el nav
+      .from('.nav_logo', { y: () => isMobile ? mobileLogoY() : '-100%', x: () => isMobile ? 0 : -document.querySelector('.nav_logo-contain').offsetWidth * 0.06, width: isMobile ? '100%' : '88%', '--p': 1, duration: 1 });
     // El texto del hero se desvanece al empezar a bajar, para que no choque con el nombre
     gsap.to('.hero_intro', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '35% top', scrub: true } });
 
