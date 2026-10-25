@@ -5,6 +5,7 @@ import { BRIEF_TEMPLATES } from '../../data/briefTemplates';
 import { useBriefs } from '../../context/BriefContext';
 import { WelcomeScreen } from './WelcomeScreen';
 import { QuestionCard, canQuestionBeUndefined } from './QuestionCard';
+import { ContactChannel, isContactChannelsValid } from './inputs/ContactChannelsInput';
 import { CompletionScreen } from './CompletionScreen';
 import { AdminJumpModal } from './AdminJumpModal';
 import { ChevronLeft, ChevronRight, Sun, Moon, Command, ArrowRight, Check } from 'lucide-react';
@@ -87,6 +88,7 @@ export const BriefRunner: React.FC = () => {
     if (!currentQuestion.required) return true;
     const val = answers[currentQuestion.id];
     if (val === undefined || val === null || val === '') return false;
+    if (currentQuestion.type === 'contact-channels') return isContactChannelsValid(val);
     if (Array.isArray(val)) return val.length > 0;
     if (currentQuestion.hasConditionalInput && typeof val === 'object') {
       if (!val.choice) return false;
@@ -119,7 +121,11 @@ export const BriefRunner: React.FC = () => {
       finalAnswers['web-contact'] ||
       finalAnswers['growth-contact'] ||
       '';
+    // En el brief UGC el correo y el WhatsApp vienen dentro de los medios de contacto
+    const channels: ContactChannel[] = Array.isArray(finalAnswers['ugc-contact']) ? finalAnswers['ugc-contact'] : [];
+    const channelValue = (kind: string) => channels.find((c) => c.kind === kind && c.value.trim())?.value.trim();
     const clientEmail =
+      channelValue('email') ||
       finalAnswers['ugc-email'] ||
       (clientContact.includes('@') ? clientContact.split('|')[0].trim() : 'contacto@cliente.com');
 
@@ -128,7 +134,7 @@ export const BriefRunner: React.FC = () => {
       briefTitle: template.title,
       clientName,
       clientEmail,
-      clientPhone: finalAnswers['ugc-whatsapp'] || undefined,
+      clientPhone: channelValue('whatsapp') || finalAnswers['ugc-whatsapp'] || undefined,
       clientCompany: clientName,
       answers: finalAnswers,
       estimatedBudget:
@@ -305,6 +311,7 @@ export const BriefRunner: React.FC = () => {
                 isLast={currentQuestionIndex === questions.length - 1}
                 isValid={isCurrentValid()}
                 submitButtonText={template.submitText || 'Finalizar'}
+                allAnswers={answers}
               />
             </motion.div>
           )}

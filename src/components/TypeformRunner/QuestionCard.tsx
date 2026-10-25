@@ -7,6 +7,9 @@ import { BudgetSlider } from './inputs/BudgetSlider';
 import { ColorPalettePicker } from './inputs/ColorPalettePicker';
 import { ColorPickerInput } from './inputs/ColorPickerInput';
 import { ImageGalleryPicker } from './inputs/ImageGalleryPicker';
+import { ContactChannelsInput } from './inputs/ContactChannelsInput';
+import { TagSelect } from './inputs/TagSelect';
+import { StyleGrid } from './inputs/StyleGrid';
 import { ArrowRight, Check } from 'lucide-react';
 
 interface QuestionCardProps {
@@ -21,6 +24,7 @@ interface QuestionCardProps {
   isLast: boolean;
   isValid: boolean;
   submitButtonText?: string;
+  allAnswers?: Record<string, any>;
 }
 
 export const canQuestionBeUndefined = (question: Question): boolean => {
@@ -31,7 +35,8 @@ export const canQuestionBeUndefined = (question: Question): boolean => {
   if (
     question.id.includes('contact') ||
     question.type === 'email' ||
-    question.type === 'phone'
+    question.type === 'phone' ||
+    question.type === 'contact-channels'
   ) {
     return false;
   }
@@ -75,6 +80,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   isLast,
   isValid,
   submitButtonText = 'Finalizar',
+  allAnswers = {},
 }) => {
   // Extract selected choice id when value is an object or string
   const selectedChoiceId =
@@ -116,7 +122,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   return (
     <div
       className={`w-full ${
-        question.type === 'image-gallery' ? 'max-w-5xl' : 'max-w-2xl'
+        question.type === 'image-gallery' || question.type === 'style-grid' ? 'max-w-4xl' : 'max-w-2xl'
       } mx-auto flex flex-col justify-center min-h-[58vh] px-4 pb-24 font-sans`}
     >
       {/* Question Header */}
@@ -289,6 +295,32 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           <ColorPickerInput
             value={value || []}
             onChange={onChange}
+          />
+        )}
+
+        {question.type === 'contact-channels' && (
+          <ContactChannelsInput
+            value={value}
+            onChange={onChange}
+            maxPrimary={question.maxPrimary}
+          />
+        )}
+
+        {question.type === 'tags' && question.options && (
+          <TagSelect
+            options={question.options}
+            value={value || []}
+            onChange={onChange}
+            allowCustom={question.allowCustom}
+            customPlaceholder={question.customPlaceholder}
+          />
+        )}
+
+        {question.type === 'style-grid' && (
+          <StyleGrid
+            value={value}
+            onChange={onChange}
+            colors={question.colorSourceId ? allAnswers[question.colorSourceId] : undefined}
           />
         )}
 

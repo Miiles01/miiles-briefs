@@ -10,7 +10,10 @@ export type QuestionType =
   | 'color-palette'
   | 'color-picker'
   | 'image-gallery'
-  | 'file-upload';
+  | 'file-upload'
+  | 'contact-channels' // redes, WhatsApp, correo y medios personalizados, con hasta N principales
+  | 'tags' // etiquetas de selección múltiple, con opción de agregar personalizadas
+  | 'style-grid'; // estilos de marca ("Aa") pintados con los colores de otra pregunta
 
 export interface ChoiceOption {
   id: string;
@@ -55,6 +58,10 @@ export interface Question {
   maxScale?: number;
   minLabel?: string;
   maxLabel?: string;
+  allowCustom?: boolean; // tags: permite agregar etiquetas propias
+  customPlaceholder?: string;
+  maxPrimary?: number; // contact-channels: cuántos medios pueden marcarse como principales
+  colorSourceId?: string; // style-grid: pregunta de la que salen los colores
   budgetOptions?: {
     id: string;
     label: string;

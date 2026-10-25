@@ -24,6 +24,8 @@ import {
   Send
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { ContactChannel, channelIcon } from '../TypeformRunner/inputs/ContactChannelsInput';
+import { BRAND_STYLES, StyleChoice, useBrandStyleFonts } from '../TypeformRunner/inputs/StyleGrid';
 
 interface SubmissionDetailModalProps {
   submission: ClientSubmission | null;
@@ -205,7 +207,14 @@ export const SubmissionDetailModal: React.FC<SubmissionDetailModalProps> = ({
       items.forEach(({ question, key, answer }) => {
         const qTitle = question ? question.title : key;
         let formattedAnswer = '';
-        if (Array.isArray(answer)) {
+        if (question?.type === 'contact-channels' && Array.isArray(answer)) {
+          formattedAnswer = (answer as ContactChannel[])
+            .filter((c) => c.value?.trim())
+            .map((c) => `${c.label || 'Otro'}: ${c.value.trim()}${c.primary ? ' (principal)' : ''}`)
+            .join(' · ');
+        } else if (question?.type === 'style-grid' && answer && typeof answer === 'object') {
+          formattedAnswer = `${(answer as StyleChoice).label} (${(answer as StyleChoice).bg} / ${(answer as StyleChoice).fg})`;
+        } else if (Array.isArray(answer)) {
           formattedAnswer = answer.join(', ');
         } else if (typeof answer === 'object' && answer !== null) {
           formattedAnswer = JSON.stringify(answer);
@@ -249,6 +258,35 @@ export const SubmissionDetailModal: React.FC<SubmissionDetailModalProps> = ({
 
   // Helper to render visual answer based on question type
   const renderVisualAnswer = (answer: any, question?: Question) => {
+    // 0a. Medios de contacto (brief UGC)
+    if (question?.type === 'contact-channels' && Array.isArray(answer)) {
+      const filled = (answer as ContactChannel[]).filter((c) => c.value?.trim());
+      return (
+        <div className="flex flex-wrap gap-2 pt-1">
+          {filled.map((c) => (
+            <div
+              key={c.id}
+              className={`flex items-center gap-2 px-3 py-2 rounded-2xl border text-xs sm:text-sm ${
+                c.primary
+                  ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-white dark:text-black dark:border-white'
+                  : 'bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 border-neutral-200/80 dark:border-neutral-800'
+              }`}
+            >
+              {channelIcon(c.kind)}
+              <span className="font-normal">{c.label || 'Otro'}</span>
+              <span className="font-light opacity-80">{c.value.trim()}</span>
+              {c.primary && <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/20 dark:bg-black/10">Principal</span>}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // 0b. Estilo de marca elegido, con sus colores
+    if (question?.type === 'style-grid' && answer && typeof answer === 'object') {
+      return <StyleAnswer choice={answer as StyleChoice} />;
+    }
+
     // 1. Array of typography images
     if (question?.type === 'image-gallery' || question?.id === 'b-typography-style') {
       const selectedItems = Array.isArray(answer) ? answer : [answer];
@@ -337,7 +375,7 @@ export const SubmissionDetailModal: React.FC<SubmissionDetailModalProps> = ({
     }
 
     // 3. Single Choice & Multi Choice Options with resolved labels
-    if (question?.options && (question.type === 'single-choice' || question.type === 'multiple-choice')) {
+    if (question?.options && (question.type === 'single-choice' || question.type === 'multiple-choice' || question.type === 'tags')) {
       const selectedIds = Array.isArray(answer) ? answer : [answer];
       return (
         <div className="flex flex-wrap gap-2 pt-1">
@@ -671,5 +709,31 @@ export const SubmissionDetailModal: React.FC<SubmissionDetailModalProps> = ({
         )}
       </div>
     </AnimatePresence>
+  );
+};
+
+// Muestra el "Aa" del estilo elegido con los colores que vio la persona
+const StyleAnswer: React.FC<{ choice: StyleChoice }> = ({ choice }) => {
+  useBrandStyleFonts();
+  const style = BRAND_STYLES.find((st) => st.id === choice.id);
+  return (
+    <div className="inline-flex items-center gap-3 p-2 pr-4 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800">
+      <div
+        className="w-16 h-12 rounded-xl flex items-center justify-center text-2xl leading-none"
+        style={{
+          backgroundColor: choice.bg,
+          color: choice.fg,
+          fontFamily: style?.fontFamily,
+          fontWeight: style?.fontWeight,
+          fontStyle: style?.fontStyle,
+        }}
+      >
+        Aa
+      </div>
+      <div>
+        <p className="text-sm font-normal text-neutral-900 dark:text-white">{choice.label}</p>
+        <p className="text-xs font-mono text-neutral-500">{choice.bg} / {choice.fg}</p>
+      </div>
+    </div>
   );
 };
