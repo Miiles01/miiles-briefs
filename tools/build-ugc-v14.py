@@ -29,6 +29,8 @@ DATA = {
         ("Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta.", "Marca de moda"),
         ("Entendió el producto a la primera y lo contó como alguien que de verdad lo usa.", "Marca de lifestyle"),
     ],
+    "stats": [{"value": "+12K", "label": "seguidores"}, {"value": "+35", "label": "marcas"}, {"value": "+250", "label": "videos"}, {"value": "4.8%", "label": "engagement"}],
+    "cta_dots": "¿Grabamos tu|próxima campaña?",
     "email": "hola@dianacreativa.com",
     "whatsapp": "https://wa.me/5215500000000",
     "socials": [("Instagram", "https://instagram.com/"), ("TikTok", "https://tiktok.com/"), ("YouTube", "https://youtube.com/")],
@@ -47,7 +49,7 @@ def ver(*files):
         h.update(open(os.path.join(ROOT, f), "rb").read())
     return h.hexdigest()[:8]
 V_CSS = ver("styles.css")
-V_JS = ver("main.js", "grid.js")
+V_JS = ver("main.js", "grid.js", "dots.js")
 d = DATA
 m = d["media"]
 COLS, ROWS = 4, 6
@@ -134,6 +136,12 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
     </div>
   </section>
 
+  <section class="dots" data-dots="stats" data-stats='{e(json.dumps(d['stats'], ensure_ascii=False))}' aria-label="Estadísticas de la cuenta">
+    <canvas class="dots__canvas" aria-hidden="true"></canvas>
+    <div class="dots__meta"><span>Mi cuenta en números</span><span>Pasa el cursor</span></div>
+    <ul class="sr-only">{''.join(f"<li>{e(x['value'])} {e(x['label'])}</li>" for x in d['stats'])}</ul>
+  </section>
+
   <section class="works" id="trabajo">
     <div class="works__head section">
       <div class="script">Portafolio</div>
@@ -175,6 +183,12 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
     <h2>{e(d['quotes_title'][0])} <span class="alt">{e(d['quotes_title'][1])}</span></h2>
     <div class="quotes__list">{''.join(f'<figure class="quote"><blockquote>“{e(q)}”</blockquote><figcaption>{e(a)}</figcaption></figure>' for q, a in d['quotes'])}</div>
   </section>
+
+  <section class="dots dots--cta" data-dots="cta" data-text="{e(d['cta_dots'])}">
+    <canvas class="dots__canvas" aria-hidden="true"></canvas>
+    <h2 class="sr-only">{e(d['cta_dots'].replace('|', ' '))}</h2>
+    <div class="dots__actions"><a class="pill pill--light" href="{d['whatsapp']}" target="_blank" rel="noopener">Escríbeme por WhatsApp</a></div>
+  </section>
 </main>
 
 <footer class="footer" id="contacto">
@@ -199,6 +213,7 @@ setTimeout(function () {{ if (window.__introStarted) return; document.documentEl
 <script src="js/lenis.min.js?v=1"></script>
 <script>window.__v = "{V_JS}"</script>
 <script src="main.js?v={V_JS}"></script>
+<script src="dots.js?v={V_JS}"></script>
 </body>
 </html>
 """

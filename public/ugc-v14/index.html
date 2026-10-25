@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@300,400,500,700,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=6bfbee43">
+<link rel="stylesheet" href="styles.css?v=00f5a6a3">
 <script type="importmap">{"imports":{"three/webgpu":"./js/three/three.webgpu.min.js","three/tsl":"./js/three/three.tsl.min.js","./js/three/three.core.js":"./js/three/three.core.min.js"}}</script>
 <script>document.documentElement.classList.add('js');
 // Si la intro no arrancó en 6 s (red lenta o un script bloqueado), se muestra la página igual
@@ -71,6 +71,12 @@ setTimeout(function () { if (window.__introStarted) return; document.documentEle
     </div>
   </section>
 
+  <section class="dots" data-dots="stats" data-stats='[{&quot;value&quot;: &quot;+12K&quot;, &quot;label&quot;: &quot;seguidores&quot;}, {&quot;value&quot;: &quot;+35&quot;, &quot;label&quot;: &quot;marcas&quot;}, {&quot;value&quot;: &quot;+250&quot;, &quot;label&quot;: &quot;videos&quot;}, {&quot;value&quot;: &quot;4.8%&quot;, &quot;label&quot;: &quot;engagement&quot;}]' aria-label="Estadísticas de la cuenta">
+    <canvas class="dots__canvas" aria-hidden="true"></canvas>
+    <div class="dots__meta"><span>Mi cuenta en números</span><span>Pasa el cursor</span></div>
+    <ul class="sr-only"><li>+12K seguidores</li><li>+35 marcas</li><li>+250 videos</li><li>4.8% engagement</li></ul>
+  </section>
+
   <section class="works" id="trabajo">
     <div class="works__head section">
       <div class="script">Portafolio</div>
@@ -112,6 +118,12 @@ setTimeout(function () { if (window.__introStarted) return; document.documentEle
     <h2>Lo que dicen <span class="alt">de mi trabajo</span></h2>
     <div class="quotes__list"><figure class="quote"><blockquote>“Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio.”</blockquote><figcaption>Marca de skincare</figcaption></figure><figure class="quote"><blockquote>“Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta.”</blockquote><figcaption>Marca de moda</figcaption></figure><figure class="quote"><blockquote>“Entendió el producto a la primera y lo contó como alguien que de verdad lo usa.”</blockquote><figcaption>Marca de lifestyle</figcaption></figure></div>
   </section>
+
+  <section class="dots dots--cta" data-dots="cta" data-text="¿Grabamos tu|próxima campaña?">
+    <canvas class="dots__canvas" aria-hidden="true"></canvas>
+    <h2 class="sr-only">¿Grabamos tu próxima campaña?</h2>
+    <div class="dots__actions"><a class="pill pill--light" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp</a></div>
+  </section>
 </main>
 
 <footer class="footer" id="contacto">
@@ -134,7 +146,8 @@ setTimeout(function () { if (window.__introStarted) return; document.documentEle
 <script src="js/gsap.min.js?v=3.13"></script>
 <script src="js/ScrollTrigger.min.js?v=3.13"></script>
 <script src="js/lenis.min.js?v=1"></script>
-<script>window.__v = "fe0c1bb4"</script>
-<script src="main.js?v=fe0c1bb4"></script>
+<script>window.__v = "23390b77"</script>
+<script src="main.js?v=23390b77"></script>
+<script src="dots.js?v=23390b77"></script>
 </body>
 </html>
