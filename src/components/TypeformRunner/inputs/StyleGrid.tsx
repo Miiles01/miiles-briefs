@@ -143,12 +143,12 @@ export const StyleGrid: React.FC<StyleGridProps> = ({ value, onChange, colors, o
             aria-pressed={isSelected}
             className={`relative text-left rounded-2xl overflow-hidden border transition-all ${
               isSelected
-                ? 'border-neutral-900 dark:border-white ring-2 ring-neutral-900 dark:ring-white'
+                ? 'border-neutral-900 dark:border-white ring-2 ring-offset-2 ring-neutral-900 dark:ring-white ring-offset-white dark:ring-offset-neutral-950'
                 : 'border-neutral-200/80 dark:border-neutral-800'
             }`}
           >
             <div
-              className="aspect-[4/3] flex items-center justify-center"
+              className="relative aspect-square sm:aspect-[5/4] flex flex-col items-center justify-center gap-2 sm:gap-3"
               style={{ backgroundColor: bg, color: fg }}
             >
               <span
@@ -158,25 +158,21 @@ export const StyleGrid: React.FC<StyleGridProps> = ({ value, onChange, colors, o
                   fontWeight: style.fontWeight,
                   fontStyle: style.fontStyle,
                   letterSpacing: style.letterSpacing,
-                  fontSize: 'clamp(2.6rem, 7vw, 4rem)',
+                  fontSize: 'clamp(3.6rem, 11vw, 6.5rem)',
                 }}
               >
                 Aa
               </span>
-            </div>
-            <div className="flex items-center justify-between gap-2 px-3.5 py-3 bg-white dark:bg-neutral-900">
-              <div className="min-w-0">
-                <p className="text-sm font-normal text-neutral-900 dark:text-white leading-tight">{style.label}</p>
-                <p className="text-xs font-light text-neutral-500 dark:text-neutral-400 truncate">{style.description}</p>
-              </div>
+              <span className="text-sm sm:text-base font-normal leading-none select-none">{style.label}</span>
               <span
-                className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
+                className="absolute top-3 right-3 w-6 h-6 rounded-full border-[1.5px] flex items-center justify-center transition-all"
+                style={
                   isSelected
-                    ? 'bg-black border-black dark:bg-white dark:border-white text-white dark:text-black'
-                    : 'border-neutral-300 dark:border-neutral-700'
-                }`}
+                    ? { backgroundColor: fg, borderColor: fg, color: bg }
+                    : { borderColor: fg, opacity: 0.45 }
+                }
               >
-                {isSelected && <Check className="w-3 h-3 stroke-[2.5]" />}
+                {isSelected && <Check className="w-3.5 h-3.5 stroke-[2.5]" />}
               </span>
             </div>
           </motion.button>
