@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plus, Check, Palette, Sparkles } from 'lucide-react';
 
@@ -235,9 +236,11 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
       )}
 
       {/* ── Modal Picker (Centered Dialog with Backdrop) ─────────────────────────── */}
+      {/* Se monta en <body> para quedar encima del header y de la barra de Siguiente */}
+      {createPortal(
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 select-none font-sans">
+          <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6 select-none font-sans">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -250,14 +253,14 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
 
             {/* Modal Content */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-lg bg-white dark:bg-[#141417] rounded-3xl shadow-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden z-10 p-5 sm:p-6"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 40 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-lg max-h-[92svh] overflow-y-auto overscroll-contain bg-white dark:bg-[#141417] rounded-t-3xl sm:rounded-3xl shadow-2xl border border-neutral-200 dark:border-neutral-800 z-10 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:p-6"
             >
               {/* Header */}
-              <div className="flex items-center justify-between pb-3 mb-5">
+              <div className="flex items-center justify-between pb-2 mb-3 sm:pb-3 sm:mb-5">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-900 dark:text-white">
                     <Palette className="w-4 h-4" />
@@ -266,7 +269,7 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
                     <h3 className="text-sm font-medium text-neutral-900 dark:text-white">
                       Selector de color
                     </h3>
-                    <p className="text-xs text-neutral-400 font-light">
+                    <p className="hidden sm:block text-xs text-neutral-400 font-light">
                       Elige el tono perfecto o ingresa un código HEX
                     </p>
                   </div>
@@ -282,7 +285,7 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
               </div>
 
               {/* Body: 2 Columns on sm+ */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-4 sm:mb-5">
                 {/* ── Left Column: Big Color Preview & Suggestions ───────────────── */}
                 <div className="flex flex-col justify-between space-y-4">
                   {/* Big Color Preview Box with Editable HEX inside top corner */}
@@ -291,7 +294,7 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
                       Vista previa
                     </span>
                     <div
-                      className="w-full h-32 sm:h-36 rounded-2xl relative shadow-md transition-colors overflow-hidden flex flex-col justify-between p-3 border border-black/10 dark:border-white/10"
+                      className="w-full h-20 sm:h-36 rounded-2xl relative shadow-md transition-colors overflow-hidden flex flex-col justify-between p-3 border border-black/10 dark:border-white/10"
                       style={{ backgroundColor: currentHex }}
                     >
                       {/* Top Corner: Editable HEX pill */}
@@ -438,7 +441,9 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({ value, onCha
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+      )}
     </div>
   );
 };
