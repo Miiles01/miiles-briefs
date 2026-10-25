@@ -12,7 +12,7 @@ if ($pdo) {
 
         echo json_encode([
             "status" => "success",
-            "message" => "✅ Conexión a MySQL en HostGator exitosa",
+            "message" => "✅ Conexión a MySQL en Hostinger exitosa",
             "database" => $DB_NAME,
             "submissions_in_db" => (int)$count,
             "php_version" => phpversion(),
@@ -28,12 +28,12 @@ if ($pdo) {
     http_response_code(500);
     echo json_encode([
         "status" => "error",
-        "message" => "❌ No se pudo conectar a MySQL con las credenciales actuales en public/api/config.php",
+        "message" => ($DB_NAME === "" ? "❌ Faltan las credenciales: no se encontró miiles-db.php" : "❌ No se pudo conectar a MySQL con las credenciales de miiles-db.php"),
         "debug_info" => [
             "host" => $DB_HOST,
             "database" => $DB_NAME,
             "user" => $DB_USER
         ],
-        "instructions" => "Verifica en cPanel de HostGator que el usuario tenga permisos completos sobre la base de datos."
+        "instructions" => "Crea la base de datos en hPanel de Hostinger y el archivo miiles-db.php fuera de public_html con sus credenciales."
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 }
