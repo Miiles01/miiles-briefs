@@ -5,7 +5,7 @@
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const BLUE = '#2f5bff';
-  const INK = '#0a0a0a';
+  const INK = '#000000';
   const WHITE = '#ffffff';
   const FONT = '"Cabinet Grotesk", "Helvetica Neue", Arial, sans-serif';
 
@@ -76,7 +76,7 @@
       back = layer(); front = layer();
       if (stats) {
         paintStats(back, INK, WHITE, 'rgba(255,255,255,.6)');
-        paintStats(front, BLUE, INK, 'rgba(10,10,10,.7)');
+        paintStats(front, BLUE, INK, 'rgba(0,0,0,.7)');
       } else {
         paintCta(back, INK, WHITE);
         paintCta(front, BLUE, INK);
