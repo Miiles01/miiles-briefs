@@ -168,7 +168,7 @@ img,video{display:block;max-width:100%}
 .intro__text .w{display:inline}
 .intro__stats{display:flex;justify-content:center;gap:4em;margin-top:2.6em}
 .intro__stats b{display:block;font-size:3.4em;font-weight:500;line-height:1;letter-spacing:-.05em}
-.intro__stats span{font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
+.intro__stats span:not(.badge){font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
 
 /* ===== Slider con olas ===== */
 .slider{padding-top:5em;padding-bottom:8em}
@@ -293,16 +293,16 @@ img,video{display:block;max-width:100%}
   .nav__logo{font-size:2.6em}
   .trigger{width:5.6em;height:5.6em}
   /* Hero en móvil: título en dos líneas, tarjetas más chicas y Diana grande al centro */
-  .hero{min-height:0;max-height:none}
+  .hero{height:auto;min-height:0;max-height:none;aspect-ratio:9/16}  /* proporción de celular */
   .hero__title{top:12vw;font-size:30vw;line-height:.88;white-space:normal}
   .hero__title span{display:block}
-  .hero__strip{top:47%;font-size:.78em}
-  .hero__model{left:50%;height:auto;width:215vw;transform:translateX(-73%)}
+  .hero__strip{top:44%;font-size:.78em}
+  .hero__model{left:-3vw;height:auto;width:122vw;transform:none}  /* Diana completa con su laptop, a lo ancho del celular */
   .intro{padding:5em 0 4em}
   .intro__text{font-size:3.6em}
   .intro__stats{gap:2.6em}
   .intro__stats b{font-size:4em}
-  .intro__stats span{font-size:1.4em}
+  .intro__stats span:not(.badge){font-size:1.4em}
   /* Slider en móvil: una pieza grande al centro con las vecinas asomándose */
   .slider{margin-bottom:9em}
   .splide__slide{padding:0 .7em}
