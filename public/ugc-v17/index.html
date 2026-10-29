@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Diana · Creadora de contenido UGC</title>
 <meta name="description" content="Diana, creadora de contenido UGC para marcas de belleza, skincare y lifestyle.">
 <meta property="og:title" content="Diana · Creadora de contenido UGC">
@@ -222,6 +222,7 @@ img,video{display:block;max-width:100%}
 .circle-wrap{height:300vh}
 .circle-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center}
 .circle{position:relative;overflow:hidden;width:32em;height:32em;border-radius:32em;display:flex;justify-content:center;align-items:center}
+.circle picture{display:contents}
 .circle img{flex:none;width:100vw;height:100vh;object-fit:cover;object-position:50% 45%}
 
 /* ===== Testimonios ===== */
@@ -314,7 +315,13 @@ img,video{display:block;max-width:100%}
   .skills{gap:1em}
   .skill{width:calc(50% - .6em);font-size:1.5em}
   .badge{font-size:1.7em}
-  .circle{width:26em;height:26em;border-radius:26em}
+  /* Móvil: foto normal, quieta y nítida (sin el círculo que crece) */
+  .circle-wrap{height:auto}
+  .circle-sticky{position:relative;height:auto;padding:4em 5vw}
+  .circle{width:100%;height:auto;aspect-ratio:1/1;border-radius:3em}
+  .circle img{width:100%;height:100%}
+  /* El botón del menú se separa del borde superior del celular */
+  .nav__bar{padding-top:max(18px,env(safe-area-inset-top));padding-bottom:0}
   .quote blockquote{font-size:2.6em}
   .quote figcaption{font-size:1.4em}
   .contact__title{font-size:6em}
@@ -518,7 +525,7 @@ img,video{display:block;max-width:100%}
 
   <!-- Círculo que crece -->
   <section class="section circle-wrap" aria-label="Diana entre flores" data-bg="white">
-    <div class="circle-sticky"><div class="circle"><img src="media/flores.jpg" alt="Diana acostada entre flores" loading="lazy"></div></div>
+    <div class="circle-sticky"><div class="circle"><picture><source media="(max-width: 767px)" srcset="media/flores-m.jpg"><img src="media/flores.jpg" alt="Diana acostada entre flores" loading="lazy"></picture></div></div>
   </section>
 
   <!-- Testimonios -->
@@ -686,8 +693,8 @@ if (!reduce) {
   ScrollTrigger.batch('.reveal', { start: 'top 88%', once: true,
     onEnter: els => gsap.to(els, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 }) });
   /* Círculo que crece hasta llenar la pantalla */
-  const c = isMobile ? '26em' : '32em';
-  gsap.fromTo('.circle', { width: c, height: c, borderRadius: c },
+  const c = '32em';
+  if (!isMobile) gsap.fromTo('.circle', { width: c, height: c, borderRadius: c },
     { width: '100vw', height: '100vh', borderRadius: '0em', ease: 'none',
       scrollTrigger: { trigger: '.circle-wrap', start: 'top top', end: 'bottom bottom', scrub: 0.4 } });
   /* Entrada del hero */
