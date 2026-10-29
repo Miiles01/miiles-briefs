@@ -134,8 +134,9 @@ img,video{display:block;max-width:100%}
 .ui__check{width:1.05em;height:1.05em;border-radius:.3em;border:1.5px solid rgba(13,27,26,.35);flex:none;display:flex;align-items:center;justify-content:center;font-size:.75em}
 .ui__check.is--on{background:var(--ink);border-color:var(--ink);color:#fff}
 .ui__big{font-family:var(--display);font-weight:500;font-size:2.6em;letter-spacing:-.04em;line-height:1}
-.ui__up{display:inline-block;margin-left:.4em;padding:.15em .5em;border-radius:100vw;background:var(--lime);font-size:.8em;font-weight:500;vertical-align:middle}
-.ui__bars{display:flex;align-items:flex-end;gap:.35em;height:3.6em;margin-top:.9em}
+.ui__metric{display:flex;align-items:center;gap:.6em;margin-top:.5em}
+.ui__up{padding:.25em .6em;border-radius:100vw;background:var(--lime);font-size:.85em;font-weight:500;white-space:nowrap}
+.ui__bars{display:flex;align-items:flex-end;gap:.35em;height:2.6em;margin-top:.8em}
 .ui__bars i{flex:1;border-radius:.3em;background:var(--sky)}
 .ui__bars i:last-child{background:var(--ink)}
 .ui__wave{display:flex;align-items:center;gap:.22em;height:3em;margin-top:1em}
@@ -144,15 +145,17 @@ img,video{display:block;max-width:100%}
 /* Archivo .mp4 rosa con la esquina doblada */
 .ui.is--file{background:var(--pink);border:0;clip-path:polygon(0 0,78% 0,100% 18%,100% 100%,0 100%)}
 .ui.is--file::after{content:"";position:absolute;top:0;right:0;width:22%;height:18%;background:rgba(255,255,255,.55);clip-path:polygon(0 0,100% 100%,0 100%)}
-.ui__ext{position:absolute;left:1.1em;bottom:1em;font-family:var(--display);font-size:1.9em;letter-spacing:-.03em}
-.ui__fname{position:absolute;left:1.4em;bottom:3.6em;font-size:.85em;color:rgba(13,27,26,.65)}
+.ui__filemeta{position:absolute;left:1.2em;right:1.2em;bottom:1.1em;display:flex;flex-direction:column;gap:.3em}
+.ui__fname{font-size:.85em;color:rgba(13,27,26,.65)}
+.ui__ext{font-family:var(--display);font-size:2.2em;line-height:1;letter-spacing:-.03em}
 /* Carpeta con fichas encima */
 .ui.is--folder{background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;overflow:visible}
-.ui__tab{position:absolute;left:0;top:1.4em;width:45%;height:2em;border-radius:1em 1em 0 0;background:rgba(255,255,255,.7)}
-.ui__folder{position:absolute;left:0;right:0;top:2.6em;bottom:0;border-radius:0 1.2em 1.2em 1.2em;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.95);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1.2em 2.4em -1.2em rgba(40,80,120,.25);display:flex;align-items:flex-end;padding:1em 1.2em;font-size:1.05em;font-weight:500}
-.ui__chip{position:absolute;z-index:-1;top:0;border-radius:.8em;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:500}
-.ui__chip.is--a{left:18%;width:4em;height:4.4em;background:var(--lime);transform:rotate(-6deg);font-size:1.4em}
-.ui__chip.is--b{left:48%;width:3.6em;height:3.6em;top:.6em;background:var(--sky-soft);transform:rotate(5deg);font-size:1.3em}
+.ui__tab{position:absolute;z-index:1;left:0;top:1.4em;width:45%;height:2em;border-radius:1em 1em 0 0;background:rgba(255,255,255,.85)}
+.ui__folder{position:absolute;z-index:1;left:0;right:0;top:2.6em;bottom:0;border-radius:0 1.2em 1.2em 1.2em;background:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.95);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1.2em 2.4em -1.2em rgba(40,80,120,.25);display:flex;align-items:flex-end;padding:1em 1.2em;font-size:1.05em;font-weight:500}
+.ui__chip{position:absolute;z-index:2;top:.2em;width:4.4em;height:4.4em;border-radius:.9em;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:500;font-size:1em;box-shadow:0 .6em 1.2em -.6em rgba(40,80,120,.35)}
+.ui__chip span{font-size:1.7em;line-height:1}
+.ui__chip.is--a{left:22%;background:var(--lime);transform:rotate(-7deg)}
+.ui__chip.is--b{left:52%;top:.9em;background:#fff;transform:rotate(6deg)}
 .ui.is--lime{background:var(--lime);border:0}
 
 /* ===== Intro con números ===== */
@@ -241,7 +244,7 @@ img,video{display:block;max-width:100%}
 .btn{display:inline-flex;align-items:center;gap:.6em;padding:1em 2.2em;border:2px solid var(--ink);border-radius:100vw;background:transparent;color:var(--ink);font:500 1.2em var(--body);cursor:pointer;transition:background-color .35s,color .35s}
 .btn:hover,.btn.is--solid{background:var(--ink);color:var(--white)}
 .btn.is--solid:hover{background:transparent;color:var(--ink)}
-.footer__name{margin-top:.6em;font-size:24vw;font-weight:500;line-height:1;letter-spacing:-.07em;text-align:center;white-space:nowrap}
+.footer__name{margin-top:.12em;font-size:24vw;font-weight:500;line-height:.86;letter-spacing:-.07em;text-align:center;white-space:nowrap}
 @media (min-width:2000px){ .footer__name{font-size:480px} }
 .footer__bottom{display:flex;justify-content:space-between;margin-top:1.6em;font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
 
@@ -313,7 +316,7 @@ img,video{display:block;max-width:100%}
 <!-- Nav -->
 <nav class="nav" aria-label="Principal">
   <div class="container nav__bar">
-    <a href="#inicio" class="nav__logo go">Diana</a>
+    <span></span>
     <button class="trigger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
       <span class="trigger__circle"></span>
       <span class="trigger__line"></span>
@@ -358,10 +361,10 @@ img,video{display:block;max-width:100%}
           <div class="ui"><div class="ui__pad"><div class="ui__row"><img class="ui__avatar" src="media/azul.jpg" alt=""><div><div class="ui__name">Mariana · Cahre</div><div class="ui__time">hace 2 h</div></div></div><p class="ui__txt">Me encanta el gancho de los primeros 3 segundos, ¿grabamos otra toma con el producto en mano?</p></div></div>
           <div class="ui is--tall"><div class="ui__pad"><div class="ui__head"><span>Guion</span><span>Reel 01</span></div><div class="ui__title">Rutina de noche en 30 s</div><ul class="ui__list"><li><span class="ui__check is--on">✓</span>Gancho</li><li><span class="ui__check is--on">✓</span>Problema</li><li><span class="ui__check is--on">✓</span>Producto</li><li><span class="ui__check"></span>Llamado a la acción</li></ul></div></div>
           <div class="ui is--photo"><img src="media/w03.jpg" alt="" loading="lazy"></div>
-          <div class="ui is--folder"><span class="ui__chip is--a">Aa</span><span class="ui__chip is--b">&amp;</span><span class="ui__tab"></span><div class="ui__folder">Kit de marca</div></div>
-          <div class="ui is--file"><span class="ui__fname">unboxing_final</span><span class="ui__ext">.mp4</span></div>
+          <div class="ui is--folder"><span class="ui__chip is--a"><span>Aa</span></span><span class="ui__chip is--b"><span>&amp;</span></span><span class="ui__tab"></span><div class="ui__folder">Kit de marca</div></div>
+          <div class="ui is--file"><div class="ui__filemeta"><span class="ui__fname">unboxing_final</span><span class="ui__ext">.mp4</span></div></div>
           <div class="ui is--photo"><img src="media/paisaje-2.jpg" alt="" loading="lazy"></div>
-          <div class="ui"><div class="ui__pad"><div class="ui__head"><span>Reel · Instagram</span><span>7 días</span></div><div class="ui__big" style="margin-top:.4em">184K<span class="ui__up">+240%</span></div><div class="ui__time">reproducciones</div><div class="ui__bars"><i style="height:30%"></i><i style="height:45%"></i><i style="height:38%"></i><i style="height:60%"></i><i style="height:72%"></i><i style="height:100%"></i></div></div></div>
+          <div class="ui is--tall"><div class="ui__pad"><div class="ui__head"><span>Reel · Instagram</span><span>7 días</span></div><div class="ui__metric"><span class="ui__big">184K</span><span class="ui__up">+240%</span></div><div class="ui__time">reproducciones</div><div class="ui__bars"><i style="height:30%"></i><i style="height:45%"></i><i style="height:38%"></i><i style="height:60%"></i><i style="height:72%"></i><i style="height:100%"></i></div></div></div>
           <div class="ui is--lime"><div class="ui__pad"><div class="ui__head" style="color:rgba(13,27,26,.6)"><span>Entrega</span><span>Brief #12</span></div><div class="ui__big" style="margin-top:.5em">Vie 14</div><p class="ui__txt">3 videos verticales + 6 fotos de producto</p></div></div>
           <div class="ui is--photo"><img src="media/w08.jpg" alt="" loading="lazy"></div>
           <div class="ui"><div class="ui__pad"><div class="ui__row"><span class="ui__play">▶</span><div><div class="ui__name">Voz en off</div><div class="ui__time">0:32 · toma 3</div></div></div><div class="ui__wave"><i style="height:30%"></i><i style="height:70%"></i><i style="height:45%"></i><i style="height:90%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:80%"></i><i style="height:60%"></i><i style="height:25%"></i><i style="height:65%"></i><i style="height:40%"></i><i style="height:75%"></i></div></div></div>
@@ -616,10 +619,7 @@ $$('.sublink').forEach(link => {
 
 /* Nav: se oculta al bajar y vuelve al subir */
 const nav = $('.nav'); let lastY = scrollY;
-addEventListener('scroll', () => {
-  const y = scrollY;
-  if (Math.abs(y - lastY) > 6) { nav.classList.toggle('is-hidden', y > lastY && y > 160 && !open); lastY = y; }
-}, { passive: true });
+// El botón del menú siempre se queda visible, no se esconde con el scroll
 
 if (!reduce) {
   /* Reveal al entrar */
