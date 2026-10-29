@@ -76,7 +76,7 @@ img,video{display:block;max-width:100%}
 .hero_btn.is--solid{background:var(--black);color:var(--pink)}
 .hero_btn.is--solid:hover{background:#e47f9c;color:var(--black);border-color:#e47f9c}
 .hero_btn:not(.is--solid):hover{background:var(--black);color:var(--pink)}
-.hero_name{display:block;width:62%;height:auto;margin:0 auto;color:#fff;mix-blend-mode:difference;overflow:visible}  /* más chico y pegado abajo para no tapar la cara */
+.hero_name{display:block;width:62%;height:auto;margin:0 0 0 auto;color:#fff;mix-blend-mode:difference;overflow:visible}  /* más chico y pegado abajo para no tapar la cara */
 
 /* 3. NAV sticky + logo que se encoge */
 /* Nav fijo arriba: transparente sobre el hero, con fondo al bajar; se oculta al hacer scroll hacia abajo y vuelve al subir */
@@ -273,6 +273,7 @@ body.menu-open .nav{transform:none}
   .hero_layer{justify-content:flex-end;gap:2.4em;padding:3em;color:#fff;background:linear-gradient(to bottom,rgba(0,0,0,0) 35%,rgba(0,0,0,.7))}
   .hero_top{flex-direction:column;gap:2em}
   .hero_intro{width:auto}
+  .hero_name{margin:0 auto}
   .hero_intro p{font-size:1.8em}
   .hero_stats{text-align:left;gap:2.4em}
   .hero_stats b{font-size:4em}
@@ -686,7 +687,7 @@ menuLinks.forEach(link => {
 if (!reduce) {
   /* A. Logo: grande sobre el hero → se encoge dentro del nav */
   /* A. "Diana" gigante sube y se agranda con el scroll; el logo pequeño del nav aparece cuando el hero sale */
-  gsap.to('.hero_name', { yPercent: -18, scale: 1.06, transformOrigin: '50% 100%', ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: 'bottom top', scrub: 1 } });
+  gsap.to('.hero_name', { yPercent: -18, scale: 1.06, transformOrigin: isMobile ? '50% 100%' : '100% 100%', ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: 'bottom top', scrub: 1 } });
   gsap.to('.hero_top', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '40% top', scrub: true } });
 
 
