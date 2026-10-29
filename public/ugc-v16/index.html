@@ -693,6 +693,8 @@ if (!reduce) {
   /* A. Logo: grande sobre el hero → se encoge dentro del nav */
   /* A. "Diana" gigante sube y se agranda con el scroll; el logo pequeño del nav aparece cuando el hero sale */
   gsap.to('.hero_name', { yPercent: -18, scale: 1.06, transformOrigin: isMobile ? '50% 100%' : '100% 100%', ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: 'bottom top', scrub: 1 } });
+  // El "Diana" del menú empieza invisible arriba y aparece al bajar
+  gsap.fromTo('.nav_logo', { opacity: 0 }, { opacity: 1, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '35% top', scrub: true } });
   gsap.to('.hero_top', { opacity: 0, y: -30, ease: 'none', scrollTrigger: { trigger: '.is--hero', start: 'top top', end: '40% top', scrub: true } });
 
 
