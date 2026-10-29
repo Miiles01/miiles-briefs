@@ -18,6 +18,7 @@
   Escala fluida: body { font-size: 1vw } y todo en em.
 -->
 
+<link rel="preload" href="media/modelo.webp?v=5" as="image" fetchpriority="high">  <!-- la foto de Diana es lo primero que carga, sin animación -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -110,7 +111,7 @@ img,video{display:block;max-width:100%}
 
 /* ===== Hero: título gigante, carrusel de tarjetas tech detrás y Diana sin fondo al frente ===== */
 .hero{position:relative;height:100vh;height:100svh;min-height:42em;max-height:70em;overflow:hidden;background:var(--sky)}  /* azul completo; abajo corta limpio con la sección blanca */
-.hero__title{position:absolute;left:0;right:0;top:6.6vw;z-index:1;text-align:center;font-size:21vw;font-weight:500;line-height:.9;letter-spacing:-.065em;white-space:nowrap;color:var(--ink)}
+.hero__title{position:absolute;left:0;right:0;top:2.4vw;z-index:1;text-align:center;font-size:21vw;font-weight:500;line-height:.9;letter-spacing:-.065em;white-space:nowrap;color:var(--ink)}
 .hero__title span{display:inline-block}
 .hero__strip{position:absolute;left:0;right:0;top:44%;z-index:2;overflow:hidden;padding:2em 0}
 .hero__track{display:flex;width:max-content;animation:strip 60s linear infinite}
@@ -264,7 +265,7 @@ img,video{display:block;max-width:100%}
   .trigger{width:5.6em;height:5.6em}
   /* Hero en móvil: título en dos líneas, tarjetas más chicas y Diana grande al centro */
   .hero{min-height:0;max-height:none}
-  .hero__title{top:27vw;font-size:30vw;line-height:.88;white-space:normal}
+  .hero__title{top:12vw;font-size:30vw;line-height:.88;white-space:normal}
   .hero__title span{display:block}
   .hero__strip{top:47%;font-size:.78em}
   .hero__model{left:50%;height:auto;width:215vw;transform:translateX(-73%)}
@@ -315,7 +316,7 @@ img,video{display:block;max-width:100%}
 </div>
 
 <!-- Nav -->
-<nav class="nav" aria-label="Principal">
+<nav class="nav is-hidden" aria-label="Principal">
   <div class="container nav__bar">
     <span></span>
     <button class="trigger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
@@ -615,7 +616,10 @@ $$('.sublink').forEach(link => {
 
 /* Nav: se oculta al bajar y vuelve al subir */
 const nav = $('.nav'); let lastY = scrollY;
-// El botón del menú siempre se queda visible, no se esconde con el scroll
+// El botón del menú se esconde en la primera sección y aparece al salir de ella
+ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom 15%',
+  onLeave: () => nav.classList.remove('is-hidden'), onEnterBack: () => nav.classList.add('is-hidden') });
+if (window.scrollY > $('.hero').offsetHeight * 0.85) nav.classList.remove('is-hidden');
 
 if (!reduce) {
   /* Reveal al entrar */
@@ -629,7 +633,6 @@ if (!reduce) {
   /* Entrada del hero */
   gsap.from('.hero__title span', { yPercent: 40, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: 0.1, delay: 0.1 });
   gsap.from('.hero__strip', { opacity: 0, duration: 1.2, ease: 'power2.out', delay: 0.35 });
-  gsap.from('.hero__model', { opacity: 0, duration: 1.3, ease: 'power3.out', delay: 0.2 });
   /* El título se queda atrás al hacer scroll; la foto de Diana va fija, pegada abajo */
   gsap.to('.hero__title', { yPercent: 25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 }
