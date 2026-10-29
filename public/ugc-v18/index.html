@@ -63,8 +63,8 @@ html.lenis,html.lenis body{height:auto}
 .menu-btn span{width:26px;height:2px;background:currentColor}
 
 /* Menú: panel a media pantalla con botón Cerrar */
-.panel{position:fixed;inset:0;z-index:40;visibility:hidden}
-.panel.is-open{visibility:visible}
+.panel{position:fixed;inset:0;z-index:40;visibility:hidden;transition:visibility 0s linear .75s}  /* se oculta hasta que el panel termina de salir */
+.panel.is-open{visibility:visible;transition:visibility 0s}
 .panel__overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;transition:opacity .5s}
 .panel.is-open .panel__overlay{opacity:1}
 .panel__box{position:absolute;top:0;right:0;bottom:0;width:min(86vw,max(50vw,340px));background:var(--sand);color:var(--ink);padding:96px 32px 40px;display:flex;flex-direction:column;justify-content:center;gap:10px;transform:translateX(100%);transition:transform .7s cubic-bezier(.7,0,.2,1)}
@@ -164,6 +164,10 @@ body.bg-scroll .page-2,body.bg-scroll .work,body.bg-scroll .brands,body.bg-scrol
   .about__strip{grid-template-columns:1fr 1fr}
   .about__cell:last-child{grid-column:1/-1;aspect-ratio:4/3}
   .about__row{flex-direction:column;align-items:flex-start;gap:28px}
+  /* Móvil: sin revelado, foto normal y nítida con su propio recorte */
+  .about__big{height:auto;aspect-ratio:4/5;clip-path:none;width:auto;margin:0 6%;border-radius:20px;overflow:hidden}
+  .about__big .img-block{position:absolute;height:100%}
+  .about__big .ph-img{object-position:50% 50%!important}
   .about .circle-wrapper{margin:0 0 0 auto;width:120px}
 }
 
@@ -406,7 +410,7 @@ body.bg-scroll .page-2,body.bg-scroll .work,body.bg-scroll .brands,body.bg-scrol
     </div>
 
     <!-- Foto grande debajo del texto -->
-    <div class="about__big"><div class="img-block"><img class="ph-img" src="media/cabras.jpg" alt="Carolina en una selfie con cabras" loading="lazy" style="object-position:55% 35%"></div></div>
+    <div class="about__big"><div class="img-block"><picture><source media="(max-width: 767px)" srcset="media/cabras-m.jpg"><img class="ph-img" src="media/cabras.jpg" alt="Carolina en una selfie con cabras" loading="lazy" style="object-position:55% 35%"></picture></div></div>
 
     <!-- Frase -->
     <div class="about__statement">
