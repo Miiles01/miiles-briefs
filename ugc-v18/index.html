@@ -121,14 +121,18 @@ html.lenis,html.lenis body{height:auto}
 body.bg-scroll .page-2,body.bg-scroll .work,body.bg-scroll .brands,body.bg-scroll .niches,body.bg-scroll .cta-band,body.bg-scroll .quotes,body.bg-scroll .page-3{background:transparent}
 /* Sobre mí ordenado: texto + foto, frase, y tres fotos iguales */
 .about{display:flex;justify-content:center;min-height:100vh;align-items:center;max-width:1280px;margin:0 auto;padding:160px 6% 120px}
-.about__text{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:18px;max-width:640px}
+.about__text{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:18px;max-width:900px}
+.about__row{display:flex;align-items:center;gap:6vw;width:100%}
+.about__body{display:flex;flex-direction:column;gap:18px;max-width:620px}
 .about__text .body-copy{font-size:19px}
 .about__text .heading{margin-bottom:10px}
-.about .circle-wrapper{position:relative;margin:28px 0 0;width:clamp(150px,13vw,200px);aspect-ratio:1}
+.about .circle-wrapper{position:relative;flex:none;margin:0 0 0 auto;width:clamp(150px,13vw,200px);aspect-ratio:1}
 .img-block{position:absolute;overflow:hidden}
 /* Foto grande a todo el ancho de la pantalla */
-.about__big{position:relative;width:100%;height:clamp(420px,56.25vw,100vh)}
-.about__big .img-block{inset:0}
+/* Revelado tipo footer: la foto está fija detrás y el contenido de arriba pasa por encima y la descubre */
+.about__big{position:relative;width:100%;height:100vh;height:100svh;clip-path:inset(0 0 0 0)}
+.about__big .img-block{position:fixed;inset:0;width:100%;height:100vh;height:100lvh}
+.about__big .ph-img{top:0!important;height:100%!important;transform:none!important}
 .about__cell .img-block{inset:0;border-radius:20px}
 .about__statement{max-width:1280px;margin:0 auto;padding:140px 6% 90px}
 .about__statement .second-text-block{left:auto;width:auto;margin:0 auto;display:flex;flex-direction:column;align-items:center}
@@ -150,16 +154,17 @@ body.bg-scroll .page-2,body.bg-scroll .work,body.bg-scroll .brands,body.bg-scrol
 .body-copy{font-size:17px;line-height:1.5;color:var(--ink-85)}
 @media (max-width:991px){
   .about{min-height:0;padding:140px 6% 80px}
-  .about__big{height:auto;aspect-ratio:4/5}
+
   .about__text{max-width:none}
-  .about .circle-wrapper{position:absolute;right:0;top:0;margin:0;width:120px}
+  .about .circle-wrapper{width:130px}
   .about__statement .second-text-block{align-items:flex-start}
   .about__strip{gap:12px;padding-bottom:100px}
 }
 @media (max-width:767px){
   .about__strip{grid-template-columns:1fr 1fr}
   .about__cell:last-child{grid-column:1/-1;aspect-ratio:4/3}
-  .about .circle-wrapper{position:relative;margin-top:16px;width:120px}
+  .about__row{flex-direction:column;align-items:flex-start;gap:28px}
+  .about .circle-wrapper{margin:0 0 0 auto;width:120px}
 }
 
 /* ===== Página 3: créditos + contacto ===== */
@@ -384,20 +389,24 @@ body.bg-scroll .page-2,body.bg-scroll .work,body.bg-scroll .brands,body.bg-scrol
     <div class="about">
       <div class="about__text">
         <h2 class="heading reveal">Hola,<br>soy Carolina</h2>
+        <div class="about__row">
+        <div class="about__body">
         <p class="body-copy reveal sm">Creo contenido que se siente como la recomendación de una amiga: cercano, honesto y pensado para que tu producto se vea en la vida diaria.</p>
         <p class="body-copy reveal sm">Me encargo de todo: idea, guion, grabación y edición en formato vertical. Pruebo cada producto antes de grabar, así lo que ves es lo que de verdad pienso.</p>
         <p class="body-copy reveal sm">Trabajo con marcas que quieren verse cercanas y vender sin parecer anuncio.</p>
+        </div>
         <a class="circle-wrapper" href="#contacto" aria-label="Hablemos">
           <div class="circle">
             <svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="ring" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs><text><textPath href="#ring">Contenido UGC · Moda · Belleza · Lifestyle ·</textPath></text></svg>
           </div>
           <span class="circle-link go-circle">Hablemos ↓</span>
         </a>
+        </div>
       </div>
     </div>
 
     <!-- Foto grande debajo del texto -->
-    <div class="about__big"><div class="img-block curtain"><img class="ph-img" src="media/cabras.jpg" alt="Carolina en una selfie con cabras" loading="lazy" style="object-position:55% 35%"></div></div>
+    <div class="about__big"><div class="img-block"><img class="ph-img" src="media/cabras.jpg" alt="Carolina en una selfie con cabras" loading="lazy" style="object-position:55% 35%"></div></div>
 
     <!-- Frase -->
     <div class="about__statement">
