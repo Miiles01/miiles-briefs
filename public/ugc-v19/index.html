@@ -61,11 +61,11 @@ html.lenis,html.lenis body{height:auto}
 .menu-btn i::before,.menu-btn i::after{content:"";width:16px;height:1.5px;background:currentColor}
 
 /* Menú móvil: panel a media pantalla con botón Cerrar */
-.panel{position:fixed;inset:0;z-index:50;visibility:hidden}
-.panel.is-open{visibility:visible}
+.panel{position:fixed;inset:0;z-index:50;visibility:hidden;transition:visibility 0s linear .75s}  /* se oculta hasta que el panel termina de salir */
+.panel.is-open{visibility:visible;transition:visibility 0s}
 .panel__overlay{position:absolute;inset:0;background:rgba(43,20,16,.4);opacity:0;transition:opacity .5s}
 .panel.is-open .panel__overlay{opacity:1}
-.panel__box{position:absolute;top:0;right:0;bottom:0;width:min(86vw,max(50vw,320px));background:var(--lilac);padding:100px 28px 40px;display:flex;flex-direction:column;justify-content:center;gap:6px;transform:translateX(100%);transition:transform .7s var(--ease)}
+.panel__box{position:absolute;top:0;right:0;bottom:0;width:min(86vw,max(50vw,320px));background:var(--lilac);padding:100px 28px 40px;display:flex;flex-direction:column;justify-content:center;gap:6px;transform:translateX(100%);transition:transform .7s var(--ease);will-change:transform}
 .panel.is-open .panel__box{transform:none}
 .panel__box a{font-size:40px;line-height:1.2;letter-spacing:-.02em}
 .panel__box a:hover{font-family:var(--serif);font-style:italic}
@@ -100,7 +100,8 @@ html.lenis,html.lenis body{height:auto}
 .intro__list{position:relative;height:min(56vh,520px,96vw);aspect-ratio:25/32}
 .is-flipping .slides{position:relative;z-index:45;overflow:visible}
 .intro__item{position:absolute;inset:0}
-.intro__img{position:absolute;left:0;right:0;bottom:0;width:100%;height:0;object-fit:cover;border-radius:4px}
+.intro__img{position:absolute;left:0;right:0;bottom:0;width:100%;height:100%;object-fit:cover;border-radius:4px;clip-path:inset(100% 0 0 0);will-change:clip-path;backface-visibility:hidden}
+.is-flipping .slide__img{will-change:transform;backface-visibility:hidden}
 .has-intro .slide__img{visibility:hidden}
 .has-intro .hero__head > *{opacity:0}
 
@@ -530,16 +531,22 @@ if (ok && !reduce) {
   // Igual que la referencia: cada foto crece desde abajo y se apila; luego todas vuelan a la fila del hero
   Promise.race([Promise.all(imgs.map(img => img.decode ? img.decode().catch(() => {}) : null)), new Promise(r => setTimeout(r, 2500))]).then(() => {
     gsap.timeline()
-      .to(imgs, { height: '100%', duration: .5, ease: 'power2.inOut', stagger: .32 })
+      .to(imgs, { clipPath: 'inset(0% 0 0 0)', duration: .5, ease: 'power2.inOut', stagger: .32 })
       .add(() => {
         const state = Flip.getState(imgs);
         root.classList.add('is-flipping');
+        // Solo vuelan las fotos que caen en pantalla; las demás aparecen sin moverse (más ligero en celular)
+        const slideImgs = $$('.slide__img');
+        const onScreen = slideImgs.filter(el => el.getBoundingClientRect().left < innerWidth);
+        const offScreen = slideImgs.filter(el => !onScreen.includes(el));
         gsap.set(imgs, { visibility: 'hidden' });
-        gsap.set('.slide__img', { visibility: 'visible' });
+        gsap.set(onScreen, { visibility: 'visible' });
+        gsap.fromTo(offScreen, { visibility: 'visible', opacity: 0 }, { opacity: 1, duration: .6, delay: .6 });
         gsap.set('.hero__head > *', { opacity: 0 });
         gsap.to('.intro', { opacity: 0, duration: .6, ease: 'power1.out', onComplete: () => root.classList.remove('has-intro') });
-        Flip.from(state, { targets: '.slide__img', duration: .9, ease: 'power2.inOut', stagger: { each: .14, from: 'end' }, absolute: true,
-          onComplete: () => { root.classList.remove('is-flipping'); gsap.set('.slide__img', { clearProps: 'all' }); unlock(); } });
+        // Mismo formato de foto en la pila y en la fila: se anima con scale (solo transform, sin recalcular tamaños)
+        Flip.from(state, { targets: onScreen, duration: .9, ease: 'power2.inOut', stagger: { each: .14, from: 'end' }, absolute: true, scale: true,
+          onComplete: () => { root.classList.remove('is-flipping'); gsap.set(slideImgs, { clearProps: 'all' }); unlock(); } });
         gsap.fromTo('.hero__head > *', { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: 1, ease: 'power3.out', stagger: .08, delay: 1 });
       }, '+=.2');
   });
