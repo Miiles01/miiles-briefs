@@ -272,11 +272,13 @@ body.menu-open .nav{transform:none}
   h1{font-size:6.8em;line-height:1.02}
   h2{font-size:5.4em}
   .hero_layer{justify-content:flex-end;gap:2.4em;padding:3em;color:#fff;background:linear-gradient(to bottom,rgba(0,0,0,0) 35%,rgba(0,0,0,.7))}
-  .hero_top{flex-direction:column;gap:2em}
+  /* Móvil: primero la palabra Diana, luego el texto y los números, todo centrado */
+  .hero_top{flex-direction:column;align-items:center;gap:2em;text-align:center}
+  .hero_bottom{order:-1}
   .hero_intro{width:auto}
-  .hero_name{margin:0 auto}
+  .hero_name{width:78%;margin:0 auto;mix-blend-mode:normal;color:#fff}
   .hero_intro p{font-size:1.8em}
-  .hero_stats{text-align:left;gap:2.4em}
+  .hero_stats{justify-content:center;text-align:center;gap:2.4em}
   .hero_stats b{font-size:4em}
   .hero_stats span{font-size:1.4em}
   .hero_btn{font-size:1.6em;border-color:#fff;color:#fff}
