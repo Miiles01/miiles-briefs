@@ -213,8 +213,11 @@ body.menu-open .nav{transform:none}
 
 /* 12. TESTIMONIOS */
 .quotes_list{display:grid;grid-template-columns:repeat(3,1fr);gap:3em}
+.quote{margin:0}
 .quote blockquote{margin:0;font-size:2em;line-height:1.3;letter-spacing:-.02em}
-.quote figcaption{margin-top:1.2em;color:var(--brand)}
+.quote figcaption{display:flex;flex-direction:column;gap:.3em;margin-top:1.4em;font-size:1.4em}
+.quote figcaption b{font-weight:600}
+.quote figcaption span{color:var(--brand);opacity:.8}
 
 /* 13. CONTACTO */
 .contact-wrap{display:flex;justify-content:space-between;gap:7.5em}
@@ -317,6 +320,7 @@ body.menu-open .nav{transform:none}
   .main-button{font-size:1.8em}
   .quotes_list{grid-template-columns:1fr;gap:4em}
   .quote blockquote{font-size:3em}
+  .quote figcaption{font-size:2em}
   .contact-wrap{flex-direction:column;gap:5em}
   .contact-form,.contact-photo{width:100%}
   .contact-photo{min-height:0;aspect-ratio:4/3}
@@ -542,9 +546,9 @@ body.menu-open .nav{transform:none}
     <div class="container">
       <div class="std-h2-title-contain reveal"><p class="label">Testimonios</p><h2>Lo que dicen <span class="pink">las marcas</span></h2></div>
       <div class="quotes_list">
-        <figure class="quote reveal"><blockquote>“Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio.”</blockquote><figcaption>Marca de skincare</figcaption></figure>
-        <figure class="quote reveal"><blockquote>“Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta.”</blockquote><figcaption>Marca de moda</figcaption></figure>
-        <figure class="quote reveal"><blockquote>“Entendió el producto a la primera y lo contó como alguien que de verdad lo usa.”</blockquote><figcaption>Marca de lifestyle</figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas de cada mes.”</blockquote><figcaption><b>Mariana López</b><span>Gerente de Marketing · Cahre Skincare</span></figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Nos facilita muchísimo el trabajo al equipo de pauta.”</blockquote><figcaption><b>Andrés Ruiz</b><span>Performance Marketing · Caja Sorpresa</span></figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda y comparte nuestra comunidad.”</blockquote><figcaption><b>Sofía Herrera</b><span>Brand Manager · Sérum Glow</span></figcaption></figure>
       </div>
     </div>
   </section>
