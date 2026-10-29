@@ -201,7 +201,7 @@ img,video{display:block;max-width:100%}
 
 /* ===== Marcas en movimiento ===== */
 .brands{padding:6em 0;overflow:hidden}
-.brands__title{text-align:center;font-size:4.4em;font-weight:500;line-height:1.05;letter-spacing:-.04em;margin:0 1em .7em}
+.brands__title{text-align:center;font-size:4.4em;font-weight:500;line-height:1.05;letter-spacing:-.04em;margin:0 1em .7em;text-wrap:balance}
 .marquee{display:flex;width:max-content;animation:marquee 38s linear infinite}
 .marquee.is--rev{animation-direction:reverse;animation-duration:44s}
 .marquee__group{display:flex;flex:none}
@@ -305,10 +305,10 @@ img,video{display:block;max-width:100%}
   /* Slider en móvil: una pieza grande al centro con las vecinas asomándose */
   .slider{margin-bottom:9em}
   .splide__slide{padding:0 .7em}
-  .controls{margin-top:-1.4em;font-size:1.3em}
+  .controls{margin-top:1.8em;font-size:1.3em}  /* separados del carrusel */
   .about__text{font-size:3.4em}
   .about__p{font-size:1.6em}
-  .brands__title,.quotes__title{font-size:4.2em}
+  .brands__title,.quotes__title{font-size:3.8em;text-wrap:balance}
   .logo{height:4.4em;width:calc(4.4em * var(--r));margin:1.2em 2.4em}
   .pill{font-size:2.2em}
   .skills{gap:1em}
@@ -501,7 +501,7 @@ img,video{display:block;max-width:100%}
   <!-- Marcas -->
   <section class="section brands" id="marcas" data-bg="white">
     <p class="label reveal" style="text-align:center"><svg class="ic"><use href="#i-diamond"/></svg>Marcas</p>
-    <h2 class="brands__title reveal">Marcas con las que he colaborado</h2>
+    <h2 class="brands__title reveal">Marcas con las que <span style="white-space:nowrap">he colaborado</span></h2>
     <div class="marquee"><div class="marquee__group"><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span><span class="logo" role="img" aria-label="Bershka" style="--src:url(media/marcas/bershka-1.svg);--r:4.526"></span><span class="logo" role="img" aria-label="Chanel" style="--src:url(media/marcas/chanel-2.svg);--r:1.510"></span><span class="logo" role="img" aria-label="DJI" style="--src:url(media/marcas/dji-1.svg);--r:1.738"></span><span class="logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:5.500"></span><span class="logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Pull&Bear" style="--src:url(media/marcas/pull-bear-2.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span></div><div class="marquee__group" aria-hidden="true"><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span><span class="logo" role="img" aria-label="Bershka" style="--src:url(media/marcas/bershka-1.svg);--r:4.526"></span><span class="logo" role="img" aria-label="Chanel" style="--src:url(media/marcas/chanel-2.svg);--r:1.510"></span><span class="logo" role="img" aria-label="DJI" style="--src:url(media/marcas/dji-1.svg);--r:1.738"></span><span class="logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:5.500"></span><span class="logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Pull&Bear" style="--src:url(media/marcas/pull-bear-2.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span></div></div>
     <div class="marquee is--rev"><div class="marquee__group"><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span><span class="logo" role="img" aria-label="Shein" style="--src:url(media/marcas/shein.svg);--r:4.817"></span><span class="logo" role="img" aria-label="Spotify" style="--src:url(media/marcas/spotify-logo.svg);--r:3.334"></span><span class="logo" role="img" aria-label="Versace" style="--src:url(media/marcas/versace.svg);--r:5.014"></span><span class="logo" role="img" aria-label="Vichy" style="--src:url(media/marcas/vichy-laboratoires.svg);--r:1.000"></span><span class="logo" role="img" aria-label="Vogue" style="--src:url(media/marcas/vogue.svg);--r:3.846"></span><span class="logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.288"></span><span class="logo" role="img" aria-label="Zoah" style="--src:url(media/marcas/zoah-1.svg);--r:3.289"></span><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span></div><div class="marquee__group" aria-hidden="true"><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span><span class="logo" role="img" aria-label="Shein" style="--src:url(media/marcas/shein.svg);--r:4.817"></span><span class="logo" role="img" aria-label="Spotify" style="--src:url(media/marcas/spotify-logo.svg);--r:3.334"></span><span class="logo" role="img" aria-label="Versace" style="--src:url(media/marcas/versace.svg);--r:5.014"></span><span class="logo" role="img" aria-label="Vichy" style="--src:url(media/marcas/vichy-laboratoires.svg);--r:1.000"></span><span class="logo" role="img" aria-label="Vogue" style="--src:url(media/marcas/vogue.svg);--r:3.846"></span><span class="logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.288"></span><span class="logo" role="img" aria-label="Zoah" style="--src:url(media/marcas/zoah-1.svg);--r:3.289"></span><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span></div></div>
   </section>
