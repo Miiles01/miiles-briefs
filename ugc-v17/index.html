@@ -311,7 +311,10 @@ img,video{display:block;max-width:100%}
   .about__p{font-size:1.6em}
   .brands__title,.quotes__title{font-size:3.8em;text-wrap:balance}
   .logo{height:4.4em;width:calc(4.4em * var(--r));margin:1.2em 2.4em}
-  .pill{font-size:2.2em}
+  /* Nichos en móvil: píldoras chicas en dos columnas */
+  .pills{display:grid;grid-template-columns:1fr 1fr;gap:.6em;max-width:none}
+  .pill{font-size:1.65em;justify-content:center;padding:.55em .8em;white-space:nowrap}
+  .pill:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;padding:.55em 1.6em}
   .skills{gap:1em}
   .skill{width:calc(50% - .6em);font-size:1.5em}
   .badge{font-size:1.7em}
