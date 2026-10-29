@@ -117,6 +117,8 @@ html.lenis,html.lenis body{height:auto}
 
 /* ===== Página 2: columnas editoriales ===== */
 .page-2{background:var(--sand)}
+/* Cambio de fondo con scroll: estas secciones no pintan su propio fondo, el body se funde de un color al otro */
+body.bg-scroll .page-2,body.bg-scroll .work,body.bg-scroll .brands,body.bg-scroll .niches,body.bg-scroll .cta-band,body.bg-scroll .quotes,body.bg-scroll .page-3{background:transparent}
 .columns{display:flex;width:100%}
 .col-left{position:relative;width:50%;display:flex;flex-direction:column}
 .col-right{position:relative;width:50%;display:flex;flex-direction:column;align-items:flex-end;padding:30vw 5% 0 0}
@@ -216,11 +218,21 @@ html.lenis,html.lenis body{height:auto}
 .cta-band .c-btn.is--solid,.cta-band .c-btn:hover{background:var(--yellow);border-color:var(--yellow);color:#000}
 
 /* ===== Testimonios ===== */
-.quotes{background:var(--clay);padding:130px 6%;text-align:center}
-.quotes__list{display:grid;grid-template-columns:repeat(3,1fr);gap:50px;max-width:1200px;margin:70px auto 0;text-align:left}
-.quote{margin:0}
-.quote blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(22px,2vw,28px);line-height:1.35;color:var(--ink)}
-.quote figcaption{margin-top:16px;font-size:14px;color:var(--orange)}
+.quotes{background:#000;padding:130px 6%;text-align:center}
+.quotes .eyebrow{color:var(--yellow)}
+.quotes .section-title{color:#fff}
+.quotes .section-title em{color:var(--yellow)}
+.quotes__list{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1200px;margin:70px auto 0;text-align:left}
+/* Testimonios como tarjetas de reseña: logo de la marca, frase y quién la escribe */
+.quote{display:flex;flex-direction:column;margin:0;padding:34px 32px 30px;border-radius:24px;background:#151513;color:#fff}
+.quote__logo{display:block;height:22px;width:calc(22px * var(--r));max-width:150px;background:#fff;opacity:.9;-webkit-mask:var(--src) left center/contain no-repeat;mask:var(--src) left center/contain no-repeat}
+.quote__mark{margin:26px 0 4px;font-family:var(--serif);font-size:64px;line-height:.6;color:var(--yellow)}
+.quote blockquote{flex:1;margin:0;font-family:var(--serif);font-size:clamp(20px,1.6vw,24px);line-height:1.4;color:rgba(255,255,255,.92)}
+.quote figcaption{display:flex;align-items:center;gap:12px;margin-top:30px}
+.quote__avatar{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:var(--yellow);color:#000;font-weight:700;font-size:14px}
+.quote__who{display:flex;flex-direction:column;line-height:1.35}
+.quote__who b{font-weight:600;font-size:15px;color:#fff}
+.quote__who span{font-size:13px;color:rgba(255,255,255,.6)}
 
 /* ===== Aparición ===== */
 .reveal{opacity:0;transform:translateY(50px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
@@ -320,7 +332,7 @@ html.lenis,html.lenis body{height:auto}
     <a href="#inicio" class="logo go">Carolina</a>
     <div class="sections">
       <span class="sections__pill" aria-hidden="true"></span>
-      <a href="#mi-trabajo" class="go"><span class="sections__play" aria-hidden="true"><svg viewBox="0 0 8 10"><path d="M0 0l8 5-8 5z" fill="currentColor"/></svg></span>Trabajo</a><a href="#marcas" class="go">Marcas <span class="sections__count" aria-label="15 marcas">15</span></a><a href="#sobre-mi" class="go">Sobre mí</a><a href="#testimonios" class="go">Testimonios</a><a href="#contacto" class="go">Contacto</a>
+      <a href="#mi-trabajo" class="go">Trabajo</a><a href="#marcas" class="go">Marcas</a><a href="#sobre-mi" class="go">Sobre mí</a><a href="#testimonios" class="go">Testimonios</a><a href="#contacto" class="go">Contacto</a>
     </div>
     <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="panel"><span></span><span></span></button>
   </div>
@@ -470,9 +482,9 @@ html.lenis,html.lenis body{height:auto}
     <p class="eyebrow reveal sm">Testimonios</p>
     <h2 class="section-title reveal">Lo que dicen <em>las marcas</em></h2>
     <div class="quotes__list">
-      <figure class="quote reveal"><blockquote>“Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio”</blockquote><figcaption>Marca de moda</figcaption></figure>
-      <figure class="quote reveal"><blockquote>“Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta”</blockquote><figcaption>Marca de belleza</figcaption></figure>
-      <figure class="quote reveal"><blockquote>“Entendió el producto a la primera y lo contó como alguien que de verdad lo usa”</blockquote><figcaption>Marca de lifestyle</figcaption></figure>
+      <figure class="quote reveal"><span class="quote__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span><span class="quote__mark" aria-hidden="true">“</span><blockquote>Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas de cada mes</blockquote><figcaption><span class="quote__avatar" aria-hidden="true">ML</span><span class="quote__who"><b>Mariana López</b><span>Gerente de Marketing · La Roche-Posay</span></span></figcaption></figure>
+      <figure class="quote reveal"><span class="quote__logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.29"></span><span class="quote__mark" aria-hidden="true">“</span><blockquote>Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Le facilita muchísimo el trabajo al equipo de pauta</blockquote><figcaption><span class="quote__avatar" aria-hidden="true">AR</span><span class="quote__who"><b>Andrés Ruiz</b><span>Performance Marketing · Zara</span></span></figcaption></figure>
+      <figure class="quote reveal"><span class="quote__logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.75"></span><span class="quote__mark" aria-hidden="true">“</span><blockquote>Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda y comparte nuestra comunidad</blockquote><figcaption><span class="quote__avatar" aria-hidden="true">SH</span><span class="quote__who"><b>Sofía Herrera</b><span>Brand Manager · Samsung</span></span></figcaption></figure>
     </div>
   </section>
 
@@ -559,7 +571,7 @@ function initGsap(){
   });
 
   // Frases grandes: cada palabra se enciende con el scroll
-  $$('.credits p:not(.star), .quote blockquote').forEach(el => {
+  $$('.credits p:not(.star)').forEach(el => {
     gsap.fromTo(split(el), { opacity: .14 }, { opacity: 1, ease: 'none', stagger: .12,
       scrollTrigger: { trigger: el, start: 'top 88%', end: 'bottom 60%', scrub: true } });
   });
@@ -648,7 +660,10 @@ function startObserver(){
 const nav = $('.nav'), side = $('.left-side'), hero = $('.page-1');
 let lastY = scrollY;
 addEventListener('scroll', () => {
-  const y = scrollY, light = y > hero.offsetHeight - 60;
+  const y = scrollY;
+  // Sobre las secciones negras (CTA y testimonios) el menú vuelve a texto claro
+  const darkSec = ['.cta-band', '.quotes'].some(sel => { const r = document.querySelector(sel)?.getBoundingClientRect(); return r && r.top < 60 && r.bottom > 60; });
+  const light = y > hero.offsetHeight - 60 && !darkSec;
   nav.classList.toggle('on-light', light); side.classList.toggle('on-light', light);
   if (Math.abs(y - lastY) > 6) { nav.classList.toggle('is-hidden', y > lastY && y > 160 && !panel.classList.contains('is-open')); lastY = y; }
 }, { passive: true });
@@ -694,6 +709,21 @@ $$('[data-copy]').forEach(b => b.addEventListener('click', async () => {
   catch { location.href = 'mailto:' + b.dataset.copy; return; }
   setTimeout(() => { label.textContent = txt; }, 1800);
 }));
+
+/* Fondo que cambia de color con el scroll, sin cortes entre secciones */
+(() => {
+  const order = [['.page-2','#e8ddd7'],['.work','#e8ddd7'],['.brands','#dbc9bf'],['.niches','#e8ddd7'],['.cta-band','#000000'],['.quotes','#000000'],['.page-3','#dbc9bf']];
+  const secs = order.map(([sel, c]) => [document.querySelector(sel), c]).filter(([el]) => el);
+  if (!secs.length) return;
+  document.body.classList.add('bg-scroll');
+  gsap.set(document.body, { backgroundColor: secs[0][1] });
+  for (let i = 1; i < secs.length; i++) {
+    const [el, c] = secs[i], prev = secs[i - 1][1];
+    if (c === prev) continue;
+    gsap.fromTo(document.body, { backgroundColor: prev }, { backgroundColor: c, ease: 'none', immediateRender: false,
+      scrollTrigger: { trigger: el, start: 'top 85%', end: 'top 35%', scrub: true } });
+  }
+})();
 </script>
 </body>
 </html>
