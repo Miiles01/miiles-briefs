@@ -9,7 +9,9 @@
 <meta property="og:image" content="https://wearemiiles.com/ugc-v17/media/sonrie.jpg">
 
 <!--
-  UGC V17 · Diana en naranja. Mezcla de las versiones anteriores:
+  UGC V17 · Diana en blanco y azul cielo con texto negro. Hero tipo "Brand Brain": título gigante, carrusel de
+  tarjetas tech (notas, guion, archivos, métricas, fotos) detrás de la foto de Diana sin fondo, y el fondo de la
+  página cambia de blanco a azul entre secciones al hacer scroll. Mezcla de las versiones anteriores:
   - Menú + slider con olas (tricks-menu-slider): ola que cae, links escalonados con número y preview, cursor DRAG
   - Texto grande de "Sobre mí" (V12/V15), marcas en movimiento (V15), nichos en píldoras (V15),
     círculo que crece (V15/V16), testimonios (V15), contacto con datos y botones (V16), "Diana" estirado en el footer (V15)
@@ -18,46 +20,49 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fahkwang:ital,wght@0,500;0,600;1,500&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="js/splide.min.css">
 
 <style>
 :root{
-  --orange:#ff6a1f;
-  --orange-soft:#ff8a4c;
-  --blue:#1d3fd6;
+  --sky:#bfdef8;        /* azul cielo de fondo */
+  --sky-soft:#e3f0fc;
+  --ink:#0d1b1a;        /* texto negro */
+  --muted:rgba(13,27,26,.58);
   --white:#ffffff;
+  --pink:#f7b8e6;
+  --lime:#dcf56f;
+  --bg:#ffffff;         /* cambia entre blanco y azul con el scroll */
   --ease-out-sine:cubic-bezier(0.61,1,0.88,1);
   --ease-out-quart:cubic-bezier(0.25,1,0.5,1);
-  --display:'Fahkwang',sans-serif;
-  --body:'Poppins',sans-serif;
+  --display:'Inter Tight',sans-serif;
+  --body:'Inter',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--orange);overflow-x:clip}
+html{background:var(--bg);overflow-x:clip}
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 .lenis.lenis-stopped{overflow:hidden}
-body{margin:0;background:var(--orange);color:var(--blue);font-family:var(--display);font-weight:600;font-size:1vw;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);font-weight:500;font-size:1vw;line-height:1.6;-webkit-font-smoothing:antialiased}
 @media (min-width:2000px){ body{font-size:20px} }
 h1,h2,h3,p{margin:0}
 a{color:inherit;text-decoration:none}
 img,video{display:block;max-width:100%}
-::selection{background:var(--blue);color:var(--white)}
+::selection{background:var(--ink);color:var(--white)}
 .container{width:100%;max-width:2000px;margin:0 auto;padding:0 4.06em}
 .section{position:relative}
-.label{font-family:var(--body);font-weight:500;font-size:1.15em;color:var(--white);margin-bottom:1em}
-.white{color:var(--white)}
+.label{font-family:var(--body);font-weight:500;font-size:1.15em;color:var(--muted);margin-bottom:1em}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ===== Cursor (solo con mouse) ===== */
 .cursor{position:fixed;inset:0;z-index:1000;display:none;justify-content:center;align-items:center;pointer-events:none;opacity:0;transition:opacity .2s ease}
 @media (pointer:fine) and (min-width:992px){ .cursor{display:flex} body:hover .cursor{opacity:1} }
 .cursor.hide-cursor{opacity:0!important}
-.cursor__dot1{width:6px;height:6px;border-radius:50%;background:var(--blue);transition:opacity .35s ease,background-color .35s ease,height .35s ease,width .35s ease}
-.cursor__dot1.is--larger{width:8.23em;height:8.23em;background:var(--orange-soft)}
+.cursor__dot1{width:6px;height:6px;border-radius:50%;background:var(--ink);transition:opacity .35s ease,background-color .35s ease,height .35s ease,width .35s ease}
+.cursor__dot1.is--larger{width:8.23em;height:8.23em;background:var(--sky)}
 .cursor__dot1.opacity-0{opacity:0}
-.cursor__dot2{position:absolute;display:flex;justify-content:center;align-items:center;overflow:hidden;width:52px;height:52px;border:2px solid var(--blue);border-radius:50%;color:transparent;transition:border-color .35s ease,height .35s ease,width .35s ease,background-color .35s ease,color .35s ease}
-.cursor__dot2.is--larger{width:8.23em;height:8.23em;background:var(--blue);color:var(--white)}
+.cursor__dot2{position:absolute;display:flex;justify-content:center;align-items:center;overflow:hidden;width:52px;height:52px;border:2px solid var(--ink);border-radius:50%;color:transparent;transition:border-color .35s ease,height .35s ease,width .35s ease,background-color .35s ease,color .35s ease}
+.cursor__dot2.is--larger{width:8.23em;height:8.23em;background:var(--ink);color:var(--white)}
 .cursor__dot2.light-ring{width:6em;height:6em;border-color:var(--white)}
 .cursor__text{font-family:var(--body);font-size:1.1em;font-weight:500}
 .cursor__dot1,.cursor__dot2{will-change:transform}
@@ -66,10 +71,10 @@ img,video{display:block;max-width:100%}
 .nav{position:fixed;left:0;top:0;right:0;z-index:900;transition:transform .5s var(--ease-out-quart);pointer-events:none}
 .nav.is-hidden{transform:translateY(-130%)}
 .nav__bar{display:flex;justify-content:space-between;align-items:center;padding-top:1.65em;padding-bottom:1.65em}
-.nav__logo{pointer-events:auto;font-size:2em;letter-spacing:-.04em;color:var(--blue)}
+.nav__logo{pointer-events:auto;font-size:2em;font-weight:600;letter-spacing:-.04em;color:var(--ink)}
 .trigger{pointer-events:auto;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;width:6em;height:6em;padding:0;background:none;border:0;cursor:pointer}
-.trigger__line{width:2.4em;height:.18em;margin:.25em 0;background:var(--blue);transition:transform .5s var(--ease-out-sine)}
-.trigger__circle{position:absolute;inset:0;border:.16em solid var(--blue);border-radius:50%;pointer-events:none;transition:transform .5s var(--ease-out-sine)}
+.trigger__line{width:2.4em;height:.18em;margin:.25em 0;background:var(--ink);transition:transform .5s var(--ease-out-sine)}
+.trigger__circle{position:absolute;inset:0;border:.16em solid var(--ink);border-radius:50%;pointer-events:none;transition:transform .5s var(--ease-out-sine)}
 .trigger:hover .trigger__circle{transform:scale(.88)}
 
 /* ===== Menú: panel a media pantalla que cae con una ola, con botón Cerrar ===== */
@@ -79,59 +84,103 @@ img,video{display:block;max-width:100%}
 .menu.is-open .menu__overlay{opacity:1}
 .menu__panel{position:absolute;top:0;right:0;width:min(86vw,max(50vw,380px));height:100%}
 .background{position:absolute;left:0;top:0;right:0;z-index:1;display:flex;flex-direction:column;width:100%;height:101%;transform:translateY(-100%)}
-.background__fill{width:100%;height:100%;flex:0 0 100%;background:var(--blue)}
+.background__fill{width:100%;height:100%;flex:0 0 100%;background:var(--sky)}
 .background__wave{display:block;width:100%;height:auto;margin-top:-1px;flex:0 0 auto}
-.background__wave path{fill:var(--blue)}
-.menu__content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;height:100%;padding:7em 4em 4em;color:var(--white);opacity:0}
-.menu__close{position:absolute;top:24px;right:24px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:0;border-radius:999px;background:var(--white);color:var(--blue);font:500 14px var(--body);cursor:pointer}
+.background__wave path{fill:var(--sky)}
+.menu__content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;height:100%;padding:7em 4em 4em;color:var(--ink);opacity:0}
+.menu__close{position:absolute;top:24px;right:24px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:0;border-radius:999px;background:var(--ink);color:var(--white);font:500 14px var(--body);cursor:pointer}
 .menu__links{display:flex;flex-direction:column;align-items:flex-start}
 .nav-link{position:relative;display:flex;align-items:center;margin:.3em 0}
 .nav-link.is--1{margin-left:6em}
 .nav-link.is--3{margin-left:3em}
 .nav-link:hover .nav-link__text{font-style:italic}
-.nav-link__line{width:0;height:.18em;background:var(--white);flex:0 0 auto;transition:width .5s var(--ease-out-quart)}
+.nav-link__line{width:0;height:.18em;background:var(--ink);flex:0 0 auto;transition:width .5s var(--ease-out-quart)}
 .nav-link:hover .nav-link__line{width:3em;margin-right:.6em}
 .nav-link__contain{display:flex;align-items:flex-start}
 .nav-link__text{font-size:5em;font-weight:500;line-height:1.25;letter-spacing:-.04em;padding:0 .08em;white-space:nowrap}
 .nav-link__num{margin:.8em 0 0 .3em;font-family:var(--body);font-size:1.1em;line-height:1}
 .nav-link__img{position:absolute;top:50%;right:-2em;z-index:-1;width:12em;height:16em;margin-top:-8em;border-radius:.8em;object-fit:cover;opacity:0;transform:scale(.7) rotate(-4deg);transition:opacity .5s var(--ease-out-quart),transform .5s var(--ease-out-quart);pointer-events:none}
 .nav-link:hover .nav-link__img{opacity:.9;transform:scale(1) rotate(-4deg)}
-.menu__icon{width:3em;height:3em;margin-top:3em;transform:scale(0);color:var(--orange)}
+.menu__icon{width:3em;height:3em;margin-top:3em;transform:scale(0);color:var(--ink)}
 .sublinks{display:flex;flex-wrap:wrap;gap:.4em 2em;margin-top:2em}
 .sublink{position:relative;overflow:hidden;padding-bottom:.2em}
 .sublink__text{font-family:var(--body);font-weight:400;font-size:1.3em}
-.sublink__line{position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--orange);transform:translateX(-101%)}
+.sublink__line{position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--ink);transform:translateX(-101%)}
 
-/* ===== Hero ===== */
-.hero{padding-top:12em;text-align:center}
-.hero__wrap{width:min(60em,92%);margin:0 auto}
-h1{font-size:5.6em;font-weight:600;line-height:1.02;letter-spacing:-.05em;text-wrap:balance}
-h1 em{font-weight:500;color:var(--white)}
-.hero__p{margin:1.4em auto 0;max-width:30em;font-family:var(--body);font-weight:400;font-size:1.3em;line-height:1.6;color:var(--white)}
-.hero__stats{display:flex;justify-content:center;gap:3.5em;margin-top:2.4em}
-.hero__stats b{display:block;font-size:2.6em;line-height:1;letter-spacing:-.04em}
-.hero__stats span{font-family:var(--body);font-weight:400;font-size:1em;color:var(--white)}
+/* ===== Hero: título gigante, carrusel de tarjetas tech detrás y Diana sin fondo al frente ===== */
+.hero{position:relative;height:100vh;height:100svh;min-height:42em;max-height:70em;overflow:hidden;background:linear-gradient(180deg,var(--sky) 0%,var(--sky) 32%,#ffffff 100%)}
+.hero__title{position:absolute;left:0;right:0;top:8.6vw;z-index:1;text-align:center;font-size:13.4vw;font-weight:500;line-height:.9;letter-spacing:-.065em;white-space:nowrap;color:var(--ink)}
+.hero__title span{display:inline-block}
+.hero__strip{position:absolute;left:0;right:0;top:44%;z-index:2;overflow:hidden;padding:2em 0}
+.hero__track{display:flex;width:max-content;animation:strip 60s linear infinite}
+.hero__group{display:flex;align-items:center;gap:1.6em;padding-right:1.6em}
+@keyframes strip{to{transform:translateX(-50%)}}
+.hero__model{position:absolute;left:50%;bottom:0;z-index:3;width:auto;height:min(78%,52vw);max-width:none;transform:translateX(-46%);pointer-events:none;user-select:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%);mask-image:linear-gradient(90deg,transparent 0,#000 12%)}  /* la orilla izquierda de la foto se desvanece */
+/* Tarjetas tipo interfaz: vidrio blanco, esquinas suaves */
+.ui{flex:none;position:relative;width:14em;height:12.5em;border-radius:1.4em;overflow:hidden;font-family:var(--body);font-weight:400;color:var(--ink);background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.9);box-shadow:0 1.2em 2.4em -1.2em rgba(40,80,120,.25);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.ui.is--photo{width:12em;height:14.5em;border:0;background:none}
+.ui.is--photo img{width:100%;height:100%;object-fit:cover}
+.ui.is--tall{height:14.5em}
+.ui__pad{padding:1.1em 1.2em}
+.ui__row{display:flex;align-items:center;gap:.6em}
+.ui__avatar{width:2.2em;height:2.2em;border-radius:50%;object-fit:cover;flex:none}
+.ui__name{font-weight:500;font-size:.95em}
+.ui__time{font-size:.85em;color:var(--muted)}
+.ui__txt{margin-top:.7em;font-size:.95em;line-height:1.4;color:rgba(13,27,26,.78)}
+.ui__head{display:flex;justify-content:space-between;align-items:center;font-size:.85em;color:var(--muted)}
+.ui__title{margin-top:.5em;font-family:var(--display);font-weight:500;font-size:1.25em;letter-spacing:-.02em;line-height:1.15}
+.ui__list{margin:.8em 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.45em;font-size:.9em}
+.ui__list li{display:flex;align-items:center;gap:.55em}
+.ui__check{width:1.05em;height:1.05em;border-radius:.3em;border:1.5px solid rgba(13,27,26,.35);flex:none;display:flex;align-items:center;justify-content:center;font-size:.75em}
+.ui__check.is--on{background:var(--ink);border-color:var(--ink);color:#fff}
+.ui__big{font-family:var(--display);font-weight:500;font-size:2.6em;letter-spacing:-.04em;line-height:1}
+.ui__up{display:inline-block;margin-left:.4em;padding:.15em .5em;border-radius:100vw;background:var(--lime);font-size:.8em;font-weight:500;vertical-align:middle}
+.ui__bars{display:flex;align-items:flex-end;gap:.35em;height:3.6em;margin-top:.9em}
+.ui__bars i{flex:1;border-radius:.3em;background:var(--sky)}
+.ui__bars i:last-child{background:var(--ink)}
+.ui__wave{display:flex;align-items:center;gap:.22em;height:3em;margin-top:1em}
+.ui__wave i{flex:1;border-radius:1em;background:var(--ink);opacity:.8}
+.ui__play{width:2.4em;height:2.4em;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8em;flex:none}
+/* Archivo .mp4 rosa con la esquina doblada */
+.ui.is--file{background:var(--pink);border:0;clip-path:polygon(0 0,78% 0,100% 18%,100% 100%,0 100%)}
+.ui.is--file::after{content:"";position:absolute;top:0;right:0;width:22%;height:18%;background:rgba(255,255,255,.55);clip-path:polygon(0 0,100% 100%,0 100%)}
+.ui__ext{position:absolute;left:1.1em;bottom:1em;font-family:var(--display);font-size:1.9em;letter-spacing:-.03em}
+.ui__fname{position:absolute;left:1.4em;bottom:3.6em;font-size:.85em;color:rgba(13,27,26,.65)}
+/* Carpeta con fichas encima */
+.ui.is--folder{background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;overflow:visible}
+.ui__tab{position:absolute;left:0;top:1.4em;width:45%;height:2em;border-radius:1em 1em 0 0;background:rgba(255,255,255,.7)}
+.ui__folder{position:absolute;left:0;right:0;top:2.6em;bottom:0;border-radius:0 1.2em 1.2em 1.2em;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.95);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1.2em 2.4em -1.2em rgba(40,80,120,.25);display:flex;align-items:flex-end;padding:1em 1.2em;font-size:1.05em;font-weight:500}
+.ui__chip{position:absolute;z-index:-1;top:0;border-radius:.8em;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:500}
+.ui__chip.is--a{left:18%;width:4em;height:4.4em;background:var(--lime);transform:rotate(-6deg);font-size:1.4em}
+.ui__chip.is--b{left:48%;width:3.6em;height:3.6em;top:.6em;background:var(--sky-soft);transform:rotate(5deg);font-size:1.3em}
+.ui.is--lime{background:var(--lime);border:0}
+
+/* ===== Intro con números ===== */
+.intro{padding:7em 0 6em;text-align:center}
+.intro__text{max-width:20em;margin:0 auto;font-size:3.6em;font-weight:500;line-height:1.1;letter-spacing:-.04em;text-wrap:balance}
+.intro__text em{font-style:normal;color:var(--muted)}
+.intro__stats{display:flex;justify-content:center;gap:4em;margin-top:2.6em}
+.intro__stats b{display:block;font-size:3.4em;font-weight:500;line-height:1;letter-spacing:-.05em}
+.intro__stats span{font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
 
 /* ===== Slider con olas ===== */
-.slider{margin-top:5em;margin-bottom:8em}
+.slider{padding-top:5em;padding-bottom:8em}
 .slider__frame{position:relative;overflow:hidden}  /* recorta las piezas laterales al ancho de la pantalla */
 .splide__track{overflow:visible!important}
-.splide__slide{height:40vw;min-height:30em;padding:0 .52em}
-@media (min-width:2000px){ .splide__slide{height:800px} }
-.slide{position:relative;width:100%;height:100%;overflow:hidden;background:rgba(29,63,214,.15)}
+.splide__slide{padding:0 .52em}
+.slide{position:relative;width:100%;aspect-ratio:9/16;overflow:hidden;background:rgba(13,27,26,.08)}  /* formato reel: el video se ve completo */
 .slide img,.slide video{width:100%;height:100%;object-fit:cover}
-.slide__tag{position:absolute;left:1.2em;bottom:4.2em;padding:.5em 1em;border-radius:100vw;background:var(--white);color:var(--blue);font-family:var(--body);font-weight:500;font-size:1em}
 .splide__arrow,.splide__pagination{display:none}
 .splide :focus{outline:none}
 .slider__wave{position:absolute;left:0;top:0;right:0;z-index:2;margin-top:-.6vw;pointer-events:none}
 .slider__wave svg{display:block;width:100%;height:auto}
-.slider__wave svg path{fill:var(--orange)}
+.slider__wave svg path{fill:var(--bg)}
 .slider__wave.is--bottom{top:auto;bottom:0;margin-top:0;margin-bottom:-.6vw;transform:rotate(-180deg)}
 .controls{position:relative;z-index:4;display:flex;justify-content:center;align-items:center;margin-top:-1.8em}
-.control{position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;width:3.6em;height:3.6em;margin:0 .5em;border:2px solid var(--blue);border-radius:50%;color:var(--blue);background:var(--orange);cursor:pointer;-webkit-mask-image:-webkit-radial-gradient(center,white,black);transition:transform .2s ease,color .5s var(--ease-out-quart),background-color .2s var(--ease-out-quart)}
+.control{position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;width:3.6em;height:3.6em;margin:0 .5em;border:2px solid var(--ink);border-radius:50%;color:var(--ink);background:var(--bg);cursor:pointer;-webkit-mask-image:-webkit-radial-gradient(center,white,black);transition:transform .2s ease,color .5s var(--ease-out-quart),background-color .2s var(--ease-out-quart)}
 .control:active{transform:scale(.9)}
-.control__fill{position:absolute;top:0;right:0;z-index:1;width:100%;height:100%;margin-top:-100%;margin-right:-100%;border-radius:50%;background:var(--blue);transition:transform .5s var(--ease-out-quart) .1s}
-.control:hover{color:var(--white);background-color:var(--blue);transition:transform .2s ease,color .5s var(--ease-out-quart),background-color .2s var(--ease-out-quart) .4s}
+.control__fill{position:absolute;top:0;right:0;z-index:1;width:100%;height:100%;margin-top:-100%;margin-right:-100%;border-radius:50%;background:var(--ink);transition:transform .5s var(--ease-out-quart) .1s}
+.control:hover{color:var(--white);background-color:var(--ink);transition:transform .2s ease,color .5s var(--ease-out-quart),background-color .2s var(--ease-out-quart) .4s}
 .control:hover .control__fill{transform:translate(-100%,100%);transition-delay:0s}
 .control__arrow{position:relative;z-index:2;display:block;width:1.5em;height:1.3em}
 .control__arrow.is--flipped{transform:rotate(-180deg)}
@@ -140,8 +189,8 @@ h1 em{font-weight:500;color:var(--white)}
 /* ===== Sobre mí: texto grande ===== */
 .about{padding:8em 0 6em;text-align:center}
 .about__text{max-width:22em;margin:0 auto;font-size:4em;font-weight:500;line-height:1.12;letter-spacing:-.035em;text-wrap:balance}
-.about__text em{color:var(--white);font-style:normal}
-.about__p{max-width:36em;margin:2em auto 0;font-family:var(--body);font-weight:400;font-size:1.3em;color:var(--white)}
+.about__text em{color:var(--muted);font-style:normal}
+.about__p{max-width:36em;margin:2em auto 0;font-family:var(--body);font-weight:400;font-size:1.3em;color:var(--muted)}
 
 /* ===== Marcas en movimiento ===== */
 .brands{padding:6em 0;overflow:hidden}
@@ -152,15 +201,15 @@ h1 em{font-weight:500;color:var(--white)}
 /* Logotipos: el SVG se usa como máscara para pintarlo en azul o blanco */
 .marquee{gap:0;align-items:center}
 .marquee__group{align-items:center}
-.logo{flex:none;display:block;height:4.2em;width:calc(4.2em * var(--r));max-width:18em;margin:1.4em 3em;background:var(--blue);-webkit-mask:var(--src) center/contain no-repeat;mask:var(--src) center/contain no-repeat}
-.marquee.is--rev .logo{background:var(--white)}
+.logo{flex:none;display:block;height:4.2em;width:calc(4.2em * var(--r));max-width:18em;margin:1.4em 3em;background:var(--ink);-webkit-mask:var(--src) center/contain no-repeat;mask:var(--src) center/contain no-repeat}
+.marquee.is--rev .logo{background:var(--ink);opacity:.55}
 @keyframes marquee{to{transform:translateX(-50%)}}
 
 /* ===== Nichos ===== */
 .niches{padding:4em 0 6em}
 .pills{display:flex;flex-wrap:wrap;justify-content:center;gap:.8em;max-width:80em;margin:0 auto}
-.pill{position:relative;padding:.5em 1.6em;border:2px solid var(--blue);border-radius:100vw;font-size:2.6em;font-weight:500;letter-spacing:-.03em;line-height:1.25;transition:background-color .35s,color .35s}
-.pill:hover{background:var(--blue);color:var(--white)}
+.pill{position:relative;padding:.5em 1.6em;border:2px solid var(--ink);border-radius:100vw;font-size:2.6em;font-weight:500;letter-spacing:-.03em;line-height:1.25;transition:background-color .35s,color .35s}
+.pill:hover{background:var(--ink);color:var(--white)}
 
 /* ===== Círculo que crece ===== */
 .circle-wrap{height:300vh}
@@ -172,26 +221,29 @@ h1 em{font-weight:500;color:var(--white)}
 .quotes{padding:8em 0 4em}
 .quotes__title{text-align:center;font-size:4.4em;font-weight:500;line-height:1.05;letter-spacing:-.04em}
 .quotes__list{display:grid;grid-template-columns:repeat(3,1fr);gap:3em;margin-top:4em}
-.quote{margin:0;padding:2.4em;border-radius:1.6em;background:var(--blue);color:var(--white)}
+.quote{margin:0;padding:2.4em;border-radius:1.6em;background:var(--sky-soft);color:var(--ink)}
 .quote blockquote{margin:0;font-size:2em;font-weight:500;line-height:1.3;letter-spacing:-.02em}
-.quote figcaption{margin-top:1.2em;font-family:var(--body);font-weight:400;color:var(--orange-soft)}
+.quote figcaption{display:flex;flex-direction:column;gap:.2em;margin-top:1.4em;font-family:var(--body);font-weight:400;font-size:1.05em}
+.quote figcaption b{font-weight:500}
+.quote figcaption span{color:var(--muted)}
 
 /* ===== Contacto + footer ===== */
 .contact{padding:10em 0 3em;text-align:center}
 .contact__title{font-size:7em;font-weight:600;line-height:1;letter-spacing:-.05em}
-.contact__title em{color:var(--white);font-weight:500}
-.contact__lead{max-width:30em;margin:1.6em auto 0;font-family:var(--body);font-weight:400;font-size:1.3em;color:var(--white)}
+.contact__title em{color:var(--muted);font-weight:500;font-style:normal}
+.contact__lead{max-width:30em;margin:1.6em auto 0;font-family:var(--body);font-weight:400;font-size:1.3em;color:var(--muted)}
 .contact__list{display:flex;flex-wrap:wrap;justify-content:center;gap:2em 4em;margin-top:4em}
 .contact__row{display:flex;flex-direction:column;gap:.2em}
-.contact__row span:first-child{font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--white)}
+.contact__row span:first-child{font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
 .contact__row span:last-child{font-size:2.4em;font-weight:500;letter-spacing:-.03em;line-height:1.2;transition:opacity .3s}
 .contact__row:hover span:last-child{opacity:.65}
 .contact__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:1em;margin-top:4em}
-.btn{display:inline-flex;align-items:center;gap:.6em;padding:1em 2.2em;border:2px solid var(--blue);border-radius:100vw;background:transparent;color:var(--blue);font:500 1.2em var(--body);cursor:pointer;transition:background-color .35s,color .35s}
-.btn:hover,.btn.is--solid{background:var(--blue);color:var(--white)}
-.btn.is--solid:hover{background:var(--white);color:var(--blue);border-color:var(--white)}
-.footer__name{display:block;width:100%;height:auto;margin-top:8em;color:var(--blue);overflow:visible}
-.footer__bottom{display:flex;justify-content:space-between;margin-top:1.6em;font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--white)}
+.btn{display:inline-flex;align-items:center;gap:.6em;padding:1em 2.2em;border:2px solid var(--ink);border-radius:100vw;background:transparent;color:var(--ink);font:500 1.2em var(--body);cursor:pointer;transition:background-color .35s,color .35s}
+.btn:hover,.btn.is--solid{background:var(--ink);color:var(--white)}
+.btn.is--solid:hover{background:transparent;color:var(--ink)}
+.footer__name{margin-top:.6em;font-size:24vw;font-weight:500;line-height:1;letter-spacing:-.07em;text-align:center;white-space:nowrap}
+@media (min-width:2000px){ .footer__name{font-size:480px} }
+.footer__bottom{display:flex;justify-content:space-between;margin-top:1.6em;font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
 
 /* Reveal */
 .reveal{opacity:0;transform:translateY(30px)}
@@ -206,15 +258,20 @@ h1 em{font-weight:500;color:var(--white)}
   .container{padding:0 5vw}
   .nav__logo{font-size:2.6em}
   .trigger{width:5.6em;height:5.6em}
-  .hero{padding-top:9em}
-  h1{font-size:5em}
-  .hero__p{font-size:1.6em}
-  .hero__stats{gap:2.4em}
-  .hero__stats span{font-size:1.3em}
+  /* Hero en móvil: título en dos líneas, tarjetas más chicas y Diana grande al centro */
+  .hero{min-height:0;max-height:none}
+  .hero__title{top:27vw;font-size:21vw;line-height:.88;white-space:normal}
+  .hero__title span{display:block}
+  .hero__strip{top:47%;font-size:.78em}
+  .hero__model{height:auto;width:215vw;transform:translateX(-64%);-webkit-mask-image:none;mask-image:none}
+  .intro{padding:5em 0 4em}
+  .intro__text{font-size:3.6em}
+  .intro__stats{gap:2.6em}
+  .intro__stats b{font-size:4em}
+  .intro__stats span{font-size:1.4em}
   /* Slider en móvil: una pieza grande al centro con las vecinas asomándose */
   .slider{margin-bottom:9em}
-  .splide__slide{height:auto;min-height:0;aspect-ratio:9/15;padding:0 .7em}
-  .slide__tag{font-size:1.4em;bottom:3.4em}
+  .splide__slide{padding:0 .7em}
   .controls{margin-top:-1.4em;font-size:1.3em}
   .about__text{font-size:3.4em}
   .about__p{font-size:1.6em}
@@ -230,6 +287,7 @@ h1 em{font-weight:500;color:var(--white)}
   .contact__row span:first-child{font-size:1.4em}
   .contact__row span:last-child{font-size:2.5em;overflow-wrap:anywhere}
   .btn{font-size:1.6em}
+  .footer__name{font-size:26vw}
   .footer__bottom{flex-direction:column;align-items:center;gap:.3em;font-size:1.4em}
   /* Menú en móvil */
   .menu__content{padding:6em 2.4em 3em}
@@ -290,12 +348,48 @@ h1 em{font-weight:500;color:var(--white)}
 </div>
 
 <main>
-  <!-- Hero -->
-  <section class="section hero" id="inicio">
-    <div class="hero__wrap">
-      <h1>Hola, soy Diana y hago contenido <em>que se siente tuyo</em></h1>
-      <p class="hero__p">Videos y fotos UGC para marcas de belleza, skincare y lifestyle, listos para TikTok, Reels o anuncios.</p>
-      <div class="hero__stats">
+  <!-- Hero: título gigante, carrusel de tarjetas tech detrás y Diana al frente -->
+  <section class="section hero" id="inicio" data-bg="white">
+    <h1 class="hero__title"><span>Contenido</span> <span>UGC</span></h1>
+    <div class="hero__strip" aria-hidden="true">
+      <div class="hero__track">
+        <div class="hero__group">
+          <div class="ui is--photo"><img src="media/paisaje-1.jpg" alt="" loading="lazy"></div>
+          <div class="ui"><div class="ui__pad"><div class="ui__row"><img class="ui__avatar" src="media/azul.jpg" alt=""><div><div class="ui__name">Mariana · Cahre</div><div class="ui__time">hace 2 h</div></div></div><p class="ui__txt">Me encanta el gancho de los primeros 3 segundos, ¿grabamos otra toma con el producto en mano?</p></div></div>
+          <div class="ui is--tall"><div class="ui__pad"><div class="ui__head"><span>Guion</span><span>Reel 01</span></div><div class="ui__title">Rutina de noche en 30 s</div><ul class="ui__list"><li><span class="ui__check is--on">✓</span>Gancho</li><li><span class="ui__check is--on">✓</span>Problema</li><li><span class="ui__check is--on">✓</span>Producto</li><li><span class="ui__check"></span>Llamado a la acción</li></ul></div></div>
+          <div class="ui is--photo"><img src="media/w03.jpg" alt="" loading="lazy"></div>
+          <div class="ui is--folder"><span class="ui__chip is--a">Aa</span><span class="ui__chip is--b">&amp;</span><span class="ui__tab"></span><div class="ui__folder">Kit de marca</div></div>
+          <div class="ui is--file"><span class="ui__fname">unboxing_final</span><span class="ui__ext">.mp4</span></div>
+          <div class="ui is--photo"><img src="media/paisaje-2.jpg" alt="" loading="lazy"></div>
+          <div class="ui"><div class="ui__pad"><div class="ui__head"><span>Reel · Instagram</span><span>7 días</span></div><div class="ui__big" style="margin-top:.4em">184K<span class="ui__up">+240%</span></div><div class="ui__time">reproducciones</div><div class="ui__bars"><i style="height:30%"></i><i style="height:45%"></i><i style="height:38%"></i><i style="height:60%"></i><i style="height:72%"></i><i style="height:100%"></i></div></div></div>
+          <div class="ui is--lime"><div class="ui__pad"><div class="ui__head" style="color:rgba(13,27,26,.6)"><span>Entrega</span><span>Brief #12</span></div><div class="ui__big" style="margin-top:.5em">Vie 14</div><p class="ui__txt">3 videos verticales + 6 fotos de producto</p></div></div>
+          <div class="ui is--photo"><img src="media/w08.jpg" alt="" loading="lazy"></div>
+          <div class="ui"><div class="ui__pad"><div class="ui__row"><span class="ui__play">▶</span><div><div class="ui__name">Voz en off</div><div class="ui__time">0:32 · toma 3</div></div></div><div class="ui__wave"><i style="height:30%"></i><i style="height:70%"></i><i style="height:45%"></i><i style="height:90%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:80%"></i><i style="height:60%"></i><i style="height:25%"></i><i style="height:65%"></i><i style="height:40%"></i><i style="height:75%"></i></div></div></div>
+        </div>
+        <div class="hero__group">
+          <div class="ui is--photo"><img src="media/paisaje-1.jpg" alt="" loading="lazy"></div>
+          <div class="ui"><div class="ui__pad"><div class="ui__row"><img class="ui__avatar" src="media/azul.jpg" alt=""><div><div class="ui__name">Mariana · Cahre</div><div class="ui__time">hace 2 h</div></div></div><p class="ui__txt">Me encanta el gancho de los primeros 3 segundos, ¿grabamos otra toma con el producto en mano?</p></div></div>
+          <div class="ui is--tall"><div class="ui__pad"><div class="ui__head"><span>Guion</span><span>Reel 01</span></div><div class="ui__title">Rutina de noche en 30 s</div><ul class="ui__list"><li><span class="ui__check is--on">✓</span>Gancho</li><li><span class="ui__check is--on">✓</span>Problema</li><li><span class="ui__check is--on">✓</span>Producto</li><li><span class="ui__check"></span>Llamado a la acción</li></ul></div></div>
+          <div class="ui is--photo"><img src="media/w03.jpg" alt="" loading="lazy"></div>
+          <div class="ui is--folder"><span class="ui__chip is--a">Aa</span><span class="ui__chip is--b">&amp;</span><span class="ui__tab"></span><div class="ui__folder">Kit de marca</div></div>
+          <div class="ui is--file"><span class="ui__fname">unboxing_final</span><span class="ui__ext">.mp4</span></div>
+          <div class="ui is--photo"><img src="media/paisaje-2.jpg" alt="" loading="lazy"></div>
+          <div class="ui"><div class="ui__pad"><div class="ui__head"><span>Reel · Instagram</span><span>7 días</span></div><div class="ui__big" style="margin-top:.4em">184K<span class="ui__up">+240%</span></div><div class="ui__time">reproducciones</div><div class="ui__bars"><i style="height:30%"></i><i style="height:45%"></i><i style="height:38%"></i><i style="height:60%"></i><i style="height:72%"></i><i style="height:100%"></i></div></div></div>
+          <div class="ui is--lime"><div class="ui__pad"><div class="ui__head" style="color:rgba(13,27,26,.6)"><span>Entrega</span><span>Brief #12</span></div><div class="ui__big" style="margin-top:.5em">Vie 14</div><p class="ui__txt">3 videos verticales + 6 fotos de producto</p></div></div>
+          <div class="ui is--photo"><img src="media/w08.jpg" alt="" loading="lazy"></div>
+          <div class="ui"><div class="ui__pad"><div class="ui__row"><span class="ui__play">▶</span><div><div class="ui__name">Voz en off</div><div class="ui__time">0:32 · toma 3</div></div></div><div class="ui__wave"><i style="height:30%"></i><i style="height:70%"></i><i style="height:45%"></i><i style="height:90%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:80%"></i><i style="height:60%"></i><i style="height:25%"></i><i style="height:65%"></i><i style="height:40%"></i><i style="height:75%"></i></div></div></div>
+        </div>
+      </div>
+    </div>
+    <img class="hero__model" src="media/modelo.webp" alt="Diana con su laptop" fetchpriority="high">
+  </section>
+
+  <!-- Intro con números -->
+  <section class="section intro" data-bg="white">
+    <div class="container">
+      <p class="label reveal">Hola, soy Diana</p>
+      <p class="intro__text reveal">Creo videos y fotos UGC para marcas de belleza, skincare y lifestyle <em>que se sienten reales y venden</em></p>
+      <div class="intro__stats reveal">
         <div><b>+10K</b><span>seguidores</span></div>
         <div><b>+40</b><span>marcas</span></div>
         <div><b>+300</b><span>videos</span></div>
@@ -304,20 +398,20 @@ h1 em{font-weight:500;color:var(--white)}
   </section>
 
   <!-- Slider con olas -->
-  <section class="section slider" id="trabajo" aria-label="Mi trabajo">
+  <section class="section slider" id="trabajo" aria-label="Mi trabajo" data-bg="blue">
     <div class="slider__frame">
     <div class="slider__wave"><svg viewBox="0 0 804 50.167" aria-hidden="true"><path d="M804,0v16.7c0,0-205,33.5-402,33.5C205,50.2,0,16.7,0,16.7V0H804z"/></svg></div>
     <div class="splide" aria-label="Trabajos de Diana">
       <div class="splide__track">
         <ul class="splide__list">
-          <li class="splide__slide"><div class="slide"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video><span class="slide__tag">Unboxing</span></div></li>
-          <li class="splide__slide"><div class="slide"><img src="media/sonrie.jpg" alt="Diana sonriendo" loading="lazy"><span class="slide__tag">Retrato</span></div></li>
-          <li class="splide__slide"><div class="slide"><video src="media/video-4.mp4" poster="media/poster-4.jpg" muted loop playsinline preload="none" aria-label="Video de skincare"></video><span class="slide__tag">Skincare</span></div></li>
-          <li class="splide__slide"><div class="slide"><img src="media/w03.jpg" alt="Sérum en la cara" loading="lazy"><span class="slide__tag">Tutorial</span></div></li>
-          <li class="splide__slide"><div class="slide"><img src="media/azul-beso.jpg" alt="Diana con fondo azul" loading="lazy"><span class="slide__tag">Lifestyle</span></div></li>
-          <li class="splide__slide"><div class="slide"><video src="media/video-2.mp4" poster="media/poster-2.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video><span class="slide__tag">Reseña</span></div></li>
-          <li class="splide__slide"><div class="slide"><img src="media/w08.jpg" alt="Crema en primer plano" loading="lazy"><span class="slide__tag">Producto</span></div></li>
-          <li class="splide__slide"><div class="slide"><video src="media/video-3.mp4" poster="media/poster-3.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video><span class="slide__tag">Anuncio</span></div></li>
+          <li class="splide__slide"><div class="slide"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div></li>
+          <li class="splide__slide"><div class="slide"><img src="media/sonrie.jpg" alt="Diana sonriendo" loading="lazy"></div></li>
+          <li class="splide__slide"><div class="slide"><video src="media/video-4.mp4" poster="media/poster-4.jpg" muted loop playsinline preload="none" aria-label="Video de skincare"></video></div></li>
+          <li class="splide__slide"><div class="slide"><img src="media/w03.jpg" alt="Sérum en la cara" loading="lazy"></div></li>
+          <li class="splide__slide"><div class="slide"><img src="media/azul-beso.jpg" alt="Diana con fondo azul" loading="lazy"></div></li>
+          <li class="splide__slide"><div class="slide"><video src="media/video-2.mp4" poster="media/poster-2.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div></li>
+          <li class="splide__slide"><div class="slide"><img src="media/w08.jpg" alt="Crema en primer plano" loading="lazy"></div></li>
+          <li class="splide__slide"><div class="slide"><video src="media/video-3.mp4" poster="media/poster-3.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div></li>
         </ul>
       </div>
     </div>
@@ -330,7 +424,7 @@ h1 em{font-weight:500;color:var(--white)}
   </section>
 
   <!-- Sobre mí -->
-  <section class="section about" id="sobre-mi">
+  <section class="section about" id="sobre-mi" data-bg="white">
     <div class="container">
       <p class="label reveal">Sobre mí</p>
       <p class="about__text reveal">Me encargo de todo: <em>idea, guion, grabación y edición</em> en formato vertical</p>
@@ -339,7 +433,7 @@ h1 em{font-weight:500;color:var(--white)}
   </section>
 
   <!-- Marcas -->
-  <section class="section brands" id="marcas">
+  <section class="section brands" id="marcas" data-bg="blue">
     <p class="label reveal" style="text-align:center">Marcas</p>
     <h2 class="brands__title reveal">Marcas con las que he colaborado</h2>
     <div class="marquee"><div class="marquee__group"><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span><span class="logo" role="img" aria-label="Bershka" style="--src:url(media/marcas/bershka-1.svg);--r:4.526"></span><span class="logo" role="img" aria-label="Chanel" style="--src:url(media/marcas/chanel-2.svg);--r:1.510"></span><span class="logo" role="img" aria-label="DJI" style="--src:url(media/marcas/dji-1.svg);--r:1.738"></span><span class="logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:5.500"></span><span class="logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Pull&Bear" style="--src:url(media/marcas/pull-bear-2.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span></div><div class="marquee__group" aria-hidden="true"><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span><span class="logo" role="img" aria-label="Bershka" style="--src:url(media/marcas/bershka-1.svg);--r:4.526"></span><span class="logo" role="img" aria-label="Chanel" style="--src:url(media/marcas/chanel-2.svg);--r:1.510"></span><span class="logo" role="img" aria-label="DJI" style="--src:url(media/marcas/dji-1.svg);--r:1.738"></span><span class="logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:5.500"></span><span class="logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Pull&Bear" style="--src:url(media/marcas/pull-bear-2.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span></div></div>
@@ -347,7 +441,7 @@ h1 em{font-weight:500;color:var(--white)}
   </section>
 
   <!-- Nichos -->
-  <section class="section niches" id="nichos">
+  <section class="section niches" id="nichos" data-bg="white">
     <div class="container">
       <p class="label reveal" style="text-align:center">Nichos</p>
       <div class="pills reveal">
@@ -357,25 +451,25 @@ h1 em{font-weight:500;color:var(--white)}
   </section>
 
   <!-- Círculo que crece -->
-  <section class="section circle-wrap" aria-label="Diana entre flores">
+  <section class="section circle-wrap" aria-label="Diana entre flores" data-bg="blue">
     <div class="circle-sticky"><div class="circle"><img src="media/flores.jpg" alt="Diana acostada entre flores" loading="lazy"></div></div>
   </section>
 
   <!-- Testimonios -->
-  <section class="section quotes" id="testimonios">
+  <section class="section quotes" id="testimonios" data-bg="white">
     <div class="container">
       <p class="label reveal" style="text-align:center">Testimonios</p>
       <h2 class="quotes__title reveal">Lo que dicen las marcas</h2>
       <div class="quotes__list">
-        <figure class="quote reveal"><blockquote>“Sus videos se sienten naturales y convirtieron mejor que nuestros anuncios de estudio”</blockquote><figcaption>Marca de skincare</figcaption></figure>
-        <figure class="quote reveal"><blockquote>“Entrega rápida, ideas claras y un contenido que nuestra comunidad sí comenta”</blockquote><figcaption>Marca de moda</figcaption></figure>
-        <figure class="quote reveal"><blockquote>“Entendió el producto a la primera y lo contó como alguien que de verdad lo usa”</blockquote><figcaption>Marca de lifestyle</figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas”</blockquote><figcaption><b>Mariana López</b><span>Gerente de Marketing · Cahre Skincare</span></figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Le facilita muchísimo el trabajo al equipo de pauta”</blockquote><figcaption><b>Andrés Ruiz</b><span>Performance Marketing · Caja Sorpresa</span></figcaption></figure>
+        <figure class="quote reveal"><blockquote>“Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda nuestra comunidad”</blockquote><figcaption><b>Sofía Herrera</b><span>Brand Manager · Sérum Glow</span></figcaption></figure>
       </div>
     </div>
   </section>
 
   <!-- Contacto -->
-  <section class="section contact" id="contacto">
+  <section class="section contact" id="contacto" data-bg="blue">
     <div class="container">
       <p class="label reveal">Contacto</p>
       <h2 class="contact__title reveal">Hagamos algo <em>juntas</em></h2>
@@ -389,9 +483,7 @@ h1 em{font-weight:500;color:var(--white)}
         <a class="btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
         <button class="btn" type="button" data-copy="hola@dianacreativa.com"><span>Copiar correo</span></button>
       </div>
-      <svg class="footer__name" viewBox="0 0 640 150" aria-hidden="true">
-        <text x="320" y="118" text-anchor="middle" font-family="Fahkwang, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="626" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
-      </svg>
+      <p class="footer__name" aria-hidden="true">Diana</p>
       <div class="footer__bottom"><span>© 2026 Diana</span><span>Plantilla UGC de We Are Miiles</span></div>
     </div>
   </section>
@@ -420,8 +512,8 @@ const goTo = sel => {
 
 /* 1) Slider: 3 por vista con el centro enfocado; en móvil 1 grande con las vecinas asomándose */
 const splide = new Splide('.splide', {
-  perPage: 3, perMove: 1, type: 'loop', focus: 'center', arrows: false, pagination: false, drag: true,
-  breakpoints: { 767: { perPage: 1, padding: '14%' } }
+  perPage: 4, perMove: 1, type: 'loop', focus: 'center', arrows: false, pagination: false, drag: true,
+  breakpoints: { 991: { perPage: 3 }, 767: { perPage: 1, padding: '18%' } }
 }).mount();
 $('.next-splide').addEventListener('click', () => splide.go('>'));
 $('.prev-splide').addEventListener('click', () => splide.go('<'));
@@ -537,9 +629,21 @@ if (!reduce) {
     { width: '100vw', height: '100vh', borderRadius: '0em', ease: 'none',
       scrollTrigger: { trigger: '.circle-wrap', start: 'top top', end: 'bottom bottom', scrub: 0.4 } });
   /* Entrada del hero */
-  gsap.from('.hero h1, .hero__p, .hero__stats', { y: 40, opacity: 0, duration: 1.1, ease: 'power3.out', stagger: 0.12, delay: 0.15 });
-  gsap.from('.slider', { y: 80, opacity: 0, duration: 1.3, ease: 'power3.out', delay: 0.35 });
+  gsap.from('.hero__title span', { yPercent: 40, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: 0.1, delay: 0.1 });
+  gsap.from('.hero__strip', { opacity: 0, duration: 1.2, ease: 'power2.out', delay: 0.35 });
+  gsap.from('.hero__model', { yPercent: 8, opacity: 0, duration: 1.3, ease: 'power3.out', delay: 0.2 });
+  /* La foto de Diana sube un poco y el título se queda atrás al hacer scroll */
+  gsap.to('.hero__model', { yPercent: -6, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero__title', { yPercent: 25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 }
+
+/* Cambio de fondo: blanco ↔ azul cielo según la sección (el texto siempre negro) */
+const BG = { white: '#ffffff', blue: '#bfdef8' };
+const rootEl = document.documentElement;
+$$('[data-bg]').forEach(sec => ScrollTrigger.create({
+  trigger: sec, start: 'top 55%', end: 'bottom 55%',
+  onToggle: self => { if (self.isActive) gsap.to(rootEl, { '--bg': BG[sec.dataset.bg], duration: reduce ? 0 : 0.7, ease: 'power2.out', overwrite: 'auto' }); }
+}));
 
 /* Copiar correo */
 $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
