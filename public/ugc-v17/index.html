@@ -82,7 +82,8 @@ img,video{display:block;max-width:100%}
 .menu.is-visible{display:block}
 .menu__overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .5s}
 .menu.is-open .menu__overlay{opacity:1}
-.menu__panel{position:absolute;top:0;right:0;width:min(86vw,max(50vw,380px));height:100%}
+.menu__panel,.menu__curtain{position:absolute;top:0;right:0;width:min(86vw,max(50vw,380px));height:100%}
+.menu__curtain{background:var(--sky)}  /* capa azul que se adelanta, como cortina */
 .background{position:absolute;inset:0;z-index:1;display:flex}
 .background__fill{width:100%;height:100%;flex:0 0 100%;background:var(--white)}
 .background__wave{display:none}
@@ -109,13 +110,13 @@ img,video{display:block;max-width:100%}
 
 /* ===== Hero: título gigante, carrusel de tarjetas tech detrás y Diana sin fondo al frente ===== */
 .hero{position:relative;height:100vh;height:100svh;min-height:42em;max-height:70em;overflow:hidden;background:var(--sky)}  /* azul completo; abajo corta limpio con la sección blanca */
-.hero__title{position:absolute;left:0;right:0;top:9vw;z-index:1;text-align:center;font-size:12.2vw;font-weight:500;line-height:.9;letter-spacing:-.065em;white-space:nowrap;color:var(--ink)}
+.hero__title{position:absolute;left:0;right:0;top:6.6vw;z-index:1;text-align:center;font-size:21vw;font-weight:500;line-height:.9;letter-spacing:-.065em;white-space:nowrap;color:var(--ink)}
 .hero__title span{display:inline-block}
 .hero__strip{position:absolute;left:0;right:0;top:44%;z-index:2;overflow:hidden;padding:2em 0}
 .hero__track{display:flex;width:max-content;animation:strip 60s linear infinite}
 .hero__group{display:flex;align-items:center;gap:1.6em;padding-right:1.6em}
 @keyframes strip{to{transform:translateX(-50%)}}
-.hero__model{position:absolute;left:max(0px,calc(50% - min(78vh,52vw) * 1.26));bottom:0;z-index:3;width:auto;height:min(78%,52vw);max-width:none;pointer-events:none;user-select:none}  /* la orilla izquierda de la foto (piernas cortadas) queda pegada al borde */
+.hero__model{position:absolute;left:0;bottom:0;z-index:3;width:auto;height:min(78%,52vw);max-width:none;pointer-events:none;user-select:none}  /* la orilla izquierda de la foto (piernas cortadas) queda pegada al borde */
 /* Tarjetas tipo interfaz: vidrio blanco, esquinas suaves */
 .ui{flex:none;position:relative;width:14em;height:12.5em;border-radius:1.4em;overflow:hidden;font-family:var(--body);font-weight:400;color:var(--ink);background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.9);box-shadow:0 1.2em 2.4em -1.2em rgba(40,80,120,.25);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 .ui.is--photo{width:12em;height:14.5em;border:0;background:none}
@@ -263,7 +264,7 @@ img,video{display:block;max-width:100%}
   .trigger{width:5.6em;height:5.6em}
   /* Hero en móvil: título en dos líneas, tarjetas más chicas y Diana grande al centro */
   .hero{min-height:0;max-height:none}
-  .hero__title{top:27vw;font-size:21vw;line-height:.88;white-space:normal}
+  .hero__title{top:27vw;font-size:30vw;line-height:.88;white-space:normal}
   .hero__title span{display:block}
   .hero__strip{top:47%;font-size:.78em}
   .hero__model{left:50%;height:auto;width:215vw;transform:translateX(-73%)}
@@ -328,6 +329,7 @@ img,video{display:block;max-width:100%}
 <!-- Menú a media pantalla -->
 <div class="menu" id="menu" aria-hidden="true">
   <div class="menu__overlay"></div>
+  <div class="menu__curtain"></div>
   <div class="menu__panel">
     <div class="background">
       <div class="background__fill"></div>
@@ -557,10 +559,10 @@ if (finePointer) {
   });
 }
 
-/* 3) Menú: el panel entra desde la izquierda (se descubre de izquierda a derecha) y al cerrar se va hacia la derecha */
-const menu = $('.menu'), panel = $('.menu__panel'), menuContent = $('.menu__content'), menuIcon = $('.menu__icon'), trigger = $('.trigger');
+/* 3) Menú: entra desde la derecha como cortina (capa azul y luego el panel blanco) y al cerrar regresa a la derecha */
+const menu = $('.menu'), panel = $('.menu__panel'), curtain = $('.menu__curtain'), menuIcon = $('.menu__icon'), trigger = $('.trigger');
 const menuItems = $$('.menu__close, .nav-link, .menu__icon, .sublinks');
-gsap.set(panel, { clipPath: 'inset(0% 100% 0% 0%)' });
+gsap.set([panel, curtain], { xPercent: 101 });
 let open = false, busy = false;
 function toggleMenu(force, after) {
   const next = force === undefined ? !open : force;
@@ -571,16 +573,17 @@ function toggleMenu(force, after) {
   const done = () => { busy = false; after?.(); };
   if (open) {
     lenis?.stop(); menu.classList.add('is-visible'); requestAnimationFrame(() => menu.classList.add('is-open'));
-    gsap.set(menuContent, { opacity: 1 });
-    gsap.timeline({ onComplete: done })
-      .fromTo(panel, { clipPath: 'inset(0% 100% 0% 0%)', xPercent: -12 }, { clipPath: 'inset(0% 0% 0% 0%)', xPercent: 0, duration: 0.85, ease: 'expo.out' })
-      .fromTo(menuItems, { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.06 }, 0.25)
-      .fromTo(menuIcon, { scale: 0 }, { scale: 1, duration: 0.6, ease: 'back.out(1.6)' }, 0.45);
+    gsap.timeline()
+      .to(curtain, { xPercent: 0, duration: 0.7, ease: 'expo.inOut' })
+      .to(panel, { xPercent: 0, duration: 0.75, ease: 'expo.inOut', onComplete: done }, 0.1)  // ya se puede cerrar o navegar
+      .fromTo(menuItems, { x: 50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.06 }, 0.5)
+      .fromTo(menuIcon, { scale: 0 }, { scale: 1, duration: 0.6, ease: 'back.out(1.6)' }, 0.7);
   } else {
     menu.classList.remove('is-open');
-    gsap.timeline({ onComplete: () => { menu.classList.remove('is-visible'); gsap.set(panel, { clipPath: 'inset(0% 100% 0% 0%)', xPercent: 0 }); lenis?.start(); done(); } })
-      .to(menuItems, { x: 40, opacity: 0, duration: 0.35, ease: 'power2.in', stagger: 0.03 })
-      .to(panel, { clipPath: 'inset(0% 0% 0% 100%)', xPercent: 12, duration: 0.7, ease: 'expo.inOut' }, 0.12);
+    gsap.timeline({ onComplete: () => { menu.classList.remove('is-visible'); lenis?.start(); done(); } })
+      .to(menuItems, { x: 30, opacity: 0, duration: 0.3, ease: 'power2.in', stagger: 0.03, overwrite: true })
+      .to(panel, { xPercent: 101, duration: 0.7, ease: 'expo.inOut' }, 0.15)
+      .to(curtain, { xPercent: 101, duration: 0.7, ease: 'expo.inOut' }, 0.25);
   }
 }
 trigger.addEventListener('click', () => toggleMenu());
