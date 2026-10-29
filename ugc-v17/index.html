@@ -518,10 +518,20 @@ const goTo = sel => {
 /* 1) Slider: 3 por vista con el centro enfocado; en móvil 1 grande con las vecinas asomándose */
 const splide = new Splide('.splide', {
   perPage: 4, perMove: 1, type: 'loop', focus: 'center', arrows: false, pagination: false, drag: true,
-  // Se mueve solo y se detiene al pasar el cursor encima
-  autoplay: !reduce, interval: 2600, speed: 900, pauseOnHover: true, pauseOnFocus: true,
   breakpoints: { 991: { perPage: 3 }, 767: { perPage: 1, padding: '18%' } }
 }).mount();
+// Se desliza solo, continuo y en bucle; se detiene con el cursor encima (ahí se puede arrastrar) y sigue al salir
+if (!reduce) {
+  const sliderEl = $('.splide'); let hover = false, dragging = false;
+  sliderEl.addEventListener('mouseenter', () => { hover = true; });
+  sliderEl.addEventListener('mouseleave', () => { hover = false; });
+  splide.on('drag', () => { dragging = true; }); splide.on('moved', () => { dragging = false; });
+  gsap.ticker.add((t, dt) => {
+    if (hover || dragging || splide.state.is(Splide.STATES.MOVING)) return;
+    const { Move } = splide.Components;
+    Move.translate(Move.getPosition() - 0.045 * dt);  // ~45 px por segundo
+  });
+}
 $('.next-splide').addEventListener('click', () => splide.go('>'));
 $('.prev-splide').addEventListener('click', () => splide.go('<'));
 // Solo se reproducen los videos de las piezas visibles
