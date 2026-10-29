@@ -76,7 +76,7 @@ img,video{display:block;max-width:100%}
 .hero_btn.is--solid{background:var(--black);color:var(--pink)}
 .hero_btn.is--solid:hover{background:#e47f9c;color:var(--black);border-color:#e47f9c}
 .hero_btn:not(.is--solid):hover{background:var(--black);color:var(--pink)}
-.hero_name{display:block;width:84%;height:auto;margin:0 auto;color:#fff;mix-blend-mode:difference;overflow:visible}  /* más chico y pegado abajo para no tapar la cara */
+.hero_name{display:block;width:62%;height:auto;margin:0 auto;color:#fff;mix-blend-mode:difference;overflow:visible}  /* más chico y pegado abajo para no tapar la cara */
 
 /* 3. NAV sticky + logo que se encoge */
 /* Nav fijo arriba: transparente sobre el hero, con fondo al bajar; se oculta al hacer scroll hacia abajo y vuelve al subir */
@@ -282,24 +282,33 @@ body.menu-open .nav{transform:none}
   .nav.is-top .burger span{background:#fff}
   .nav_logo{width:9em}
   .header_sub{font-size:1.8em}
-  .sticky-circle_element{width:28em;height:28em;border-radius:28em}
+  .sticky-circle_wrap{height:auto}
+  .sticky-circle{position:relative;height:auto;padding:4em 3em}
+  .sticky-circle_element{width:100%;height:auto;aspect-ratio:4/5;border-radius:3em}
+  .sticky-circle_img{width:100%;height:100%;object-position:38% 35%}
   .amen-grid{grid-template-columns:1fr 1fr;column-gap:2em;row-gap:3em}
   .amen-h3{font-size:2.6em}
   .amen-icon{width:4.6em;height:4.6em}
   /* Campañas en móvil: carrusel horizontal de reels */
-  .team_grid{display:flex;gap:1.6em;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -3em;padding:0 3em 1em;scrollbar-width:none}
+  .team_grid{display:flex;gap:1.6em;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -3em;padding:0 3em 1em;scroll-padding:0 3em;scrollbar-width:none}
+  .team_item:last-child{margin-right:3em}
   .team_grid::-webkit-scrollbar{display:none}
   .team_item{flex:none;width:68%;scroll-snap-align:start}
   .team_name{font-size:2.6em}
   .team_header-flex{display:block}
-  .swiper-slide.is-team{margin-right:5%}
-  .swiper-slide.is-team:nth-child(n){width:72%}
+  /* Trabajo en móvil: scroll nativo con imán (sin Swiper), de orilla a orilla para que nada se corte */
+  .swiper.is-team{width:auto;align-self:stretch;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;margin:0 -3em;padding:0 3em;scroll-padding:0 3em;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:auto}
+  .swiper.is-team::-webkit-scrollbar{display:none}
+  .swiper-wrapper.is-team{display:flex;width:max-content;transform:none!important;align-items:stretch}
+  .swiper-slide.is-team:nth-child(n){width:calc(72vw - 2em);margin-right:1.6em;scroll-snap-align:start}
+  .swiper-slide.is-team:last-child{margin-right:3em}
+  .team_photo-height{clip-path:none}
   .frens-grid{grid-template-columns:1fr;gap:5em}
   .frens-media{max-width:none}
   .img-parent{height:auto;aspect-ratio:4/5}
   .sentence-h2{font-size:5.4em}
-  .heading-md{font-size:13em}
-  .scroll-section{padding:12em 0}
+  .heading-md{font-size:7em}
+  .scroll-section{padding:4em 0}
   .plans-grid{grid-template-columns:1fr;gap:3em}
   .plan-inner{padding:4em 3em;border-radius:3em}
   .plan-title{font-size:5.4em}
@@ -348,8 +357,8 @@ body.menu-open .nav{transform:none}
       </div>
     </div>
     <div class="hero_bottom">
-      <svg class="hero_name" viewBox="0 0 640 132" aria-hidden="true">
-        <text x="320" y="118" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" textLength="630" lengthAdjust="spacingAndGlyphs" fill="currentColor">Diana</text>
+      <svg class="hero_name" viewBox="108 0 423 132" aria-hidden="true">
+        <text x="320" y="118" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="600" font-size="168" letter-spacing="-8" fill="currentColor">Diana</text>
       </svg>
     </div>
   </div>
@@ -675,8 +684,8 @@ if (!reduce) {
   }));
 
   /* C. Círculo sticky: redondo → pantalla completa */
-  const c = isMobile ? '28em' : '35em';
-  gsap.fromTo('.sticky-circle_element', { width: c, height: c, borderRadius: c },
+  // En celular la foto va quieta, sin animación
+  if (!isMobile) gsap.fromTo('.sticky-circle_element', { width: '35em', height: '35em', borderRadius: '35em' },
     { width: '100vw', height: '100vh', borderRadius: '0em', ease: 'none',
       scrollTrigger: { trigger: '.sticky-circle_wrap', start: 'top top', end: 'bottom bottom', scrub: 0.185 } });
 
@@ -704,10 +713,11 @@ gsap.timeline({ scrollTrigger: { trigger: '.is--frens', start: 'top bottom', end
   .to({}, { duration: 0.2 }, 0.8);
 
 /* J. Galería Swiper + cursor "arrastra" */
-const teamSwiper = new Swiper('.swiper.is-team', { slidesPerView: 'auto', keyboard: true, speed: 800, mousewheel: { forceToAxis: true }, freeMode: true });
+// En celular va con scroll nativo (Swiper no se ve bien en iPhone)
+const teamSwiper = isMobile ? null : new Swiper('.swiper.is-team', { slidesPerView: 'auto', keyboard: true, speed: 800, mousewheel: { forceToAxis: true }, freeMode: true });
 const dot = $('.cursor_dot'), photos = $$('.team_photo-height');
 let dragTimeout;
-teamSwiper.on('progress', () => {
+teamSwiper && teamSwiper.on('progress', () => {
   clearTimeout(dragTimeout);
   photos.forEach(p => p.classList.add('scaled')); dot.classList.add('hide');
   dragTimeout = setTimeout(() => { photos.forEach(p => p.classList.remove('scaled')); dot.classList.remove('hide'); }, 100);
