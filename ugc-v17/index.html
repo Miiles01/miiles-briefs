@@ -83,11 +83,11 @@ img,video{display:block;max-width:100%}
 .menu__overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .5s}
 .menu.is-open .menu__overlay{opacity:1}
 .menu__panel{position:absolute;top:0;right:0;width:min(86vw,max(50vw,380px));height:100%}
-.background{position:absolute;left:0;top:0;right:0;z-index:1;display:flex;flex-direction:column;width:100%;height:101%;transform:translateY(-100%)}
-.background__fill{width:100%;height:100%;flex:0 0 100%;background:var(--sky)}
-.background__wave{display:block;width:100%;height:auto;margin-top:-1px;flex:0 0 auto}
+.background{position:absolute;inset:0;z-index:1;display:flex}
+.background__fill{width:100%;height:100%;flex:0 0 100%;background:var(--white)}
+.background__wave{display:none}
 .background__wave path{fill:var(--sky)}
-.menu__content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;height:100%;padding:7em 4em 4em;color:var(--ink);opacity:0}
+.menu__content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;height:100%;padding:7em 4em 4em;color:var(--ink)}
 .menu__close{position:absolute;top:24px;right:24px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:0;border-radius:999px;background:var(--ink);color:var(--white);font:500 14px var(--body);cursor:pointer}
 .menu__links{display:flex;flex-direction:column;align-items:flex-start}
 .nav-link{position:relative;display:flex;align-items:center;margin:.3em 0}
@@ -101,7 +101,7 @@ img,video{display:block;max-width:100%}
 .nav-link__num{margin:.8em 0 0 .3em;font-family:var(--body);font-size:1.1em;line-height:1}
 .nav-link__img{position:absolute;top:50%;right:-2em;z-index:-1;width:12em;height:16em;margin-top:-8em;border-radius:.8em;object-fit:cover;opacity:0;transform:scale(.7) rotate(-4deg);transition:opacity .5s var(--ease-out-quart),transform .5s var(--ease-out-quart);pointer-events:none}
 .nav-link:hover .nav-link__img{opacity:.9;transform:scale(1) rotate(-4deg)}
-.menu__icon{width:3em;height:3em;margin-top:3em;transform:scale(0);color:var(--ink)}
+.menu__icon{width:3em;height:3em;margin-top:3em;color:var(--ink)}
 .sublinks{display:flex;flex-wrap:wrap;gap:.4em 2em;margin-top:2em}
 .sublink{position:relative;overflow:hidden;padding-bottom:.2em}
 .sublink__text{font-family:var(--body);font-weight:400;font-size:1.3em}
@@ -353,7 +353,7 @@ img,video{display:block;max-width:100%}
 <main>
   <!-- Hero: título gigante, carrusel de tarjetas tech detrás y Diana al frente -->
   <section class="section hero" id="inicio" data-bg="white">
-    <h1 class="hero__title"><span>Contenido</span> <span>UGC</span></h1>
+    <h1 class="hero__title"><span>Diana</span> <span>UGC</span></h1>
     <div class="hero__strip" aria-hidden="true">
       <div class="hero__track">
         <div class="hero__group">
@@ -557,48 +557,31 @@ if (finePointer) {
   });
 }
 
-/* 3) Menú: el panel cae desde arriba con una ola, los textos aparecen después */
-const ease = { outSine: t => Math.sin(t * Math.PI / 2), outQuart: t => 1 - Math.pow(1 - t, 4) };
-function tween(from, to, dur, delay, easing, set) {
-  return new Promise(res => {
-    const start = performance.now() + delay;
-    (function frame(now) {
-      const t = Math.min(Math.max((now - start) / dur, 0), 1);
-      if (now >= start) set(from + (to - from) * easing(t));
-      t < 1 ? requestAnimationFrame(frame) : res();
-    })(performance.now());
-  });
-}
-const menu = $('.menu'), bg = $('.background'), wave = $('.background__wave path'), menuContent = $('.menu__content'), menuIcon = $('.menu__icon'), trigger = $('.trigger');
-const setWave = p => {
-  const local = p <= 0.5 ? p / 0.5 : (p - 0.5) / 0.5;
-  const d = Math.sin(local * Math.PI) * 165 * 0.9;
-  wave.setAttribute('d', `M0,0 H813 V0 C610,${d} 203,${d} 0,0 Z`);
-};
+/* 3) Menú: el panel entra desde la izquierda (se descubre de izquierda a derecha) y al cerrar se va hacia la derecha */
+const menu = $('.menu'), panel = $('.menu__panel'), menuContent = $('.menu__content'), menuIcon = $('.menu__icon'), trigger = $('.trigger');
+const menuItems = $$('.menu__close, .nav-link, .menu__icon, .sublinks');
+gsap.set(panel, { clipPath: 'inset(0% 100% 0% 0%)' });
 let open = false, busy = false;
-async function toggleMenu(force, after) {
+function toggleMenu(force, after) {
   const next = force === undefined ? !open : force;
   if (busy || next === open) { after?.(); return; }
   busy = true; open = next;
   trigger.setAttribute('aria-expanded', open); menu.setAttribute('aria-hidden', !open);
   cursor.classList.toggle('hide-cursor', open);
+  const done = () => { busy = false; after?.(); };
   if (open) {
     lenis?.stop(); menu.classList.add('is-visible'); requestAnimationFrame(() => menu.classList.add('is-open'));
-    const a = tween(-100, 0, 700, 0, ease.outSine, v => bg.style.transform = `translateY(${v}%)`);
-    const b = tween(0, 0.5, 800, 0, ease.outSine, setWave);
-    tween(0, 1, 500, 300, ease.outQuart, v => menuIcon.style.transform = `scale(${v})`);
-    const c = tween(0, 1, 300, 400, t => t, v => menuContent.style.opacity = v);
-    await Promise.all([a, b, c]);
+    gsap.set(menuContent, { opacity: 1 });
+    gsap.timeline({ onComplete: done })
+      .fromTo(panel, { clipPath: 'inset(0% 100% 0% 0%)', xPercent: -12 }, { clipPath: 'inset(0% 0% 0% 0%)', xPercent: 0, duration: 0.85, ease: 'expo.out' })
+      .fromTo(menuItems, { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.06 }, 0.25)
+      .fromTo(menuIcon, { scale: 0 }, { scale: 1, duration: 0.6, ease: 'back.out(1.6)' }, 0.45);
   } else {
     menu.classList.remove('is-open');
-    tween(1, 0, 200, 0, t => t, v => menuContent.style.opacity = v);
-    tween(1, 0, 500, 200, ease.outQuart, v => menuIcon.style.transform = `scale(${v})`);
-    const a = tween(0, -100, 700, 200, ease.outSine, v => bg.style.transform = `translateY(${v}%)`);
-    const b = tween(0.5, 1, 800, 200, ease.outSine, setWave);
-    await Promise.all([a, b]);
-    menu.classList.remove('is-visible'); setWave(0); lenis?.start();
+    gsap.timeline({ onComplete: () => { menu.classList.remove('is-visible'); gsap.set(panel, { clipPath: 'inset(0% 100% 0% 0%)', xPercent: 0 }); lenis?.start(); done(); } })
+      .to(menuItems, { x: 40, opacity: 0, duration: 0.35, ease: 'power2.in', stagger: 0.03 })
+      .to(panel, { clipPath: 'inset(0% 0% 0% 100%)', xPercent: 12, duration: 0.7, ease: 'expo.inOut' }, 0.12);
   }
-  busy = false; after?.();
 }
 trigger.addEventListener('click', () => toggleMenu());
 $('.menu__close').addEventListener('click', () => toggleMenu(false));
