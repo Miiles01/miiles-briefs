@@ -164,6 +164,8 @@ img,video{display:block;max-width:100%}
 .intro{position:relative;z-index:1;padding:7em 0 6em;text-align:center;background:#fff}  /* siempre blanca, entre el hero azul y el slider */
 .intro__text{max-width:20em;margin:0 auto;font-size:3.6em;font-weight:500;line-height:1.1;letter-spacing:-.04em;text-wrap:balance}
 .intro__text em{font-style:normal;color:var(--muted)}
+@media (min-width:768px){ .intro__text{max-width:17em;font-size:5.6em;line-height:1.06} }
+.intro__text .w{display:inline}
 .intro__stats{display:flex;justify-content:center;gap:4em;margin-top:2.6em}
 .intro__stats b{display:block;font-size:3.4em;font-weight:500;line-height:1;letter-spacing:-.05em}
 .intro__stats span{font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
@@ -227,6 +229,8 @@ img,video{display:block;max-width:100%}
 .quotes__title{text-align:center;font-size:4.4em;font-weight:500;line-height:1.05;letter-spacing:-.04em}
 .quotes__list{display:grid;grid-template-columns:repeat(3,1fr);gap:3em;margin-top:4em}
 .quote{margin:0;padding:2.4em;border-radius:1.6em;background:var(--white);color:var(--ink)}
+.quote.is--lime{background:var(--lime)}
+.quote.is--pink{background:var(--pink)}
 .quote blockquote{margin:0;font-size:2em;font-weight:500;line-height:1.3;letter-spacing:-.02em}
 .quote figcaption{display:flex;flex-direction:column;gap:.2em;margin-top:1.4em;font-family:var(--body);font-weight:400;font-size:1.05em}
 .quote figcaption b{font-weight:500}
@@ -239,7 +243,7 @@ img,video{display:block;max-width:100%}
 .contact__lead{max-width:30em;margin:1.6em auto 0;font-family:var(--body);font-weight:400;font-size:1.3em;color:var(--muted)}
 .contact__list{display:flex;flex-wrap:wrap;justify-content:center;gap:2em 4em;margin-top:4em}
 .contact__row{display:flex;flex-direction:column;gap:.2em}
-.contact__row span:first-child{font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
+.contact__row span:nth-child(2){font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
 .contact__row span:last-child{font-size:2.4em;font-weight:500;letter-spacing:-.03em;line-height:1.2;transition:opacity .3s}
 .contact__row:hover span:last-child{opacity:.65}
 .contact__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:1em;margin-top:4em}
@@ -249,6 +253,30 @@ img,video{display:block;max-width:100%}
 .footer__name{margin-top:.12em;font-size:24vw;font-weight:500;line-height:.86;letter-spacing:-.07em;text-align:center;white-space:nowrap}
 @media (min-width:2000px){ .footer__name{font-size:480px} }
 .footer__bottom{display:flex;justify-content:space-between;margin-top:1.6em;font-family:var(--body);font-weight:400;font-size:1.05em;color:var(--muted)}
+
+/* ===== Íconos (trazo grueso) y colores de acento verde/rosa ===== */
+.ic{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:2.3;stroke-linejoin:round;overflow:visible}
+.ic .fill{fill:currentColor;stroke:none}
+.badge{display:inline-flex;align-items:center;justify-content:center;width:2.6em;height:2.6em;border-radius:50%;font-size:1.3em}
+.badge .ic{width:1.15em;height:1.15em}
+.is--lime{background:var(--lime);color:var(--ink)}
+.is--pink{background:var(--pink);color:var(--ink)}
+.is--ink{background:var(--ink);color:#fff}
+.is--paper{background:#fff;color:var(--ink)}
+.label .ic{width:1.15em;height:1.15em;margin-right:.45em;vertical-align:-.2em}
+.intro__stats > div{display:flex;flex-direction:column;align-items:center}
+.intro__stats .badge{margin-bottom:.9em}
+.skills{display:flex;justify-content:center;flex-wrap:wrap;gap:1.2em;margin-top:3em}
+.skill{display:flex;flex-direction:column;align-items:center;gap:.9em;width:10em;padding:1.6em 1em;border-radius:1.4em;font-family:var(--body);font-weight:500;font-size:1.1em}
+.skill .ic{width:2.4em;height:2.4em}
+.pill{display:inline-flex;align-items:center;gap:.4em;border-color:transparent}
+.pill .ic{width:.9em;height:.9em}
+.pill.is--paper{border-color:var(--ink)}
+.quote{display:flex;flex-direction:column}
+.quote__logo{display:block;height:1.6em;width:calc(1.6em * var(--r));max-width:9em;margin-bottom:1.6em;background:var(--ink);-webkit-mask:var(--src) left center/contain no-repeat;mask:var(--src) left center/contain no-repeat}
+.quote blockquote{flex:1}
+.contact__row{align-items:center}
+.contact__row .badge{margin-bottom:.6em}
 
 /* Reveal */
 .reveal{opacity:0;transform:translateY(30px)}
@@ -283,13 +311,16 @@ img,video{display:block;max-width:100%}
   .brands__title,.quotes__title{font-size:4.2em}
   .logo{height:4.4em;width:calc(4.4em * var(--r));margin:1.2em 2.4em}
   .pill{font-size:2.2em}
+  .skills{gap:1em}
+  .skill{width:calc(50% - .6em);font-size:1.5em}
+  .badge{font-size:1.7em}
   .circle{width:26em;height:26em;border-radius:26em}
   .quote blockquote{font-size:2.6em}
   .quote figcaption{font-size:1.4em}
   .contact__title{font-size:6em}
   .contact__lead{font-size:1.6em}
   .contact__list{flex-direction:column;gap:1.6em}
-  .contact__row span:first-child{font-size:1.4em}
+  .contact__row span:nth-child(2){font-size:1.4em}
   .contact__row span:last-child{font-size:2.5em;overflow-wrap:anywhere}
   .btn{font-size:1.6em}
   .footer__name{font-size:26vw}
@@ -310,6 +341,29 @@ img,video{display:block;max-width:100%}
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5 4.2 12.7a4.8 4.8 0 0 1 7.8-5.6 4.8 4.8 0 0 1 7.8 5.6z"/></symbol>
+    <symbol id="i-diamond" viewBox="0 0 24 24"><path d="M7 4h10l4.5 5.5L12 21 2.5 9.5zM2.5 9.5h19M9 4l3 5.5L15 4"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10 9.2v5.6l4.6-2.8z" class="fill"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M14.8 3.6 18 4.8 11.6 21l-3 1.4-.3-3.3zM13.4 7.4l3.2 1.2"/><circle cx="17.5" cy="19.5" r="1.4" class="fill"/><circle cx="21" cy="19.5" r="1.4" class="fill"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 18V5.5A2.5 2.5 0 0 1 7.5 3H19v13H7.5A2.5 2.5 0 0 0 5 18.5 2.5 2.5 0 0 0 7.5 21H19v-5"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3 7.5h4l1.8-3h6.4l1.8 3h4V20H3z"/><circle cx="12" cy="13.5" r="3.6"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M8.5 17.5V4h12v13.5M8.5 8h12"/><circle cx="6" cy="17.5" r="2.6"/><circle cx="18" cy="17.5" r="2.6"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.6L6 21z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20.5 12A8.5 8.5 0 1 1 14 3.7M8 12l3 3 7.5-7.5"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17v-5.5a6 6 0 0 1 12 0V17M3.5 17h17M12 2.5v2.5M10 20.5h4"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24"><path d="M3 20.5h18M6.5 20.5v-5M10.5 20.5v-8M14.5 20.5v-11M18.5 20.5V3.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 4.5h16v11.5H10l-6 4.5z"/><circle cx="9" cy="10.2" r="1.3" class="fill"/><circle cx="15" cy="10.2" r="1.3" class="fill"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="9.5" r="2.2" class="fill"/><path d="M7.5 17.5c1.1-2.2 2.6-3.2 4.5-3.2s3.4 1 4.5 3.2"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5.5 5.5"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15.5V4M7 9l5-5 5 5M4 14v6h16v-6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.5V12h4.5"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 20.5V10l8-6 8 6v10.5z"/></symbol>
+  </defs>
+</svg>
 <div class="cursor" aria-hidden="true">
   <div class="cursor__dot1"></div>
   <div class="cursor__dot2"><p class="cursor__text">Arrastra</p></div>
@@ -393,12 +447,12 @@ img,video{display:block;max-width:100%}
   <!-- Intro con números -->
   <section class="section intro" data-bg="white">
     <div class="container">
-      <p class="label reveal">Hola, soy Diana</p>
+      <p class="label reveal"><svg class="ic"><use href="#i-user"/></svg>Hola, soy Diana</p>
       <p class="intro__text reveal">Creo videos y fotos UGC para marcas de belleza, skincare y lifestyle <em>que se sienten reales y venden</em></p>
       <div class="intro__stats reveal">
-        <div><b>+10K</b><span>seguidores</span></div>
-        <div><b>+40</b><span>marcas</span></div>
-        <div><b>+300</b><span>videos</span></div>
+        <div><span class="badge is--pink"><svg class="ic"><use href="#i-heart"/></svg></span><b>+10K</b><span>seguidores</span></div>
+        <div><span class="badge is--lime"><svg class="ic"><use href="#i-diamond"/></svg></span><b>+40</b><span>marcas</span></div>
+        <div><span class="badge is--ink"><svg class="ic"><use href="#i-play"/></svg></span><b>+300</b><span>videos</span></div>
       </div>
     </div>
   </section>
@@ -432,15 +486,21 @@ img,video{display:block;max-width:100%}
   <!-- Sobre mí -->
   <section class="section about" id="sobre-mi" data-bg="blue">
     <div class="container">
-      <p class="label reveal">Sobre mí</p>
+      <p class="label reveal"><svg class="ic"><use href="#i-pencil"/></svg>Sobre mí</p>
       <p class="about__text reveal">Me encargo de todo: <em>idea, guion, grabación y edición</em> en formato vertical</p>
       <p class="about__p reveal">Pruebo cada producto antes de grabar, así lo que ves es lo que de verdad pienso. Trabajo con marcas de belleza, skincare, moda y lifestyle.</p>
+      <div class="skills reveal">
+        <div class="skill is--lime"><svg class="ic"><use href="#i-pencil"/></svg>Idea</div>
+        <div class="skill is--pink"><svg class="ic"><use href="#i-book"/></svg>Guion</div>
+        <div class="skill is--ink"><svg class="ic"><use href="#i-camera"/></svg>Grabación</div>
+        <div class="skill is--paper"><svg class="ic"><use href="#i-music"/></svg>Edición</div>
+      </div>
     </div>
   </section>
 
   <!-- Marcas -->
   <section class="section brands" id="marcas" data-bg="white">
-    <p class="label reveal" style="text-align:center">Marcas</p>
+    <p class="label reveal" style="text-align:center"><svg class="ic"><use href="#i-diamond"/></svg>Marcas</p>
     <h2 class="brands__title reveal">Marcas con las que he colaborado</h2>
     <div class="marquee"><div class="marquee__group"><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span><span class="logo" role="img" aria-label="Bershka" style="--src:url(media/marcas/bershka-1.svg);--r:4.526"></span><span class="logo" role="img" aria-label="Chanel" style="--src:url(media/marcas/chanel-2.svg);--r:1.510"></span><span class="logo" role="img" aria-label="DJI" style="--src:url(media/marcas/dji-1.svg);--r:1.738"></span><span class="logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:5.500"></span><span class="logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Pull&Bear" style="--src:url(media/marcas/pull-bear-2.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span></div><div class="marquee__group" aria-hidden="true"><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span><span class="logo" role="img" aria-label="Bershka" style="--src:url(media/marcas/bershka-1.svg);--r:4.526"></span><span class="logo" role="img" aria-label="Chanel" style="--src:url(media/marcas/chanel-2.svg);--r:1.510"></span><span class="logo" role="img" aria-label="DJI" style="--src:url(media/marcas/dji-1.svg);--r:1.738"></span><span class="logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:5.500"></span><span class="logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Pull&Bear" style="--src:url(media/marcas/pull-bear-2.svg);--r:5.500"></span><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span></div></div>
     <div class="marquee is--rev"><div class="marquee__group"><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span><span class="logo" role="img" aria-label="Shein" style="--src:url(media/marcas/shein.svg);--r:4.817"></span><span class="logo" role="img" aria-label="Spotify" style="--src:url(media/marcas/spotify-logo.svg);--r:3.334"></span><span class="logo" role="img" aria-label="Versace" style="--src:url(media/marcas/versace.svg);--r:5.014"></span><span class="logo" role="img" aria-label="Vichy" style="--src:url(media/marcas/vichy-laboratoires.svg);--r:1.000"></span><span class="logo" role="img" aria-label="Vogue" style="--src:url(media/marcas/vogue.svg);--r:3.846"></span><span class="logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.288"></span><span class="logo" role="img" aria-label="Zoah" style="--src:url(media/marcas/zoah-1.svg);--r:3.289"></span><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span></div><div class="marquee__group" aria-hidden="true"><span class="logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.750"></span><span class="logo" role="img" aria-label="Shein" style="--src:url(media/marcas/shein.svg);--r:4.817"></span><span class="logo" role="img" aria-label="Spotify" style="--src:url(media/marcas/spotify-logo.svg);--r:3.334"></span><span class="logo" role="img" aria-label="Versace" style="--src:url(media/marcas/versace.svg);--r:5.014"></span><span class="logo" role="img" aria-label="Vichy" style="--src:url(media/marcas/vichy-laboratoires.svg);--r:1.000"></span><span class="logo" role="img" aria-label="Vogue" style="--src:url(media/marcas/vogue.svg);--r:3.846"></span><span class="logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.288"></span><span class="logo" role="img" aria-label="Zoah" style="--src:url(media/marcas/zoah-1.svg);--r:3.289"></span><span class="logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.593"></span></div></div>
@@ -449,9 +509,9 @@ img,video{display:block;max-width:100%}
   <!-- Nichos -->
   <section class="section niches" id="nichos" data-bg="blue">
     <div class="container">
-      <p class="label reveal" style="text-align:center">Nichos</p>
+      <p class="label reveal" style="text-align:center"><svg class="ic"><use href="#i-bookmark"/></svg>Nichos</p>
       <div class="pills reveal">
-        <span class="pill">Unboxing</span><span class="pill">Skincare</span><span class="pill">Belleza</span><span class="pill">Moda</span><span class="pill">Lifestyle</span><span class="pill">Reseñas</span><span class="pill">Tutoriales</span><span class="pill">Anuncios</span><span class="pill">Foto de producto</span>
+        <span class="pill is--lime"><svg class="ic"><use href="#i-upload"/></svg>Unboxing</span><span class="pill is--pink"><svg class="ic"><use href="#i-heart"/></svg>Skincare</span><span class="pill is--paper"><svg class="ic"><use href="#i-diamond"/></svg>Belleza</span><span class="pill is--ink"><svg class="ic"><use href="#i-bookmark"/></svg>Moda</span><span class="pill is--lime"><svg class="ic"><use href="#i-home"/></svg>Lifestyle</span><span class="pill is--pink"><svg class="ic"><use href="#i-check"/></svg>Reseñas</span><span class="pill is--paper"><svg class="ic"><use href="#i-play"/></svg>Tutoriales</span><span class="pill is--ink"><svg class="ic"><use href="#i-bars"/></svg>Anuncios</span><span class="pill is--lime"><svg class="ic"><use href="#i-camera"/></svg>Foto de producto</span>
       </div>
     </div>
   </section>
@@ -464,12 +524,12 @@ img,video{display:block;max-width:100%}
   <!-- Testimonios -->
   <section class="section quotes" id="testimonios" data-bg="blue">
     <div class="container">
-      <p class="label reveal" style="text-align:center">Testimonios</p>
+      <p class="label reveal" style="text-align:center"><svg class="ic"><use href="#i-chat"/></svg>Testimonios</p>
       <h2 class="quotes__title reveal">Lo que dicen las marcas</h2>
       <div class="quotes__list">
-        <figure class="quote reveal"><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas”</blockquote><figcaption><b>Mariana López</b><span>Gerente de Marketing · Cahre Skincare</span></figcaption></figure>
-        <figure class="quote reveal"><blockquote>“Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Le facilita muchísimo el trabajo al equipo de pauta”</blockquote><figcaption><b>Andrés Ruiz</b><span>Performance Marketing · Caja Sorpresa</span></figcaption></figure>
-        <figure class="quote reveal"><blockquote>“Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda nuestra comunidad”</blockquote><figcaption><b>Sofía Herrera</b><span>Brand Manager · Sérum Glow</span></figcaption></figure>
+        <figure class="quote is--lime reveal"><span class="quote__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas”</blockquote><figcaption><b>Mariana López</b><span>Gerente de Marketing · La Roche-Posay</span></figcaption></figure>
+        <figure class="quote is--pink reveal"><span class="quote__logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.29"></span><blockquote>“Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Le facilita muchísimo el trabajo al equipo de pauta”</blockquote><figcaption><b>Andrés Ruiz</b><span>Performance Marketing · Zara</span></figcaption></figure>
+        <figure class="quote reveal"><span class="quote__logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.75"></span><blockquote>“Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda nuestra comunidad”</blockquote><figcaption><b>Sofía Herrera</b><span>Brand Manager · Samsung</span></figcaption></figure>
       </div>
     </div>
   </section>
@@ -477,13 +537,13 @@ img,video{display:block;max-width:100%}
   <!-- Contacto -->
   <section class="section contact" id="contacto" data-bg="white">
     <div class="container">
-      <p class="label reveal">Contacto</p>
+      <p class="label reveal"><svg class="ic"><use href="#i-bell"/></svg>Contacto</p>
       <h2 class="contact__title reveal">Hagamos algo <em>juntas</em></h2>
       <p class="contact__lead reveal">Cuéntame de tu marca y del producto que quieres mostrar. Te respondo en menos de 24 horas.</p>
       <div class="contact__list reveal">
-        <a class="contact__row" href="mailto:hola@dianacreativa.com"><span>Correo</span><span>hola@dianacreativa.com</span></a>
-        <a class="contact__row" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span>WhatsApp</span><span>+52 55 0000 0000</span></a>
-        <a class="contact__row" href="https://instagram.com/" target="_blank" rel="noopener"><span>Instagram</span><span>@dianacreativa</span></a>
+        <a class="contact__row" href="mailto:hola@dianacreativa.com"><span class="badge is--lime"><svg class="ic"><use href="#i-mail"/></svg></span><span>Correo</span><span>hola@dianacreativa.com</span></a>
+        <a class="contact__row" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span class="badge is--pink"><svg class="ic"><use href="#i-chat"/></svg></span><span>WhatsApp</span><span>+52 55 0000 0000</span></a>
+        <a class="contact__row" href="https://instagram.com/" target="_blank" rel="noopener"><span class="badge is--ink"><svg class="ic"><use href="#i-user"/></svg></span><span>Instagram</span><span>@dianacreativa</span></a>
       </div>
       <div class="contact__actions reveal">
         <a class="btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
@@ -644,6 +704,29 @@ $$('[data-bg]').forEach(sec => ScrollTrigger.create({
   trigger: sec, start: 'top 55%', end: 'bottom 55%',
   onToggle: self => { if (self.isActive) gsap.to(rootEl, { '--bg': BG[sec.dataset.bg], duration: reduce ? 0 : 0.7, ease: 'power2.out', overwrite: 'auto' }); }
 }));
+
+/* Intro: cada palabra se enciende al hacer scroll (solo desktop y tablet) */
+if (!reduce && !isMobile) {
+  const introText = $('.intro__text');
+  const wrapWords = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.append(part); return; }
+        const sp = document.createElement('span'); sp.className = 'w'; sp.textContent = part; frag.append(sp);
+      });
+      n.replaceWith(frag);
+    } else wrapWords(n);
+  });
+  wrapWords(introText);
+  introText.classList.remove('reveal'); gsap.set(introText, { opacity: 1, y: 0 });
+  const words = $$('.w', introText);
+  words.forEach(w => { w.dataset.to = getComputedStyle(w).color; });
+  gsap.set(words, { color: 'rgba(13,27,26,.14)' });
+  gsap.to(words, { color: i => words[i].dataset.to, stagger: 0.1, ease: 'none',
+    scrollTrigger: { trigger: introText, start: 'top 75%', end: 'bottom 40%', scrub: true } });
+}
 
 /* Copiar correo */
 $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
