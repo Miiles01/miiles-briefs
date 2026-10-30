@@ -11,7 +11,7 @@
 <!--
   UGC V22 · Diana en crema, amarillo y oliva. Títulos en Gambarino (Fontshare, licencia libre) con las letras casi juntas;
   texto en Satoshi. Estructura editorial propia: nombre gigante con la foto en arco encima, reels, Sobre mí,
-  foto que se revela fija (solo desktop), marcas, nichos, CTA, testimonios con logo y contacto con botones.
+  foto que se revela fija (solo desktop), marcas, nichos, testimonios con logo y contacto con botones.
   Fondos blancos, amarillos y degradados amarillo ↔ blanco encadenados: cada sección empieza del color en que termina la anterior.
 -->
 
@@ -141,13 +141,6 @@ img,video{display:block;max-width:100%}
 .wheel{position:relative;height:min(78vh,760px);border-radius:32px;overflow:hidden;background:#fbec6a;color:#7e6b00}
 .wheel__word{position:absolute;left:50%;top:50%;font-family:var(--serif);font-size:clamp(80px,15vw,230px);line-height:1;letter-spacing:-.065em;white-space:nowrap;padding:0 .08em .08em;transform:translate(-50%,-50%);will-change:transform,opacity;opacity:0}
 .wheel__desc{position:absolute;left:0;right:0;bottom:28px;text-align:center;font-size:15px;font-weight:500;opacity:.8}
-/* CTA a mitad de página */
-.cta{display:flex;align-items:center;min-height:80vh;padding:150px 0;text-align:center;color:var(--ink)}
-.cta .t-l{color:var(--ink);max-width:13em;margin:0 auto}
-.cta .t-l em{color:var(--olive)}
-.cta p{margin:24px auto 0;max-width:460px;color:var(--ink-70)}
-.cta .btns{justify-content:center}
-
 /* Botones */
 .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 28px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font:500 16px var(--sans);cursor:pointer;transition:background-color .35s,color .35s,border-color .35s}
@@ -213,7 +206,7 @@ img,video{display:block;max-width:100%}
   .stats{gap:22px}
   .stats div{align-items:center}
   .stats b{font-size:38px}
-  .section,.cta,.contact{padding-top:100px;padding-bottom:100px}
+  .section,.contact{padding-top:100px;padding-bottom:100px}
   .contact{padding-bottom:30px}
   .s-head{margin-bottom:40px}
   /* Reels en móvil: carrusel con imán y margen a los lados */
@@ -363,15 +356,6 @@ img,video{display:block;max-width:100%}
         <span class="wheel__word" data-bg="#7e6b00" data-fg="#f9f2e4" data-d="Gadgets y apps explicados sin complicaciones" aria-hidden="true">Tech</span>
         <p class="wheel__desc" aria-hidden="true"></p>
       </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta bg-yellow">
-    <div class="wrap">
-      <h2 class="t-l rv">¿Grabamos tu <em>próximo video?</em></h2>
-      <p class="rv">Cuéntame de tu producto y te mando una idea de guion sin compromiso.</p>
-      <div class="btns rv"><a class="btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp ↗</a></div>
     </div>
   </section>
 
