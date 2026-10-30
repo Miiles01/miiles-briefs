@@ -116,15 +116,10 @@ img,video{display:block;max-width:100%}
 .reel figcaption b{font-weight:500;color:var(--ink)}
 .reels-pad{height:60px}
 
-/* Sobre mí */
-.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:7vw;align-items:center}
-.about__photo{position:relative;aspect-ratio:4/5;border-radius:28px;overflow:hidden}
-.about__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
-.about__text .lead{margin-top:26px}
-.about__text .lead + .lead{margin-top:16px}
-.skills{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
-.skill{padding:10px 18px;border-radius:999px;background:#fff;font-size:15px;font-weight:500}
-
+/* Sobre mí: solo texto grande alineado a la izquierda, con íconos, que se colorea con el scroll */
+.about__big{max-width:1180px;font-family:var(--serif);font-size:clamp(38px,5.2vw,84px);line-height:1.06;letter-spacing:-.045em;color:var(--ink);text-wrap:pretty}
+.about__big .em{display:inline-block;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:.82em;letter-spacing:0;line-height:1;vertical-align:.02em}
+.about__big .w{transition:none}
 /* Foto que se revela fija (desktop) */
 .reveal-photo{position:relative;height:100vh;height:100svh;clip-path:inset(0 0 0 0)}
 .reveal-photo__fixed{position:fixed;inset:0;width:100%;height:100vh;height:100lvh}
@@ -302,15 +297,15 @@ img,video{display:block;max-width:100%}
 
   <!-- SOBRE MÍ -->
   <section class="section bg-w2y" id="sobre-mi">
-    <div class="wrap about">
-      <div class="about__photo rv"><img src="media/banca-montana.jpg" alt="Diana sentada en una banca frente a las montañas" loading="lazy"></div>
-      <div class="about__text">
-        <p class="eyebrow rv">Sobre mí</p>
-        <h2 class="t-l rv">Hola, soy <em>Diana</em></h2>
-        <p class="lead rv">Grabo lo que vivo y vivo lo que grabo. Si un producto no me convence, no lo grabo; si me encanta, se nota en cada toma.</p>
-        <p class="lead rv">Me encargo de la idea, el guion, la grabación y la edición en formato vertical. Pruebo cada producto antes de grabar.</p>
-        <div class="skills rv"><span class="skill">Idea</span><span class="skill">Guion</span><span class="skill">Grabación</span><span class="skill">Edición</span></div>
-      </div>
+    <div class="wrap">
+      <p class="eyebrow rv">Sobre mí</p>
+      <!-- Texto grande que se va coloreando palabra por palabra al hacer scroll -->
+      <p class="about__big">
+        <span class="em" aria-hidden="true">🏕️</span> Hola, soy Diana, creadora de contenido UGC <span class="em" aria-hidden="true">✨</span>
+        <span class="dim">Grabo lo que vivo y vivo lo que grabo <span class="em" aria-hidden="true">🎬</span>
+        Si un producto no me convence, no lo grabo; si me encanta, se nota en cada toma <span class="em" aria-hidden="true">💛</span>
+        Idea, guion, grabación y edición en vertical, todo en un solo lugar <span class="em" aria-hidden="true">🌱</span></span>
+      </p>
     </div>
   </section>
 
@@ -452,7 +447,7 @@ if (ok && !reduce) {
     // El nombre gigante se queda atrás al bajar
     gsap.to('.hero__name', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
     // Fotos con parallax interno
-    $$('.about__photo img, .reel__media img').forEach(img => gsap.fromTo(img, { yPercent: -5, scale: 1.1 }, { yPercent: 5, scale: 1.1, ease: 'none',
+    $$('.reel__media img').forEach(img => gsap.fromTo(img, { yPercent: -5, scale: 1.1 }, { yPercent: 5, scale: 1.1, ease: 'none',
       scrollTrigger: { trigger: img.parentNode, start: 'top bottom', end: 'bottom top', scrub: true } }));
     // El "Diana" del footer sube al final
     gsap.from('.footer__name', { yPercent: 40, ease: 'none', scrollTrigger: { trigger: '.footer__name', start: 'top bottom', end: 'bottom bottom', scrub: true } });
@@ -460,6 +455,24 @@ if (ok && !reduce) {
 } else {
   $$('.rv').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
 }
+
+/* Sobre mí: cada palabra pasa de gris a negro al hacer scroll */
+(() => {
+  const el = $('.about__big'); if (!el || !ok || reduce) return;
+  const wrap = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const f = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(t => { if (!t) return; if (/^\s+$/.test(t)) { f.append(t); return; }
+        const sp = document.createElement('span'); sp.className = 'w'; sp.textContent = t; f.append(sp); });
+      n.replaceWith(f);
+    } else if (!n.classList.contains('em')) wrap(n);
+  });
+  wrap(el);
+  const words = $$('.w, .em', el);
+  gsap.set(words, { opacity: .16 });
+  gsap.to(words, { opacity: 1, ease: 'none', stagger: .1,
+    scrollTrigger: { trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: true } });
+})();
 
 /* Nichos: la palabra del centro crece; la anterior sube chiquita y la siguiente asoma abajo */
 (() => {
