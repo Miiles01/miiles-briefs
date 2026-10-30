@@ -82,19 +82,51 @@ img,video{display:block;max-width:100%}
 .panel__close{position:absolute;top:22px;right:5vw;padding:12px 20px;border:0;border-radius:999px;background:var(--ink);color:var(--cream);font:500 14px var(--sans);cursor:pointer}
 .panel__social{display:flex;gap:22px;margin-top:34px;font-size:15px}
 
-/* ===== Hero: nombre gigante con la foto en arco encima ===== */
-.hero{position:relative;padding:110px 0 70px}
-.hero__name{font-family:var(--serif);font-weight:400;font-size:31vw;line-height:.78;letter-spacing:-.075em;text-align:center;color:var(--ink);white-space:nowrap;margin-left:-.04em}
-.hero__name .mask > span{will-change:transform}
-.hero__grid{display:grid;grid-template-columns:1fr minmax(260px,30vw) 1fr;gap:4vw;align-items:end;margin-top:-13vw}
-.hero__photo{position:relative;aspect-ratio:3/4;border-radius:999px 999px 28px 28px;overflow:hidden;background:#fff}
-.hero__photo-wrap{position:relative}
-.hero__burst{position:absolute;z-index:2;top:8%;right:-26px;width:64px;height:64px;color:var(--ink);stroke-width:1.2;animation:spin 14s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.hero__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
-.hero__left{padding-bottom:10px}
-.hero__left p{font-size:19px;line-height:1.5;color:var(--ink-70);max-width:360px}
-.hero__right{display:flex;flex-direction:column;align-items:flex-end;gap:18px;padding-bottom:10px}
+/* ===== Hero: Porta | folio con pantalla al centro que crece y abre un moodboard ===== */
+.pf{position:relative;background:linear-gradient(180deg,var(--yellow) 0%,#fdf6c0 55%,#fff 100%)}
+.pf__stage{position:relative;height:100vh;height:100svh;overflow:hidden}
+.pf__title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:400;font-size:clamp(90px,19vw,320px);line-height:1;letter-spacing:-.07em;color:var(--ink);white-space:nowrap;pointer-events:none}
+.pf__w{display:inline-block;will-change:transform}
+.pf__gap{display:inline-block;width:.7em}
+/* La pantalla vive en su tamaño final (como un celular) y empieza a escala chica: solo se anima transform */
+.pf__frame{--h:min(78vh,780px);position:absolute;left:50%;top:50%;z-index:2;width:calc(var(--h) * 9 / 16);height:var(--h);margin:calc(var(--h) / -2) 0 0 calc(var(--h) * -9 / 32);border-radius:28px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -30px rgba(26,26,18,.35);will-change:transform}
+.pf__frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.pf__frame img:first-child{opacity:1}
+.pf__board{position:absolute;inset:0;z-index:3;pointer-events:none}
+.b-item{position:absolute;left:calc(50% + var(--x) * 1vw);top:calc(50% + var(--y) * 1vh);transform:translate(-50%,-50%);opacity:0;font-size:14px;line-height:1.35;color:var(--ink)}
+.b-item small{display:block;font-size:12px;color:var(--ink-70)}
+.is-card{width:250px;padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.88);box-shadow:0 18px 40px -20px rgba(26,26,18,.35);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.is-card p{margin-top:10px}
+.b-row{display:flex;align-items:center;gap:10px}
+.b-row b{display:block;font-weight:500;font-size:13px}
+.b-av{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:50%;background:var(--yellow);font-size:12px;font-weight:500}
+.b-big{display:flex;align-items:center;gap:8px;margin:6px 0 2px;font-family:var(--serif);font-size:40px;line-height:1;letter-spacing:-.05em}
+.b-up{padding:3px 8px;border-radius:999px;background:var(--yellow);font-family:var(--sans);font-size:12px;letter-spacing:0}
+.b-bars{display:flex;align-items:flex-end;gap:5px;height:44px;margin-top:10px}
+.b-bars i{flex:1;border-radius:4px;background:var(--yellow)}
+.b-bars i:last-child{background:var(--ink)}
+.b-t{display:block;margin-top:4px;font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:-.04em;line-height:1.1}
+.is-list ul{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.is-list li{display:flex;align-items:center;gap:8px}
+.is-list li::before{content:"";width:14px;height:14px;border-radius:4px;border:1.5px solid rgba(26,26,18,.35)}
+.is-list li.on::before{background:var(--ink);border-color:var(--ink)}
+.is-photo{width:170px;aspect-ratio:3/4;border-radius:18px;overflow:hidden;box-shadow:0 18px 40px -20px rgba(26,26,18,.4)}
+.is-photo.is-sm{width:130px}
+.is-photo img{width:100%;height:100%;object-fit:cover}
+.is-pill{padding:12px 20px;border-radius:999px;background:#fff;font-size:15px;white-space:nowrap;box-shadow:0 14px 30px -16px rgba(26,26,18,.35)}
+.is-pill b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.04em}
+.is-pill.is-ink{background:var(--ink);color:var(--cream)}
+.is-pill.is-yellow{background:var(--yellow);font-weight:500}
+.is-file{width:150px;height:120px;padding:16px;border-radius:16px;background:var(--yellow);clip-path:polygon(0 0,78% 0,100% 20%,100% 100%,0 100%);display:flex;flex-direction:column;justify-content:flex-end}
+.is-file b{font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.04em;line-height:1}
+.pf__hint{position:absolute;left:50%;bottom:22px;z-index:4;display:flex;align-items:center;gap:6px;transform:translateX(-50%);font-size:14px;color:var(--ink-70)}
+.pf__hint .ic{width:16px;height:16px}
+
+/* Presentación debajo del hero */
+.intro{padding:130px 0 60px}
+.intro__grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:6vw;align-items:end}
+.intro__side{display:flex;flex-direction:column;gap:26px}
+.intro .stats div{align-items:flex-start}
 .stats{display:flex;gap:28px}
 .stats div{display:flex;flex-direction:column;align-items:flex-end}
 .stats b{font-family:var(--serif);font-weight:400;font-size:46px;line-height:1;letter-spacing:-.05em}
@@ -184,11 +216,8 @@ img,video{display:block;max-width:100%}
 
 /* ===== Tablet ===== */
 @media (max-width:991px){
-  .hero__grid{grid-template-columns:1fr 1fr;margin-top:-10vw}
-  .hero__photo-wrap{grid-column:1/-1;width:min(56vw,420px);margin:0 auto;order:-1}
-  .hero__right{align-items:flex-start}
-  .stats div{align-items:flex-start}
   .s-head{flex-direction:column;align-items:flex-start;gap:20px}
+  .intro__grid{grid-template-columns:1fr;gap:30px}
   .reels{grid-template-columns:repeat(2,1fr)}
   .reel:nth-child(3n+2){transform:none}
   .reel:nth-child(even){transform:translateY(50px)}
@@ -203,15 +232,13 @@ img,video{display:block;max-width:100%}
   body{font-size:16px}
   .nav{padding:max(16px,env(safe-area-inset-top)) 5vw 14px}
   .nav__logo{font-size:26px}
-  .hero{padding:96px 0 50px}
-  .hero__name{font-size:33vw}
-  .hero__grid{grid-template-columns:1fr;gap:28px;margin-top:-9vw;text-align:center}
-  .hero__photo-wrap{width:74vw}
-  .hero__burst{width:48px;height:48px;right:-12px}
-  .hero__left p{margin:0 auto;font-size:17px}
-  .hero__right{align-items:center}
   .stats{gap:22px}
-  .stats div{align-items:center}
+  /* Hero en celular: palabras más chicas, pantalla más baja y moodboard reducido */
+  .pf__title{font-size:22vw}
+  .pf__frame{--h:min(62vh,560px);border-radius:22px}
+  .b-item{left:calc(50% + var(--mx) * 1vw);top:calc(50% + var(--my) * 1vh)}
+  .b-item.m-hide{display:none}
+  .intro{padding:90px 0 30px}
   .stats b{font-size:38px}
   .section,.contact{padding-top:100px;padding-bottom:100px}
   .contact{padding-bottom:30px}
@@ -278,26 +305,51 @@ img,video{display:block;max-width:100%}
 </div>
 
 <main>
-  <!-- HERO -->
-  <header class="hero bg-y2w" id="inicio">
-    <div class="wrap">
-      <h1 class="hero__name" aria-label="Diana"><span class="mask"><span>Diana</span></span></h1>
-      <div class="hero__grid">
-        <div class="hero__left">
-          <p>Creo videos y fotos UGC para marcas de belleza, skincare, outdoor y lifestyle que se sienten reales y venden</p>
+  <!-- HERO: "Porta | folio" partido con una pantalla en medio que crece con el scroll y abre un moodboard -->
+  <section class="pf" id="inicio" aria-label="Portafolio de Diana">
+    <div class="pf__stage">
+      <h1 class="pf__title" aria-label="Portafolio"><span class="pf__w pf__l">Porta</span><span class="pf__gap"></span><span class="pf__w pf__r">folio</span></h1>
+      <div class="pf__frame">
+        <img src="media/selfie-montana.jpg" alt="Diana en una selfie en la montaña" fetchpriority="high">
+        <img src="media/banca-montana.jpg" alt="" style="object-position:50% 40%">
+        <img src="media/lancha.jpg" alt="" style="object-position:50% 45%">
+        <img src="media/poster-1.jpg" alt="">
+        <img src="media/cabras-m.jpg" alt="">
+      </div>
+      <div class="pf__board">
+        <div class="b-item is-photo" style="--mx:-30;--my:-33;--x:-34;--y:-20;--r:-5deg" aria-hidden="true"><img src="media/lancha.jpg" alt="" loading="lazy" style="object-position:50% 45%"></div>
+        <div class="b-item m-hide is-card" style="--mx:0;--my:0;--x:-33;--y:17;--r:3deg" aria-hidden="true"><div class="b-row"><span class="b-av">ML</span><div><b>Mariana · La Roche-Posay</b><small>hace 2 h</small></div></div><p>Me encanta el gancho de los primeros 3 segundos. ¿Grabamos otra toma?</p></div>
+        <div class="b-item is-card is-metric" style="--mx:24;--my:-35;--x:31;--y:-21;--r:4deg" aria-hidden="true"><small>Reel · Instagram · 7 días</small><div class="b-big">184K <span class="b-up">+240%</span></div><small>reproducciones</small><div class="b-bars"><i style="height:30%"></i><i style="height:48%"></i><i style="height:40%"></i><i style="height:66%"></i><i style="height:80%"></i><i style="height:100%"></i></div></div>
+        <div class="b-item is-photo" style="--mx:31;--my:29;--x:34;--y:18;--r:-4deg" aria-hidden="true"><img src="media/w03.jpg" alt="" loading="lazy"></div>
+        <div class="b-item is-pill is-ink" style="--mx:-24;--my:43;--x:-15;--y:-38;--r:-3deg" aria-hidden="true">Seguir +</div>
+        <div class="b-item m-hide is-file" style="--mx:0;--my:0;--x:15;--y:-37;--r:5deg" aria-hidden="true"><small>unboxing_final</small><b>.mp4</b></div>
+        <div class="b-item m-hide is-card is-list" style="--mx:0;--my:0;--x:-38;--y:-2;--r:-2deg" aria-hidden="true"><small>Guion · Reel 01</small><b class="b-t">Rutina de noche en 30 s</b><ul><li class="on">Gancho</li><li class="on">Problema</li><li class="on">Producto</li><li>Llamado a la acción</li></ul></div>
+        <div class="b-item is-pill" style="--mx:22;--my:43;--x:18;--y:38;--r:-2deg" aria-hidden="true"><b>+10K</b> seguidores</div>
+        <div class="b-item is-photo is-sm" style="--mx:-31;--my:27;--x:-17;--y:37;--r:4deg" aria-hidden="true"><img src="media/lirios.jpg" alt="" loading="lazy" style="object-position:50% 30%"></div>
+        <div class="b-item m-hide is-pill is-yellow" style="--mx:-2;--my:-44;--x:39;--y:2;--r:3deg" aria-hidden="true">▶ Ver reel</div>
+      </div>
+      <p class="pf__hint"><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>Desliza</p>
+    </div>
+  </section>
+
+  <!-- Presentación -->
+  <section class="intro bg-white">
+    <div class="wrap intro__grid">
+      <div>
+        <p class="eyebrow has-ic rv"><svg class="ic" aria-hidden="true"><use href="#i-flower"/></svg>Diana · creadora UGC</p>
+        <h2 class="t-l rv">Videos y fotos que <em>se sienten reales</em></h2>
+      </div>
+      <div class="intro__side">
+        <p class="lead rv">Creo contenido UGC para marcas de belleza, skincare, outdoor y lifestyle que se siente real y vende.</p>
+        <div class="stats rv">
+          <div><b>+10K</b><span>seguidores</span></div>
+          <div><b>+40</b><span>marcas</span></div>
+          <div><b>+300</b><span>videos</span></div>
         </div>
-        <div class="hero__photo-wrap"><svg class="ic hero__burst" aria-hidden="true"><use href="#i-burst"/></svg><div class="hero__photo"><img src="media/selfie-montana.jpg" alt="Diana en una selfie en la montaña" fetchpriority="high"></div></div>
-        <div class="hero__right">
-          <div class="stats">
-            <div><b>+10K</b><span>seguidores</span></div>
-            <div><b>+40</b><span>marcas</span></div>
-            <div><b>+300</b><span>videos</span></div>
-          </div>
-          <div class="socials"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok ↗</a></div>
-        </div>
+        <div class="socials rv"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok ↗</a></div>
       </div>
     </div>
-  </header>
+  </section>
 
   <!-- MI TRABAJO -->
   <section class="section bg-white" id="trabajo">
@@ -455,11 +507,24 @@ const vio = new IntersectionObserver(es => es.forEach(en => {
 $$('video').forEach(v => { v.muted = true; vio.observe(v); });
 
 if (ok && !reduce) {
-  /* Hero: el nombre sube desde la máscara y la foto crece desde abajo */
-  gsap.from('.hero__name .mask > span', { yPercent: 105, duration: 1.3, ease: 'expo.out', delay: .1 });
-  gsap.from('.hero__photo', { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 28px 28px)', duration: 1.4, ease: 'expo.inOut', delay: .3 });
-  gsap.from('.hero__photo img', { scale: 1.3, duration: 1.8, ease: 'expo.out', delay: .3 });
-  gsap.from('.hero__left, .hero__right', { y: 30, opacity: 0, duration: 1, ease: 'power3.out', delay: .9, stagger: .1 });
+  /* Hero "Porta | folio": con el scroll la pantalla crece, cambian las fotos, las palabras se van
+     (izquierda arriba, derecha abajo) y alrededor aparece el moodboard */
+  const frame = $('.pf__frame'), shots = $$('.pf__frame img'), items = $$('.b-item'), gap = $('.pf__gap');
+  const startScale = () => (gap.offsetWidth * .8) / frame.offsetWidth;   // al inicio cabe en el hueco entre las palabras
+  const itemScale = () => isMobile ? .62 : 1;
+  gsap.set(frame, { scale: startScale });
+  gsap.set(items, { xPercent: -50, yPercent: -50, scale: .4, opacity: 0, rotation: i => parseFloat(getComputedStyle(items[i]).getPropertyValue('--r')) || 0 });
+  // Entrada al cargar: las palabras suben y la pantallita aparece
+  gsap.from('.pf__w', { yPercent: 60, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: .08, delay: .1 });
+  gsap.from(frame, { opacity: 0, duration: .8, delay: .35 });
+  const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.pf', start: 'top top', end: () => '+=' + innerHeight * (isMobile ? 2.2 : 2.6), pin: true, scrub: .6, invalidateOnRefresh: true } });
+  tl.to(frame, { scale: 1, duration: 4, ease: 'power2.inOut' }, 0)
+    .to('.pf__l', { yPercent: -160, opacity: 0, duration: 2.6, ease: 'power2.in' }, .6)
+    .to('.pf__r', { yPercent: 160, opacity: 0, duration: 2.6, ease: 'power2.in' }, .6)
+    .to('.pf__hint', { opacity: 0, duration: .6 }, 0);
+  shots.slice(1).forEach((img, i) => tl.to(img, { opacity: 1, duration: .5 }, .8 + i * .9));
+  tl.to(items, { opacity: 1, scale: itemScale, duration: 1.2, ease: 'back.out(1.6)', stagger: { each: .22, from: 'random' } }, 4)
+    .to({}, { duration: .8 });
 
   /* Aparición suave por lotes */
   ScrollTrigger.batch('.rv', { start: 'top 90%', once: true,
@@ -467,8 +532,6 @@ if (ok && !reduce) {
 
   const mm = gsap.matchMedia();
   mm.add('(min-width: 768px)', () => {
-    // El nombre gigante se queda atrás al bajar
-    gsap.to('.hero__name', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
     // Fotos con parallax interno
     $$('.reel__media img').forEach(img => gsap.fromTo(img, { yPercent: -5, scale: 1.1 }, { yPercent: 5, scale: 1.1, ease: 'none',
       scrollTrigger: { trigger: img.parentNode, start: 'top bottom', end: 'bottom top', scrub: true } }));
