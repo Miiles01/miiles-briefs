@@ -52,6 +52,11 @@ img,video{display:block;max-width:100%}
 .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
 .lead{font-size:18px;color:var(--ink-70);max-width:520px}
 
+.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.ic .f{fill:currentColor;stroke:none}
+.eyebrow .ic{width:18px;height:18px}
+.eyebrow.has-ic::before{display:none}
+
 /* Máscara para que las palabras suban desde abajo */
 .mask{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
 .mask > span{display:inline-block}
@@ -83,6 +88,9 @@ img,video{display:block;max-width:100%}
 .hero__name .mask > span{will-change:transform}
 .hero__grid{display:grid;grid-template-columns:1fr minmax(260px,30vw) 1fr;gap:4vw;align-items:end;margin-top:-13vw}
 .hero__photo{position:relative;aspect-ratio:3/4;border-radius:999px 999px 28px 28px;overflow:hidden;background:#fff}
+.hero__photo-wrap{position:relative}
+.hero__burst{position:absolute;z-index:2;top:8%;right:-26px;width:64px;height:64px;color:var(--ink);stroke-width:1.2;animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .hero__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
 .hero__left{padding-bottom:10px}
 .hero__left p{font-size:19px;line-height:1.5;color:var(--ink-70);max-width:360px}
@@ -118,7 +126,7 @@ img,video{display:block;max-width:100%}
 
 /* Sobre mí: solo texto grande alineado a la izquierda, con íconos, que se colorea con el scroll */
 .about__big{max-width:1180px;font-family:var(--serif);font-size:clamp(38px,5.2vw,84px);line-height:1.06;letter-spacing:-.045em;color:var(--ink);text-wrap:pretty}
-.about__big .em{display:inline-block;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:.82em;letter-spacing:0;line-height:1;vertical-align:.02em}
+.about__big .em{display:inline-block;width:.78em;height:.78em;vertical-align:-.04em;margin:0 .06em}
 .about__big .w{transition:none}
 /* Foto que se revela fija (desktop) */
 .reveal-photo{position:relative;height:100vh;height:100svh;clip-path:inset(0 0 0 0)}
@@ -177,7 +185,7 @@ img,video{display:block;max-width:100%}
 /* ===== Tablet ===== */
 @media (max-width:991px){
   .hero__grid{grid-template-columns:1fr 1fr;margin-top:-10vw}
-  .hero__photo{grid-column:1/-1;width:min(56vw,420px);margin:0 auto;order:-1}
+  .hero__photo-wrap{grid-column:1/-1;width:min(56vw,420px);margin:0 auto;order:-1}
   .hero__right{align-items:flex-start}
   .stats div{align-items:flex-start}
   .s-head{flex-direction:column;align-items:flex-start;gap:20px}
@@ -198,7 +206,8 @@ img,video{display:block;max-width:100%}
   .hero{padding:96px 0 50px}
   .hero__name{font-size:33vw}
   .hero__grid{grid-template-columns:1fr;gap:28px;margin-top:-9vw;text-align:center}
-  .hero__photo{width:74vw}
+  .hero__photo-wrap{width:74vw}
+  .hero__burst{width:48px;height:48px;right:-12px}
   .hero__left p{margin:0 auto;font-size:17px}
   .hero__right{align-items:center}
   .stats{gap:22px}
@@ -235,6 +244,20 @@ img,video{display:block;max-width:100%}
 </head>
 <body>
 
+<!-- Íconos de línea (estilo de la referencia): trazo negro, algunos rellenos -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-flower" viewBox="0 0 24 24"><path d="M12 9.2a3.4 3.4 0 1 1 2.8 2.8 3.4 3.4 0 1 1-2.8 2.8 3.4 3.4 0 1 1-2.8-2.8A3.4 3.4 0 1 1 12 9.2Z"/><circle cx="12" cy="12" r="1.6"/></symbol>
+  <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M9 9.6v1.2M15 9.6v1.2M7.6 13.6a4.8 4.8 0 0 0 8.8 0"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4M4.6 4.6l2.8 2.8M16.6 16.6l2.8 2.8M4.6 19.4l2.8-2.8M16.6 7.4l2.8-2.8"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 1.5l2.6 4.2 4.8-1.1-1.1 4.8 4.2 2.6-4.2 2.6 1.1 4.8-4.8-1.1L12 22.5l-2.6-4.2-4.8 1.1 1.1-4.8L1.5 12l4.2-2.6-1.1-4.8 4.8 1.1Z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5S3 14.8 3 8.9A4.6 4.6 0 0 1 12 7.4a4.6 4.6 0 0 1 9 1.5c0 5.9-9 11.6-9 11.6Z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.8 12S5.6 6 12 6s10.2 6 10.2 6-3.8 6-10.2 6S1.8 12 1.8 12Z"/><circle fill="currentColor" stroke="none" cx="12" cy="12" r="2.8"/><path d="M12 2.5v2M6.5 3.8l1 1.7M17.5 3.8l-1 1.7"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/></symbol>
+  <symbol id="i-burst" viewBox="0 0 24 24"><path d="M12 1.5v21M1.5 12h21M4.6 4.6l14.8 14.8M19.4 4.6 4.6 19.4M7.9 2.3l8.2 19.4M16.1 2.3 7.9 21.7M2.3 7.9l19.4 8.2M2.3 16.1l19.4-8.2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M12 3v17M5.5 13.5 12 20l6.5-6.5"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path fill="currentColor" stroke="none" d="M8 9h3v3l-1.5 3H8l1.2-3H8Zm5 0h3v3l-1.5 3H13l1.2-3H13Z"/></symbol>
+  <symbol id="i-hcircle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path fill="currentColor" stroke="none" d="M12 16.4s-4.4-2.8-4.4-5.7A2.2 2.2 0 0 1 12 9.9a2.2 2.2 0 0 1 4.4.8c0 2.9-4.4 5.7-4.4 5.7Z"/></symbol>
+</defs></svg>
 <nav class="nav" aria-label="Principal">
   <a href="#inicio" class="nav__logo go">Diana</a>
   <button class="menu-btn" aria-expanded="false" aria-controls="panel"><i></i>Menú</button>
@@ -263,7 +286,7 @@ img,video{display:block;max-width:100%}
         <div class="hero__left">
           <p>Creo videos y fotos UGC para marcas de belleza, skincare, outdoor y lifestyle que se sienten reales y venden</p>
         </div>
-        <div class="hero__photo"><img src="media/selfie-montana.jpg" alt="Diana en una selfie en la montaña" fetchpriority="high"></div>
+        <div class="hero__photo-wrap"><svg class="ic hero__burst" aria-hidden="true"><use href="#i-burst"/></svg><div class="hero__photo"><img src="media/selfie-montana.jpg" alt="Diana en una selfie en la montaña" fetchpriority="high"></div></div>
         <div class="hero__right">
           <div class="stats">
             <div><b>+10K</b><span>seguidores</span></div>
@@ -280,7 +303,7 @@ img,video{display:block;max-width:100%}
   <section class="section bg-white" id="trabajo">
     <div class="wrap">
       <div class="s-head">
-        <div><p class="eyebrow rv">Mi trabajo</p><h2 class="t-l rv">Contenido que <em>se queda</em></h2></div>
+        <div><p class="eyebrow has-ic rv"><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg>Mi trabajo</p><h2 class="t-l rv">Contenido que <em>se queda</em></h2></div>
         <p class="lead rv">Unboxing, reseñas, tutoriales y anuncios en formato vertical, listos para TikTok, Reels o Meta Ads.</p>
       </div>
       <div class="reels">
@@ -298,13 +321,13 @@ img,video{display:block;max-width:100%}
   <!-- SOBRE MÍ -->
   <section class="section bg-w2y" id="sobre-mi">
     <div class="wrap">
-      <p class="eyebrow rv">Sobre mí</p>
+      <p class="eyebrow has-ic rv"><svg class="ic" aria-hidden="true"><use href="#i-smile"/></svg>Sobre mí</p>
       <!-- Texto grande que se va coloreando palabra por palabra al hacer scroll -->
       <p class="about__big">
-        <span class="em" aria-hidden="true">🏕️</span> Hola, soy Diana, creadora de contenido UGC <span class="em" aria-hidden="true">✨</span>
-        <span class="dim">Grabo lo que vivo y vivo lo que grabo <span class="em" aria-hidden="true">🎬</span>
-        Si un producto no me convence, no lo grabo; si me encanta, se nota en cada toma <span class="em" aria-hidden="true">💛</span>
-        Idea, guion, grabación y edición en vertical, todo en un solo lugar <span class="em" aria-hidden="true">🌱</span></span>
+        <svg class="em ic" aria-hidden="true"><use href="#i-flower"/></svg> Hola, soy Diana, creadora de contenido UGC <svg class="em ic" aria-hidden="true"><use href="#i-spark"/></svg>
+        <span class="dim">Grabo lo que vivo y vivo lo que grabo <svg class="em ic" aria-hidden="true"><use href="#i-eye"/></svg>
+        Si un producto no me convence, no lo grabo; si me encanta, se nota en cada toma <svg class="em ic" aria-hidden="true"><use href="#i-heart"/></svg>
+        Idea, guion, grabación y edición en vertical, todo en un solo lugar <svg class="em ic" aria-hidden="true"><use href="#i-star"/></svg></span>
       </p>
     </div>
   </section>
@@ -319,7 +342,7 @@ img,video{display:block;max-width:100%}
   <section class="section bg-y2w" id="marcas">
     <div class="wrap">
       <div class="s-head">
-        <div><p class="eyebrow rv">Marcas</p><h2 class="t-l rv">Marcas con las que <span style="white-space:nowrap">he colaborado</span></h2></div>
+        <div><p class="eyebrow has-ic rv"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>Marcas</p><h2 class="t-l rv">Marcas con las que <span style="white-space:nowrap">he colaborado</span></h2></div>
       </div>
       <div class="brands">
         <div class="brand rv"><span class="brand__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span></div>
@@ -356,7 +379,7 @@ img,video{display:block;max-width:100%}
   <section class="section bg-y2w" id="testimonios">
     <div class="wrap">
       <div class="s-head">
-        <div><p class="eyebrow rv">Testimonios</p><h2 class="t-l rv">Lo que dicen <em>las marcas</em></h2></div>
+        <div><p class="eyebrow has-ic rv"><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg>Testimonios</p><h2 class="t-l rv">Lo que dicen <em>las marcas</em></h2></div>
       </div>
       <div class="quotes">
         <figure class="quote rv"><span class="quote__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas”</blockquote><figcaption><span class="quote__avatar" aria-hidden="true">ML</span><span class="quote__who"><b>Mariana López</b><span>Gerente de Marketing · La Roche-Posay</span></span></figcaption></figure>
@@ -369,7 +392,7 @@ img,video{display:block;max-width:100%}
   <!-- CONTACTO + FOOTER -->
   <section class="contact bg-w2y" id="contacto">
     <div class="wrap">
-      <p class="eyebrow rv">Contacto</p>
+      <p class="eyebrow has-ic rv"><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg>Contacto</p>
       <h2 class="t-l rv">Hagamos algo <em>juntos</em></h2>
       <div class="contact__list">
         <button class="contact__row rv" type="button" data-copy="hola@dianacreativa.com" aria-label="Copiar correo hola@dianacreativa.com"><span>Correo · toca para copiar</span><b>hola@dianacreativa.com</b></button>
