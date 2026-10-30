@@ -87,7 +87,7 @@ img,video{display:block;max-width:100%}
 .pf__stage{position:relative;height:100vh;height:100svh;overflow:hidden}
 .pf__title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:400;font-size:clamp(90px,19vw,320px);line-height:1;letter-spacing:-.07em;color:var(--ink);white-space:nowrap;pointer-events:none}
 .pf__w{display:inline-block;will-change:transform}
-.pf__gap{display:inline-block;width:.7em}
+.pf__gap{display:inline-block;width:1em}
 /* La pantalla vive en su tamaño final (como un celular) y empieza a escala chica: solo se anima transform */
 .pf__scene{position:absolute;inset:0}
 .pf__frame{--h:min(78vh,780px);position:absolute;left:50%;top:50%;z-index:2;width:calc(var(--h) * 9 / 16);height:var(--h);margin:calc(var(--h) / -2) 0 0 calc(var(--h) * -9 / 32);border-radius:28px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -30px rgba(26,26,18,.35);will-change:transform}
@@ -141,8 +141,6 @@ img,video{display:block;max-width:100%}
 .is-pill.is-yellow{background:var(--yellow);font-weight:500}
 .is-file{width:150px;height:120px;padding:16px;border-radius:16px;background:var(--yellow);clip-path:polygon(0 0,78% 0,100% 20%,100% 100%,0 100%);display:flex;flex-direction:column;justify-content:flex-end}
 .is-file b{font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.04em;line-height:1}
-.pf__hint{position:absolute;left:50%;bottom:22px;z-index:4;display:flex;align-items:center;gap:6px;transform:translateX(-50%);font-size:14px;color:var(--ink-70)}
-.pf__hint .ic{width:16px;height:16px}
 
 /* Presentación debajo del hero */
 .intro{padding:130px 0 60px}
@@ -189,7 +187,7 @@ img,video{display:block;max-width:100%}
 .reveal-photo__tag{position:absolute;left:5vw;bottom:5vh;z-index:2;padding:12px 20px;border-radius:999px;background:var(--yellow);font-size:15px;font-weight:500}
 
 /* Marcas */
-.brands{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.brands{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .brand{display:grid;place-items:center;height:130px;border-radius:22px;background:rgba(255,255,255,.75);transition:background-color .4s}
 .brand:hover{background:var(--yellow)}
 .brand__logo{display:block;height:30px;width:calc(30px * var(--r));max-width:72%;background:var(--olive);-webkit-mask:var(--src) center/contain no-repeat;mask:var(--src) center/contain no-repeat}
@@ -245,7 +243,7 @@ img,video{display:block;max-width:100%}
   .reel:nth-child(even){transform:translateY(50px)}
   .about{grid-template-columns:1fr;gap:56px}
   .about__photo{max-width:560px}
-  .brands{grid-template-columns:repeat(3,1fr)}
+  .brands{grid-template-columns:repeat(3,minmax(0,1fr))}
   .quotes{grid-template-columns:1fr;max-width:640px}
   .contact__list{grid-template-columns:1fr}
 }
@@ -261,13 +259,13 @@ img,video{display:block;max-width:100%}
   .pf__title{position:static;display:contents}
   .pf__w{position:relative;z-index:4;font-family:var(--serif);font-size:30vw;line-height:.86;letter-spacing:-.07em;color:var(--ink)}
   .pf__l{order:1;align-self:flex-start;margin-left:5vw}
-  .pf__r{order:3;align-self:flex-end;margin-right:5vw;margin-top:-4vw}
-  .pf__gap,.pf__hint{display:none}
-  .pf__scene{order:2;position:relative;width:100%;height:118vw;margin-top:-6vw}
-  .pf__frame{--h:104vw;top:50%;border-radius:20px}
+  .pf__r{order:3;align-self:flex-end;margin-right:5vw}
+  .pf__gap{display:none}
+  .pf__scene{order:2;position:relative;width:100%;height:96vw;margin:3vw 0}  /* más corta: aire entre Porta, la foto y folio */
+  .pf__frame{--h:86vw;top:50%;border-radius:20px}
   .pf__frame img{opacity:0!important}
   .pf__frame img:first-child{opacity:1!important}
-  .b-item{left:calc(50% + var(--mx) * 1%);top:calc(50% + var(--my) * 1%);opacity:1;transform:translate(-50%,-50%) rotate(var(--r)) scale(.58)}
+  .b-item{left:calc(50% + var(--mx) * 1%);top:calc(50% + var(--my) * 1%);opacity:1;transform:translate(-50%,-50%) scale(.58)}  /* derechas, sin inclinar */
   .b-item.m-hide{display:none}
   .intro{padding:90px 0 30px}
   .stats b{font-size:38px}
@@ -285,7 +283,7 @@ img,video{display:block;max-width:100%}
   .reveal-photo{height:auto;aspect-ratio:4/5;clip-path:none;margin:0;border-radius:0;overflow:hidden}  /* a todo el ancho: sin orillas blancas */
   .reveal-photo__fixed{position:absolute;height:100%}
   .reveal-photo img{object-position:50% 50%}
-  .brands{grid-template-columns:repeat(2,1fr);gap:10px}
+  .brands{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .brand{height:96px}
   .wheel__word{font-size:21vw}
   .wheel__desc{top:calc(50% + 21vw * .55);font-size:15px}
@@ -349,32 +347,26 @@ img,video{display:block;max-width:100%}
         <img src="media/cabras-m.jpg" alt="">
       </div>
       <div class="pf__board">
-        <div class="b-item m-hide is-back is-photo is-xl" style="--mx:0;--my:0;--x:-21;--y:-27;--r:-3deg" aria-hidden="true"><img src="media/banca-montana.jpg" alt="" loading="lazy" style="object-position:50% 40%"></div>
-        <div class="b-item m-hide is-back is-chart" style="--mx:0;--my:0;--x:33;--y:5;--r:0deg" aria-hidden="true"><svg viewBox="0 0 420 220" preserveAspectRatio="none"><path d="M0 170 L40 150 L80 160 L120 110 L160 125 L200 70 L240 95 L280 40 L320 60 L360 25 L420 35 L420 220 L0 220Z" fill="#fbec6a"/><path d="M0 170 L40 150 L80 160 L120 110 L160 125 L200 70 L240 95 L280 40 L320 60 L360 25 L420 35" fill="none" stroke="#7e6b00" stroke-width="2"/><g stroke="rgba(26,26,18,.12)"><path d="M0 55H420M0 110H420M0 165H420"/></g></svg></div>
-        <div class="b-item m-hide is-back is-num" style="--mx:0;--my:0;--x:45;--y:40;--r:0deg" aria-hidden="true"><b>351</b><small>videos entregados</small></div>
-        <div class="b-item m-hide is-back is-tile" style="--mx:0;--my:0;--x:-26;--y:31;--r:0deg" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-burst"/></svg></div>
-        <div class="b-item m-hide is-back is-arcs" style="--mx:0;--my:0;--x:-45;--y:43;--r:0deg" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="#7e6b00" stroke-width="10" stroke-dasharray="420 600" stroke-linecap="round"/><circle cx="100" cy="100" r="62" fill="none" stroke="#1a1a12" stroke-width="10" stroke-dasharray="250 600" stroke-linecap="round"/></svg></div>
-        <div class="b-item m-hide is-back is-photo is-lg" style="--mx:0;--my:0;--x:24;--y:-35;--r:4deg" aria-hidden="true"><img src="media/lirios.jpg" alt="" loading="lazy" style="object-position:50% 30%"></div>
-        <div class="b-item m-hide is-label" style="--mx:0;--my:0;--x:-44;--y:-34;--r:0deg" aria-hidden="true">Idea</div>
-        <div class="b-item m-hide is-label" style="--mx:0;--my:0;--x:-22;--y:4;--r:0deg" aria-hidden="true">Grabando</div>
-        <div class="b-item m-hide is-label" style="--mx:0;--my:0;--x:22;--y:-6;--r:0deg" aria-hidden="true">Edición</div>
-        <div class="b-item m-hide is-label" style="--mx:0;--my:0;--x:44;--y:-13;--r:0deg" aria-hidden="true">Publicado</div>
-        <div class="b-item m-hide is-hours" style="--mx:0;--my:0;--x:41;--y:27;--r:-2deg" aria-hidden="true"><b>124</b><small>horas grabadas</small></div>
-        <div class="b-item m-hide is-icon" style="--mx:0;--my:0;--x:-7;--y:-45;--r:-4deg" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg></div>
-        <div class="b-item m-hide is-pill is-publish" style="--mx:0;--my:0;--x:-36;--y:30;--r:2deg" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg> Publicar</div>
-        <div class="b-item is-photo" style="--mx:-33;--my:-30;--x:-34;--y:-20;--r:-5deg" aria-hidden="true"><img src="media/lancha.jpg" alt="" loading="lazy" style="object-position:50% 45%"></div>
-        <div class="b-item m-hide is-card" style="--mx:0;--my:0;--x:-33;--y:17;--r:3deg" aria-hidden="true"><div class="b-row"><span class="b-av">ML</span><div><b>Mariana · La Roche-Posay</b><small>hace 2 h</small></div></div><p>Me encanta el gancho de los primeros 3 segundos. ¿Grabamos otra toma?</p></div>
-        <div class="b-item is-card is-metric" style="--mx:30;--my:-34;--x:31;--y:-21;--r:4deg" aria-hidden="true"><small>Reel · Instagram · 7 días</small><div class="b-big">184K <span class="b-up">+240%</span></div><small>reproducciones</small><div class="b-bars"><i style="height:30%"></i><i style="height:48%"></i><i style="height:40%"></i><i style="height:66%"></i><i style="height:80%"></i><i style="height:100%"></i></div></div>
-        <div class="b-item is-photo" style="--mx:33;--my:26;--x:34;--y:18;--r:-4deg" aria-hidden="true"><img src="media/w03.jpg" alt="" loading="lazy"></div>
-        <div class="b-item is-pill is-ink" style="--mx:-30;--my:44;--x:-15;--y:-38;--r:-3deg" aria-hidden="true">Seguir +</div>
-        <div class="b-item m-hide is-file" style="--mx:0;--my:0;--x:15;--y:-37;--r:5deg" aria-hidden="true"><small>unboxing_final</small><b>.mp4</b></div>
-        <div class="b-item m-hide is-card is-list" style="--mx:0;--my:0;--x:-38;--y:-2;--r:-2deg" aria-hidden="true"><small>Guion · Reel 01</small><b class="b-t">Rutina de noche en 30 s</b><ul><li class="on">Gancho</li><li class="on">Problema</li><li class="on">Producto</li><li>Llamado a la acción</li></ul></div>
-        <div class="b-item is-pill" style="--mx:28;--my:46;--x:18;--y:38;--r:-2deg" aria-hidden="true"><b>+10K</b> seguidores</div>
-        <div class="b-item is-photo is-sm" style="--mx:-34;--my:22;--x:-17;--y:37;--r:4deg" aria-hidden="true"><img src="media/lirios.jpg" alt="" loading="lazy" style="object-position:50% 30%"></div>
-        <div class="b-item m-hide is-pill is-yellow" style="--mx:-2;--my:-44;--x:39;--y:2;--r:3deg" aria-hidden="true">▶ Ver reel</div>
+        <div class="b-item m-hide is-back is-photo is-xl" style="--mx:0;--my:0;--x:-31;--y:-8;--r:0deg" aria-hidden="true"><img src="media/banca-montana.jpg" alt="" loading="lazy" style="object-position:50% 40%"></div>
+        <div class="b-item m-hide is-back is-chart" style="--mx:0;--my:0;--x:40;--y:8;--r:0deg" aria-hidden="true"><svg viewBox="0 0 420 220" preserveAspectRatio="none"><path d="M0 170 L40 150 L80 160 L120 110 L160 125 L200 70 L240 95 L280 40 L320 60 L360 25 L420 35 L420 220 L0 220Z" fill="#fbec6a"/><path d="M0 170 L40 150 L80 160 L120 110 L160 125 L200 70 L240 95 L280 40 L320 60 L360 25 L420 35" fill="none" stroke="#7e6b00" stroke-width="2"/><g stroke="rgba(26,26,18,.12)"><path d="M0 55H420M0 110H420M0 165H420"/></g></svg></div>
+        <div class="b-item m-hide is-back is-num" style="--mx:0;--my:0;--x:43;--y:40;--r:0deg" aria-hidden="true"><b>351</b><small>videos entregados</small></div>
+        <div class="b-item m-hide is-back is-tile" style="--mx:0;--my:0;--x:-42;--y:10;--r:0deg" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-burst"/></svg></div>
+        <div class="b-item m-hide is-back is-photo is-lg" style="--mx:0;--my:0;--x:31;--y:-41;--r:0deg" aria-hidden="true"><img src="media/lirios.jpg" alt="" loading="lazy" style="object-position:50% 30%"></div>
+        <div class="b-item is-photo" style="--mx:-38;--my:-24;--x:-24;--y:-23;--r:-1.5deg" aria-hidden="true"><img src="media/lancha.jpg" alt="" loading="lazy" style="object-position:50% 45%"></div>
+        <div class="b-item m-hide is-card is-list" style="--mx:0;--my:0;--x:-25;--y:15;--r:0deg" aria-hidden="true"><small>Guion · Reel 01</small><b class="b-t">Rutina de noche en 30 s</b><ul><li class="on">Gancho</li><li class="on">Problema</li><li class="on">Producto</li><li>Llamado a la acción</li></ul></div>
+        <div class="b-item m-hide is-label" style="--mx:0;--my:0;--x:-41;--y:-30;--r:0deg" aria-hidden="true">Idea</div>
+        <div class="b-item m-hide is-pill is-publish" style="--mx:0;--my:0;--x:-41;--y:30;--r:0deg" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg> Publicar</div>
+        <div class="b-item is-photo is-sm" style="--mx:-39;--my:26;--x:-23;--y:41;--r:1.5deg" aria-hidden="true"><img src="media/lirios.jpg" alt="" loading="lazy" style="object-position:50% 30%"></div>
+        <div class="b-item is-pill is-ink" style="--mx:-37;--my:4;--x:-14;--y:-33;--r:0deg" aria-hidden="true">Seguir +</div>
+        <div class="b-item is-card is-metric" style="--mx:40;--my:-30;--x:25;--y:-24;--r:0deg" aria-hidden="true"><small>Reel · Instagram · 7 días</small><div class="b-big">184K <span class="b-up">+240%</span></div><small>reproducciones</small><div class="b-bars"><i style="height:30%"></i><i style="height:48%"></i><i style="height:40%"></i><i style="height:66%"></i><i style="height:80%"></i><i style="height:100%"></i></div></div>
+        <div class="b-item is-photo" style="--mx:38;--my:22;--x:24;--y:13;--r:1.5deg" aria-hidden="true"><img src="media/w03.jpg" alt="" loading="lazy"></div>
+        <div class="b-item m-hide is-pill is-yellow" style="--mx:0;--my:0;--x:27;--y:24;--r:0deg" aria-hidden="true">▶ Ver reel</div>
+        <div class="b-item is-pill" style="--mx:38;--my:-4;--x:23;--y:38;--r:0deg" aria-hidden="true"><b>+10K</b> seguidores</div>
+        <div class="b-item m-hide is-file" style="--mx:0;--my:0;--x:41;--y:-33;--r:0deg" aria-hidden="true"><small>unboxing_final</small><b>.mp4</b></div>
+        <div class="b-item m-hide is-label" style="--mx:0;--my:0;--x:41;--y:-12;--r:0deg" aria-hidden="true">Publicado</div>
+        <div class="b-item m-hide is-hours" style="--mx:0;--my:0;--x:41;--y:27;--r:0deg" aria-hidden="true"><b>124</b><small>horas grabadas</small></div>
       </div>
       </div>
-      <p class="pf__hint"><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>Desliza</p>
     </div>
   </section>
 
@@ -558,19 +550,23 @@ if (ok && !reduce) {
      Al final aparece el moodboard: atrás con poca opacidad, adelante completo. En celular es un collage fijo. */
   if (!isMobile) {
     const frame = $('.pf__frame'), shots = $$('.pf__frame img'), items = $$('.b-item:not(.m-only)'), gap = $('.pf__gap');
-    const startScale = () => (gap.offsetWidth * .8) / frame.offsetWidth;
-    const spread = () => (frame.offsetWidth * (1 - startScale())) / 2 + 24;   // lo que crece cada lado de la pantalla
-    gsap.set(frame, { scale: startScale });
+    // La pantallita se mide contra la tinta real de las letras (la "a" sobresale de su caja por el espaciado negativo)
+    const gapBox = () => { const fs = parseFloat(getComputedStyle($('.pf__title')).fontSize);
+      const L = $('.pf__l').getBoundingClientRect().right + fs * .12, R = $('.pf__r').getBoundingClientRect().left; return { L, R }; };
+    const startScale = () => { const { L, R } = gapBox(); return Math.max(.1, (R - L) * .8 / frame.offsetWidth); };
+    const startX = () => { const { L, R } = gapBox(); return (L + R) / 2 - innerWidth / 2; };
+    const spread = () => (frame.offsetWidth * (1 - startScale())) / 2 + 40;   // lo que crece cada lado de la pantalla
+    gsap.set(frame, { scale: startScale, x: startX });
     gsap.set(items, { xPercent: -50, yPercent: -50, scale: .4, opacity: 0, rotation: i => parseFloat(getComputedStyle(items[i]).getPropertyValue('--r')) || 0 });
     gsap.from('.pf__w', { yPercent: 60, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: .08, delay: .1 });
     gsap.from(frame, { opacity: 0, duration: .8, delay: .35 });
     const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.pf', start: 'top top', end: () => '+=' + innerHeight * 2.8, pin: true, scrub: .6, invalidateOnRefresh: true } });
-    tl.to(frame, { scale: 1, duration: 4, ease: 'power2.inOut' }, 0)
+    tl.to(frame, { scale: 1, x: 0, duration: 4, ease: 'power2.inOut' }, 0)
       .to('.pf__l', { x: () => -spread(), duration: 4, ease: 'power2.inOut' }, 0)
       .to('.pf__r', { x: () => spread(), duration: 4, ease: 'power2.inOut' }, 0)
       .to('.pf__l', { yPercent: -170, opacity: 0, duration: 2.4, ease: 'power2.in' }, 1)
       .to('.pf__r', { yPercent: 170, opacity: 0, duration: 2.4, ease: 'power2.in' }, 1)
-      .to('.pf__hint', { opacity: 0, duration: .6 }, 0);
+;
     shots.slice(1).forEach((img, i) => tl.to(img, { opacity: 1, duration: .5 }, .8 + i * .9));
     tl.to(items, { opacity: i => items[i].classList.contains('is-back') ? .38 : 1, scale: 1, duration: 1.2, ease: 'back.out(1.6)', stagger: { each: .12, from: 'random' } }, 3.8)
       .to({}, { duration: .8 });
