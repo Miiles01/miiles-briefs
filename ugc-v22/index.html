@@ -138,9 +138,12 @@ img,video{display:block;max-width:100%}
 .brand__logo{display:block;height:30px;width:calc(30px * var(--r));max-width:72%;background:var(--olive);-webkit-mask:var(--src) center/contain no-repeat;mask:var(--src) center/contain no-repeat}
 
 /* Nichos: palabras que pasan en grande, cambian fondo y color */
-.wheel{position:relative;height:min(78vh,760px);border-radius:32px;overflow:hidden;background:#fbec6a;color:#7e6b00}
+.nichos{position:relative}
+.wheel{position:relative;height:100vh;height:100svh;overflow:hidden;background:#fbec6a;color:#7e6b00}
+.wheel__label{position:absolute;top:max(96px,12vh);left:5vw;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
+.wheel__label::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
 .wheel__word{position:absolute;left:50%;top:50%;font-family:var(--serif);font-size:clamp(80px,15vw,230px);line-height:1;letter-spacing:-.065em;white-space:nowrap;padding:0 .08em .08em;transform:translate(-50%,-50%);will-change:transform,opacity;opacity:0}
-.wheel__desc{position:absolute;left:0;right:0;bottom:28px;text-align:center;font-size:15px;font-weight:500;opacity:.8}
+.wheel__desc{position:absolute;left:0;right:0;top:calc(50% + clamp(80px,15vw,230px) * .52);padding:0 8vw;text-align:center;font-size:17px;font-weight:500;opacity:.85}
 /* Botones */
 .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 28px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font:500 16px var(--sans);cursor:pointer;transition:background-color .35s,color .35s,border-color .35s}
@@ -222,9 +225,8 @@ img,video{display:block;max-width:100%}
   .reveal-photo img{object-position:50% 50%}
   .brands{grid-template-columns:repeat(2,1fr);gap:10px}
   .brand{height:96px}
-  .wheel{height:62vh;border-radius:24px}
   .wheel__word{font-size:21vw}
-  .wheel__desc{padding:0 8vw;bottom:22px}
+  .wheel__desc{top:calc(50% + 21vw * .55);font-size:15px}
   .quote{padding:28px 24px}
   .btn{padding:15px 24px}
   .footer__name{font-size:34vw;margin-top:60px}
@@ -339,14 +341,10 @@ img,video{display:block;max-width:100%}
     </div>
   </section>
 
-  <!-- NICHOS -->
-  <section class="section bg-w2y" id="nichos">
-    <div class="wrap">
-      <div class="s-head">
-        <div><p class="eyebrow rv">Nichos</p><h2 class="t-l rv">Donde mejor <em>cuento historias</em></h2></div>
-      </div>
+  <!-- NICHOS: pantalla completa -->
+  <section id="nichos" class="nichos">
       <!-- Palabras que pasan en grande (referencia de Pinterest): la del centro crece, las vecinas se ven chiquitas -->
-      <div class="wheel rv" aria-label="Nichos: Skincare, Belleza, Outdoor, Lifestyle, Unboxing, Reseñas, Tech">
+      <div class="wheel" aria-label="Nichos: Skincare, Belleza, Outdoor, Lifestyle, Unboxing, Reseñas, Tech">
         <span class="wheel__word" data-bg="#fbec6a" data-fg="#7e6b00" data-d="Rutinas, texturas y resultados reales en la piel" aria-hidden="true">Skincare</span>
         <span class="wheel__word" data-bg="#7e6b00" data-fg="#fbec6a" data-d="Maquillaje, cabello y uñas con luz natural" aria-hidden="true">Belleza</span>
         <span class="wheel__word" data-bg="#1a1a12" data-fg="#fbec6a" data-d="Ropa y equipo probados en la montaña" aria-hidden="true">Outdoor</span>
@@ -354,9 +352,9 @@ img,video{display:block;max-width:100%}
         <span class="wheel__word" data-bg="#fbec6a" data-fg="#1a1a12" data-d="La primera reacción, sin guion de por medio" aria-hidden="true">Unboxing</span>
         <span class="wheel__word" data-bg="#1a1a12" data-fg="#f9f2e4" data-d="Lo que me gustó y lo que no, con honestidad" aria-hidden="true">Reseñas</span>
         <span class="wheel__word" data-bg="#7e6b00" data-fg="#f9f2e4" data-d="Gadgets y apps explicados sin complicaciones" aria-hidden="true">Tech</span>
+        <p class="wheel__label">Nichos</p>
         <p class="wheel__desc" aria-hidden="true"></p>
       </div>
-    </div>
   </section>
 
   <!-- TESTIMONIOS -->
@@ -471,7 +469,7 @@ if (ok && !reduce) {
 (() => {
   const wheel = $('.wheel'); if (!wheel) return;
   const words = $$('.wheel__word', wheel), desc = $('.wheel__desc', wheel), n = words.length;
-  let cur = 0, timer = null;
+  let cur = 0, timer = null, underNav = false;
   const place = (animate) => {
     words.forEach((w, i) => {
       let off = ((i - cur) % n + n) % n; if (off > n / 2) off -= n;      // -1 arriba, 0 centro, 1 abajo
@@ -483,6 +481,7 @@ if (ok && !reduce) {
     });
     const w = words[cur];
     if (ok) gsap.to(wheel, { backgroundColor: w.dataset.bg, color: w.dataset.fg, duration: animate ? .5 : 0, ease: 'power2.out' });
+    if (ok && underNav) gsap.to('.nav__logo', { color: w.dataset.fg, duration: .5 });
     desc.textContent = w.dataset.d;
   };
   if (!ok) { words[0].style.opacity = 1; desc.textContent = words[0].dataset.d; return; }
@@ -495,6 +494,8 @@ if (ok && !reduce) {
     if (en.isIntersecting && !reduce) timer = setInterval(tick, 1500);
   }, { threshold: .3 }).observe(wheel);
   addEventListener('resize', () => place(false));
+  ScrollTrigger.create({ trigger: wheel, start: 'top 60px', end: 'bottom 60px',
+    onToggle: st => { underNav = st.isActive; gsap.to('.nav__logo', { color: underNav ? words[cur].dataset.fg : '#1a1a12', duration: .3 }); } });
 })();
 
 /* Copiar correo */
