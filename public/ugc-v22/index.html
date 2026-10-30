@@ -168,7 +168,7 @@ img,video{display:block;max-width:100%}
 /* Contacto + footer */
 .contact{padding:150px 0 40px}
 .contact__list{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px}
-.contact__row{display:flex;flex-direction:column;gap:6px;padding:26px 28px;border-radius:24px;background:rgba(255,255,255,.8);transition:background-color .35s}
+.contact__row{display:flex;flex-direction:column;gap:6px;border:0;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:26px 28px;border-radius:24px;background:rgba(255,255,255,.8);transition:background-color .35s}
 .contact__row:hover{background:#fff}
 .contact__row span{font-size:14px;color:var(--olive);font-weight:500}
 .contact__row b{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.2vw,34px);letter-spacing:-.04em;line-height:1.1;overflow-wrap:anywhere}
@@ -377,13 +377,9 @@ img,video{display:block;max-width:100%}
       <p class="eyebrow rv">Contacto</p>
       <h2 class="t-l rv">Hagamos algo <em>juntos</em></h2>
       <div class="contact__list">
-        <a class="contact__row rv" href="mailto:hola@dianacreativa.com"><span>Correo</span><b>hola@dianacreativa.com</b></a>
+        <button class="contact__row rv" type="button" data-copy="hola@dianacreativa.com" aria-label="Copiar correo hola@dianacreativa.com"><span>Correo · toca para copiar</span><b>hola@dianacreativa.com</b></button>
         <a class="contact__row rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span>WhatsApp</span><b>+52 55 0000 0000</b></a>
         <a class="contact__row rv" href="https://instagram.com/" target="_blank" rel="noopener"><span>Instagram</span><b>@dianacreativa</b></a>
-      </div>
-      <div class="btns rv">
-        <a class="btn is--solid" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp ↗</a>
-        <button class="btn" type="button" data-copy="hola@dianacreativa.com"><span>Copiar correo</span></button>
       </div>
     </div>
     <p class="footer__name" aria-hidden="true">Diana</p>
@@ -501,7 +497,7 @@ if (ok && !reduce) {
 /* Copiar correo */
 $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
   const label = $('span', btn), txt = label.textContent;
-  try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = '¡Correo copiado!'; }
+  try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = '¡Correo copiado! ✓'; }
   catch { location.href = 'mailto:' + btn.dataset.copy; return; }
   setTimeout(() => { label.textContent = txt; }, 1800);
 }));
