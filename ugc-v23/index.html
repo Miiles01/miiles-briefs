@@ -117,12 +117,6 @@ img,video{display:block;max-width:100%}
 .sel b{position:absolute;right:-2px;top:-30px;padding:3px 8px;border-radius:5px;background:var(--select);color:#fff;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0;white-space:nowrap}
 /* Celda resaltada al pasar el mouse */
 .hover-cell{position:absolute;z-index:3;width:var(--cell);height:var(--cell);border:1.5px solid var(--select);pointer-events:none;opacity:0;transition:opacity .2s}
-/* Cursores con nombre */
-.cur{position:absolute;z-index:5;left:0;top:0;pointer-events:none;will-change:transform}
-.cur svg{width:22px;height:22px;display:block}
-.cur span{position:absolute;left:16px;top:18px;padding:4px 9px;border-radius:6px 999px 999px 999px;font-size:12px;font-weight:600;white-space:nowrap}
-.cur--a span{background:var(--lime)}
-.cur--b span{background:var(--violet)}
 
 /* Regla superior */
 .ruler{position:relative;height:22px;border-bottom:1px solid var(--line);background:#fff;background-image:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(var(--cell) / 4));overflow:hidden}
@@ -235,10 +229,18 @@ img,video{display:block;max-width:100%}
 .card span{font-size:13px;font-weight:600}
 .card b{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.3vw,36px);line-height:1.05;letter-spacing:-.045em;overflow-wrap:anywhere}
 .foot{position:relative;margin-top:130px;overflow:hidden}
-.foot__name{position:relative;z-index:1;font-family:var(--serif);font-size:30vw;line-height:.76;letter-spacing:-.075em;text-align:center;white-space:nowrap;margin-left:-.03em}
+.foot__name{position:relative;z-index:1;font-family:var(--serif);font-size:30vw;line-height:.92;padding-bottom:3vw;letter-spacing:-.075em;text-align:center;white-space:nowrap;margin-left:-.03em}
 .foot__strip{display:grid;grid-template-columns:repeat(var(--cols),1fr);height:calc(var(--cell) * .5)}
 .foot__strip i{background:var(--c,transparent)}
 .foot__bottom{display:flex;justify-content:space-between;padding:18px 20px 90px;font-size:13px;color:var(--ink-60)}
+
+/* Sobre mí se queda quieto y lo que sigue pasa por encima (desktop y tablet) */
+@media (min-width:768px){
+  #sobre-mi{position:sticky;z-index:1;background-color:var(--paper)}
+  main > section:not(#sobre-mi):not(.hero){position:relative;z-index:2}
+  .section,.contact{background-color:var(--paper)}
+  .art{box-shadow:0 -30px 60px -30px rgba(0,0,0,.25)}
+}
 
 /* Aparición */
 .rv{opacity:0;transform:translateY(36px)}
@@ -382,12 +384,10 @@ img,video{display:block;max-width:100%}
     <div class="tile t12 is-c" aria-hidden="true"></div>
     <div class="hero__title">
       <p class="hero__kicker">Creadora de contenido</p>
-      <h1 class="hero__name"><span class="serif">Diana<span class="sel" aria-hidden="true"><i></i><i></i><i></i><i></i><b>Título · 236 × 210</b></span></span><span class="sans">UGC</span></h1>
+      <h1 class="hero__name"><span class="serif">Diana</span><span class="sans">UGC</span></h1>
       <p class="hero__sub"><span>Belleza · Skincare<br>Outdoor · Lifestyle</span><span>Portafolio<br>2026</span></p>
     </div>
     <span class="hover-cell" aria-hidden="true"></span>
-    <span class="cur cur--a" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 2l17 8-7 2.5L10 20z" fill="#111110" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Diana</span></span>
-    <span class="cur cur--b" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 2l17 8-7 2.5L10 20z" fill="#111110" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Tu marca</span></span>
   </section>
 
   <div class="ruler" aria-hidden="true"><span style="left:0">0</span><span style="left:25%">360</span><span style="left:50%">720</span><span style="left:75%">1080</span></div>
@@ -422,7 +422,7 @@ img,video{display:block;max-width:100%}
   <section class="section grid-bg" id="sobre-mi" style="--cell:80px">
     <div class="wrap">
       <span class="tag rv" style="margin-bottom:30px"><i></i>Sobre mí</span>
-      <p class="about">Hola, soy Diana <span class="pill-img" aria-hidden="true"><img src="media/selfie-montana.jpg" alt="" loading="lazy" style="object-position:50% 30%"></span> y grabo lo que vivo <span class="sans">y vivo lo que grabo.</span> Si un producto no me convence, no lo grabo; si me encanta, <span class="hl lime">se nota</span> en cada toma <span class="pill-img" aria-hidden="true"><img src="media/w03.jpg" alt="" loading="lazy"></span> Pruebo todo antes de grabar y lo cuento <span class="hl violet">como a una amiga</span></p>
+      <p class="about">Hola, soy Diana <span class="pill-img" aria-hidden="true"><img src="media/pill-diana.jpg" alt="" loading="lazy"></span> y grabo lo que vivo <span class="sans">y vivo lo que grabo.</span> Si un producto no me convence, no lo grabo; si me encanta, <span class="hl lime">se nota</span> en cada toma <span class="pill-img" aria-hidden="true"><img src="media/pill-serum.jpg" alt="" loading="lazy"></span> Pruebo todo antes de grabar y lo cuento <span class="hl violet">como a una amiga</span></p>
       <div class="process">
         <div class="step rv"><i style="--c:var(--lime)"><svg class="ic"><use href="#i-idea"/></svg></i><div><b>Idea</b><small>Gancho y ángulo para tu producto</small></div></div>
         <div class="step rv"><i style="--c:var(--violet)"><svg class="ic"><use href="#i-script"/></svg></i><div><b>Guion</b><small>Escrito para los primeros 3 segundos</small></div></div>
@@ -591,28 +591,12 @@ if (fine && !isMobile) {
 }
 
 if (ok && !reduce) {
-  /* Entrada del hero: las celdas de foto y color se revelan una a una, el título sube y la selección se dibuja */
+  /* Entrada del hero: las celdas de foto y color se revelan una a una, el título sube */
   const tiles = $$('.tile');
   gsap.set(tiles, { clipPath: 'inset(0 0 100% 0)' });
   gsap.to(tiles, { clipPath: 'inset(0 0 0% 0)', duration: .9, ease: 'expo.inOut', stagger: { each: .06, from: 'random' }, delay: .1 });
   gsap.from('.hero__title', { scaleY: 0, transformOrigin: '50% 50%', duration: .9, ease: 'expo.inOut' });
   gsap.from('.hero__kicker, .hero__name > span, .hero__sub', { yPercent: 60, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08, delay: .6 });
-  gsap.from('.hero .sel', { scale: 1.15, opacity: 0, duration: .6, ease: 'back.out(2)', delay: 1.3 });
-
-  /* Cursores con nombre que se mueven por el lienzo (solo desktop) */
-  if (!isMobile) {
-    const curA = $('.cur--a'), curB = $('.cur--b');
-    const P = (x, y) => ({ x: () => hero.offsetWidth * x, y: () => hero.offsetHeight * y });
-    gsap.set(curA, { ...P(.62, .78), opacity: 0 }); gsap.set(curB, { ...P(.86, .2), opacity: 0 });
-    const ta = gsap.timeline({ repeat: -1, delay: 1.6, defaults: { duration: 1.6, ease: 'power2.inOut' } })
-      .to(curA, { opacity: 1, duration: .3 })
-      .to(curA, P(.36, .5)).to(curA, { scale: .85, duration: .12, yoyo: true, repeat: 1 })
-      .to(curA, P(.2, .2)).to(curA, P(.5, .82)).to(curA, P(.62, .78));
-    const tb = gsap.timeline({ repeat: -1, delay: 2.4, defaults: { duration: 1.9, ease: 'power2.inOut' } })
-      .to(curB, { opacity: 1, duration: .3 })
-      .to(curB, P(.7, .62)).to(curB, P(.9, .55)).to(curB, P(.78, .3)).to(curB, P(.86, .2));
-    ScrollTrigger.create({ trigger: hero, start: 'top bottom', end: 'bottom top', onToggle: s => { s.isActive ? (ta.play(), tb.play()) : (ta.pause(), tb.pause()); } });
-  } else { $$('.cur').forEach(c => c.remove()); }
 
   /* Aparición suave por lotes */
   ScrollTrigger.batch('.rv', { start: 'top 90%', once: true,
@@ -646,6 +630,11 @@ if (ok && !reduce) {
 } else {
   $$('.rv').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
 }
+
+/* Sobre mí fijo: se pega por abajo, así primero se lee completo y luego la banda de colores pasa encima */
+const aboutSec = $('#sobre-mi');
+const stickAbout = () => { aboutSec.style.top = isMobile ? '' : Math.min(0, innerHeight - aboutSec.offsetHeight) + 'px'; };
+stickAbout(); addEventListener('resize', stickAbout); addEventListener('load', stickAbout);
 
 /* Nichos: panel de capas que cambia la vista previa (solo se mueve mientras se ve) */
 (() => {
