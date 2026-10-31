@@ -117,8 +117,6 @@ img,video{display:block;max-width:100%}
 .sel i{position:absolute;width:9px;height:9px;background:#fff;border:1.5px solid var(--select)}
 .sel i:nth-child(1){left:-5px;top:-5px}.sel i:nth-child(2){right:-5px;top:-5px}.sel i:nth-child(3){left:-5px;bottom:-5px}.sel i:nth-child(4){right:-5px;bottom:-5px}
 .sel b{position:absolute;right:-2px;top:-30px;padding:3px 8px;border-radius:5px;background:var(--select);color:#fff;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0;white-space:nowrap}
-/* Celda resaltada al pasar el mouse */
-.hover-cell{position:absolute;z-index:3;width:var(--cell);height:var(--cell);border:1.5px solid var(--select);pointer-events:none;opacity:0;transition:opacity .2s}
 
 /* Regla superior */
 .ruler{position:relative;height:22px;border-bottom:1px solid var(--line);background:#fff;background-image:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(var(--cell) / 4));overflow:hidden}
@@ -397,7 +395,6 @@ img,video{display:block;max-width:100%}
       <h1 class="hero__name"><span class="serif">Diana</span><span class="sans">UGC</span></h1>
       <p class="hero__sub"><span>Belleza · Skincare<br>Outdoor · Lifestyle</span><span>Portafolio<br>2026</span></p>
     </div>
-    <span class="hover-cell" aria-hidden="true"></span>
   </section>
 
   <div class="ruler" aria-hidden="true"><span style="left:0">0</span><span style="left:25%">360</span><span style="left:50%">720</span><span style="left:75%">1080</span></div>
@@ -601,37 +598,6 @@ const vio = new IntersectionObserver(es => es.forEach(en => {
   if (en.isIntersecting && !reduce) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
 }), { threshold: .3 });
 $$('video').forEach(v => { v.muted = true; vio.observe(v); });
-
-/* Hero: celda resaltada al pasar el mouse (como en una app de diseño) */
-const hero = $('.hero'), hc = $('.hover-cell');
-if (fine && !isMobile) {
-  hero.addEventListener('pointermove', e => {
-    const r = hero.getBoundingClientRect(), c = r.width / 12;
-    hc.style.transform = `translate(${Math.floor((e.clientX - r.left) / c) * c}px, ${Math.floor((e.clientY - r.top) / c) * c}px)`;
-    hc.style.opacity = 1;
-  });
-  hero.addEventListener('pointerleave', () => { hc.style.opacity = 0; });
-}
-
-/* Separa un título en letras (con máscara por palabra) sin romper los estilos internos */
-function splitChars(root) {
-  const out = [];
-  const walk = node => [...node.childNodes].forEach(n => {
-    if (n.nodeType === 3) {
-      const f = document.createDocumentFragment();
-      n.textContent.split(/(\s+)/).forEach(t => {
-        if (!t) return;
-        if (/^\s+$/.test(t)) { f.append(t); return; }
-        const w = document.createElement('span'); w.className = 'sw';
-        [...t].forEach(ch => { const c = document.createElement('span'); c.className = 'sc'; c.textContent = ch; w.append(c); out.push(c); });
-        f.append(w);
-      });
-      n.replaceWith(f);
-    } else if (n.nodeType === 1 && !n.matches('br, .sel')) walk(n);
-  });
-  walk(root);
-  return out;
-}
 
 if (ok && !reduce) {
   /* Entrada del hero: las celdas de foto y color se revelan una a una, el título sube */
