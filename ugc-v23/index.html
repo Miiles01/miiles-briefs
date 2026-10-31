@@ -97,16 +97,17 @@ img,video{display:block;max-width:100%}
 .panel__close{position:absolute;top:20px;right:20px;padding:11px 18px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:500;cursor:pointer}
 
 /* ===== Hero: cuadrícula con fotos y colores, título al centro ===== */
-.hero{position:relative;display:grid;grid-template-columns:repeat(var(--cols),var(--cell));grid-template-rows:repeat(7,var(--cell));overflow:hidden}
+.hero{position:relative;background:#fff;display:grid;grid-template-columns:repeat(var(--cols),var(--cell));grid-template-rows:repeat(7,var(--cell));overflow:hidden}
 .hero > .grid-bg{position:absolute;inset:0;z-index:0}
 .tile{position:relative;z-index:1;overflow:hidden;background:var(--c,#ddd)}
 .tile img,.tile video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tile.is-c{background:var(--c)}
-/* Composición escalonada (tipo Medium Day): fotos y colores muerden el área blanca por escalones */
-.t1{grid-area:1/1/3/4}.t2{grid-area:3/1/4/2;--c:var(--lime)}.t3{grid-area:1/5/2/6;--c:var(--orange)}.t4{grid-area:1/9/3/11}
-.t5{grid-area:1/12/2/13;--c:var(--violet)}.t6{grid-area:5/1/8/3}.t7{grid-area:7/3/8/4;--c:var(--yellow)}.t8{grid-area:7/4/8/5;--c:var(--blue)}
-.t9{grid-area:6/5/8/8}.t10{grid-area:6/10/8/13}.t11{grid-area:2/11/4/13}.t12{grid-area:5/12/6/13;--c:var(--ink)}
-.hero__title{position:relative;z-index:2;grid-area:3/2/6/12;display:flex;flex-direction:column;justify-content:center;padding:0 2vw}  /* sin caja: el texto flota sobre las celdas blancas */
+/* Composición escalonada (tipo Medium Day): fotos, colores y celdas sueltas rodean un centro blanco con escalones */
+.tile,.cl{grid-area:var(--d)}
+.t2{--c:var(--lime)}.t3{--c:var(--orange)}.t5{--c:var(--violet)}.t7{--c:var(--yellow)}.t8{--c:var(--blue)}.t12{--c:var(--ink)}.t13{--c:var(--lime)}
+.cl{position:relative;z-index:1;background:#fff;box-shadow:inset 0 0 0 .5px #d6d6cf}
+.d-off{display:none}
+.hero__title{position:relative;z-index:2;grid-area:3/3/6/12;display:flex;flex-direction:column;justify-content:center;padding:0 2vw}  /* sin caja: el texto flota sobre las celdas blancas */
 .hero__kicker{font-size:clamp(16px,1.9vw,30px);font-weight:500;letter-spacing:-.03em;margin-left:9%}
 .hero__name{display:flex;align-items:baseline;justify-content:center;gap:.2em;margin:.06em 0 .02em;line-height:.9;white-space:nowrap}
 .hero__name .serif{position:relative;font-size:clamp(70px,13vw,236px);letter-spacing:-.06em}
@@ -304,9 +305,10 @@ html.has-loader .top,html.has-loader .dock,html.has-loader .foot{visibility:hidd
   body{font-size:15px}
   .top{padding:12px 12px;padding-top:max(12px,env(safe-area-inset-top))}
   .hero{grid-template-rows:repeat(10,var(--cell))}
-  .t1{grid-area:1/1/4/3}.t2{grid-area:1/3/2/4}.t3{grid-area:2/4/3/5}.t4{grid-area:1/5/3/7}
-  .t5{grid-area:7/4/8/5}.t6{grid-area:7/1/10/3}.t7{grid-area:8/3/9/4}.t8{grid-area:10/6/11/7}
-  .t9{grid-area:7/5/9/7}.t10{grid-area:9/3/11/5}.t11{display:none}.t12{grid-area:3/3/4/4}
+  .tile,.cl{grid-area:var(--m)}
+  .m-off{display:none}
+  .d-off{display:block}
+  .t11{display:block}
   .hero__title{grid-area:4/1/7/7;padding:0 4vw}
   .hero__kicker{margin-left:0;font-size:15px}
   .hero__name .serif{font-size:22vw}
@@ -422,19 +424,39 @@ html.has-loader .top,html.has-loader .dock,html.has-loader .foot{visibility:hidd
 <main>
   <!-- HERO: cuadrícula con fotos y colores, título al centro como lienzo de diseño -->
   <section class="hero" id="inicio" aria-label="Diana, creadora de contenido UGC">
-    <div class="grid-bg" aria-hidden="true"></div>
-    <div class="tile t1"><img src="media/selfie-montana.jpg" alt="Diana en una selfie en la montaña" fetchpriority="high" style="object-position:50% 35%"></div>
-    <div class="tile t2 is-c" aria-hidden="true"></div>
-    <div class="tile t3 is-c" aria-hidden="true"></div>
-    <div class="tile t4"><img src="media/lancha.jpg" alt="" style="object-position:50% 45%"></div>
-    <div class="tile t5 is-c" aria-hidden="true"></div>
-    <div class="tile t6"><img src="media/cabras-m.jpg" alt="Diana con cabras"></div>
-    <div class="tile t7 is-c" aria-hidden="true"></div>
-    <div class="tile t8 is-c" aria-hidden="true"></div>
-    <div class="tile t9"><img src="media/banca-montana.jpg" alt="" style="object-position:50% 40%"></div>
-    <div class="tile t10"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Video de unboxing"></video></div>
-    <div class="tile t11"><img src="media/lirios.jpg" alt="" style="object-position:50% 30%"></div>
-    <div class="tile t12 is-c" aria-hidden="true"></div>
+    <!-- Celdas de cuadrícula sueltas: la cuadrícula aparece solo en pedazos alrededor; el centro queda blanco -->
+    <div class="tile t13 is-c m-off" style="--d:7/7/8/8;--m:1/1/2/2" aria-hidden="true"></div>
+    <span class="cl m-off" style="--d:1/4/2/5" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:1/6/2/7" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:1/7/2/8" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:1/8/2/9" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:1/11/2/12" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:2/11/3/12" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:4/1/5/2" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:5/12/6/13" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:6/3/7/4" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:7/4/8/5" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:7/5/8/6" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:7/6/8/7" aria-hidden="true"></span>
+    <span class="cl m-off" style="--d:7/8/8/9" aria-hidden="true"></span>
+    <span class="cl d-off" style="--m:1/4/2/5" aria-hidden="true"></span>
+    <span class="cl d-off" style="--m:2/3/3/4" aria-hidden="true"></span>
+    <span class="cl d-off" style="--m:3/1/4/2" aria-hidden="true"></span>
+    <span class="cl d-off" style="--m:8/4/9/5" aria-hidden="true"></span>
+    <span class="cl d-off" style="--m:10/1/11/2" aria-hidden="true"></span>
+    <span class="cl d-off" style="--m:10/2/11/3" aria-hidden="true"></span>
+    <div class="tile t1" style="--d:1/1/3/4;--m:1/1/3/3"><img src="media/selfie-montana.jpg" alt="Diana en una selfie en la montaña" fetchpriority="high" style="object-position:50% 35%"></div>
+    <div class="tile t2 is-c" style="--d:3/1/4/2;--m:1/3/2/4" aria-hidden="true"></div>
+    <div class="tile t3 is-c" style="--d:1/5/2/6;--m:2/4/3/5" aria-hidden="true"></div>
+    <div class="tile t4" style="--d:1/9/3/11;--m:1/5/3/7"><img src="media/lancha.jpg" alt="" style="object-position:50% 45%"></div>
+    <div class="tile t5 is-c" style="--d:1/12/2/13;--m:3/6/4/7" aria-hidden="true"></div>
+    <div class="tile t6" style="--d:5/1/8/3;--m:7/1/10/3"><img src="media/cabras-m.jpg" alt="Diana con cabras"></div>
+    <div class="tile t7 is-c" style="--d:6/4/7/5;--m:8/3/9/4" aria-hidden="true"></div>
+    <div class="tile t8 is-c" style="--d:7/3/8/4;--m:10/5/11/6" aria-hidden="true"></div>
+    <div class="tile t9" style="--d:6/9/8/10;--m:8/5/10/7"><img src="media/banca-montana.jpg" alt="" style="object-position:50% 40%"></div>
+    <div class="tile t10" style="--d:6/10/8/13;--m:9/3/11/5"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Video de unboxing"></video></div>
+    <div class="tile t11" style="--d:2/12/4/13;--m:10/6/11/7"><img src="media/lirios.jpg" alt="" style="object-position:50% 30%"></div>
+    <div class="tile t12 is-c" style="--d:4/12/5/13;--m:7/6/8/7" aria-hidden="true"></div>
     <div class="hero__title">
       <p class="hero__kicker">Creadora de contenido</p>
       <h1 class="hero__name"><span class="serif">Diana</span><span class="sans">UGC</span></h1>
@@ -683,7 +705,7 @@ if (ok && !reduce) {
   /* Entrada del hero: las celdas de foto y color se revelan una a una, el título sube */
   const heroTl = gsap.timeline({ paused: true });
   loaderOut.then(() => heroTl.play());
-  const tiles = $$('.tile');
+  const tiles = $$('.tile, .cl');
   gsap.set(tiles, { clipPath: 'inset(0 0 100% 0)' });
   heroTl.to(tiles, { clipPath: 'inset(0 0 0% 0)', duration: .9, ease: 'expo.inOut', stagger: { each: .06, from: 'random' }, delay: .1 }, 0);
     heroTl.from('.hero__kicker, .hero__sub', { yPercent: 60, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08, delay: .6 }, 0);
