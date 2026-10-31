@@ -269,6 +269,8 @@ img,video{display:block;max-width:100%}
 /* Cursor multijugador tipo Figma: acompaña al cursor real (nunca lo reemplaza) */
 .fcur{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;opacity:0;transition:opacity .25s;will-change:transform}
 .fcur.is-on{opacity:1}
+html.has-fcur,html.has-fcur *{cursor:none!important}
+.dock a:focus:not(:focus-visible),.card:focus:not(:focus-visible){outline:none}
 .fcur svg{display:block;width:var(--s,22px);height:var(--s,22px);overflow:visible}
 .fcur__tag{position:absolute;left:calc(var(--s,22px) * .62);top:calc(var(--s,22px) * .8);padding:4px 10px 5px;border-radius:999px;background:var(--fc);color:#fff;font:600 12px/1.2 var(--sans);white-space:nowrap;box-shadow:0 4px 12px -4px rgba(0,0,0,.25);transform-origin:0 0;transition:transform .25s var(--ease)}
 .fcur.is-hot .fcur__tag{transform:scale(1.08)}
@@ -861,7 +863,7 @@ $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
 /* Cursor "Invitado" (Figma): flecha rellena + etiqueta con nombre que siguen al puntero 14px a la derecha y 18px abajo.
    Solo con mouse/trackpad y sin "reducir movimiento"; es una capa encima de la página que no recibe clics. */
 (() => {
-  const CFG = { name: 'Invitado', size: 22, radius: 1.75, follow: .34, tag: true, color: '#5B9BF6', dx: 14, dy: 18 };
+  const CFG = { name: 'Invitado', size: 22, radius: 1.75, follow: .55, tag: true, color: '#5B9BF6', dx: -3, dy: -2 };   // reemplaza al cursor: la punta va en el puntero
   const mqFine = matchMedia('(hover: hover) and (pointer: fine)'), mqMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let teardown = null;
   const mount = () => {
@@ -872,6 +874,7 @@ $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
     el.innerHTML = `<svg viewBox="0 0 22 22"><path d="M3 2.5 19 10l-7.2 2.2L8.4 19.5Z" fill="${CFG.color}" stroke="${CFG.color}" stroke-width="${CFG.radius * 2}" stroke-linejoin="round"/></svg>` +
       (CFG.tag ? `<span class="fcur__tag">${CFG.name}</span>` : '');
     document.body.append(el);
+    document.documentElement.classList.add('has-fcur');   // oculta el cursor del sistema solo mientras el azul está activo
     const tgt = { x: innerWidth / 2, y: innerHeight / 2 }, pos = { ...tgt };
     let raf = 0, seen = false;
     const onMove = e => {
@@ -889,7 +892,7 @@ $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
     addEventListener('pointermove', onMove, { passive: true });
     document.documentElement.addEventListener('pointerleave', onLeave);
     raf = requestAnimationFrame(loop);
-    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', onMove); document.documentElement.removeEventListener('pointerleave', onLeave); el.remove(); };
+    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', onMove); document.documentElement.removeEventListener('pointerleave', onLeave); el.remove(); document.documentElement.classList.remove('has-fcur'); };
   };
   const check = () => {
     const want = mqFine.matches && !mqMotion.matches;
