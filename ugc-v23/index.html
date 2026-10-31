@@ -344,7 +344,11 @@ html.has-loader .top,html.has-loader .dock,html.has-loader .foot{visibility:hidd
   .process{margin-top:44px}
   .step{gap:18px;padding:18px 16px}
   .step b{font-size:26px}
-  .art{min-height:78vh}
+  /* Móvil: la banda va en un contenedor con margen blanco, más corta y con la imagen completa (nítida) */
+  .art{min-height:0;aspect-ratio:4/5;margin:0 5vw;border-radius:24px}
+  .art__bg img{object-position:45% 40%}
+  .art__t{font-size:12.5vw}
+  .art__btn{margin-top:26px;padding:13px 22px;font-size:15px}
   .brands{grid-template-columns:repeat(2,minmax(0,1fr))}
   .brand{height:96px}
   .layer{padding:12px 14px}
@@ -582,7 +586,7 @@ html.has-loader .top,html.has-loader .dock,html.has-loader .foot{visibility:hidd
 
   <!-- BANDA ARTÍSTICA -->
   <section class="art" aria-label="Contenido que se siente real">
-    <div class="art__bg" aria-hidden="true"><picture><source media="(max-width: 767px)" srcset="media/art-bg-m.jpg?v=2"><img src="media/art-bg.jpg?v=2" alt="" loading="lazy"></picture></div>
+    <div class="art__bg" aria-hidden="true"><img src="media/art-bg.jpg?v=2" alt="" loading="lazy"></div>
     <div class="art__in">
       <p class="art__t split">Contenido que <br><span class="sans">se siente</span> real</p>
       <a class="art__btn rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp ↗</a>
