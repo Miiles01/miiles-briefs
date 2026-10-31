@@ -121,8 +121,15 @@ img,video{display:block;max-width:100%}
 .sel b{position:absolute;right:-2px;top:-30px;padding:3px 8px;border-radius:5px;background:var(--select);color:#fff;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0;white-space:nowrap}
 
 /* Regla superior */
-.ruler{position:relative;height:22px;border-bottom:1px solid var(--line);background:#fff;background-image:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(var(--cell) / 4));overflow:hidden}
-.ruler span{position:absolute;top:3px;font-size:10px;color:#9a9a92;transform:translateX(4px)}
+.ruler{position:relative;display:flex;height:24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;overflow:hidden}
+/* Cada cuarto de la regla es una caja: la marca grande es su borde izquierdo (alineado con las columnas de Números) */
+.ruler__q{position:relative;flex:1;border-left:1px solid #cfcfc8}
+.ruler__q:first-child{border-left:0}
+.ruler__q span{position:absolute;left:6px;top:4px;font-size:10px;line-height:1;color:#9a9a92;font-variant-numeric:tabular-nums}
+/* Marcas chicas: 12 por cuarto, abajo, a 1 px exacto */
+.ruler__q i{position:absolute;left:0;right:0;bottom:0;height:7px;display:flex}
+.ruler__q i b{flex:1;border-left:1px solid #e1e1da}
+.ruler__q i b:first-child{border-left:0}
 
 /* ===== Números ===== */
 .numbers{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:#fff}
@@ -464,7 +471,7 @@ html.has-loader .top,html.has-loader .dock,html.has-loader .foot{visibility:hidd
     </div>
   </section>
 
-  <div class="ruler" aria-hidden="true"><span style="left:0">0</span><span style="left:25%">360</span><span style="left:50%">720</span><span style="left:75%">1080</span></div>
+  <div class="ruler" aria-hidden="true"><div class="ruler__q"><span>0</span><i><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i></div><div class="ruler__q"><span>360</span><i><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i></div><div class="ruler__q"><span>720</span><i><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i></div><div class="ruler__q"><span>1080</span><i><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i></div></div>
 
   <!-- NÚMEROS -->
   <section class="numbers" aria-label="Números">
@@ -837,10 +844,14 @@ $$('.pen').forEach((el, i) => {
   const path = document.createElementNS(ns, 'path'); path.setAttribute('d', PEN_PATHS[i % PEN_PATHS.length]);
   path.setAttribute('stroke', 'currentColor'); path.setAttribute('stroke-linecap', 'round'); path.setAttribute('stroke-linejoin', 'round');
   path.style.strokeWidth = getComputedStyle(el).fontSize ? (parseFloat(getComputedStyle(el).fontSize) * .075) + 'px' : '6px';
-  svg.append(path); el.append(svg);
+  svg.append(path);
+  if (ok && !reduce) path.style.visibility = 'hidden';   // oculto hasta medirlo: así no asoma un pedazo antes de dibujarse
+  el.append(svg);
   if (!ok || reduce) return;
-  const len = path.getTotalLength();
-  gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+  // Con vector-effect el guion se mide en píxeles de pantalla: se escala el largo para que el trazo quede oculto completo
+  const box = svg.getBoundingClientRect();
+  const len = path.getTotalLength() * Math.max(box.width / 310, box.height / 40) * 1.1 + 20;
+  gsap.set(path, { strokeDasharray: len + ' ' + len, strokeDashoffset: len, visibility: 'visible' });
   ScrollTrigger.create({ trigger: el, start: 'top 80%', once: true,
     onEnter: () => gsap.to(path, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut', delay: .35 }) });
 });
