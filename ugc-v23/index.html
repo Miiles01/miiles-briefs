@@ -247,6 +247,10 @@ img,video{display:block;max-width:100%}
   .art{box-shadow:0 -30px 60px -30px rgba(0,0,0,.25)}
 }
 
+/* Letras que suben desde una máscara, en orden aleatorio */
+.sw{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .14em;margin:0 -.02em -.14em}
+.sc{display:inline-block;will-change:transform}
+
 /* Aparición */
 .rv{opacity:0;transform:translateY(36px)}
 .no-js .rv{opacity:1;transform:none}
@@ -410,7 +414,7 @@ img,video{display:block;max-width:100%}
   <section class="section" id="trabajo">
     <div class="wrap">
       <div class="s-head">
-        <div><span class="tag rv"><i></i>Mi trabajo</span><h2 class="t-l rv">Piezas listas para <span class="sans">publicar</span></h2></div>
+        <div><span class="tag rv"><i></i>Mi trabajo</span><h2 class="t-l split">Piezas listas para <span class="sans">publicar</span></h2></div>
         <p class="lead rv">Unboxing, reseñas, tutoriales y anuncios en formato vertical, listos para TikTok, Reels o Meta Ads.</p>
       </div>
       <div class="frames">
@@ -443,7 +447,7 @@ img,video{display:block;max-width:100%}
     <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span><span class="blob b5"></span>
     <span class="grain" aria-hidden="true"></span>
     <div class="art__in">
-      <p class="art__t rv">Contenido que <br><span class="sans">se siente</span> real</p>
+      <p class="art__t split">Contenido que <br><span class="sans">se siente</span> real</p>
       <a class="art__btn rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp ↗</a>
     </div>
   </section>
@@ -452,7 +456,7 @@ img,video{display:block;max-width:100%}
   <section class="section" id="marcas">
     <div class="wrap">
       <div class="s-head">
-        <div><span class="tag rv"><i></i>Marcas</span><h2 class="t-l rv">Marcas con las que <span class="sans" style="white-space:nowrap">he colaborado</span></h2></div>
+        <div><span class="tag rv"><i></i>Marcas</span><h2 class="t-l split">Marcas con las que <span class="sans" style="white-space:nowrap">he colaborado</span></h2></div>
       </div>
       <div class="brands">
         <div class="brand rv" style="--h:var(--lime)"><span class="brand__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span></div>
@@ -473,7 +477,7 @@ img,video{display:block;max-width:100%}
   <section class="section" id="nichos" style="padding-top:20px">
     <div class="wrap">
       <div class="s-head">
-        <div><span class="tag rv"><i></i>Nichos</span><h2 class="t-l rv">Donde mejor <span class="sans">cuento historias</span></h2></div>
+        <div><span class="tag rv"><i></i>Nichos</span><h2 class="t-l split">Donde mejor <span class="sans">cuento historias</span></h2></div>
         <p class="lead rv">Pasa el mouse o toca una capa para ver el ejemplo.</p>
       </div>
       <div class="layers rv">
@@ -508,7 +512,7 @@ img,video{display:block;max-width:100%}
   <section class="section grid-bg" id="testimonios" style="--cell:80px">
     <div class="wrap">
       <div class="s-head">
-        <div><span class="tag rv"><i></i>Testimonios</span><h2 class="t-l rv">Lo que dicen <span class="sans">las marcas</span></h2></div>
+        <div><span class="tag rv"><i></i>Testimonios</span><h2 class="t-l split">Lo que dicen <span class="sans">las marcas</span></h2></div>
       </div>
       <div class="comments">
         <figure class="comment rv"><div class="comment__head"><span class="pin" style="--c:var(--lime)">ML</span><div><b>Mariana López</b><small>Gerente de Marketing · hace 2 días</small></div><span class="comment__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span></div><p>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas”</p><div class="comment__foot"><span>Responder</span><span>✓ Resuelto</span></div></figure>
@@ -522,7 +526,7 @@ img,video{display:block;max-width:100%}
   <section class="contact" id="contacto">
     <div class="wrap">
       <span class="tag rv"><i></i>Contacto</span>
-      <h2 class="t-l rv" style="margin-top:22px">Hagamos algo <span class="sans">juntos</span></h2>
+      <h2 class="t-l split" style="margin-top:22px">Hagamos algo <span class="sans">juntos</span></h2>
       <div class="cards">
         <button class="card rv" type="button" data-copy="hola@dianacreativa.com" style="--h:var(--lime)" aria-label="Copiar correo hola@dianacreativa.com"><span>Correo · toca para copiar</span><b>hola@dianacreativa.com</b></button>
         <a class="card rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener" style="--h:var(--violet)"><span>WhatsApp ↗</span><b>+52 55 0000 0000</b></a>
@@ -610,13 +614,42 @@ if (fine && !isMobile) {
   hero.addEventListener('pointerleave', () => { hc.style.opacity = 0; });
 }
 
+/* Separa un título en letras (con máscara por palabra) sin romper los estilos internos */
+function splitChars(root) {
+  const out = [];
+  const walk = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const f = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(t => {
+        if (!t) return;
+        if (/^\s+$/.test(t)) { f.append(t); return; }
+        const w = document.createElement('span'); w.className = 'sw';
+        [...t].forEach(ch => { const c = document.createElement('span'); c.className = 'sc'; c.textContent = ch; w.append(c); out.push(c); });
+        f.append(w);
+      });
+      n.replaceWith(f);
+    } else if (n.nodeType === 1 && !n.matches('br, .sel')) walk(n);
+  });
+  walk(root);
+  return out;
+}
+
 if (ok && !reduce) {
   /* Entrada del hero: las celdas de foto y color se revelan una a una, el título sube */
   const tiles = $$('.tile');
   gsap.set(tiles, { clipPath: 'inset(0 0 100% 0)' });
   gsap.to(tiles, { clipPath: 'inset(0 0 0% 0)', duration: .9, ease: 'expo.inOut', stagger: { each: .06, from: 'random' }, delay: .1 });
   gsap.from('.hero__title', { scaleY: 0, transformOrigin: '50% 50%', duration: .9, ease: 'expo.inOut' });
-  gsap.from('.hero__kicker, .hero__name > span, .hero__sub', { yPercent: 60, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08, delay: .6 });
+  gsap.from('.hero__kicker, .hero__sub', { yPercent: 60, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08, delay: .6 });
+  // Título del hero: cada letra sube desde su máscara en orden aleatorio
+  gsap.from(splitChars($('.hero__name')), { yPercent: 110, duration: .9, ease: 'expo.out', stagger: { each: .05, from: 'random' }, delay: .55 });
+  // H2: lo mismo al entrar a pantalla
+  $$('.split').forEach(el => {
+    const chars = splitChars(el);
+    gsap.set(chars, { yPercent: 110 });
+    ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true,
+      onEnter: () => gsap.to(chars, { yPercent: 0, duration: .9, ease: 'expo.out', stagger: { each: .035, from: 'random' } }) });
+  });
 
   /* Aparición suave por lotes */
   ScrollTrigger.batch('.rv', { start: 'top 90%', once: true,
