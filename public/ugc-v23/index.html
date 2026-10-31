@@ -251,6 +251,13 @@ img,video{display:block;max-width:100%}
 .sw{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .14em;margin:0 -.02em -.14em}
 .sc{display:inline-block;will-change:transform}
 
+/* Cursor multijugador tipo Figma: acompaña al cursor real (nunca lo reemplaza) */
+.fcur{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;opacity:0;transition:opacity .25s;will-change:transform}
+.fcur.is-on{opacity:1}
+.fcur svg{display:block;width:var(--s,22px);height:var(--s,22px);overflow:visible}
+.fcur__tag{position:absolute;left:calc(var(--s,22px) * .62);top:calc(var(--s,22px) * .8);padding:4px 10px 5px;border-radius:999px;background:var(--fc);color:#fff;font:600 12px/1.2 var(--sans);white-space:nowrap;box-shadow:0 4px 12px -4px rgba(0,0,0,.25);transform-origin:0 0;transition:transform .25s var(--ease)}
+.fcur.is-hot .fcur__tag{transform:scale(1.08)}
+
 /* Aparición */
 .rv{opacity:0;transform:translateY(36px)}
 .no-js .rv{opacity:1;transform:none}
@@ -718,6 +725,48 @@ $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
   catch { location.href = 'mailto:' + btn.dataset.copy; return; }
   setTimeout(() => { label.textContent = txt; }, 1800);
 }));
+
+/* Cursor "Invitado" (Figma): flecha rellena + etiqueta con nombre que siguen al puntero 14px a la derecha y 18px abajo.
+   Solo con mouse/trackpad y sin "reducir movimiento"; es una capa encima de la página que no recibe clics. */
+(() => {
+  const CFG = { name: 'Invitado', size: 22, radius: 1.75, follow: .34, tag: true, color: '#5B9BF6', dx: 14, dy: 18 };
+  const mqFine = matchMedia('(hover: hover) and (pointer: fine)'), mqMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let teardown = null;
+  const mount = () => {
+    const el = document.createElement('div');
+    el.className = 'fcur'; el.setAttribute('aria-hidden', 'true');
+    el.style.setProperty('--s', CFG.size + 'px'); el.style.setProperty('--fc', CFG.color);
+    // Flecha rellena; el trazo del mismo color con unión redonda le da el radio a las esquinas
+    el.innerHTML = `<svg viewBox="0 0 22 22"><path d="M3 2.5 19 10l-7.2 2.2L8.4 19.5Z" fill="${CFG.color}" stroke="${CFG.color}" stroke-width="${CFG.radius * 2}" stroke-linejoin="round"/></svg>` +
+      (CFG.tag ? `<span class="fcur__tag">${CFG.name}</span>` : '');
+    document.body.append(el);
+    const tgt = { x: innerWidth / 2, y: innerHeight / 2 }, pos = { ...tgt };
+    let raf = 0, seen = false;
+    const onMove = e => {
+      tgt.x = e.clientX + CFG.dx; tgt.y = e.clientY + CFG.dy;
+      if (!seen) { pos.x = tgt.x; pos.y = tgt.y; seen = true; }
+      el.classList.add('is-on');
+      el.classList.toggle('is-hot', !!(e.target.closest && e.target.closest('a, button, input')));
+    };
+    const onLeave = () => el.classList.remove('is-on');
+    const loop = () => {
+      pos.x += (tgt.x - pos.x) * CFG.follow; pos.y += (tgt.y - pos.y) * CFG.follow;
+      el.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+      raf = requestAnimationFrame(loop);
+    };
+    addEventListener('pointermove', onMove, { passive: true });
+    document.documentElement.addEventListener('pointerleave', onLeave);
+    raf = requestAnimationFrame(loop);
+    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', onMove); document.documentElement.removeEventListener('pointerleave', onLeave); el.remove(); };
+  };
+  const check = () => {
+    const want = mqFine.matches && !mqMotion.matches;
+    if (want && !teardown) teardown = mount();
+    else if (!want && teardown) { teardown(); teardown = null; }
+  };
+  check();
+  mqFine.addEventListener('change', check); mqMotion.addEventListener('change', check);
+})();
 
 addEventListener('load', () => ok && ScrollTrigger.refresh());
 </script>
