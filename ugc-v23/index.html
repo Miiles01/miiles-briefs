@@ -599,6 +599,26 @@ const vio = new IntersectionObserver(es => es.forEach(en => {
 }), { threshold: .3 });
 $$('video').forEach(v => { v.muted = true; vio.observe(v); });
 
+/* Separa un título en letras (con máscara por palabra) sin romper los estilos internos */
+function splitChars(root) {
+  const out = [];
+  const walk = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const f = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(t => {
+        if (!t) return;
+        if (/^\s+$/.test(t)) { f.append(t); return; }
+        const w = document.createElement('span'); w.className = 'sw';
+        [...t].forEach(ch => { const c = document.createElement('span'); c.className = 'sc'; c.textContent = ch; w.append(c); out.push(c); });
+        f.append(w);
+      });
+      n.replaceWith(f);
+    } else if (n.nodeType === 1 && !n.matches('br, .sel')) walk(n);
+  });
+  walk(root);
+  return out;
+}
+
 if (ok && !reduce) {
   /* Entrada del hero: las celdas de foto y color se revelan una a una, el título sube */
   const tiles = $$('.tile');
