@@ -154,10 +154,10 @@ img,video{display:block;max-width:100%}
 .about .sans{font-family:var(--sans);font-weight:500;letter-spacing:-.06em}
 .pill-img{display:inline-block;width:1.7em;height:.95em;border-radius:999px;overflow:hidden;vertical-align:-.12em;background:#ddd}
 .pill-img img{width:100%;height:100%;object-fit:cover}
-.hl{padding:0 .12em;border-radius:.12em}
-.hl.lime{background:var(--lime)}
-.hl.violet{background:var(--violet)}
-.hl.orange{background:var(--orange)}
+.hl{--hc:var(--lime);padding:0 .06em;background:linear-gradient(transparent 52%,var(--hc) 52%,var(--hc) 90%,transparent 90%);-webkit-box-decoration-break:clone;box-decoration-break:clone}  /* subrayado tipo marcador, más bajo */
+.hl.lime{--hc:var(--lime)}
+.hl.violet{--hc:var(--violet)}
+.hl.orange{--hc:var(--orange)}
 .process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:70px;border:1px solid var(--line);background:#fff}
 .step{display:flex;flex-direction:column;gap:30px;padding:24px 22px;border-right:1px solid var(--line)}
 .step:last-child{border-right:0}
