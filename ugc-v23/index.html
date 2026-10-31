@@ -178,7 +178,7 @@ img,video{display:block;max-width:100%}
 @keyframes float3{to{transform:translate(6vw,-7vw) scale(1.12)}}
 .grain{position:absolute;inset:0;opacity:.28;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .art__in{position:relative;z-index:2;padding:0 6vw}
-.art__t{font-family:var(--serif);font-weight:400;font-size:clamp(56px,10vw,170px);line-height:.92;letter-spacing:-.06em;text-shadow:0 2px 30px rgba(0,0,0,.12)}
+.art__t{font-family:var(--serif);font-weight:400;font-size:clamp(56px,10vw,170px);line-height:.92;letter-spacing:-.06em}
 .art__t .sans{font-family:var(--sans);font-weight:400;letter-spacing:-.07em}
 .art__btn{display:inline-flex;align-items:center;gap:10px;margin-top:40px;padding:15px 26px;border-radius:999px;background:#fff;color:var(--ink);font-weight:600;transition:transform .3s}
 .art__btn:hover{transform:translateY(-2px)}
@@ -237,14 +237,11 @@ img,video{display:block;max-width:100%}
 .foot__strip i{background:var(--c,transparent)}
 .foot__bottom{display:flex;justify-content:space-between;padding:18px 20px 90px;font-size:13px;color:var(--ink-60)}
 
-/* Sobre mí se queda quieto y lo que sigue pasa por encima (desktop y tablet) */
+/* Footer revelado debajo del contenido (desktop y tablet) */
 @media (min-width:768px){
-  #sobre-mi{position:sticky;z-index:1;background-color:var(--paper)}
-  main > section:not(#sobre-mi):not(.hero){position:relative;z-index:2}
   main{position:relative;z-index:1;background:var(--paper);box-shadow:0 30px 60px -20px rgba(0,0,0,.18)}
   .foot{position:fixed;left:0;right:0;bottom:0;z-index:0}
   .section,.contact{background-color:var(--paper)}
-  .art{box-shadow:0 -30px 60px -30px rgba(0,0,0,.25)}
 }
 
 /* Letras que suben desde una máscara, en orden aleatorio */
@@ -689,13 +686,11 @@ if (ok && !reduce) {
   $$('.rv').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
 }
 
-/* Sobre mí fijo: se pega por abajo, así primero se lee completo y luego la banda de colores pasa encima */
+
+/* Footer revelado: el contenido deja espacio abajo del tamaño del footer fijo */
 const mainEl = $('main'), footEl = $('.foot');
 const fitFoot = () => { mainEl.style.marginBottom = isMobile ? '' : footEl.offsetHeight + 'px'; };
 fitFoot(); addEventListener('resize', fitFoot); addEventListener('load', fitFoot);
-const aboutSec = $('#sobre-mi');
-const stickAbout = () => { aboutSec.style.top = isMobile ? '' : Math.min(0, innerHeight - aboutSec.offsetHeight) + 'px'; };
-stickAbout(); addEventListener('resize', stickAbout); addEventListener('load', stickAbout);
 
 /* Nichos: panel de capas que cambia la vista previa (solo se mueve mientras se ve) */
 (() => {
