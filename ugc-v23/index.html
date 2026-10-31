@@ -166,7 +166,9 @@ img,video{display:block;max-width:100%}
 .step small{display:block;margin-top:6px;font-size:14px;color:var(--ink-60)}
 
 /* Banda artística: colores difuminados en movimiento */
-.art{position:relative;min-height:92vh;display:grid;place-items:center;overflow:hidden;background:#3c6b3f;color:#fff;text-align:center}
+.art{position:relative;min-height:92vh;display:grid;place-items:center;overflow:hidden;color:#fff;text-align:center}
+/* Fondo de colores en su propio contenedor: en desktop empieza chico y se abre a pantalla completa con el scroll */
+.art__bg{position:absolute;inset:0;overflow:hidden;background:#3c6b3f;will-change:clip-path}
 .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.95;will-change:transform}
 .b1{width:48vw;height:48vw;left:-10vw;top:-12vw;background:#ff5a3c;animation:float1 16s ease-in-out infinite alternate}
 .b2{width:42vw;height:42vw;right:-8vw;top:-6vw;background:#2f6bff;animation:float2 18s ease-in-out infinite alternate}
@@ -320,8 +322,7 @@ img,video{display:block;max-width:100%}
   .card:last-child{border-bottom:0}
   .foot__name{font-size:33vw}
   .foot__bottom{flex-direction:column;align-items:center;gap:4px;padding-bottom:100px}
-  .dock a,.dock__tool,.dock__sep{display:none}
-  .dock__tool.is-on{display:grid}
+  .dock a{display:none}
   .dock__menu{display:inline-flex}
 }
 @media (prefers-reduced-motion:reduce){
@@ -352,11 +353,6 @@ img,video{display:block;max-width:100%}
 
 <!-- Barra de herramientas flotante: es el menú -->
 <nav class="dock" aria-label="Principal">
-  <span class="dock__tool is-on" aria-hidden="true"><svg class="ic"><use href="#i-move"/></svg></span>
-  <span class="dock__tool" aria-hidden="true"><svg class="ic"><use href="#i-frame"/></svg></span>
-  <span class="dock__tool" aria-hidden="true"><svg class="ic"><use href="#i-pen"/></svg></span>
-  <span class="dock__tool" aria-hidden="true"><svg class="ic"><use href="#i-text"/></svg></span>
-  <span class="dock__sep"></span>
   <span class="dock__pill" aria-hidden="true"></span>
   <a href="#trabajo" class="go">Trabajo</a>
   <a href="#sobre-mi" class="go">Sobre mí</a>
@@ -448,8 +444,7 @@ img,video{display:block;max-width:100%}
 
   <!-- BANDA ARTÍSTICA -->
   <section class="art" aria-label="Contenido que se siente real">
-    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span><span class="blob b5"></span>
-    <span class="grain" aria-hidden="true"></span>
+    <div class="art__bg" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span><span class="blob b5"></span><span class="grain"></span></div>
     <div class="art__in">
       <p class="art__t split">Contenido que <br><span class="sans">se siente</span> real</p>
       <a class="art__btn rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp ↗</a>
@@ -679,8 +674,9 @@ if (ok && !reduce) {
     // Marcos de Mi trabajo: suben a distinta velocidad
     $$('.frame').forEach((f, i) => gsap.fromTo(f, { y: i % 2 ? 60 : 0 }, { y: i % 2 ? -40 : 0, ease: 'none',
       scrollTrigger: { trigger: '.frames', start: 'top bottom', end: 'bottom top', scrub: true } }));
-    // Banda artística: el texto crece un poco al pasar
-    gsap.fromTo('.art__t', { scale: .9 }, { scale: 1.04, ease: 'none', scrollTrigger: { trigger: '.art', start: 'top bottom', end: 'bottom top', scrub: true } });
+    // Banda artística: el contenedor de colores empieza chico y se abre hasta llenar la sección (el texto queda igual)
+    gsap.fromTo('.art__bg', { clipPath: 'inset(16% 13% round 36px)' }, { clipPath: 'inset(0% 0% round 0px)', ease: 'none',
+      scrollTrigger: { trigger: '.art', start: 'top 85%', end: 'top 10%', scrub: true } });
   });
 } else {
   $$('.rv').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
