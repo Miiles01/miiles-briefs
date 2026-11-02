@@ -54,7 +54,7 @@ html.lenis,html.lenis body{height:auto}
 .bg.is-on{opacity:1}
 .bg--sentada{object-position:30% 30%}
 .bg--podcast{object-position:80% 35%}
-@media (max-width:767px){.bg--sentada{object-position:52% 30%}.bg--podcast{object-position:56% 30%}}
+@media (max-width:767px){.bg--sentada,.bg--podcast{object-position:50% 30%}}  /* en celular usan su propio recorte vertical, sin estirar */
 .bgs::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.45))}
 
 /* ===== Nav ===== */
@@ -222,8 +222,8 @@ html.lenis,html.lenis body{height:auto}
   .bgs::after{background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,0) 35%,rgba(0,0,0,.6))}
   .story__track{flex-direction:column;width:100%}
   .story__panel{flex:none;width:100%;height:auto;min-height:0}
-  .story__panel--intro{padding:0 3vw}
-  .intro-card{border-radius:2rem;padding:60px 24px 50px;transform:scale(.94)}
+  .intro-card{border-radius:2rem;padding:60px 24px 50px;transform:none}
+  .story__panel--intro{padding:0 4vw 7vh}   /* tarjeta flotante con margen abajo */
   .intro-card__right{align-items:flex-start;text-align:left}
   .story__panel--chapter{padding:90px 5vw 40px}
   .chapter{padding:90px 0}
@@ -254,9 +254,9 @@ html.lenis,html.lenis body{height:auto}
 <body>
 
 <div class="bgs" aria-hidden="true">
-  <img class="bg bg--sentada is-on" data-bg="hero" src="media/sentada.jpg" alt="">
-  <img class="bg bg--podcast" data-bg="cta" src="media/podcast.jpg" alt="" loading="lazy">
-  <img class="bg bg--sentada" data-bg="contacto" src="media/sentada.jpg" alt="" loading="lazy">
+  <picture><source media="(max-width: 767px)" srcset="media/sentada-m.jpg"><img class="bg bg--sentada is-on" data-bg="hero" src="media/sentada.jpg" alt=""></picture>
+  <picture><source media="(max-width: 767px)" srcset="media/podcast-m.jpg"><img class="bg bg--podcast" data-bg="cta" src="media/podcast.jpg" alt="" loading="lazy"></picture>
+  <picture><source media="(max-width: 767px)" srcset="media/sentada-m.jpg"><img class="bg bg--sentada" data-bg="contacto" src="media/sentada.jpg" alt="" loading="lazy"></picture>
 </div>
 
 <nav class="nav" aria-label="Principal">
@@ -442,7 +442,7 @@ if (ok && !reduce) {
   gsap.from('.hero__name .ch', { yPercent: 100, opacity: 0, duration: 1.3, ease: 'power4.out', stagger: .07, delay: .15 });
 
   /* ---------- La tarjeta crece hasta llenar la pantalla ---------- */
-  gsap.to('.intro-card', {
+  if (!matchMedia('(max-width: 767px)').matches) gsap.to('.intro-card', {   // en celular se queda como tarjeta flotante
     scale: 1, borderRadius: 0, ease: 'none',
     scrollTrigger: { trigger: '.story', start: 'top bottom', end: 'top top', scrub: true }
   });
