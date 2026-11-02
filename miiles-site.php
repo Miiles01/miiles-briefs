@@ -22,31 +22,43 @@ function miiles_not_found() {
 @font-face{font-family:'Welth Catritz';src:url(/fonts/WelthCatritz-Italic.woff2) format('woff2'),url(/fonts/WelthCatritz-Italic.woff) format('woff');font-style:italic;font-display:swap}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{display:flex;flex-direction:column;min-height:100vh;background:#fafaf8;color:#111;font-family:'Poppins',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
-header{padding:28px 6vw}
+body{display:flex;flex-direction:column;min-height:100vh;min-height:100svh;background:#fafaf8;color:#111;font-family:'Poppins',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+header{padding:26px 6vw}
 header img{display:block;height:22px;width:auto}
-main{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:900px;width:100%;margin:0 auto;padding:40px 6vw 80px}
-.code{font-size:14px;font-weight:400;color:#4059F1;margin:0 0 18px}
-h1{margin:0;font-weight:400;font-size:clamp(44px,7vw,92px);line-height:1;letter-spacing:-.03em}
-h1 em{font-family:'Welth Catritz',serif;font-style:italic;font-weight:400;padding-right:.08em}
-p.lead{margin:24px 0 0;max-width:520px;font-size:clamp(16px,1.6vw,19px);line-height:1.6;color:#4B4F63}
-.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
-a.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;font-size:15px;font-weight:400;text-decoration:none;transition:background-color .3s,color .3s}
+main{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px 6vw 60px}
+h1{margin:0;text-wrap:balance;font-weight:400;font-size:clamp(28px,3.6vw,52px);line-height:1.1;letter-spacing:-.02em;max-width:16em}
+h1 em{white-space:nowrap;font-family:'Welth Catritz',serif;font-style:italic;font-weight:400;padding-right:.08em}
+/* 404 enorme con las barras de color de Miiles detrás del cero */
+.big{position:relative;display:flex;align-items:center;justify-content:center;margin:2vh 0 1vh;font-weight:400;font-size:clamp(150px,30vw,440px);line-height:.9;letter-spacing:-.06em}
+.big > span{position:relative;z-index:2}
+.zero{position:relative}
+.bars{position:absolute;left:38%;bottom:10%;z-index:-1;display:flex;align-items:flex-end;gap:.035em;pointer-events:none}
+.bars i{display:block;width:.13em;border-radius:.02em .02em 0 0;background:linear-gradient(180deg,#4059F1,#E8ECFE);transform-origin:50% 100%;animation:grow 1.1s cubic-bezier(.2,.8,.2,1) both}
+.bars i:nth-child(2){background:linear-gradient(180deg,#FCB5B9,#FEEDED)}
+.bars i:nth-child(1){height:.34em;animation-delay:.1s}
+.bars i:nth-child(2){height:.5em;animation-delay:.22s}
+.bars i:nth-child(3){height:.66em;animation-delay:.34s}
+.bars i:nth-child(4){height:.82em;animation-delay:.46s}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+p.lead{margin:8px 0 0;max-width:460px;font-size:clamp(15px,1.4vw,17px);line-height:1.6;color:#4B4F63}
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+a.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 26px;border-radius:999px;font-size:15px;font-weight:400;text-decoration:none;transition:background-color .3s,color .3s}
 a.btn.solid{background:#111;color:#fff}
 a.btn.solid:hover{background:#FCB5B9;color:#111}
 a.btn.ghost{background:#EEEFF2;color:#111}
 a.btn.ghost:hover{background:#E8ECFE}
+@media (prefers-reduced-motion:reduce){.bars i{animation:none}}
 </style>
 </head>
 <body>
-<header><a href="/" aria-label="Miiles, inicio"><img src="/logotipo.svg" alt="Miiles"></a></header>
+<header><a href="https://wearemiiles.com/" aria-label="Miiles, inicio"><img src="/logotipo.svg" alt="Miiles"></a></header>
 <main>
-  <p class="code">Error 404</p>
-  <h1>Esta página se <em>perdió</em> en el camino</h1>
-  <p class="lead">La dirección que buscas no existe o ya no está publicada. Revisa que esté bien escrita o regresa al inicio para seguir explorando Miiles.</p>
+  <h1>No encontramos la página <em>que buscas</em></h1>
+  <p class="big" aria-label="Error 404"><span>4</span><span class="zero">0<span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span><span>4</span></p>
+  <p class="lead">La dirección no existe o ya no está publicada. Elige a dónde quieres ir.</p>
   <div class="btns">
-    <a class="btn solid" href="/">Ir al inicio</a>
-    <a class="btn ghost" href="javascript:history.back()">Regresar</a>
+    <a class="btn solid" href="https://wearemiiles.com/">Ir al portafolio ↗</a>
+    <a class="btn ghost" href="https://miiles.app/">Ir a la app de trabajo ↗</a>
   </div>
 </main>
 </body>
