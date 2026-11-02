@@ -57,7 +57,7 @@ main{position:relative;z-index:1;background:inherit}
 .section,.statement,.contact,.feel{transition:color .7s ease}
 
 /* Botones (como la referencia: rectángulo crema con flecha) */
-.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:2px;background:var(--cream);color:var(--olive);font-size:16px;line-height:1;transition:background-color .3s,color .3s}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:var(--cream);color:var(--olive);font-size:16px;line-height:1;transition:background-color .3s,color .3s}
 .btn:hover{background:var(--terra);color:var(--cream)}
 .btn.is-terra{background:var(--terra);color:var(--cream)}
 .btn.is-terra:hover{background:var(--cream);color:var(--olive)}
@@ -68,10 +68,10 @@ main{position:relative;z-index:1;background:inherit}
 .nav__logo{font-family:var(--serif);font-size:34px;font-weight:400;line-height:1;letter-spacing:-.01em;opacity:0;transform:translateY(-8px);transition:opacity .5s,transform .5s}
 .nav.is-scrolled .nav__logo{opacity:1;transform:none}
 .nav__right{display:flex;align-items:center;gap:0}
-.nav__links{display:flex;align-items:center;gap:2px;padding:4px;border-radius:2px;background:color-mix(in srgb,var(--olive) 70%,transparent);transition:background-color .7s;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.nav__links a{padding:5px 8px;font-size:16px;transition:color .3s}
+.nav__links{display:flex;align-items:center;gap:2px;padding:4px 6px;border-radius:999px;background:rgba(255,255,255,.72);color:#0e1201;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.nav__links a{padding:6px 12px;font-size:16px;border-radius:999px;transition:color .3s}
 .nav__links a:hover{color:var(--terra)}
-.nav__right .btn{margin-left:4px}
+.nav__right .btn{margin-left:6px}
 .menu-btn{display:none;padding:9px 14px;border:0;border-radius:2px;background:var(--cream);color:var(--olive);font-size:15px;cursor:pointer}
 
 /* Menú móvil: panel a media pantalla con botón Cerrar */
@@ -169,7 +169,7 @@ main{position:relative;z-index:1;background:inherit}
 
 /* Sobre mí */
 .about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4vw;align-items:end}
-.about__title{font-family:var(--sans);font-weight:400;font-size:clamp(48px,6vw,96px);line-height:1;letter-spacing:-.04em}
+.about__title{font-family:var(--sans);font-weight:400;font-size:clamp(30px,3.4vw,54px);line-height:1.1;letter-spacing:-.03em;max-width:14em}
 .about__img{aspect-ratio:4/5;overflow:hidden}
 .about__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
 .about__text{display:flex;flex-direction:column;gap:18px;max-width:520px;margin-top:6vh}
@@ -228,6 +228,32 @@ main{position:relative;z-index:1;background:inherit}
 .foot__name{margin-top:6vh;font-family:var(--serif);font-size:31vw;line-height:.8;letter-spacing:-.03em;text-align:center;white-space:nowrap;will-change:transform}
 .foot__bottom{display:flex;justify-content:space-between;gap:20px;padding:22px 3.4vw 30px;font-size:13px;color:rgba(255,240,202,.75)}
 
+
+/* Túnel de fotos (Mi trabajo) */
+#trabajo{padding-top:0}
+.tunnel{position:relative;height:520vh;margin-bottom:14vh}
+.tunnel__stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;perspective:1000px}
+.tunnel__world{position:absolute;inset:0;z-index:2;transform-style:preserve-3d;pointer-events:none}
+.tp{position:absolute;left:50%;top:50%;width:17vw;aspect-ratio:4/5;margin:0;opacity:0;will-change:transform,opacity,clip-path;backface-visibility:hidden}
+.tp img{width:100%;height:100%;object-fit:cover}
+.tp.is-last{width:min(30vw,52vh)}
+.tunnel__line{position:absolute;left:0;top:50%;transform:translateY(-50%);white-space:nowrap;font-family:var(--serif);font-size:clamp(40px,7vw,120px);line-height:1;letter-spacing:-.02em;will-change:transform}
+.tunnel__word{position:absolute;z-index:1;left:0;right:0;bottom:2vh;margin:0;padding-bottom:.14em;overflow:hidden;font-family:var(--sans);font-weight:400;font-size:17vw;line-height:.9;letter-spacing:-.05em;text-align:center;white-space:nowrap}
+.tunnel__word span{display:block;transform:translateY(105%)}
+.no-tunnel .tunnel{height:auto}
+.no-tunnel .tunnel__stage{position:relative;height:100svh;min-height:560px}
+.no-tunnel .tp{display:none}
+.no-tunnel .tp.is-last{display:block;opacity:1;transform:translate(-50%,-56%) rotate(-2.5deg)}
+.no-tunnel .tunnel__line{display:none}
+.no-tunnel .tunnel__word span{transform:none}
+@media (max-width:767px){
+  .tunnel{height:400vh;margin-bottom:8vh}
+  .tp{width:40vw}
+  .tp.is-xtra{display:none}
+  .tp.is-last{width:66vw}
+  .tunnel__line{font-size:15vw}
+  .tunnel__word{font-size:21vw;bottom:14vh}
+}
 .rv{opacity:0;transform:translateY(30px)}
 .no-js .rv{opacity:1;transform:none}
 
@@ -339,8 +365,27 @@ main{position:relative;z-index:1;background:inherit}
 
   <!-- MI TRABAJO -->
   <section class="section" id="trabajo" data-theme="light">
+    <!-- Túnel de fotos: las fotos llegan desde el fondo, se forman, pasan y se deshacen mientras corre la frase; termina con la última foto sobre "Mi trabajo" -->
+    <div class="tunnel">
+      <div class="tunnel__stage">
+        <p class="tunnel__line" aria-hidden="true">Belleza, moda y bienestar contados desde mi día a día, con la luz de mi casa y la voz de alguien de confianza</p>
+        <h2 class="tunnel__word"><span>Mi trabajo</span></h2>
+        <div class="tunnel__world" aria-hidden="true">
+        <figure class="tp" data-x="-24" data-y="-14" data-r="-6"><img src="media/intro-1.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp" data-x="22" data-y="10" data-r="4"><img src="media/foto-1.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp is-xtra" data-x="-8" data-y="22" data-r="-3"><img src="media/poster-2.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp" data-x="28" data-y="-20" data-r="5"><img src="media/intro-3.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp is-xtra" data-x="-30" data-y="12" data-r="-4"><img src="media/foto-3.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp" data-x="12" data-y="-6" data-r="3"><img src="media/poster-1.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp is-xtra" data-x="-16" data-y="-22" data-r="-5"><img src="media/intro-2.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp" data-x="26" data-y="18" data-r="4"><img src="media/foto-2.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp is-xtra" data-x="-26" data-y="4" data-r="-2"><img src="media/poster-3.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp" data-x="6" data-y="-18" data-r="3"><img src="media/foto-5.jpg" alt="" loading="lazy"></figure>
+        <figure class="tp is-last" data-x="0" data-y="0" data-r="-2.5"><img src="media/foto-4.jpg" alt="" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
     <div class="wrap">
-      <div class="s-head"><span class="count rv">8</span><h2 class="title rv">Mi trabajo</h2></div>
       <div class="works">
         <figure class="work rv"><div class="work__media"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div><figcaption><span>Unboxing N°1</span><span class="work__meta"><span>0:32</span><span>9:16</span></span></figcaption></figure>
         <figure class="work rv"><div class="work__media"><img src="media/intro-3.jpg" alt="Laura en el puerto con lentes de sol" loading="lazy" style="object-position:50% 35%"></div><figcaption><span>Lifestyle N°1</span><span class="work__meta"><span>Foto</span><span>4:5</span></span></figcaption></figure>
@@ -387,23 +432,12 @@ main{position:relative;z-index:1;background:inherit}
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta" aria-label="Escríbeme" data-theme="dark">
-    <div class="wrap">
-      <h2 class="title rv">¿Contamos juntas la historia de <em>tu marca?</em></h2>
-      <p class="rv">Mándame tu producto y en una semana tienes videos listos para orgánico y para anuncios</p>
-      <a class="btn rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp <svg class="arr"><use href="#arr"/></svg></a>
-    </div>
-  </section>
-
   <!-- SOBRE MÍ -->
   <section class="section" id="sobre-mi" data-theme="light">
     <div class="wrap about">
       <div>
-        <h2 class="about__title rv">Hola, soy Laura</h2>
+        <h2 class="about__title rv">Soy Laura, creadora de contenido UGC. Desde hace cinco años grabo, escribo y edito videos para marcas de belleza, moda y bienestar que la gente sí termina de ver</h2>
         <div class="about__text">
-          <p class="rv">Empecé grabando mis rutinas para mis amigas, y un día una marca me preguntó si podía hacer lo mismo con su producto. Desde entonces hago contenido que se siente como la recomendación de alguien de confianza.</p>
-          <p class="rv">Me encargo de la idea, el guion, la grabación y la edición en formato vertical, listo para TikTok, Reels o Meta Ads.</p>
           <a class="btn rv" href="#contacto">Trabajemos juntas <svg class="arr"><use href="#arr"/></svg></a>
         </div>
       </div>
@@ -431,14 +465,14 @@ main{position:relative;z-index:1;background:inherit}
   </section>
 
   <!-- FRASE FINAL -->
-  <section class="feel" aria-label="Contenido que se siente real" data-theme="dark">
+  <section class="feel" aria-label="Tu producto, en mi día a día" data-theme="dark">
     <svg class="feel__line" viewBox="0 0 220 300" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M20 290V120a90 90 0 0 1 180 0v170"/><path d="M45 290V125a65 65 0 0 1 130 0v165"/><path d="M10 290h200M70 160h80M70 210h80"/></svg>
     <div class="float f1"><img src="media/intro-1.jpg" alt="" loading="lazy"></div>
     <div class="float f2"><img src="media/intro-2.jpg" alt="" loading="lazy"></div>
     <div class="float f3"><img src="media/foto-5.jpg" alt="" loading="lazy" style="object-position:50% 60%"></div>
     <div class="float f4"><img src="media/foto-3.jpg" alt="" loading="lazy"></div>
     <div class="float f5"><img src="media/foto-4.jpg" alt="" loading="lazy"></div>
-    <p class="feel__t rv">Contenido que se siente real</p>
+    <p class="feel__t rv">Tu producto,<br>en mi día a día</p>
   </section>
 
   <!-- CONTACTO -->
@@ -535,6 +569,41 @@ if (ok && !reduce) {
   });
 } else {
   $$('.rv').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+}
+
+/* Túnel de fotos: cada foto avanza en Z con el scroll; se forma (recorte que se abre) al acercarse y se deshace al pasar */
+const tunnel = $('.tunnel');
+if (tunnel) {
+  if (!ok || reduce) document.documentElement.classList.add('no-tunnel');
+  else {
+    const figs = $$('.tp', tunnel).filter(f => getComputedStyle(f).display !== 'none');
+    const n = figs.length, gap = isMobile ? 1100 : 1300, D = gap * (n - 1);
+    const items = figs.map((f, i) => ({ f, last: i === n - 1, z0: -gap * i, x: +f.dataset.x, y: +f.dataset.y, r: +f.dataset.r }));
+    const line = $('.tunnel__line', tunnel), word = $('.tunnel__word span', tunnel);
+    const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+    const render = p => {
+      const travel = clamp(p / .86) * D;
+      items.forEach(it => {
+        const z = it.z0 + travel;
+        const form = clamp((z + 2600) / 1300);              // 0 lejos → 1 formada
+        const gone = it.last ? 0 : clamp((z - 250) / 450);  // se deshace al pasar la cámara
+        const o = form * (1 - gone);
+        if (o <= 0.001 || z > 900) { it.f.style.opacity = 0; it.f.style.visibility = 'hidden'; return; }
+        const k = it.last ? clamp((p - .7) / .3) : 0;        // la última se centra
+        const x = it.x * (1 - k), y = it.y * (1 - k) + (isMobile ? 8 : 5) * k;
+        const ins = (1 - form) * 50;
+        it.f.style.visibility = 'visible';
+        it.f.style.opacity = o;
+        it.f.style.clipPath = `inset(${ins}% ${ins * .6}% ${ins}% ${ins * .6}% )`;
+        it.f.style.transform = `translate(-50%,-50%) translate3d(${x}vw,${y}vh,${Math.min(z, 0)}px) rotate(${it.r * (1 - k) + -2.5 * k}deg)`;
+      });
+      const lw = line.scrollWidth;
+      line.style.transform = `translate3d(${innerWidth - clamp(p / .8) * (lw + innerWidth)}px,-50%,0)`;
+      word.style.transform = `translateY(${105 - clamp((p - .8) / .17) * 105}%)`;
+    };
+    ScrollTrigger.create({ trigger: tunnel, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: st => render(st.progress), onRefresh: st => render(st.progress) });
+    render(0);
+  }
 }
 
 /* Footer revelado: el contenido deja un hueco del alto del footer (solo desktop y tablet) */
