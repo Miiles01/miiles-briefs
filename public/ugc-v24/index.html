@@ -42,7 +42,7 @@ html{background:var(--olive);overflow-x:clip}
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 .lenis.lenis-stopped{overflow:hidden}
-body{margin:0;background:var(--olive);color:var(--cream);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--olive);color:var(--cream);transition:background-color .7s ease,color .7s ease;font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 h1,h2,h3,p,figure,blockquote{margin:0}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit}
@@ -50,6 +50,11 @@ img,video{display:block;max-width:100%}
 ::selection{background:var(--terra);color:var(--cream)}
 .wrap{width:100%;max-width:1440px;margin:0 auto;padding:0 3.4vw}
 .arr{width:.72em;height:.72em;flex:none}
+
+/* Cambio de fondo con el scroll: en secciones claras se invierten verde y crema */
+html.is-light{--olive:#fff0ca;--cream:#0e1201;--cream-80:rgba(14,18,1,.72);--cream-60:rgba(14,18,1,.55);--cream-10:rgba(14,18,1,.06)}
+main{position:relative;z-index:1;background:inherit}
+.section,.statement,.contact,.feel{transition:color .7s ease}
 
 /* Botones (como la referencia: rectángulo crema con flecha) */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:2px;background:var(--cream);color:var(--olive);font-size:16px;line-height:1;transition:background-color .3s,color .3s}
@@ -63,7 +68,7 @@ img,video{display:block;max-width:100%}
 .nav__logo{font-family:var(--serif);font-size:34px;font-weight:400;line-height:1;letter-spacing:-.01em;opacity:0;transform:translateY(-8px);transition:opacity .5s,transform .5s}
 .nav.is-scrolled .nav__logo{opacity:1;transform:none}
 .nav__right{display:flex;align-items:center;gap:0}
-.nav__links{display:flex;align-items:center;gap:2px;padding:4px;border-radius:2px;background:rgba(14,18,1,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.nav__links{display:flex;align-items:center;gap:2px;padding:4px;border-radius:2px;background:color-mix(in srgb,var(--olive) 70%,transparent);transition:background-color .7s;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .nav__links a{padding:5px 8px;font-size:16px;transition:color .3s}
 .nav__links a:hover{color:var(--terra)}
 .nav__right .btn{margin-left:4px}
@@ -82,7 +87,7 @@ img,video{display:block;max-width:100%}
 .panel__social a{display:inline-flex;align-items:center;gap:6px}
 
 /* ===== Hero ===== */
-.hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;color:var(--cream)}
+.hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;color:#fff0ca}
 .hero__bg{position:absolute;inset:0;will-change:transform}
 .hero__bg img{width:100%;height:100%;object-fit:cover;object-position:62% 40%}
 .hero__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,18,1,.15),rgba(14,18,1,.05) 40%,rgba(14,18,1,.55))}
@@ -157,9 +162,9 @@ img,video{display:block;max-width:100%}
 
 /* CTA */
 .cta{position:relative;padding:20vh 0;text-align:center;background:var(--rust);overflow:hidden}
-.cta .title{max-width:13em;margin:0 auto;color:var(--cream)}
-.cta .title em{color:var(--olive)}
-.cta p{margin:24px auto 0;max-width:460px;color:var(--cream-80)}
+.cta .title{max-width:13em;margin:0 auto;color:#fff0ca}
+.cta .title em{color:#0e1201}
+.cta p{margin:24px auto 0;max-width:460px;color:rgba(255,240,202,.8)}
 .cta .btn{margin-top:34px}
 
 /* Sobre mí */
@@ -171,15 +176,26 @@ img,video{display:block;max-width:100%}
 .about__text p{font-size:17px;line-height:1.55;color:var(--cream-80)}
 .about__text .btn{align-self:flex-start;margin-top:8px}
 
-/* Testimonios */
-.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-.quote{display:flex;flex-direction:column;padding:30px 28px;background:var(--cream-10)}
-.quote__logo{display:block;height:22px;width:calc(22px * var(--r));max-width:140px;background:var(--cream);-webkit-mask:var(--src) left center/contain no-repeat;mask:var(--src) left center/contain no-repeat}
-.quote blockquote{flex:1;margin-top:30px;font-family:var(--serif);font-size:clamp(22px,1.9vw,28px);line-height:1.2}
-.quote figcaption{display:flex;align-items:center;gap:12px;margin-top:30px}
-.quote figcaption img{width:44px;height:44px;border-radius:50%;object-fit:cover}
-.quote figcaption b{display:block;font-weight:400;font-size:15px}
-.quote figcaption span{font-size:13px;color:var(--cream-60)}
+
+/* Testimonios en crema (como Casa Momo): título gigante que corre y banda de reseñas automática (sin estrellas) */
+.reviews{padding:16vh 0;background:#fff0ca;color:#0e1201;overflow:hidden}
+.reviews__title{overflow:hidden;margin-bottom:9vh}
+.reviews__track{display:flex;width:max-content;will-change:transform}
+.rt{display:inline-flex;align-items:flex-start;gap:.15em;padding-right:.5em;font-family:var(--sans);font-size:clamp(64px,8.5vw,140px);font-weight:400;letter-spacing:-.045em;line-height:1;white-space:nowrap}
+.rt sup{display:inline-grid;place-items:center;min-width:1.4em;padding:.15em .3em;margin-top:.25em;border-radius:3px;background:rgba(188,111,69,.12);color:var(--terra);font-size:.2em;letter-spacing:0;line-height:1}
+.reviews__row{overflow:hidden}
+.reviews__belt{display:flex;gap:16px;width:max-content;padding-left:16px;animation:belt 60s linear infinite}
+.reviews__row:hover .reviews__belt{animation-play-state:paused}
+@keyframes belt{to{transform:translateX(-50%)}}
+.review{display:flex;flex-direction:column;width:min(560px,82vw);min-height:420px;margin:0;padding:34px 40px 36px;background:#f9e3b6}
+.review__top{display:flex;justify-content:space-between;align-items:center}
+.review__logo{display:block;height:20px;width:calc(20px * var(--r));max-width:130px;background:var(--rust);-webkit-mask:var(--src) left center/contain no-repeat;mask:var(--src) left center/contain no-repeat}
+.review__tag{font-size:14px;color:rgba(14,18,1,.6)}
+.review blockquote{flex:1;margin-top:30px;font-size:clamp(19px,1.6vw,24px);line-height:1.38;letter-spacing:-.01em}
+.review figcaption{display:flex;align-items:center;gap:12px;margin-top:30px}
+.review figcaption img{width:44px;height:44px;border-radius:3px;object-fit:cover}
+.review figcaption b{display:block;font-weight:400;font-size:17px}
+.review figcaption span span{font-size:13px;color:rgba(14,18,1,.6)}
 
 /* Frase final con fotos flotantes y dibujo de línea */
 .feel{position:relative;height:100vh;min-height:620px;display:grid;place-items:center;overflow:hidden}
@@ -200,8 +216,17 @@ img,video{display:block;max-width:100%}
 .card:hover{background:var(--cream);color:var(--olive)}
 .card span{display:inline-flex;align-items:center;gap:6px;font-size:14px;opacity:.8}
 .card b{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.4vw,38px);line-height:1.05;overflow-wrap:anywhere}
-.foot__name{margin-top:14vh;font-family:var(--serif);font-size:31vw;line-height:.82;letter-spacing:-.03em;text-align:center;white-space:nowrap}
-.foot__bottom{display:flex;justify-content:space-between;gap:20px;padding:22px 3.4vw 30px;font-size:13px;color:var(--cream-60)}
+.contact{padding-bottom:16vh}
+.foot{position:relative;background:#bc6f45;color:#fff0ca;overflow:hidden}
+@media (min-width:768px){ .foot{position:fixed;left:0;right:0;bottom:0;z-index:0} }
+.foot__cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;padding:14vh 3.4vw 0}
+.foot__col{display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:18px}
+.foot__col.is-right{align-items:flex-end;text-align:right}
+.foot__col a{transition:opacity .3s}
+.foot__col a:hover{opacity:.65}
+.foot__tag{margin-bottom:12px;padding:3px 7px;border-radius:2px;background:rgba(255,240,202,.14);font-size:12px}
+.foot__name{margin-top:6vh;font-family:var(--serif);font-size:31vw;line-height:.8;letter-spacing:-.03em;text-align:center;white-space:nowrap;will-change:transform}
+.foot__bottom{display:flex;justify-content:space-between;gap:20px;padding:22px 3.4vw 30px;font-size:13px;color:rgba(255,240,202,.75)}
 
 .rv{opacity:0;transform:translateY(30px)}
 .no-js .rv{opacity:1;transform:none}
@@ -211,7 +236,6 @@ img,video{display:block;max-width:100%}
   .brands{grid-template-columns:repeat(3,minmax(0,1fr))}
   .niche{grid-template-columns:50px minmax(0,1fr) minmax(0,260px)}
   .niche__img{display:none}
-  .quotes{grid-template-columns:1fr;max-width:640px}
   .about{grid-template-columns:1fr}
   .about__img{max-width:520px}
   .f1{left:6%}.f2{right:6%}.f3{left:8%}.f4{right:6%}
@@ -245,11 +269,16 @@ img,video{display:block;max-width:100%}
   .niche{grid-template-columns:40px minmax(0,1fr);gap:6px 14px}
   .niche__d{grid-column:2}
   .cta{padding:14vh 0}
+  .reviews{padding:12vh 0}
+  .review{min-height:0;padding:26px 24px 28px}
+  .reviews__belt{animation-duration:45s}
   .feel{height:auto;min-height:0;padding:16vh 0}
   .float{display:none}
   .feel__line{width:70vw}
   .cards{grid-template-columns:1fr}
-  .foot__name{font-size:34vw;margin-top:10vh}
+  .foot__cols{grid-template-columns:1fr 1fr;padding:10vh 5vw 0}
+  .foot__col.is-right{grid-column:1/-1;align-items:flex-start;text-align:left}
+  .foot__name{font-size:34vw;margin-top:6vh}
   .foot__bottom{flex-direction:column;align-items:center;gap:4px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
@@ -295,21 +324,21 @@ img,video{display:block;max-width:100%}
   </header>
 
   <!-- FRASE ESCALONADA -->
-  <section class="statement" aria-label="Lo que hago">
+  <section class="statement" aria-label="Lo que hago" data-theme="dark">
     <div class="wrap">
       <p><span class="l l1">Entre</span> <span class="l l2">lo cotidiano y lo que vende</span> <span class="l l3">nace un video que la gente</span> <span class="l l4">se queda a ver, guarda</span> <span class="l l5">y comparte</span></p>
     </div>
   </section>
 
   <!-- FOTO QUE SE ABRE -->
-  <section class="opener" aria-label="Laura">
+  <section class="opener" aria-label="Laura" data-theme="dark">
     <div class="opener__sticky">
       <div class="opener__img"><img src="media/hero.jpg" alt="Laura sonriendo con las manos en la cara" loading="lazy"><div class="opener__tag"><span>Belleza</span><span>Skincare</span></div></div>
     </div>
   </section>
 
   <!-- MI TRABAJO -->
-  <section class="section" id="trabajo">
+  <section class="section" id="trabajo" data-theme="light">
     <div class="wrap">
       <div class="s-head"><span class="count rv">8</span><h2 class="title rv">Mi trabajo</h2></div>
       <div class="works">
@@ -326,7 +355,7 @@ img,video{display:block;max-width:100%}
   </section>
 
   <!-- MARCAS -->
-  <section class="section" id="marcas" style="padding-top:4vh">
+  <section class="section" id="marcas" data-theme="dark">
     <div class="wrap">
       <div class="s-head"><h2 class="title rv">Marcas con las que<br>he colaborado</h2></div>
       <div class="brands">
@@ -345,7 +374,7 @@ img,video{display:block;max-width:100%}
   </section>
 
   <!-- NICHOS -->
-  <section class="section" id="nichos" style="padding-top:4vh">
+  <section class="section" id="nichos" style="padding-top:4vh" data-theme="dark">
     <div class="wrap">
       <div class="s-head"><h2 class="title rv">Nichos</h2><p class="lead rv">Lo que mejor sé contar, con mi vida diaria como escenario</p></div>
       <div class="niches">
@@ -359,7 +388,7 @@ img,video{display:block;max-width:100%}
   </section>
 
   <!-- CTA -->
-  <section class="cta" aria-label="Escríbeme">
+  <section class="cta" aria-label="Escríbeme" data-theme="dark">
     <div class="wrap">
       <h2 class="title rv">¿Contamos juntas la historia de <em>tu marca?</em></h2>
       <p class="rv">Mándame tu producto y en una semana tienes videos listos para orgánico y para anuncios</p>
@@ -368,7 +397,7 @@ img,video{display:block;max-width:100%}
   </section>
 
   <!-- SOBRE MÍ -->
-  <section class="section" id="sobre-mi">
+  <section class="section" id="sobre-mi" data-theme="light">
     <div class="wrap about">
       <div>
         <h2 class="about__title rv">Hola, soy Laura</h2>
@@ -382,20 +411,27 @@ img,video{display:block;max-width:100%}
     </div>
   </section>
 
-  <!-- TESTIMONIOS -->
-  <section class="section" id="testimonios" style="padding-top:4vh">
-    <div class="wrap">
-      <div class="s-head"><h2 class="title rv">Lo que dicen<br>las marcas</h2></div>
-      <div class="quotes">
-        <figure class="quote rv"><span class="quote__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas”</blockquote><figcaption><img src="media/persona-1.jpg" alt=""><span><b>Mariana López</b><span>Gerente de Marketing · La Roche-Posay</span></span></figcaption></figure>
-        <figure class="quote rv"><span class="quote__logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.29"></span><blockquote>“Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Nos facilita muchísimo el trabajo”</blockquote><figcaption><img src="media/persona-2.jpg" alt=""><span><b>Andrés Ruiz</b><span>Performance Marketing · Zara</span></span></figcaption></figure>
-        <figure class="quote rv"><span class="quote__logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.75"></span><blockquote>“Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda nuestra comunidad”</blockquote><figcaption><img src="media/persona-4.jpg" alt=""><span><b>Sofía Herrera</b><span>Brand Manager · Samsung</span></span></figcaption></figure>
-      </div>
-    </div>
+  <!-- TESTIMONIOS: título gigante que corre con el scroll y reseñas que pasan solas (se detienen con el cursor) -->
+  <section class="reviews" id="testimonios" data-theme="light">
+    <div class="reviews__title" aria-label="Reseñas recientes"><div class="reviews__track"><span class="rt">Reseñas recientes<sup>6</sup></span><span class="rt">Reseñas recientes<sup>6</sup></span><span class="rt">Reseñas recientes<sup>6</sup></span><span class="rt">Reseñas recientes<sup>6</sup></span><span class="rt">Reseñas recientes<sup>6</sup></span><span class="rt">Reseñas recientes<sup>6</sup></span></div></div>
+    <div class="reviews__row"><div class="reviews__belt">
+        <figure class="review"><div class="review__top"><span class="review__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas de cada mes y el equipo la busca primero cuando sale un producto nuevo”</blockquote><figcaption><img src="media/persona-1.jpg" alt=""><span><b>Mariana López</b><span>Gerente de Marketing · La Roche-Posay</span></span></figcaption></figure>
+        <figure class="review"><div class="review__top"><span class="review__logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.29"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Nos facilita muchísimo el trabajo al equipo de pauta”</blockquote><figcaption><img src="media/persona-2.jpg" alt=""><span><b>Andrés Ruiz</b><span>Performance Marketing · Zara</span></span></figcaption></figure>
+        <figure class="review"><div class="review__top"><span class="review__logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.75"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda y comparte nuestra comunidad”</blockquote><figcaption><img src="media/persona-4.jpg" alt=""><span><b>Sofía Herrera</b><span>Brand Manager · Samsung</span></span></figcaption></figure>
+        <figure class="review"><div class="review__top"><span class="review__logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.5"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Grabó la rutina completa con luz natural y se nota que de verdad usó el producto. Los comentarios preguntaban dónde comprarlo”</blockquote><figcaption><img src="media/persona-3.jpg" alt=""><span><b>Valeria Castro</b><span>Social Media Lead · L'Oréal</span></span></figcaption></figure>
+        <figure class="review"><div class="review__top"><span class="review__logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.59"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Necesitábamos contenido de entrenamiento que no pareciera anuncio y lo logró a la primera. Entregas puntuales y muy fácil trabajar con ella”</blockquote><figcaption><img src="media/persona-5.jpg" alt=""><span><b>Diego Morales</b><span>Content Manager · Adidas</span></span></figcaption></figure>
+        <figure class="review"><div class="review__top"><span class="review__logo" role="img" aria-label="Vichy" style="--src:url(media/marcas/vichy-laboratoires.svg);--r:1"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Sus videos de antes y después tuvieron la mejor retención de la campaña. Clara con los tiempos y súper profesional”</blockquote><figcaption><img src="media/persona-6.jpg" alt=""><span><b>Camila Reyes</b><span>Brand Specialist · Vichy</span></span></figcaption></figure>
+        <figure class="review" aria-hidden="true"><div class="review__top"><span class="review__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas de cada mes y el equipo la busca primero cuando sale un producto nuevo”</blockquote><figcaption><img src="media/persona-1.jpg" alt=""><span><b>Mariana López</b><span>Gerente de Marketing · La Roche-Posay</span></span></figcaption></figure>
+        <figure class="review" aria-hidden="true"><div class="review__top"><span class="review__logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.29"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Nos facilita muchísimo el trabajo al equipo de pauta”</blockquote><figcaption><img src="media/persona-2.jpg" alt=""><span><b>Andrés Ruiz</b><span>Performance Marketing · Zara</span></span></figcaption></figure>
+        <figure class="review" aria-hidden="true"><div class="review__top"><span class="review__logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.75"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda y comparte nuestra comunidad”</blockquote><figcaption><img src="media/persona-4.jpg" alt=""><span><b>Sofía Herrera</b><span>Brand Manager · Samsung</span></span></figcaption></figure>
+        <figure class="review" aria-hidden="true"><div class="review__top"><span class="review__logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.5"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Grabó la rutina completa con luz natural y se nota que de verdad usó el producto. Los comentarios preguntaban dónde comprarlo”</blockquote><figcaption><img src="media/persona-3.jpg" alt=""><span><b>Valeria Castro</b><span>Social Media Lead · L'Oréal</span></span></figcaption></figure>
+        <figure class="review" aria-hidden="true"><div class="review__top"><span class="review__logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.59"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Necesitábamos contenido de entrenamiento que no pareciera anuncio y lo logró a la primera. Entregas puntuales y muy fácil trabajar con ella”</blockquote><figcaption><img src="media/persona-5.jpg" alt=""><span><b>Diego Morales</b><span>Content Manager · Adidas</span></span></figcaption></figure>
+        <figure class="review" aria-hidden="true"><div class="review__top"><span class="review__logo" role="img" aria-label="Vichy" style="--src:url(media/marcas/vichy-laboratoires.svg);--r:1"></span><span class="review__tag">Campaña 2026</span></div><blockquote>“Sus videos de antes y después tuvieron la mejor retención de la campaña. Clara con los tiempos y súper profesional”</blockquote><figcaption><img src="media/persona-6.jpg" alt=""><span><b>Camila Reyes</b><span>Brand Specialist · Vichy</span></span></figcaption></figure>
+    </div></div>
   </section>
 
   <!-- FRASE FINAL -->
-  <section class="feel" aria-label="Contenido que se siente real">
+  <section class="feel" aria-label="Contenido que se siente real" data-theme="dark">
     <svg class="feel__line" viewBox="0 0 220 300" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M20 290V120a90 90 0 0 1 180 0v170"/><path d="M45 290V125a65 65 0 0 1 130 0v165"/><path d="M10 290h200M70 160h80M70 210h80"/></svg>
     <div class="float f1"><img src="media/intro-1.jpg" alt="" loading="lazy"></div>
     <div class="float f2"><img src="media/intro-2.jpg" alt="" loading="lazy"></div>
@@ -406,7 +442,7 @@ img,video{display:block;max-width:100%}
   </section>
 
   <!-- CONTACTO -->
-  <section class="contact" id="contacto">
+  <section class="contact" id="contacto" data-theme="dark">
     <div class="wrap">
       <h2 class="title rv">Hagamos algo <em>juntas</em></h2>
       <div class="cards">
@@ -415,10 +451,19 @@ img,video{display:block;max-width:100%}
         <a class="card rv" href="https://instagram.com/" target="_blank" rel="noopener"><span>Instagram <svg class="arr"><use href="#arr"/></svg></span><b>@lauracreativa</b></a>
       </div>
     </div>
-    <p class="foot__name" aria-hidden="true">Laura</p>
-    <div class="foot__bottom"><span>© 2026 Laura</span><span>Plantilla UGC de We Are Miiles</span></div>
   </section>
 </main>
+
+<!-- FOOTER: terracota, fijo detrás; el contenido se desliza hacia arriba y lo descubre (desktop) -->
+<footer class="foot">
+  <div class="foot__cols">
+    <div class="foot__col"><span class="foot__tag">1 · Menú</span><a href="#trabajo" class="go">Trabajo</a><a href="#sobre-mi" class="go">Sobre mí</a><a href="#testimonios" class="go">Reseñas</a></div>
+    <div class="foot__col"><span class="foot__tag">2 · Redes</span><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok</a></div>
+    <div class="foot__col is-right"><span class="foot__tag">3 · Contacto</span><a href="mailto:hola@lauracreativa.com">hola@lauracreativa.com</a><a href="https://wa.me/5215500000000" target="_blank" rel="noopener">+52 55 0000 0000</a></div>
+  </div>
+  <p class="foot__name" aria-hidden="true">Laura</p>
+  <div class="foot__bottom"><span>© 2026 Laura</span><span>Plantilla UGC de We Are Miiles</span></div>
+</footer>
 
 <script src="js/gsap.min.js"></script>
 <script src="js/ScrollTrigger.min.js"></script>
@@ -473,6 +518,9 @@ if (ok && !reduce) {
   /* Aparición por lotes */
   ScrollTrigger.batch('.rv', { start: 'top 90%', once: true, onEnter: els => gsap.to(els, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: .07, overwrite: true }) });
 
+  /* Reseñas: el título corre de lado con el scroll */
+  gsap.fromTo('.reviews__track', { xPercent: 0 }, { xPercent: -25, ease: 'none', scrollTrigger: { trigger: '.reviews', start: 'top bottom', end: 'bottom top', scrub: true } });
+
   const mm = gsap.matchMedia();
   mm.add('(min-width: 768px)', () => {
     /* Foto que se abre: de recuadro chico a pantalla completa */
@@ -482,11 +530,21 @@ if (ok && !reduce) {
     $$('.work__media img').forEach(img => gsap.fromTo(img, { yPercent: -6, scale: 1.12 }, { yPercent: 6, scale: 1.12, ease: 'none', scrollTrigger: { trigger: img.parentNode, start: 'top bottom', end: 'bottom top', scrub: true } }));
     /* Frase final: las fotos flotan a distinta velocidad */
     $$('.float').forEach((f, i) => gsap.fromTo(f, { y: 80 + i * 30 }, { y: -80 - i * 30, ease: 'none', scrollTrigger: { trigger: '.feel', start: 'top bottom', end: 'bottom top', scrub: true } }));
-    gsap.from('.foot__name', { yPercent: 30, ease: 'none', scrollTrigger: { trigger: '.foot__name', start: 'top bottom', end: 'bottom bottom', scrub: true } });
+    // Footer revelado: el nombre sube un poco mientras se descubre
+    gsap.fromTo('.foot__name', { yPercent: 35 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'bottom bottom', end: () => '+=' + $('.foot').offsetHeight, scrub: true } });
   });
 } else {
   $$('.rv').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
 }
+
+/* Footer revelado: el contenido deja un hueco del alto del footer (solo desktop y tablet) */
+const fitFoot = () => { $('main').style.marginBottom = isMobile ? '' : $('.foot').offsetHeight + 'px'; };
+fitFoot(); addEventListener('resize', fitFoot); addEventListener('load', fitFoot);
+
+/* Cambio de fondo verde ↔ crema según la sección */
+if (ok) $$('[data-theme]').forEach(sec => ScrollTrigger.create({ trigger: sec, start: 'top 55%', end: 'bottom 55%',
+  onToggle: st => { if (st.isActive) document.documentElement.classList.toggle('is-light', sec.dataset.theme === 'light'); } }));
+addEventListener('scroll', () => { if (scrollY < innerHeight * .5) document.documentElement.classList.remove('is-light'); }, { passive: true });
 
 /* Copiar correo */
 $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
