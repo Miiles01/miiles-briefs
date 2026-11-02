@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laura · Creadora de contenido UGC</title>
+<meta name="description" content="Laura, creadora de contenido UGC para marcas de belleza, moda y bienestar.">
+<meta property="og:title" content="Laura · Creadora de contenido UGC">
+<meta property="og:image" content="https://wearemiiles.com/ugc-v24/media/sentada.jpg">
+
+<!--
+  UGC V24 · Laura. Estructura, colores y animaciones basados en casamomo.at:
+  verde oliva casi negro (#0e1201), crema (#fff0ca) y terracota (#bc6f45). Títulos en Melodrama (Fontshare,
+  licencia libre) y texto en Helvetica (fuente del sistema).
+  Hero a pantalla completa con "Laura" arriba a la izquierda y "UGC" abajo a la derecha; el logo pasa al nav al bajar.
+  Frase escalonada que se enciende palabra por palabra, foto que se abre con el scroll, Mi trabajo en tarjetas
+  escalonadas con nombre y datos, marcas, nichos, CTA, Sobre mí, testimonios, frase final con fotos flotantes
+  y dibujo de línea, y contacto en tarjetas.
+-->
+
+<link rel="preload" href="fonts/Melodrama-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="media/sentada.jpg" as="image" media="(min-width: 768px)">
+<link rel="preload" href="media/sentada-m.jpg" as="image" media="(max-width: 767px)">
+<style>
+@font-face{font-family:'Melodrama';src:url(fonts/Melodrama-Light.woff2) format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'Melodrama';src:url(fonts/Melodrama-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Melodrama';src:url(fonts/Melodrama-Medium.woff2) format('woff2');font-weight:500;font-display:swap}
+:root{
+  --olive:#0e1201;
+  --cream:#fff0ca;
+  --cream-80:rgba(255,240,202,.8);
+  --cream-60:rgba(255,240,202,.6);
+  --cream-10:rgba(255,240,202,.08);
+  --terra:#bc6f45;
+  --rust:#964317;
+  --serif:'Melodrama',Georgia,serif;
+  --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  --ease:cubic-bezier(.7,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--olive);overflow-x:clip}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{margin:0;background:var(--olive);color:var(--cream);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,figure,blockquote{margin:0}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+img,video{display:block;max-width:100%}
+::selection{background:var(--terra);color:var(--cream)}
+.wrap{width:100%;max-width:1440px;margin:0 auto;padding:0 3.4vw}
+.arr{width:.72em;height:.72em;flex:none}
+
+/* Botones (como la referencia: rectángulo crema con flecha) */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:2px;background:var(--cream);color:var(--olive);font-size:16px;line-height:1;transition:background-color .3s,color .3s}
+.btn:hover{background:var(--terra);color:var(--cream)}
+.btn.is-terra{background:var(--terra);color:var(--cream)}
+.btn.is-terra:hover{background:var(--cream);color:var(--olive)}
+
+/* ===== Nav ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:26px 3.4vw;pointer-events:none}
+.nav > *{pointer-events:auto}
+.nav__logo{font-family:var(--serif);font-size:34px;font-weight:400;line-height:1;letter-spacing:-.01em;opacity:0;transform:translateY(-8px);transition:opacity .5s,transform .5s}
+.nav.is-scrolled .nav__logo{opacity:1;transform:none}
+.nav__right{display:flex;align-items:center;gap:0}
+.nav__links{display:flex;align-items:center;gap:2px;padding:4px;border-radius:2px;background:rgba(14,18,1,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.nav__links a{padding:5px 8px;font-size:16px;transition:color .3s}
+.nav__links a:hover{color:var(--terra)}
+.nav__right .btn{margin-left:4px}
+.menu-btn{display:none;padding:9px 14px;border:0;border-radius:2px;background:var(--cream);color:var(--olive);font-size:15px;cursor:pointer}
+
+/* Menú móvil: panel a media pantalla con botón Cerrar */
+.panel{position:fixed;inset:0;z-index:70;visibility:hidden;transition:visibility 0s linear .8s}
+.panel.is-open{visibility:visible;transition:visibility 0s}
+.panel__overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .6s}
+.panel.is-open .panel__overlay{opacity:1}
+.panel__box{position:absolute;top:0;right:0;bottom:0;width:min(86vw,360px);display:flex;flex-direction:column;justify-content:center;gap:4px;padding:90px 28px 40px;background:var(--olive);transform:translateX(100%);transition:transform .8s var(--ease)}
+.panel.is-open .panel__box{transform:none}
+.panel__box a.go{font-family:var(--serif);font-size:46px;line-height:1.12}
+.panel__close{position:absolute;top:22px;right:22px;padding:10px 16px;border:0;border-radius:2px;background:var(--cream);color:var(--olive);font-size:14px;cursor:pointer}
+.panel__social{display:flex;gap:20px;margin-top:30px;font-size:15px;color:var(--cream-80)}
+.panel__social a{display:inline-flex;align-items:center;gap:6px}
+
+/* ===== Hero ===== */
+.hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;color:var(--cream)}
+.hero__bg{position:absolute;inset:0;will-change:transform}
+.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:62% 40%}
+.hero__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,18,1,.15),rgba(14,18,1,.05) 40%,rgba(14,18,1,.55))}
+.hero__name{position:absolute;z-index:2;font-family:var(--serif);font-weight:400;line-height:.8;letter-spacing:-.02em}
+.hero__name.is-1{left:3.4vw;top:5vh;font-size:clamp(110px,15vw,230px)}
+.hero__name.is-2{right:3.4vw;bottom:3.4vw;font-size:clamp(110px,15vw,230px)}
+.hero__name span{display:inline-block}
+.hero__left{position:absolute;z-index:2;left:3.4vw;bottom:3.4vw;max-width:400px}
+.hero__left p{font-size:clamp(20px,1.8vw,26px);line-height:1.2;letter-spacing:-.01em}
+.stats{display:flex;gap:26px;margin-top:22px}
+.stats b{display:block;font-family:var(--serif);font-size:34px;font-weight:400;line-height:1}
+.stats span{font-size:13px;color:var(--cream-80)}
+.socials{display:flex;gap:16px;margin-top:18px;font-size:15px}
+.socials a{display:inline-flex;align-items:center;gap:6px;border-bottom:1px solid transparent;transition:border-color .3s}
+.socials a:hover{border-color:currentColor}
+
+/* ===== Frase escalonada ===== */
+.statement{padding:22vh 0 18vh}
+.statement p{font-family:var(--sans);font-size:clamp(40px,6.4vw,104px);font-weight:400;line-height:1.02;letter-spacing:-.04em}
+.statement .l{display:block}
+.statement .l2{padding-left:6%}.statement .l3{padding-left:8%}.statement .l4{padding-left:22%}.statement .l5{padding-left:30%}
+.statement .w{display:inline-block}
+
+/* ===== Foto que se abre ===== */
+.opener{position:relative;height:120vh}
+.opener__sticky{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.opener__img{position:relative;width:100%;height:100%;will-change:clip-path}
+.opener__img img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.opener__tag{position:absolute;right:3.4vw;bottom:4vh;z-index:2;display:flex;gap:6px}
+.opener__tag span{padding:5px 9px;border-radius:2px;background:rgba(14,18,1,.55);font-size:13px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+
+/* ===== Secciones ===== */
+.section{padding:18vh 0}
+.s-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:8vh}
+.s-head .count{font-size:13px;padding:5px 8px;border-radius:2px;background:var(--cream-10)}
+.title{font-family:var(--serif);font-weight:400;font-size:clamp(46px,6vw,96px);line-height:.95;letter-spacing:-.02em}
+.title em{font-style:normal;color:var(--terra)}
+.lead{max-width:420px;font-size:17px;line-height:1.5;color:var(--cream-80)}
+
+/* Mi trabajo: tarjetas escalonadas en dos columnas, con nombre y datos (como los departamentos) */
+.works{display:grid;grid-template-columns:1fr 1fr;column-gap:2.4vw;row-gap:10vh;align-items:start}
+.work{position:relative}
+.work:nth-child(4n+1){width:62%}
+.work:nth-child(4n+2){width:100%;margin-top:8vh}
+.work:nth-child(4n+3){width:100%}
+.work:nth-child(4n+4){width:62%;justify-self:end;margin-top:18vh}
+.work__media{position:relative;aspect-ratio:4/5;overflow:hidden;background:#1a1f08}
+.work:nth-child(4n+2) .work__media,.work:nth-child(4n+3) .work__media{aspect-ratio:5/4}
+.work__media img,.work__media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.work:hover .work__media img,.work:hover .work__media video{transform:scale(1.04)}
+.work figcaption{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:14px}
+.work__meta{display:flex;gap:6px}
+.work__meta span{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:2px;background:var(--cream-10);font-size:12px;color:var(--cream-80)}
+
+/* Marcas */
+.brands{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.brand{display:grid;place-items:center;height:130px;background:var(--cream-10);transition:background-color .4s}
+.brand:hover{background:rgba(188,111,69,.25)}
+.brand__logo{display:block;height:28px;width:calc(28px * var(--r));max-width:70%;background:var(--cream);-webkit-mask:var(--src) center/contain no-repeat;mask:var(--src) center/contain no-repeat}
+
+/* Nichos */
+.niches{display:flex;flex-direction:column}
+.niche{display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,360px) 120px;align-items:center;gap:24px;padding:18px 0;border-top:1px solid rgba(255,240,202,.12)}
+.niche:last-child{border-bottom:1px solid rgba(255,240,202,.12)}
+.niche__n{font-size:14px;color:var(--terra)}
+.niche__name{font-family:var(--serif);font-size:clamp(34px,4vw,62px);line-height:1}
+.niche__d{font-size:15px;color:var(--cream-80)}
+.niche__img{width:120px;aspect-ratio:4/5;overflow:hidden;opacity:0;transform:scale(.9);transition:opacity .5s,transform .5s var(--ease)}
+.niche__img img{width:100%;height:100%;object-fit:cover}
+.niche:hover .niche__img{opacity:1;transform:none}
+.niche:hover .niche__name{color:var(--terra)}
+
+/* CTA */
+.cta{position:relative;padding:20vh 0;text-align:center;background:var(--rust);overflow:hidden}
+.cta .title{max-width:13em;margin:0 auto;color:var(--cream)}
+.cta .title em{color:var(--olive)}
+.cta p{margin:24px auto 0;max-width:460px;color:var(--cream-80)}
+.cta .btn{margin-top:34px}
+
+/* Sobre mí */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4vw;align-items:end}
+.about__title{font-family:var(--sans);font-weight:400;font-size:clamp(48px,6vw,96px);line-height:1;letter-spacing:-.04em}
+.about__img{aspect-ratio:4/5;overflow:hidden}
+.about__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.about__text{display:flex;flex-direction:column;gap:18px;max-width:520px;margin-top:6vh}
+.about__text p{font-size:17px;line-height:1.55;color:var(--cream-80)}
+.about__text .btn{align-self:flex-start;margin-top:8px}
+
+/* Testimonios */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.quote{display:flex;flex-direction:column;padding:30px 28px;background:var(--cream-10)}
+.quote__logo{display:block;height:22px;width:calc(22px * var(--r));max-width:140px;background:var(--cream);-webkit-mask:var(--src) left center/contain no-repeat;mask:var(--src) left center/contain no-repeat}
+.quote blockquote{flex:1;margin-top:30px;font-family:var(--serif);font-size:clamp(22px,1.9vw,28px);line-height:1.2}
+.quote figcaption{display:flex;align-items:center;gap:12px;margin-top:30px}
+.quote figcaption img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.quote figcaption b{display:block;font-weight:400;font-size:15px}
+.quote figcaption span{font-size:13px;color:var(--cream-60)}
+
+/* Frase final con fotos flotantes y dibujo de línea */
+.feel{position:relative;height:100vh;min-height:620px;display:grid;place-items:center;overflow:hidden}
+.feel__line{position:absolute;left:50%;top:50%;width:min(420px,60vw);height:auto;transform:translate(-50%,-50%);color:rgba(255,240,202,.16);pointer-events:none}
+.feel__t{position:relative;z-index:2;font-family:var(--sans);font-size:clamp(44px,7vw,112px);font-weight:400;letter-spacing:-.04em;line-height:1;text-align:center}
+.float{position:absolute;z-index:1;overflow:hidden;box-shadow:0 20px 40px -20px rgba(0,0,0,.6);will-change:transform}
+.float img{width:100%;height:100%;object-fit:cover}
+.f1{left:16%;top:18%;width:140px;aspect-ratio:4/5;transform:rotate(-6deg)}
+.f2{right:18%;top:14%;width:120px;aspect-ratio:1;transform:rotate(5deg)}
+.f3{left:22%;bottom:16%;width:170px;aspect-ratio:5/4;transform:rotate(4deg)}
+.f4{right:14%;bottom:12%;width:150px;aspect-ratio:4/5;transform:rotate(-4deg)}
+.f5{left:46%;top:10%;width:90px;aspect-ratio:4/5;transform:rotate(2deg)}
+
+/* Contacto + footer */
+.contact{padding:14vh 0 0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6vh}
+.card{display:flex;flex-direction:column;gap:34px;padding:26px 26px 28px;border:0;background:var(--cream-10);text-align:left;cursor:pointer;transition:background-color .3s,color .3s}
+.card:hover{background:var(--cream);color:var(--olive)}
+.card span{display:inline-flex;align-items:center;gap:6px;font-size:14px;opacity:.8}
+.card b{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.4vw,38px);line-height:1.05;overflow-wrap:anywhere}
+.foot__name{margin-top:14vh;font-family:var(--serif);font-size:31vw;line-height:.82;letter-spacing:-.03em;text-align:center;white-space:nowrap}
+.foot__bottom{display:flex;justify-content:space-between;gap:20px;padding:22px 3.4vw 30px;font-size:13px;color:var(--cream-60)}
+
+.rv{opacity:0;transform:translateY(30px)}
+.no-js .rv{opacity:1;transform:none}
+
+/* ===== Tablet ===== */
+@media (max-width:991px){
+  .brands{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .niche{grid-template-columns:50px minmax(0,1fr) minmax(0,260px)}
+  .niche__img{display:none}
+  .quotes{grid-template-columns:1fr;max-width:640px}
+  .about{grid-template-columns:1fr}
+  .about__img{max-width:520px}
+  .f1{left:6%}.f2{right:6%}.f3{left:8%}.f4{right:6%}
+}
+/* ===== Móvil ===== */
+@media (max-width:767px){
+  .nav{padding:max(16px,env(safe-area-inset-top)) 5vw 14px}
+  .nav__logo{font-size:28px}
+  .nav__links,.nav__right .btn{display:none}
+  .menu-btn{display:inline-flex}
+  .wrap{padding:0 5vw}
+  .hero__bg img{object-position:50% 30%}
+  .hero__name.is-1{left:5vw;top:auto;bottom:calc(5vw + 230px);font-size:31vw}
+  .hero__name.is-2{display:none}
+  .hero__left{left:5vw;right:5vw;bottom:5vw}
+  .hero__left p{font-size:19px}
+  .stats{gap:20px}.stats b{font-size:28px}
+  .statement{padding:14vh 0 12vh}
+  .statement .l{padding-left:0!important}
+  .opener{height:auto}
+  .opener__sticky{position:relative;height:auto;padding:0 5vw}
+  .opener__img{aspect-ratio:4/5;height:auto}
+  .section{padding:12vh 0}
+  .s-head{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:5vh}
+  .title{font-size:12vw}
+  .works{grid-template-columns:1fr;row-gap:6vh}
+  .work:nth-child(n){width:100%;margin-top:0;justify-self:stretch}
+  .work:nth-child(n) .work__media{aspect-ratio:4/5}
+  .brands{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .brand{height:96px}
+  .niche{grid-template-columns:40px minmax(0,1fr);gap:6px 14px}
+  .niche__d{grid-column:2}
+  .cta{padding:14vh 0}
+  .feel{height:auto;min-height:0;padding:16vh 0}
+  .float{display:none}
+  .feel__line{width:70vw}
+  .cards{grid-template-columns:1fr}
+  .foot__name{font-size:34vw;margin-top:10vh}
+  .foot__bottom{flex-direction:column;align-items:center;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="arr" viewBox="0 0 12 12"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol></defs></svg>
+
+<nav class="nav" aria-label="Principal">
+  <a href="#inicio" class="nav__logo go">Laura</a>
+  <div class="nav__right">
+    <div class="nav__links"><a href="#trabajo" class="go">Trabajo</a><a href="#sobre-mi" class="go">Sobre mí</a><a href="#contacto" class="go">Contacto</a></div>
+    <a class="btn" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme <svg class="arr"><use href="#arr"/></svg></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="panel">Menú</button>
+  </div>
+</nav>
+
+<div class="panel" id="panel" aria-hidden="true">
+  <div class="panel__overlay"></div>
+  <div class="panel__box">
+    <button class="panel__close" type="button">Cerrar ×</button>
+    <a href="#trabajo" class="go">Trabajo</a>
+    <a href="#marcas" class="go">Marcas</a>
+    <a href="#nichos" class="go">Nichos</a>
+    <a href="#sobre-mi" class="go">Sobre mí</a>
+    <a href="#testimonios" class="go">Testimonios</a>
+    <a href="#contacto" class="go">Contacto</a>
+    <div class="panel__social"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram <svg class="arr"><use href="#arr"/></svg></a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok <svg class="arr"><use href="#arr"/></svg></a></div>
+  </div>
+</div>
+
+<main>
+  <!-- HERO -->
+  <header class="hero" id="inicio">
+    <div class="hero__bg"><picture><source media="(max-width: 767px)" srcset="media/sentada-m.jpg"><img src="media/sentada.jpg" alt="Laura sentada, sonriendo" fetchpriority="high"></picture></div>
+    <h1 class="hero__name is-1" aria-label="Laura UGC"><span>Laura</span></h1>
+    <p class="hero__name is-2" aria-hidden="true"><span>UGC</span></p>
+    <div class="hero__left">
+      <p>Creadora de contenido UGC para marcas de belleza, moda y bienestar</p>
+      <div class="stats"><div><b>+18K</b><span>seguidores</span></div><div><b>+40</b><span>marcas</span></div><div><b>+300</b><span>videos</span></div></div>
+      <div class="socials"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram <svg class="arr"><use href="#arr"/></svg></a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok <svg class="arr"><use href="#arr"/></svg></a></div>
+    </div>
+  </header>
+
+  <!-- FRASE ESCALONADA -->
+  <section class="statement" aria-label="Lo que hago">
+    <div class="wrap">
+      <p><span class="l l1">Entre</span> <span class="l l2">lo cotidiano y lo que vende</span> <span class="l l3">nace un video que la gente</span> <span class="l l4">se queda a ver, guarda</span> <span class="l l5">y comparte</span></p>
+    </div>
+  </section>
+
+  <!-- FOTO QUE SE ABRE -->
+  <section class="opener" aria-label="Laura">
+    <div class="opener__sticky">
+      <div class="opener__img"><img src="media/hero.jpg" alt="Laura sonriendo con las manos en la cara" loading="lazy"><div class="opener__tag"><span>Belleza</span><span>Skincare</span></div></div>
+    </div>
+  </section>
+
+  <!-- MI TRABAJO -->
+  <section class="section" id="trabajo">
+    <div class="wrap">
+      <div class="s-head"><span class="count rv">8</span><h2 class="title rv">Mi trabajo</h2></div>
+      <div class="works">
+        <figure class="work rv"><div class="work__media"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div><figcaption><span>Unboxing N°1</span><span class="work__meta"><span>0:32</span><span>9:16</span></span></figcaption></figure>
+        <figure class="work rv"><div class="work__media"><img src="media/intro-3.jpg" alt="Laura en el puerto con lentes de sol" loading="lazy" style="object-position:50% 35%"></div><figcaption><span>Lifestyle N°1</span><span class="work__meta"><span>Foto</span><span>4:5</span></span></figcaption></figure>
+        <figure class="work rv"><div class="work__media"><img src="media/foto-1.jpg" alt="Laura trabajando en su laptop" loading="lazy" style="object-position:50% 40%"></div><figcaption><span>Tech N°1</span><span class="work__meta"><span>Foto</span><span>5:4</span></span></figcaption></figure>
+        <figure class="work rv"><div class="work__media"><video src="media/video-2.mp4" poster="media/poster-2.jpg" muted loop playsinline preload="none" aria-label="Video de reseña"></video></div><figcaption><span>Reseña N°1</span><span class="work__meta"><span>0:24</span><span>9:16</span></span></figcaption></figure>
+        <figure class="work rv"><div class="work__media"><video src="media/video-4.mp4" poster="media/poster-4.jpg" muted loop playsinline preload="none" aria-label="Video de rutina"></video></div><figcaption><span>Rutina N°1</span><span class="work__meta"><span>0:41</span><span>9:16</span></span></figcaption></figure>
+        <figure class="work rv"><div class="work__media"><img src="media/foto-2.jpg" alt="Laura con ropa deportiva en el gimnasio" loading="lazy" style="object-position:50% 50%"></div><figcaption><span>Fitness N°1</span><span class="work__meta"><span>Foto</span><span>5:4</span></span></figcaption></figure>
+        <figure class="work rv"><div class="work__media"><img src="media/sobre-mi.jpg" alt="Laura caminando con su perro" loading="lazy" style="object-position:50% 55%"></div><figcaption><span>Outdoor N°1</span><span class="work__meta"><span>Foto</span><span>5:4</span></span></figcaption></figure>
+        <figure class="work rv"><div class="work__media"><video src="media/video-3.mp4" poster="media/poster-3.jpg" muted loop playsinline preload="none" aria-label="Video de anuncio"></video></div><figcaption><span>Anuncio N°1</span><span class="work__meta"><span>0:15</span><span>9:16</span></span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCAS -->
+  <section class="section" id="marcas" style="padding-top:4vh">
+    <div class="wrap">
+      <div class="s-head"><h2 class="title rv">Marcas con las que<br>he colaborado</h2></div>
+      <div class="brands">
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.29"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.75"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="L'Oréal" style="--src:url(media/marcas/loreal.svg);--r:5.5"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="Adidas" style="--src:url(media/marcas/adidas-13.svg);--r:1.59"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="Vichy" style="--src:url(media/marcas/vichy-laboratoires.svg);--r:1"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="Chanel" style="--src:url(media/marcas/chanel-2.svg);--r:1.51"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="Spotify" style="--src:url(media/marcas/spotify-logo.svg);--r:3.33"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="Pull&amp;Bear" style="--src:url(media/marcas/pull-bear-2.svg);--r:5.5"></span></div>
+        <div class="brand rv"><span class="brand__logo" role="img" aria-label="Vogue" style="--src:url(media/marcas/vogue.svg);--r:3.85"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NICHOS -->
+  <section class="section" id="nichos" style="padding-top:4vh">
+    <div class="wrap">
+      <div class="s-head"><h2 class="title rv">Nichos</h2><p class="lead rv">Lo que mejor sé contar, con mi vida diaria como escenario</p></div>
+      <div class="niches">
+        <div class="niche rv"><span class="niche__n">01</span><span class="niche__name">Belleza y skincare</span><span class="niche__d">Rutinas, texturas y resultados reales en la piel</span><span class="niche__img"><img src="media/intro-1.jpg" alt="" loading="lazy"></span></div>
+        <div class="niche rv"><span class="niche__n">02</span><span class="niche__name">Moda</span><span class="niche__d">Try-on, combinaciones y prendas en movimiento</span><span class="niche__img"><img src="media/intro-2.jpg" alt="" loading="lazy"></span></div>
+        <div class="niche rv"><span class="niche__n">03</span><span class="niche__name">Bienestar y fitness</span><span class="niche__d">Entrenamientos, suplementos y hábitos que sí se sostienen</span><span class="niche__img"><img src="media/foto-2.jpg" alt="" loading="lazy"></span></div>
+        <div class="niche rv"><span class="niche__n">04</span><span class="niche__name">Lifestyle</span><span class="niche__d">Mi día a día, viajes y paseos con mi perro</span><span class="niche__img"><img src="media/sobre-mi.jpg" alt="" loading="lazy"></span></div>
+        <div class="niche rv"><span class="niche__n">05</span><span class="niche__name">Tech y trabajo</span><span class="niche__d">Gadgets y apps explicados sin complicaciones</span><span class="niche__img"><img src="media/foto-1.jpg" alt="" loading="lazy"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" aria-label="Escríbeme">
+    <div class="wrap">
+      <h2 class="title rv">¿Contamos juntas la historia de <em>tu marca?</em></h2>
+      <p class="rv">Mándame tu producto y en una semana tienes videos listos para orgánico y para anuncios</p>
+      <a class="btn rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener">Escríbeme por WhatsApp <svg class="arr"><use href="#arr"/></svg></a>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section class="section" id="sobre-mi">
+    <div class="wrap about">
+      <div>
+        <h2 class="about__title rv">Hola, soy Laura</h2>
+        <div class="about__text">
+          <p class="rv">Empecé grabando mis rutinas para mis amigas, y un día una marca me preguntó si podía hacer lo mismo con su producto. Desde entonces hago contenido que se siente como la recomendación de alguien de confianza.</p>
+          <p class="rv">Me encargo de la idea, el guion, la grabación y la edición en formato vertical, listo para TikTok, Reels o Meta Ads.</p>
+          <a class="btn rv" href="#contacto">Trabajemos juntas <svg class="arr"><use href="#arr"/></svg></a>
+        </div>
+      </div>
+      <div class="about__img rv"><img src="media/sobre-mi-laura.jpg" alt="Laura con vestido negro" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="section" id="testimonios" style="padding-top:4vh">
+    <div class="wrap">
+      <div class="s-head"><h2 class="title rv">Lo que dicen<br>las marcas</h2></div>
+      <div class="quotes">
+        <figure class="quote rv"><span class="quote__logo" role="img" aria-label="La Roche-Posay" style="--src:url(media/marcas/la-roche-posay.svg);--r:6.49"></span><blockquote>“Probamos sus videos contra nuestros anuncios de estudio en Meta y bajó el costo por compra. Ya es parte fija de nuestras campañas”</blockquote><figcaption><img src="media/persona-1.jpg" alt=""><span><b>Mariana López</b><span>Gerente de Marketing · La Roche-Posay</span></span></figcaption></figure>
+        <figure class="quote rv"><span class="quote__logo" role="img" aria-label="Zara" style="--src:url(media/marcas/zara.svg);--r:4.29"></span><blockquote>“Le mandamos el brief un lunes y el viernes teníamos tres ganchos distintos para probar. Nos facilita muchísimo el trabajo”</blockquote><figcaption><img src="media/persona-2.jpg" alt=""><span><b>Andrés Ruiz</b><span>Performance Marketing · Zara</span></span></figcaption></figure>
+        <figure class="quote rv"><span class="quote__logo" role="img" aria-label="Samsung" style="--src:url(media/marcas/samsung-8.svg);--r:3.75"></span><blockquote>“Entiende el producto y el tono de la marca sin que se lo expliquemos dos veces. Su contenido es el que más guarda nuestra comunidad”</blockquote><figcaption><img src="media/persona-4.jpg" alt=""><span><b>Sofía Herrera</b><span>Brand Manager · Samsung</span></span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRASE FINAL -->
+  <section class="feel" aria-label="Contenido que se siente real">
+    <svg class="feel__line" viewBox="0 0 220 300" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M20 290V120a90 90 0 0 1 180 0v170"/><path d="M45 290V125a65 65 0 0 1 130 0v165"/><path d="M10 290h200M70 160h80M70 210h80"/></svg>
+    <div class="float f1"><img src="media/intro-1.jpg" alt="" loading="lazy"></div>
+    <div class="float f2"><img src="media/intro-2.jpg" alt="" loading="lazy"></div>
+    <div class="float f3"><img src="media/foto-5.jpg" alt="" loading="lazy" style="object-position:50% 60%"></div>
+    <div class="float f4"><img src="media/foto-3.jpg" alt="" loading="lazy"></div>
+    <div class="float f5"><img src="media/foto-4.jpg" alt="" loading="lazy"></div>
+    <p class="feel__t rv">Contenido que se siente real</p>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contact" id="contacto">
+    <div class="wrap">
+      <h2 class="title rv">Hagamos algo <em>juntas</em></h2>
+      <div class="cards">
+        <button class="card rv" type="button" data-copy="hola@lauracreativa.com" aria-label="Copiar correo hola@lauracreativa.com"><span>Correo · toca para copiar</span><b>hola@lauracreativa.com</b></button>
+        <a class="card rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span>WhatsApp <svg class="arr"><use href="#arr"/></svg></span><b>+52 55 0000 0000</b></a>
+        <a class="card rv" href="https://instagram.com/" target="_blank" rel="noopener"><span>Instagram <svg class="arr"><use href="#arr"/></svg></span><b>@lauracreativa</b></a>
+      </div>
+    </div>
+    <p class="foot__name" aria-hidden="true">Laura</p>
+    <div class="foot__bottom"><span>© 2026 Laura</span><span>Plantilla UGC de We Are Miiles</span></div>
+  </section>
+</main>
+
+<script src="js/gsap.min.js"></script>
+<script src="js/ScrollTrigger.min.js"></script>
+<script src="js/lenis.min.js"></script>
+<script>
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = matchMedia('(max-width: 767px)').matches;
+const ok = !!(window.gsap && window.ScrollTrigger);
+if (!ok) document.documentElement.classList.add('no-js'); else gsap.registerPlugin(ScrollTrigger);
+
+const lenis = !reduce && window.Lenis ? new Lenis({ duration: 1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) }) : null;
+if (lenis && ok) { lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+
+/* Menú móvil */
+const panel = $('#panel'), menuBtn = $('.menu-btn');
+const setMenu = open => { panel.classList.toggle('is-open', open); panel.setAttribute('aria-hidden', !open); menuBtn.setAttribute('aria-expanded', open); open ? lenis?.stop() : lenis?.start(); };
+menuBtn.addEventListener('click', () => setMenu(true));
+$('.panel__close').addEventListener('click', () => setMenu(false));
+$('.panel__overlay').addEventListener('click', () => setMenu(false));
+addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+$$('a.go').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  const t = a.getAttribute('href'), was = panel.classList.contains('is-open'); setMenu(false);
+  const go = () => lenis ? lenis.scrollTo(t === '#inicio' ? 0 : $(t), { duration: 1.4 }) : (t === '#inicio' ? scrollTo({ top: 0, behavior: 'smooth' }) : $(t).scrollIntoView({ behavior: 'smooth' }));
+  was ? setTimeout(go, 450) : go();
+}));
+
+/* Logo del nav: aparece cuando el nombre gigante sale */
+const nav = $('.nav');
+addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > innerHeight * .55), { passive: true });
+
+/* Videos: solo se reproducen cuando se ven */
+const vio = new IntersectionObserver(es => es.forEach(en => { const v = en.target; if (en.isIntersecting && !reduce) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause(); }), { threshold: .3 });
+$$('video').forEach(v => { v.muted = true; vio.observe(v); });
+
+if (ok && !reduce) {
+  /* Hero: el nombre entra desde abajo y la foto se aleja al bajar */
+  gsap.from('.hero__name span', { yPercent: 100, opacity: 0, duration: 1.4, ease: 'expo.out', stagger: .12, delay: .15 });
+  gsap.from('.hero__left', { y: 20, opacity: 0, duration: 1, ease: 'power3.out', delay: .6 });
+  gsap.to('.hero__bg', { yPercent: 18, scale: 1.06, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero__name.is-1', { yPercent: -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '60% top', scrub: true } });
+
+  /* Frase: cada palabra pasa de tenue a crema con el scroll */
+  const st = $('.statement p');
+  $$('.l', st).forEach(l => { l.innerHTML = l.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' '); });
+  const words = $$('.w', st);
+  gsap.set(words, { opacity: .14 });
+  gsap.to(words, { opacity: 1, ease: 'none', stagger: .1, scrollTrigger: { trigger: st, start: 'top 75%', end: 'bottom 45%', scrub: true } });
+
+  /* Aparición por lotes */
+  ScrollTrigger.batch('.rv', { start: 'top 90%', once: true, onEnter: els => gsap.to(els, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: .07, overwrite: true }) });
+
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 768px)', () => {
+    /* Foto que se abre: de recuadro chico a pantalla completa */
+    gsap.fromTo('.opener__img', { clipPath: 'inset(22% 30% 22% 30%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: 'bottom bottom', scrub: true } });
+    gsap.fromTo('.opener__img img', { scale: 1.25 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: 'bottom bottom', scrub: true } });
+    /* Mi trabajo: parallax interno */
+    $$('.work__media img').forEach(img => gsap.fromTo(img, { yPercent: -6, scale: 1.12 }, { yPercent: 6, scale: 1.12, ease: 'none', scrollTrigger: { trigger: img.parentNode, start: 'top bottom', end: 'bottom top', scrub: true } }));
+    /* Frase final: las fotos flotan a distinta velocidad */
+    $$('.float').forEach((f, i) => gsap.fromTo(f, { y: 80 + i * 30 }, { y: -80 - i * 30, ease: 'none', scrollTrigger: { trigger: '.feel', start: 'top bottom', end: 'bottom top', scrub: true } }));
+    gsap.from('.foot__name', { yPercent: 30, ease: 'none', scrollTrigger: { trigger: '.foot__name', start: 'top bottom', end: 'bottom bottom', scrub: true } });
+  });
+} else {
+  $$('.rv').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+}
+
+/* Copiar correo */
+$$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+  const label = $('span', btn), txt = label.textContent;
+  try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = '¡Correo copiado! ✓'; }
+  catch { location.href = 'mailto:' + btn.dataset.copy; return; }
+  setTimeout(() => { label.textContent = txt; }, 1800);
+}));
+addEventListener('load', () => ok && ScrollTrigger.refresh());
+</script>
+</body>
+</html>
