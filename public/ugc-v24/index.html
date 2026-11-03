@@ -229,30 +229,39 @@ main{position:relative;z-index:1;background:inherit}
 .foot__bottom{display:flex;justify-content:space-between;gap:20px;padding:22px 3.4vw 30px;font-size:13px;color:rgba(255,240,202,.75)}
 
 
-/* Túnel de fotos (Mi trabajo) */
+/* Mi trabajo: baraja de fotos */
 #trabajo{padding-top:0}
-.tunnel{position:relative;height:520vh;margin-bottom:14vh}
-.tunnel__stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;perspective:1000px}
-.tunnel__world{position:absolute;inset:0;z-index:2;transform-style:preserve-3d;pointer-events:none}
-.tp{position:absolute;left:50%;top:50%;width:17vw;aspect-ratio:4/5;margin:0;opacity:0;will-change:transform,opacity,clip-path;backface-visibility:hidden}
-.tp img{width:100%;height:100%;object-fit:cover}
-.tp.is-last{width:min(30vw,52vh)}
-.tunnel__line{position:absolute;left:0;top:50%;transform:translateY(-50%);white-space:nowrap;font-family:var(--serif);font-size:clamp(40px,7vw,120px);line-height:1;letter-spacing:-.02em;will-change:transform}
-.tunnel__word{position:absolute;z-index:1;left:0;right:0;bottom:2vh;margin:0;padding-bottom:.14em;overflow:hidden;font-family:var(--sans);font-weight:400;font-size:17vw;line-height:.9;letter-spacing:-.05em;text-align:center;white-space:nowrap}
-.tunnel__word span{display:block;transform:translateY(105%)}
-.no-tunnel .tunnel{height:auto}
-.no-tunnel .tunnel__stage{position:relative;height:100svh;min-height:560px}
-.no-tunnel .tp{display:none}
-.no-tunnel .tp.is-last{display:block;opacity:1;transform:translate(-50%,-56%) rotate(-2.5deg)}
-.no-tunnel .tunnel__line{display:none}
-.no-tunnel .tunnel__word span{transform:none}
+.deck{position:relative;height:440vh;margin-bottom:12vh}
+.deck__stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;perspective:1600px;color:#0e1201}
+.deck__kicker{position:absolute;left:3.4vw;top:max(110px,14vh);margin:0;font-family:var(--sans);font-weight:400;font-size:14px;letter-spacing:0}
+.deck__labels{position:absolute;left:3.4vw;top:50%;font-size:13px;line-height:1.3}
+.deck__label{position:absolute;left:0;top:0;white-space:nowrap}
+.deck__label.is-2{opacity:0}
+.deck__card{position:absolute;left:50%;top:10vh;width:min(36vw,56vh);aspect-ratio:3/4;transform:translateX(-50%);transform-style:preserve-3d}
+.deck__page{position:absolute;inset:0;overflow:visible;transform-origin:0% 50%;backface-visibility:hidden}
+.deck__page>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.deck__page.is-2{transform:translate3d(5%,0,-60px);filter:brightness(.55)}
+.deck__fb{will-change:transform}
+.deck__page.is-1>img:first-child{z-index:2}
+.deck__go{position:absolute;right:16%;top:52%;z-index:3;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#fff;color:#0e1201;transform:translateZ(1px);transition:transform .3s}
+.deck__go .arr{width:16px;height:16px}
+.deck__go:hover{transform:translateZ(1px) scale(1.08)}
+.deck__names{position:absolute;left:0;right:0;bottom:-.06em;height:1em;font-family:var(--sans);font-size:clamp(120px,17vw,280px);line-height:.9;letter-spacing:-.04em;pointer-events:none;z-index:4}
+.deck__name{position:absolute;left:0;bottom:0;margin:0;white-space:nowrap;will-change:transform,opacity}
+.deck__name span{display:inline-block}
+.deck__name.is-2{opacity:0}
+.no-deck .deck{height:auto}
+.no-deck .deck__stage{position:relative}
+.no-deck .deck__fb,.no-deck .deck__page.is-1,.no-deck .deck__label.is-1,.no-deck .deck__name.is-1{display:none}
+.no-deck .deck__page.is-2{transform:none;filter:none}
+.no-deck .deck__label.is-2,.no-deck .deck__name.is-2{opacity:1}
 @media (max-width:767px){
-  .tunnel{height:400vh;margin-bottom:8vh}
-  .tp{width:40vw}
-  .tp.is-xtra{display:none}
-  .tp.is-last{width:66vw}
-  .tunnel__line{font-size:15vw}
-  .tunnel__word{font-size:21vw;bottom:14vh}
+  .deck{height:360vh;margin-bottom:6vh}
+  .deck__kicker{top:78px}
+  .deck__card{top:max(110px,16vh);width:min(74vw,50vh)}
+  .deck__labels{top:auto;bottom:calc(16vh + 22vw + 14px)}
+  .deck__names{font-size:22vw;bottom:16vh}
+  .deck__go{width:44px;height:44px}
 }
 .rv{opacity:0;transform:translateY(30px)}
 .no-js .rv{opacity:1;transform:none}
@@ -365,28 +374,33 @@ main{position:relative;z-index:1;background:inherit}
 
   <!-- MI TRABAJO -->
   <section class="section" id="trabajo" data-theme="light">
-    <!-- Túnel de fotos: las fotos llegan desde el fondo, se forman, pasan y se deshacen mientras corre la frase; termina con la última foto sobre "Mi trabajo" -->
-    <div class="tunnel">
-      <div class="tunnel__stage">
-        <p class="tunnel__line" aria-hidden="true">Belleza, moda y bienestar contados desde mi día a día, con la luz de mi casa y la voz de alguien de confianza</p>
-        <h2 class="tunnel__word"><span>Mi trabajo</span></h2>
-        <div class="tunnel__world" aria-hidden="true">
-        <figure class="tp" data-x="-24" data-y="-14" data-r="-6"><img src="media/intro-1.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp" data-x="22" data-y="10" data-r="4"><img src="media/foto-1.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp is-xtra" data-x="-8" data-y="22" data-r="-3"><img src="media/poster-2.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp" data-x="28" data-y="-20" data-r="5"><img src="media/intro-3.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp is-xtra" data-x="-30" data-y="12" data-r="-4"><img src="media/foto-3.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp" data-x="12" data-y="-6" data-r="3"><img src="media/poster-1.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp is-xtra" data-x="-16" data-y="-22" data-r="-5"><img src="media/intro-2.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp" data-x="26" data-y="18" data-r="4"><img src="media/foto-2.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp is-xtra" data-x="-26" data-y="4" data-r="-2"><img src="media/poster-3.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp" data-x="6" data-y="-18" data-r="3"><img src="media/foto-5.jpg" alt="" loading="lazy"></figure>
-        <figure class="tp is-last" data-x="0" data-y="0" data-r="-2.5"><img src="media/foto-4.jpg" alt="" loading="lazy"></figure>
+    <!-- Mi trabajo (inspirado en perappelgren.de): las fotos suben una sobre otra hasta formar la tarjeta, el nombre gigante
+         corre de lado y con el scroll la tarjeta se voltea como página y deja ver la siguiente -->
+    <div class="deck" aria-label="Mi trabajo">
+      <div class="deck__stage">
+        <h2 class="deck__kicker">Mi trabajo</h2>
+        <div class="deck__labels" aria-hidden="true"><span class="deck__label is-1">Campaña La Roche-Posay · 2026</span><span class="deck__label is-2">Try-on Zara · 2026</span></div>
+        <div class="deck__card">
+          <div class="deck__page is-2"><img src="media/sobre-mi.jpg" alt="Laura caminando con su perro" loading="lazy"></div>
+          <div class="deck__page is-1"><img src="media/foto-4.jpg" alt="Laura con un producto de skincare" loading="lazy">
+            <img class="deck__fb" src="media/intro-1.jpg" alt="" loading="lazy">
+            <img class="deck__fb" src="media/foto-1.jpg" alt="" loading="lazy">
+            <img class="deck__fb" src="media/intro-3.jpg" alt="" loading="lazy">
+            <img class="deck__fb" src="media/foto-3.jpg" alt="" loading="lazy">
+            <img class="deck__fb" src="media/intro-2.jpg" alt="" loading="lazy">
+            <img class="deck__fb" src="media/foto-2.jpg" alt="" loading="lazy">
+            <img class="deck__fb" src="media/foto-5.jpg" alt="" loading="lazy">
+          </div>
+          <a class="deck__go go" href="#obras" aria-label="Ver mis videos y fotos"><svg class="arr"><use href="#arr"/></svg></a>
+        </div>
+        <div class="deck__names" aria-hidden="true">
+          <p class="deck__name is-1"><span>La Roche-Posay&nbsp; La Roche-Posay&nbsp; La Roche-Posay&nbsp;</span></p>
+          <p class="deck__name is-2"><span>Zara&nbsp; Zara&nbsp; Zara&nbsp; Zara&nbsp; Zara&nbsp; Zara&nbsp;</span></p>
         </div>
       </div>
     </div>
     <div class="wrap">
-      <div class="works">
+      <div class="works" id="obras">
         <figure class="work rv"><div class="work__media"><video src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing"></video></div><figcaption><span>Unboxing N°1</span><span class="work__meta"><span>0:32</span><span>9:16</span></span></figcaption></figure>
         <figure class="work rv"><div class="work__media"><img src="media/intro-3.jpg" alt="Laura en el puerto con lentes de sol" loading="lazy" style="object-position:50% 35%"></div><figcaption><span>Lifestyle N°1</span><span class="work__meta"><span>Foto</span><span>4:5</span></span></figcaption></figure>
         <figure class="work rv"><div class="work__media"><img src="media/foto-1.jpg" alt="Laura trabajando en su laptop" loading="lazy" style="object-position:50% 40%"></div><figcaption><span>Tech N°1</span><span class="work__meta"><span>Foto</span><span>5:4</span></span></figcaption></figure>
@@ -571,38 +585,39 @@ if (ok && !reduce) {
   $$('.rv').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
 }
 
-/* Túnel de fotos: cada foto avanza en Z con el scroll; se forma (recorte que se abre) al acercarse y se deshace al pasar */
-const tunnel = $('.tunnel');
-if (tunnel) {
-  if (!ok || reduce) document.documentElement.classList.add('no-tunnel');
+/* Mi trabajo (baraja): las fotos suben una sobre otra, el nombre corre y la tarjeta se voltea hacia la izquierda */
+const deck = $('.deck');
+if (deck) {
+  if (!ok || reduce) document.documentElement.classList.add('no-deck');
   else {
-    const figs = $$('.tp', tunnel).filter(f => getComputedStyle(f).display !== 'none');
-    const n = figs.length, gap = isMobile ? 1100 : 1300, D = gap * (n - 1);
-    const items = figs.map((f, i) => ({ f, last: i === n - 1, z0: -gap * i, x: +f.dataset.x, y: +f.dataset.y, r: +f.dataset.r }));
-    const line = $('.tunnel__line', tunnel), word = $('.tunnel__word span', tunnel);
-    const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-    const render = p => {
-      const travel = clamp(p / .86) * D;
-      items.forEach(it => {
-        const z = it.z0 + travel;
-        const form = clamp((z + 2600) / 1300);              // 0 lejos → 1 formada
-        const gone = it.last ? 0 : clamp((z - 250) / 450);  // se deshace al pasar la cámara
-        const o = form * (1 - gone);
-        if (o <= 0.001 || z > 900) { it.f.style.opacity = 0; it.f.style.visibility = 'hidden'; return; }
-        const k = it.last ? clamp((p - .7) / .3) : 0;        // la última se centra
-        const x = it.x * (1 - k), y = it.y * (1 - k) + (isMobile ? 8 : 5) * k;
-        const ins = (1 - form) * 50;
-        it.f.style.visibility = 'visible';
-        it.f.style.opacity = o;
-        it.f.style.clipPath = `inset(${ins}% ${ins * .6}% ${ins}% ${ins * .6}% )`;
-        it.f.style.transform = `translate(-50%,-50%) translate3d(${x}vw,${y}vh,${Math.min(z, 0)}px) rotate(${it.r * (1 - k) + -2.5 * k}deg)`;
-      });
-      const lw = line.scrollWidth;
-      line.style.transform = `translate3d(${innerWidth - clamp(p / .8) * (lw + innerWidth)}px,-50%,0)`;
-      word.style.transform = `translateY(${105 - clamp((p - .8) / .17) * 105}%)`;
-    };
-    ScrollTrigger.create({ trigger: tunnel, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: st => render(st.progress), onRefresh: st => render(st.progress) });
-    render(0);
+    const fb = $$('.deck__fb', deck), n1 = $('.deck__name.is-1', deck), n2 = $('.deck__name.is-2', deck);
+    gsap.set(fb, { yPercent: 140 });
+    gsap.set($('.deck__page.is-1 > img', deck), { yPercent: 140 });
+    const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: deck, start: 'top top', end: 'bottom bottom', scrub: .6 } });
+    // 1. Las fotos suben en franjas, cada una un poco más abajo, hasta formar la tarjeta
+    fb.forEach((img, i) => tl.to(img, { yPercent: -(fb.length - i) * 2.5, duration: .5, ease: 'power2.out' }, i * .16));
+    tl.to(fb, { yPercent: 0, duration: .3 }, fb.length * .16);
+    tl.to($('.deck__page.is-1 > img', deck), { yPercent: 0, duration: .45, ease: 'power2.out' }, fb.length * .16 + .1);
+    tl.set(fb, { autoAlpha: 0 });
+    // 2. Nombre gigante entra y corre de lado
+    const t0 = fb.length * .16 + .45;
+    tl.fromTo(n1, { xPercent: 12, opacity: 0 }, { opacity: 1, duration: .25 }, t0 - .2);
+    tl.to(n1, { xPercent: -30, duration: 1.6 }, t0 - .2);
+    tl.fromTo('.deck__page.is-2', { autoAlpha: 0 }, { autoAlpha: 1, duration: .2 }, t0);
+    tl.fromTo('.deck__go', { autoAlpha: 0 }, { autoAlpha: 1, duration: .2 }, t0);
+    tl.fromTo('.deck__label.is-1', { opacity: 0 }, { opacity: 1, duration: .2 }, t0);
+    // 3. La tarjeta se voltea hacia la izquierda como página y deja ver la siguiente
+    const t1 = t0 + .9;
+    tl.to('.deck__page.is-1', { rotationY: -100, rotationZ: -6, xPercent: -70, duration: .8, ease: 'power2.in' }, t1);
+    tl.to('.deck__go', { opacity: 0, duration: .2 }, t1);
+    tl.to('.deck__page.is-2', { x: 0, z: 0, xPercent: 0, filter: 'brightness(1)', duration: .7, ease: 'power2.out' }, t1 + .25);
+    tl.set('.deck__go', { opacity: 1 }, t1 + .95);
+    tl.to(n1, { opacity: .25, duration: .3 }, t1);
+    tl.to(n1, { opacity: 0, duration: .25 }, t1 + .35);
+    tl.fromTo(n2, { xPercent: 20, opacity: 0 }, { xPercent: -6, opacity: 1, duration: .9, ease: 'power2.out' }, t1 + .2);
+    tl.to('.deck__label.is-1', { opacity: 0, duration: .15 }, t1);
+    tl.to('.deck__label.is-2', { opacity: 1, duration: .2 }, t1 + .5);
+    tl.to(n2, { xPercent: -14, duration: .6 }, t1 + 1.1);
   }
 }
 
@@ -624,5 +639,6 @@ $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
 }));
 addEventListener('load', () => ok && ScrollTrigger.refresh());
 </script>
+
 </body>
 </html>
