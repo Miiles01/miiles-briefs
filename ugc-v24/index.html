@@ -630,7 +630,9 @@ if (deck) {
     const setFront = i => {
       if (i === front) return;
       cards.forEach((c, k) => { if (c.tagName === 'VIDEO' && k !== i) { c.pause(); c.muted = true; } });
-      front = i; const c = cards[i];
+      front = i;
+      if (i < 0) { gsap.to(go, { autoAlpha: 0, duration: .2 }); return; }
+      const c = cards[i];
       const isVid = c.tagName === 'VIDEO';
       gsap.to(go, { autoAlpha: isVid ? 1 : 0, duration: .2 });
       if (isVid) { c.preload = 'auto'; c.muted = !sound; c.play().catch(() => {}); if (cards[i + 1]?.tagName === 'VIDEO') cards[i + 1].preload = 'auto'; }
@@ -648,9 +650,9 @@ if (deck) {
     const tl = gsap.timeline({ defaults: { ease: 'none' } });
     // 1. Las tarjetas suben una sobre otra en franjas (la primera llega al final, arriba)
     const rise = [...cards].reverse();
-    rise.forEach((c, k) => tl.to(c, { yPercent: -(N - k) * 2.5, duration: .6, ease: 'power1.out' }, k * .18));
-    let t = N * .18 + .45;
-    tl.to(cards, { yPercent: 0, duration: .35, ease: 'power1.inOut' }, t - .3);
+    // cada una sube completa y cae en el mismo lugar, encima de la anterior (como baraja)
+    rise.forEach((c, k) => tl.to(c, { yPercent: 0, duration: .55, ease: 'power2.out' }, k * .4));
+    let t = (N - 1) * .4 + .7;
     // la siguiente asoma detrás: un poco más chica y corrida
     tl.to(cards.slice(1), { xPercent: 7, scale: .95, duration: .4, ease: 'power1.inOut' }, t - .1);
     const starts = [];
@@ -673,7 +675,7 @@ if (deck) {
     }
     const total = tl.duration();
     ScrollTrigger.create({ trigger: deck, start: 'top top', end: 'bottom bottom', animation: tl, scrub: 1.4,
-      onUpdate: st => { const tm = st.progress * total; let f = 0; starts.forEach((s0, k) => { if (tm >= s0 - .2) f = k; }); setFront(f); },
+      onUpdate: st => { const tm = st.progress * total; let f = -1; starts.forEach((s0, k) => { if (tm >= s0 - .2) f = k; }); setFront(f); },
       onLeave: () => cards[front]?.pause?.(), onLeaveBack: () => cards[front]?.pause?.(),
       onEnter: () => { const c = cards[front]; if (c?.tagName === 'VIDEO') c.play().catch(() => {}); }, onEnterBack: () => { const c = cards[front]; if (c?.tagName === 'VIDEO') c.play().catch(() => {}); } });
   }
