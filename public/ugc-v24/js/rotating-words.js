@@ -1,3 +1,4 @@
+// Copia de Annnimate "Rotating words" con peso fijo en bold (700) y espaciado fijo: las palabras no cambian de peso al girar.
 (function () {
   'use strict';
 
@@ -38,10 +39,10 @@
     const DIM             = 0.14;
     // The landing word steps up in weight and tightens its tracking, so it
     // clicks in like a dial instead of just getting darker.
-    const WEIGHT_REST     = 300;
-    const WEIGHT_ACTIVE   = 500;
-    const TRACK_REST      = -0.02;
-    const TRACK_ACTIVE    = -0.045;
+    const WEIGHT_REST     = 700;
+    const WEIGHT_ACTIVE   = 700;
+    const TRACK_REST      = -0.035;
+    const TRACK_ACTIVE    = -0.035;
     // Distance between two neighbour words on the drum, in item heights.
     const ITEM_GAP        = 1.5;
     const PERSPECTIVE     = 4;
