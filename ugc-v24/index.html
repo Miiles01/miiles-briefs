@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="is-light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -87,27 +87,26 @@ main{position:relative;z-index:1;background:inherit}
 .panel__social a{display:inline-flex;align-items:center;gap:6px}
 
 /* ===== Hero ===== */
-/* Inicio: hojas encimadas */
-.hero{position:relative;height:240vh;background:#2f3b17;color:#fff0ca}
-.hero__stage{position:sticky;top:0;height:100vh;height:100svh;min-height:560px;overflow:hidden}
-.hero__word{position:absolute;left:0;right:0;top:7vh;text-align:center;margin:0;font-family:var(--serif);font-weight:300;font-size:31vw;line-height:.8;letter-spacing:-.03em;white-space:nowrap;will-change:transform}
-.hero__word span{display:inline-block}
-.hero__side{position:absolute;right:3.4vw;top:31vh;margin:0;font-size:15px;line-height:1.25;text-align:right}
-.sheet{position:absolute;will-change:transform;box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}
-.sheet--cream{left:1vw;top:42vh;width:110vw;height:140vh;transform:rotate(17deg);transform-origin:0 0;background:#fff0ca;color:#0e1201}
-.sheet__txt{margin:0;padding:2.6vw 4vw 0 9vw;max-width:62vw;font-family:var(--sans);font-size:clamp(26px,2.9vw,48px);line-height:1.04;letter-spacing:-.035em}
-.sheet__txt em{font-style:normal;color:#964317}
-.sheet--brown{left:-10vw;top:62vh;width:130vw;height:170vh;transform:rotate(6deg);transform-origin:0 0;background:#964317}
-.hero__meta{position:absolute;left:3.4vw;bottom:2.6vw;max-width:360px;will-change:transform}
-.hero__meta p{margin:0;font-size:clamp(18px,1.5vw,22px);line-height:1.2}
 @media (max-width:767px){
-  .hero{height:200vh}
-  .hero__word{top:16vh;font-size:37vw}
-  .hero__side{top:9vh;right:5vw;font-size:13px}
-  .sheet--cream{left:-6vw;top:44vh;width:140vw;transform:rotate(15deg)}
-  .sheet__txt{padding:5vw 7vw 0 16vw;max-width:96vw;font-size:6.4vw}
-  .sheet--brown{top:66vh;width:170vw;height:170vh;transform:rotate(5deg)}
-  .hero__meta{left:5vw;right:5vw;bottom:5vw}
+}
+/* Inicio: título gigante y foto que crece */
+.hero{position:relative;height:260vh;color:#bc6f45}
+.hero__stage{position:sticky;top:0;height:100vh;height:100svh;min-height:560px;overflow:hidden;display:flex;flex-direction:column;align-items:center}
+.hero__kicker{margin:max(96px,12vh) 0 0;font-size:14px;letter-spacing:.02em}
+.hero__word{margin:1.5vh 0 0;font-family:var(--serif);font-weight:400;font-size:26vw;line-height:.78;letter-spacing:-.02em;white-space:nowrap;will-change:transform}
+.hero__word span{display:inline-block}
+.hero__sub{margin:3.4vh 0 0;font-size:14px;letter-spacing:.02em}
+.hero__media{position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;overflow:hidden}
+.hero__media img{width:100%;height:100%;object-fit:cover;object-position:60% 22%}
+.hero__info{position:absolute;left:3.4vw;bottom:3.4vw;color:#fff0ca;opacity:0}
+.hero__info .stats span{color:rgba(255,240,202,.8)}
+.hero__foot{position:absolute;left:50%;z-index:1;display:flex;justify-content:space-between;gap:20px;font-size:13px;line-height:1.2;transform:translateX(-50%)}
+@media (max-width:767px){
+  .hero{height:220vh}
+  .hero__kicker{margin-top:max(110px,16vh)}
+  .hero__word{font-size:36vw;margin-top:2vh}
+  .hero__media img{object-position:50% 18%}
+  .hero__info{left:5vw;right:5vw;bottom:5vw}
 }
 .stats{display:flex;gap:26px;margin-top:22px}
 .stats b{display:block;font-family:var(--serif);font-size:34px;font-weight:400;line-height:1}
@@ -122,12 +121,6 @@ main{position:relative;z-index:1;background:inherit}
 .statement .w{display:inline-block}
 
 /* ===== Foto que se abre ===== */
-.opener{position:relative;height:180vh}
-.opener__sticky{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
-.opener__img{position:relative;width:100%;height:100%;will-change:clip-path}
-.opener__img img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
-.opener__tag{position:absolute;left:50%;bottom:26vh;z-index:2;display:flex;gap:6px;transform:translateX(-50%)}
-.opener__tag span{padding:7px 14px;border-radius:999px;background:rgba(14,18,1,.55);font-size:13px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 
 /* ===== Secciones ===== */
 .section{padding:18vh 0}
@@ -322,9 +315,6 @@ main{position:relative;z-index:1;background:inherit}
   .wrap{padding:0 5vw}
   .stats{gap:20px}.stats b{font-size:28px}
   .statement{padding:14vh 0 12vh}
-  .opener{height:auto}
-  .opener__sticky{position:relative;height:auto;padding:0 5vw}
-  .opener__img{aspect-ratio:4/5;height:auto}
   .section{padding:12vh 0}
   .s-head{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:5vh}
   .title{font-size:12vw}
@@ -370,18 +360,20 @@ main{position:relative;z-index:1;background:inherit}
 
 <main>
   <!-- HERO -->
-  <!-- INICIO: hojas encimadas sobre verde; al bajar suben y giran a distinta velocidad y tapan el nombre -->
-  <header class="hero" id="inicio">
+  <!-- INICIO (referencia "Corcela"): título gigante en crema y una foto chica al centro que con el scroll crece hasta cubrir la pantalla -->
+  <header class="hero" id="inicio" data-theme="light">
     <div class="hero__stage">
+      <p class="hero__kicker">Portafolio UGC</p>
       <h1 class="hero__word" aria-label="Laura, creadora de contenido UGC"><span>Laura</span></h1>
-      <p class="hero__side" aria-hidden="true">Creadora<br>de contenido UGC</p>
-      <div class="sheet sheet--cream"><p class="sheet__txt">Videos que se sienten como la recomendación de una <em>amiga</em></p></div>
-      <div class="sheet sheet--brown"></div>
-      <div class="hero__meta">
-        <p>Belleza, moda y bienestar</p>
-        <div class="stats"><div><b>+18K</b><span>seguidores</span></div><div><b>+40</b><span>marcas</span></div><div><b>+300</b><span>videos</span></div></div>
-        <div class="socials"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram <svg class="arr"><use href="#arr"/></svg></a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok <svg class="arr"><use href="#arr"/></svg></a></div>
+      <p class="hero__sub">Contenido para belleza, moda y bienestar</p>
+      <div class="hero__media">
+        <picture><source media="(max-width: 767px)" srcset="media/sentada-m.jpg"><img src="media/sentada.jpg" alt="Laura sentada, sonriendo" fetchpriority="high"></picture>
+        <div class="hero__info">
+          <div class="stats"><div><b>+18K</b><span>seguidores</span></div><div><b>+40</b><span>marcas</span></div><div><b>+300</b><span>videos</span></div></div>
+          <div class="socials"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram <svg class="arr"><use href="#arr"/></svg></a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok <svg class="arr"><use href="#arr"/></svg></a></div>
+        </div>
       </div>
+      <div class="hero__foot"><span>Creadora de contenido</span><span>©2026</span></div>
     </div>
   </header>
 
@@ -392,12 +384,7 @@ main{position:relative;z-index:1;background:inherit}
     </div>
   </section>
 
-  <!-- FOTO QUE SE ABRE -->
-  <section class="opener" aria-label="Laura" data-theme="dark">
-    <div class="opener__sticky">
-      <div class="opener__img"><img src="media/hero.jpg" alt="Laura sonriendo con las manos en la cara" loading="lazy"><div class="opener__tag"><span>Belleza</span><span>Skincare</span></div></div>
-    </div>
-  </section>
+
 
   <!-- MI TRABAJO -->
   <section class="section" id="trabajo" data-theme="light">
@@ -601,18 +588,29 @@ $$('video').forEach(v => { v.muted = true; if (!v.classList.contains('deck__img'
 
 if (ok && !reduce) {
   /* Hero: el nombre entra desde abajo y la foto se aleja al bajar */
-  // Entrada: el nombre sube desde su máscara y las hojas entran desde abajo, una tras otra
+  // Portada: el cuadro de la foto se calcula debajo del subtítulo; con el scroll el recorte se abre hasta la pantalla completa
+  const media = $('.hero__media'), stage = $('.hero__stage');
+  const box = () => {
+    const W = stage.clientWidth, H = stage.clientHeight;
+    const size = Math.min(W * (isMobile ? .5 : .2), H * .3);
+    const top = Math.min($('.hero__sub').getBoundingClientRect().bottom - stage.getBoundingClientRect().top + H * .04, H - size - H * .1);
+    return { W, H, size, top };
+  };
+  // El marco de la foto crece de cuadro chico a pantalla completa (la foto se recorta con cover, así la cara siempre queda a la vista)
+  const fromBox = () => { const b = box(); return { left: (b.W - b.size) / 2, top: b.top, width: b.size, height: b.size }; };
+  const placeFoot = () => { const b = box(); const f = $('.hero__foot'); f.style.top = (b.top + b.size + 12) + 'px'; f.style.width = b.size + 'px'; };
+  gsap.set(media, fromBox()); placeFoot();
+  addEventListener('resize', placeFoot);
   gsap.from('.hero__word span', { yPercent: 100, duration: 1.4, ease: 'expo.out', delay: .1 });
-  gsap.from(['.sheet--cream', '.sheet--brown', '.hero__meta'], { y: '60vh', duration: 1.4, ease: 'expo.out', stagger: .12, delay: .35 });
-  gsap.from('.hero__side', { opacity: 0, duration: 1, delay: .9 });
-  // Scroll: cada hoja sube y se endereza a su propia velocidad (parallax) hasta tapar el nombre
-  const hs = { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: 1 };
-  gsap.timeline({ scrollTrigger: hs, defaults: { ease: 'none' } })
-    .to('.hero__word', { yPercent: -12, scale: .94, transformOrigin: '50% 0' }, 0)
-    .to('.hero__side', { y: '-30vh', opacity: 0 }, 0)
-    .to('.sheet--cream', { y: '-58vh', rotation: isMobile ? 4 : 5 }, 0)
-    .to('.sheet--brown', { y: '-74vh', rotation: 1 }, 0)
-    .to('.hero__meta', { y: '-74vh' }, 0);
+  gsap.from(['.hero__kicker', '.hero__sub', '.hero__foot'], { opacity: 0, y: 10, duration: 1, ease: 'power3.out', stagger: .08, delay: .4 });
+  gsap.from(media, { opacity: 0, duration: 1, delay: .5 });
+  gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: 1, invalidateOnRefresh: true }, defaults: { ease: 'none' } })
+    .fromTo(media, { left: () => fromBox().left, top: () => fromBox().top, width: () => fromBox().width, height: () => fromBox().height },
+      { left: 0, top: 0, width: () => stage.clientWidth, height: () => stage.clientHeight, duration: 1, ease: 'power2.inOut' }, 0)
+    .fromTo('.hero__media img', { scale: 1.15 }, { scale: 1, duration: 1 }, 0)
+    .to(['.hero__kicker', '.hero__sub', '.hero__foot'], { opacity: 0, duration: .3 }, 0)
+    .to('.hero__word', { yPercent: -10, duration: 1 }, 0)
+    .to('.hero__info', { opacity: 1, duration: .25 }, .85);
 
   /* Frase: cada palabra pasa de tenue a crema con el scroll */
   $$('.reveal').forEach(st => {
@@ -630,9 +628,6 @@ if (ok && !reduce) {
 
   const mm = gsap.matchMedia();
   mm.add('(min-width: 768px)', () => {
-    /* Foto que se abre: de recuadro chico a pantalla completa */
-    gsap.fromTo('.opener__img', { clipPath: 'inset(22% 30% 22% 30%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: '55% bottom', scrub: true } });
-    gsap.fromTo('.opener__img img', { scale: 1.25 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: '55% bottom', scrub: true } });
     // Footer revelado: el nombre sube un poco mientras se descubre
     gsap.fromTo('.foot__name', { yPercent: 35 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'bottom bottom', end: () => '+=' + $('.foot').offsetHeight, scrub: true } });
   });
@@ -709,7 +704,7 @@ fitFoot(); addEventListener('resize', fitFoot); addEventListener('load', fitFoot
 /* Cambio de fondo verde ↔ crema según la sección */
 if (ok) $$('[data-theme]').forEach(sec => ScrollTrigger.create({ trigger: sec, start: 'top 55%', end: 'bottom 55%',
   onToggle: st => { if (st.isActive) document.documentElement.classList.toggle('is-light', sec.dataset.theme === 'light'); } }));
-addEventListener('scroll', () => { if (scrollY < innerHeight * .5) document.documentElement.classList.remove('is-light'); }, { passive: true });
+addEventListener('scroll', () => { if (scrollY < innerHeight * .5) document.documentElement.classList.add('is-light'); }, { passive: true });
 
 /* Copiar correo */
 $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
