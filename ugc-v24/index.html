@@ -108,7 +108,7 @@ main{position:relative;z-index:1;background:inherit}
 .statement{padding:22vh 0 18vh}
 .statement p{font-family:var(--sans);font-size:clamp(40px,6.4vw,104px);font-weight:400;line-height:1.02;letter-spacing:-.04em}
 .statement .l{display:block}
-.statement .l2{padding-left:6%}.statement .l3{padding-left:8%}.statement .l4{padding-left:22%}.statement .l5{padding-left:30%}
+.statement .l{padding-left:0}
 .statement .w{display:inline-block}
 
 /* ===== Foto que se abre ===== */
@@ -218,29 +218,27 @@ main{position:relative;z-index:1;background:inherit}
 
 /* Mi trabajo: baraja de fotos */
 #trabajo{padding-top:0}
-.deck{position:relative;height:440vh;margin-bottom:12vh}
+.deck{position:relative;height:1050vh;margin-bottom:12vh}
 .deck__stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;perspective:1600px;color:#0e1201}
 .deck__kicker{position:absolute;left:3.4vw;top:max(110px,14vh);margin:0;font-family:var(--sans);font-weight:400;font-size:14px;letter-spacing:0}
 .deck__labels{position:absolute;left:3.4vw;top:50%;font-size:13px;line-height:1.3}
 .deck__label{position:absolute;left:0;top:0;white-space:nowrap}
-.deck__label.is-2{opacity:0}
+.deck__label{opacity:0}
+.deck__label:first-child{opacity:1}
 .deck__card{position:absolute;left:50%;top:9vh;z-index:2;width:44vh;max-width:40vw;aspect-ratio:9/16;transform:translateX(-50%)}
 .deck__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform;backface-visibility:hidden}
-.deck__img.is-next{transform:translate3d(5%,2%,0) scale(.97)}
 .deck__go{position:absolute;right:14px;bottom:14px;z-index:9;border:0;cursor:pointer;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#fff;color:#0e1201;transform:translateZ(1px);transition:transform .3s}
 .deck__go .arr{width:16px;height:16px}
 .deck__go:hover{transform:translateZ(1px) scale(1.08)}
 .deck__names{position:absolute;left:0;right:0;bottom:-.06em;height:1em;font-family:var(--sans);font-size:clamp(120px,17vw,280px);line-height:.9;letter-spacing:-.04em;pointer-events:none;z-index:1}
 .deck__name{position:absolute;left:0;bottom:0;margin:0;white-space:nowrap;will-change:transform,opacity}
 .deck__name span{display:inline-block}
-.deck__name.is-2{opacity:0}
+.deck__name{opacity:0}
+.deck__name:first-child{opacity:1}
 .no-deck .deck{height:auto}
 .no-deck .deck__stage{position:relative}
-.no-deck .deck__fb,.no-deck .deck__img.is-main,.no-deck .deck__label.is-1,.no-deck .deck__name.is-1{display:none}
-.no-deck .deck__img.is-next{transform:none}
-.no-deck .deck__label.is-2,.no-deck .deck__name.is-2{opacity:1}
 @media (max-width:767px){
-  .deck{height:360vh;margin-bottom:6vh}
+  .deck{height:900vh;margin-bottom:6vh}
   .deck__kicker{top:78px}
   .deck__card{top:max(104px,14vh);width:min(58vw,33vh);max-width:none}
   .deck__labels{top:auto;bottom:calc(16vh + 22vw + 14px)}
@@ -360,22 +358,27 @@ main{position:relative;z-index:1;background:inherit}
     <div class="deck" aria-label="Mi trabajo">
       <div class="deck__stage">
         <h2 class="deck__kicker">Mi trabajo</h2>
-        <div class="deck__labels" aria-hidden="true"><span class="deck__label is-1">Campaña La Roche-Posay · 2026</span><span class="deck__label is-2">Try-on Zara · 2026</span></div>
+        <div class="deck__labels" aria-hidden="true"><span class="deck__label">Unboxing · La Roche-Posay · 2026</span><span class="deck__label">Try-on · Zara · 2026</span><span class="deck__label">Reseña · Vichy · 2026</span><span class="deck__label">Tech · Samsung · 2026</span><span class="deck__label">Anuncio · L'Oréal · 2026</span><span class="deck__label">Fitness · Adidas · 2026</span><span class="deck__label">Rutina · Chanel · 2026</span><span class="deck__label">Lifestyle · Pull&amp;Bear · 2026</span></div>
         <div class="deck__card">
-          <video class="deck__img is-next" src="media/video-2.mp4" poster="media/poster-2.jpg" muted loop playsinline preload="none" aria-label="Video de reseña para Zara"></video>
-          <video class="deck__img is-main" src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing para La Roche-Posay"></video>
-          <img class="deck__img deck__fb" src="media/intro-1.jpg" alt="" loading="lazy" decoding="async">
-          <img class="deck__img deck__fb" src="media/poster-3.jpg" alt="" loading="lazy" decoding="async">
-          <img class="deck__img deck__fb" src="media/foto-1.jpg" alt="" loading="lazy" decoding="async">
-          <img class="deck__img deck__fb" src="media/intro-3.jpg" alt="" loading="lazy" decoding="async">
-          <img class="deck__img deck__fb" src="media/poster-4.jpg" alt="" loading="lazy" decoding="async">
-          <img class="deck__img deck__fb" src="media/foto-3.jpg" alt="" loading="lazy" decoding="async">
-          <img class="deck__img deck__fb" src="media/intro-2.jpg" alt="" loading="lazy" decoding="async">
+          <img class="deck__img" data-i="7" src="media/sobre-mi.jpg" alt="Laura caminando con su perro" loading="lazy" decoding="async">
+          <video class="deck__img" data-i="6" src="media/video-4.mp4" poster="media/poster-4.jpg" muted loop playsinline preload="none" aria-label="Video de rutina para Chanel"></video>
+          <img class="deck__img" data-i="5" src="media/foto-2.jpg" alt="Laura en el gimnasio" loading="lazy" decoding="async">
+          <video class="deck__img" data-i="4" src="media/video-3.mp4" poster="media/poster-3.jpg" muted loop playsinline preload="none" aria-label="Anuncio para L'Oréal"></video>
+          <img class="deck__img" data-i="3" src="media/foto-1.jpg" alt="Laura trabajando en su laptop" loading="lazy" decoding="async">
+          <video class="deck__img" data-i="2" src="media/video-2.mp4" poster="media/poster-2.jpg" muted loop playsinline preload="none" aria-label="Video de reseña para Vichy"></video>
+          <img class="deck__img" data-i="1" src="media/foto-4.jpg" alt="Laura con vestido negro para Zara" loading="lazy" decoding="async">
+          <video class="deck__img" data-i="0" src="media/video-1.mp4" poster="media/poster-1.jpg" muted loop playsinline preload="none" aria-label="Video de unboxing para La Roche-Posay"></video>
           <button class="deck__go" type="button" aria-label="Activar sonido" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z"/><path class="snd-off" d="M16 9l5 6M21 9l-5 6"/><path class="snd-on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" style="display:none"/></svg></button>
         </div>
         <div class="deck__names" aria-hidden="true">
-          <p class="deck__name is-1"><span>La Roche-Posay&nbsp; La Roche-Posay&nbsp; La Roche-Posay&nbsp;</span></p>
-          <p class="deck__name is-2"><span>Zara&nbsp; Zara&nbsp; Zara&nbsp; Zara&nbsp; Zara&nbsp; Zara&nbsp;</span></p>
+          <p class="deck__name"><span>La Roche-Posay&nbsp; La Roche-Posay&nbsp; La Roche-Posay&nbsp; La Roche-Posay&nbsp;</span></p>
+          <p class="deck__name"><span>Zara&nbsp; Zara&nbsp; Zara&nbsp; Zara&nbsp;</span></p>
+          <p class="deck__name"><span>Vichy&nbsp; Vichy&nbsp; Vichy&nbsp; Vichy&nbsp;</span></p>
+          <p class="deck__name"><span>Samsung&nbsp; Samsung&nbsp; Samsung&nbsp; Samsung&nbsp;</span></p>
+          <p class="deck__name"><span>L'Oréal&nbsp; L'Oréal&nbsp; L'Oréal&nbsp; L'Oréal&nbsp;</span></p>
+          <p class="deck__name"><span>Adidas&nbsp; Adidas&nbsp; Adidas&nbsp; Adidas&nbsp;</span></p>
+          <p class="deck__name"><span>Chanel&nbsp; Chanel&nbsp; Chanel&nbsp; Chanel&nbsp;</span></p>
+          <p class="deck__name"><span>Pull&amp;Bear&nbsp; Pull&amp;Bear&nbsp; Pull&amp;Bear&nbsp; Pull&amp;Bear&nbsp;</span></p>
         </div>
       </div>
     </div>
@@ -515,7 +518,7 @@ addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > i
 
 /* Videos: solo se reproducen cuando se ven */
 const vio = new IntersectionObserver(es => es.forEach(en => { const v = en.target; if (en.isIntersecting && !reduce) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause(); }), { threshold: .3 });
-$$('video').forEach(v => { v.muted = true; vio.observe(v); });
+$$('video').forEach(v => { v.muted = true; if (!v.classList.contains('deck__img')) vio.observe(v); });
 
 if (ok && !reduce) {
   /* Hero: el nombre entra desde abajo y la foto se aleja al bajar */
@@ -556,39 +559,51 @@ const deck = $('.deck');
 if (deck) {
   if (!ok || reduce) document.documentElement.classList.add('no-deck');
   else {
-    const fb = $$('.deck__fb', deck), main = $('.deck__img.is-main', deck), next = $('.deck__img.is-next', deck);
-    const n1 = $('.deck__name.is-1', deck), n2 = $('.deck__name.is-2', deck), go = $('.deck__go', deck);
-    // Sonido: el botón activa o silencia el video que está al frente
-    let sound = false, front = main;
-    const setFront = v => { if (front === v) return; front.muted = true; front = v; front.muted = !sound; };
-    go.addEventListener('click', () => { sound = !sound; front.muted = !sound; if (sound) front.play().catch(() => {}); go.setAttribute('aria-pressed', sound); go.setAttribute('aria-label', sound ? 'Silenciar' : 'Activar sonido'); $('.snd-on', go).style.display = sound ? '' : 'none'; $('.snd-off', go).style.display = sound ? 'none' : ''; });
-    const pile = [main, ...fb];                       // 8 fotos: la principal queda hasta abajo
-    const out = (dir) => ({ xPercent: dir * (isMobile ? 260 : 360), rotation: dir * 9, rotationY: dir * -18, duration: .5, ease: 'power2.in' });
-    gsap.set(pile, { yPercent: 150 });
-    gsap.set([next, go, n1, n2, '.deck__label'], { autoAlpha: 0 });
-    const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: deck, start: 'top top', end: 'bottom bottom', scrub: .6 } });
-    // 1. Las 8 fotos suben una sobre otra en franjas y forman la tarjeta
-    pile.forEach((img, i) => tl.to(img, { yPercent: -(pile.length - i) * 2.5, duration: .45, ease: 'power2.out' }, i * .14));
-    let t = pile.length * .14 + .3;
-    tl.to(pile, { yPercent: 0, duration: .25 }, t - .2);
-    // 2. Se van deslizando una a la derecha, otra a la izquierda (sin desvanecerse) hasta dejar la principal
-    [...fb].reverse().forEach((img, i) => tl.to(img, out(i % 2 ? -1 : 1), t + i * .2));
-    t += fb.length * .2 + .25;
-    // 3. Tarjeta de La Roche-Posay: el nombre gigante entra por detrás y corre de lado
-    tl.set([n1, '.deck__label.is-1', next, go], { autoAlpha: 1 }, t - .3);
-    tl.fromTo(n1, { xPercent: 40 }, { xPercent: -28, duration: 1.4 }, t - .3);
-    // 4. La principal se va a la izquierda y aparece Zara; el nombre se desliza fuera y entra el nuevo
-    const t1 = t + .8;
-    tl.to(main, out(-1), t1);
-    tl.call(() => setFront(tl.scrollTrigger.direction > 0 ? next : main), null, t1 + .2);
-    tl.set(go, { autoAlpha: 0 }, t1);
-    tl.to(next, { xPercent: 0, yPercent: 0, scale: 1, duration: .45, ease: 'power2.out' }, t1 + .2);
-    tl.set(go, { autoAlpha: 1 }, t1 + .65);
-    tl.to(n1, { xPercent: -110, duration: .55, ease: 'power2.in' }, t1);
-    tl.set('.deck__label.is-1', { autoAlpha: 0 }, t1 + .1);
-    tl.set([n2, '.deck__label.is-2'], { autoAlpha: 1 }, t1 + .2);
-    tl.fromTo(n2, { xPercent: 70 }, { xPercent: -6, duration: .7, ease: 'power2.out' }, t1 + .2);
-    tl.to(n2, { xPercent: -16, duration: .6 }, t1 + .9);
+    const cards = $$('.deck__img', deck).sort((x, y) => x.dataset.i - y.dataset.i);   // 0 = la de arriba
+    const names = $$('.deck__name', deck), labels = $$('.deck__label', deck), go = $('.deck__go', deck);
+    const N = cards.length;
+    // Video al frente: solo ese se reproduce; el botón activa o quita el sonido
+    let sound = false, front = -1;
+    const icon = () => { $('.snd-on', go).style.display = sound ? '' : 'none'; $('.snd-off', go).style.display = sound ? 'none' : ''; };
+    const setFront = i => {
+      if (i === front) return;
+      cards.forEach((c, k) => { if (c.tagName === 'VIDEO' && k !== i) { c.pause(); c.muted = true; } });
+      front = i; const c = cards[i];
+      const isVid = c.tagName === 'VIDEO';
+      gsap.to(go, { autoAlpha: isVid ? 1 : 0, duration: .2 });
+      if (isVid) { c.preload = 'auto'; c.muted = !sound; c.play().catch(() => {}); if (cards[i + 1]?.tagName === 'VIDEO') cards[i + 1].preload = 'auto'; }
+    };
+    go.addEventListener('click', () => { sound = !sound; const c = cards[front]; if (c?.tagName === 'VIDEO') { c.muted = !sound; c.play().catch(() => {}); } go.setAttribute('aria-pressed', sound); go.setAttribute('aria-label', sound ? 'Silenciar' : 'Activar sonido'); icon(); });
+    gsap.set(cards, { yPercent: 150 });
+    gsap.set(names, { autoAlpha: 0, xPercent: 50 });
+    gsap.set([go, ...labels], { autoAlpha: 0 });
+    const out = dir => ({ xPercent: dir * (isMobile ? 260 : 360), rotation: dir * 9, rotationY: dir * -18, duration: .6, ease: 'power2.in' });
+    const tl = gsap.timeline({ defaults: { ease: 'none' } });
+    // 1. Las tarjetas suben una sobre otra en franjas (la primera llega al final, arriba)
+    const rise = [...cards].reverse();
+    rise.forEach((c, k) => tl.to(c, { yPercent: -(N - k) * 2.5, duration: .45, ease: 'power2.out' }, k * .12));
+    let t = N * .12 + .3;
+    tl.to(cards, { yPercent: 0, duration: .25 }, t - .2);
+    const starts = [];
+    // 2. Cada tarjeta se queda un buen rato (su nombre corre detrás) y luego sale, una a la izquierda y otra a la derecha
+    for (let i = 0; i < N; i++) {
+      const hold = 1.6;
+      starts.push(t);
+      tl.set(labels[i], { autoAlpha: 1 }, t);
+      tl.fromTo(names[i], { autoAlpha: 1, xPercent: i ? 60 : 30 }, { xPercent: 0, duration: .5, ease: 'power2.out' }, t);
+      tl.to(names[i], { xPercent: -18, duration: hold }, t + .5);
+      if (i === N - 1) { t += hold + .5; break; }
+      const te = t + .5 + hold;
+      tl.to(cards[i], out(i % 2 ? 1 : -1), te);
+      tl.to(names[i], { xPercent: -110, duration: .6, ease: 'power2.in' }, te);
+      tl.set(labels[i], { autoAlpha: 0 }, te + .1);
+      t = te + .45;
+    }
+    const total = tl.duration();
+    ScrollTrigger.create({ trigger: deck, start: 'top top', end: 'bottom bottom', animation: tl, scrub: .6,
+      onUpdate: st => { const tm = st.progress * total; let f = 0; starts.forEach((s0, k) => { if (tm >= s0 - .2) f = k; }); setFront(f); },
+      onLeave: () => cards[front]?.pause?.(), onLeaveBack: () => cards[front]?.pause?.(),
+      onEnter: () => { const c = cards[front]; if (c?.tagName === 'VIDEO') c.play().catch(() => {}); }, onEnterBack: () => { const c = cards[front]; if (c?.tagName === 'VIDEO') c.play().catch(() => {}); } });
   }
 }
 
