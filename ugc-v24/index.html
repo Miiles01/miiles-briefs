@@ -154,7 +154,7 @@ main{position:relative;z-index:1;background:inherit}
 
 /* Sobre mí */
 .about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4vw;align-items:end}
-.about__title{font-family:var(--sans);font-weight:400;font-size:clamp(34px,4vw,64px);line-height:1.04;letter-spacing:-.04em;max-width:13em;text-align:left}
+.about__title{max-width:15em;font-family:var(--sans);font-weight:400;font-size:clamp(36px,5.6vw,92px);line-height:1.04;letter-spacing:-.04em;text-align:left}
 .about__img{aspect-ratio:4/5;overflow:hidden}
 .about__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
 .about__text{display:flex;flex-direction:column;gap:18px;max-width:520px;margin-top:6vh}
@@ -456,14 +456,8 @@ main{position:relative;z-index:1;background:inherit}
 
   <!-- SOBRE MÍ -->
   <section class="section" id="sobre-mi" data-theme="light">
-    <div class="wrap about">
-      <div>
-        <h2 class="about__title reveal">Soy Laura y convierto productos en videos que se sienten como la recomendación de una amiga</h2>
-        <div class="about__text">
-          <a class="btn rv" href="#contacto">Trabajemos juntas <svg class="arr"><use href="#arr"/></svg></a>
-        </div>
-      </div>
-      <div class="about__img rv"><img src="media/sobre-mi-laura.jpg" alt="Laura con vestido negro" loading="lazy"></div>
+    <div class="wrap">
+      <h2 class="about__title reveal">Soy Laura y convierto productos en videos que se sienten como la recomendación de una amiga</h2>
     </div>
   </section>
 
