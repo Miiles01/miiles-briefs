@@ -149,16 +149,6 @@ main{position:relative;z-index:1;background:inherit}
 .brand__logo{display:block;height:28px;width:calc(28px * var(--r));max-width:70%;background:var(--cream);-webkit-mask:var(--src) center/contain no-repeat;mask:var(--src) center/contain no-repeat}
 
 /* Nichos */
-.niches{display:flex;flex-direction:column}
-.niche{display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,360px) 120px;align-items:center;gap:24px;padding:18px 0;border-top:1px solid rgba(255,240,202,.12)}
-.niche:last-child{border-bottom:1px solid rgba(255,240,202,.12)}
-.niche__n{font-size:14px;color:var(--terra)}
-.niche__name{font-family:var(--serif);font-size:clamp(34px,4vw,62px);line-height:1}
-.niche__d{font-size:15px;color:var(--cream-80)}
-.niche__img{width:120px;aspect-ratio:4/5;overflow:hidden;opacity:0;transform:scale(.9);transition:opacity .5s,transform .5s var(--ease)}
-.niche__img img{width:100%;height:100%;object-fit:cover}
-.niche:hover .niche__img{opacity:1;transform:none}
-.niche:hover .niche__name{color:var(--terra)}
 
 /* CTA */
 .cta{position:relative;padding:20vh 0;text-align:center;background:var(--rust);overflow:hidden}
@@ -302,14 +292,26 @@ main{position:relative;z-index:1;background:inherit}
   .link__hint{display:none}
   .link__ic{grid-column:2;grid-row:1 / span 2;width:46px;height:46px}
 }
+/* Nichos: rueda de palabras */
+.niches-rw{position:relative;color:var(--cream);transition:color .7s}
+.rw_track{height:360vh}
+.rw_stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;padding:0 3.4vw;overflow:hidden}
+.rw_kicker{position:absolute;left:3.4vw;top:max(110px,14vh);margin:0;font-family:var(--sans);font-weight:400;font-size:14px}
+.rw_wheel{position:relative;width:100%;font-family:var(--sans);font-size:clamp(48px,6.6vw,118px);line-height:1.05;-webkit-font-smoothing:antialiased}
+.rw_list{margin:0;padding:0;list-style:none;text-align:center}
+.rw_item{font-weight:300;letter-spacing:-.02em;white-space:nowrap}
+.rw_is-built .rw_list{position:relative;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 24%,#000 76%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 24%,#000 76%,transparent)}
+.rw_is-built .rw_item{position:absolute;top:50%;left:50%;backface-visibility:hidden;will-change:transform,opacity}
+.rw_nav{display:flex;justify-content:center;gap:4px;margin-top:28px}
+.rw_dot{position:relative;display:block;width:14px;height:20px;padding:0;border:0;background:none;cursor:pointer;opacity:.3}
+.rw_dot::before{content:"";position:absolute;top:50%;left:50%;width:calc(4px * var(--rw-dot,1));height:4px;margin-top:-2px;border-radius:999px;background:currentColor;transform:translateX(-50%)}
+@media (max-width:767px){ .rw_track{height:300vh} .rw_wheel{font-size:10.5vw} .rw_kicker{top:78px} }
 .rv{opacity:0;transform:translateY(30px)}
 .no-js .rv{opacity:1;transform:none}
 
 /* ===== Tablet ===== */
 @media (max-width:991px){
   .brands{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .niche{grid-template-columns:50px minmax(0,1fr) minmax(0,260px)}
-  .niche__img{display:none}
   .about{grid-template-columns:1fr}
   .about__img{max-width:520px}
   .f1{left:6%}.f2{right:6%}.f3{left:8%}.f4{right:6%}
@@ -331,8 +333,6 @@ main{position:relative;z-index:1;background:inherit}
   .title{font-size:12vw}
   .brands{grid-template-columns:repeat(2,minmax(0,1fr))}
   .brand{height:96px}
-  .niche{grid-template-columns:40px minmax(0,1fr);gap:6px 14px}
-  .niche__d{grid-column:2}
   .cta{padding:14vh 0}
   .reviews{padding:12vh 0}
   .review{min-height:0;padding:26px 24px 28px}
@@ -455,16 +455,23 @@ main{position:relative;z-index:1;background:inherit}
     </div>
   </section>
 
-  <!-- NICHOS -->
-  <section class="section" id="nichos" style="padding-top:4vh" data-theme="dark">
-    <div class="wrap">
-      <div class="s-head"><h2 class="title rv">Nichos</h2><p class="lead rv">Lo que mejor sé contar, con mi vida diaria como escenario</p></div>
-      <div class="niches">
-        <div class="niche rv"><span class="niche__n">01</span><span class="niche__name">Belleza y skincare</span><span class="niche__d">Rutinas, texturas y resultados reales en la piel</span><span class="niche__img"><img src="media/intro-1.jpg" alt="" loading="lazy"></span></div>
-        <div class="niche rv"><span class="niche__n">02</span><span class="niche__name">Moda</span><span class="niche__d">Try-on, combinaciones y prendas en movimiento</span><span class="niche__img"><img src="media/intro-2.jpg" alt="" loading="lazy"></span></div>
-        <div class="niche rv"><span class="niche__n">03</span><span class="niche__name">Bienestar y fitness</span><span class="niche__d">Entrenamientos, suplementos y hábitos que sí se sostienen</span><span class="niche__img"><img src="media/foto-2.jpg" alt="" loading="lazy"></span></div>
-        <div class="niche rv"><span class="niche__n">04</span><span class="niche__name">Lifestyle</span><span class="niche__d">Mi día a día, viajes y paseos con mi perro</span><span class="niche__img"><img src="media/sobre-mi.jpg" alt="" loading="lazy"></span></div>
-        <div class="niche rv"><span class="niche__n">05</span><span class="niche__name">Tech y trabajo</span><span class="niche__d">Gadgets y apps explicados sin complicaciones</span><span class="niche__img"><img src="media/foto-1.jpg" alt="" loading="lazy"></span></div>
+  <!-- NICHOS: rueda de palabras que gira con el scroll (Annnimate "Rotating words") -->
+  <section class="niches-rw" id="nichos" data-theme="dark">
+    <div class="rw_track" data-anm-rw-track>
+      <div class="rw_stage">
+        <h2 class="rw_kicker">Nichos</h2>
+        <div class="rw_wheel" data-anm-rotating-words data-anm-scrub="true" data-anm-step="18" data-anm-hold="0.35" data-anm-nav="true" data-anm-blur="6">
+          <ul class="rw_list" data-anm-rw-list>
+          <li class="rw_item">Belleza y skincare</li>
+          <li class="rw_item">Moda</li>
+          <li class="rw_item">Bienestar y fitness</li>
+          <li class="rw_item">Lifestyle</li>
+          <li class="rw_item">Viajes</li>
+          <li class="rw_item">Mascotas</li>
+          <li class="rw_item">Hogar y deco</li>
+          <li class="rw_item">Tech y trabajo</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -565,6 +572,7 @@ main{position:relative;z-index:1;background:inherit}
 <script src="js/gsap.min.js"></script>
 <script src="js/ScrollTrigger.min.js"></script>
 <script src="js/lenis.min.js"></script>
+<script src="js/rotating-words.js"></script>
 <script>
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
