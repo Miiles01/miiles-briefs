@@ -643,9 +643,9 @@ if (deck) {
     gsap.set([go, ...labels], { autoAlpha: 0 });
     // Salida tipo página: gira sobre su orilla con perspectiva mientras se desliza fuera (sin desvanecerse)
     const flip = (card, dir, at) => {
-      tl.set(card, { transformOrigin: dir < 0 ? '0% 50%' : '100% 50%', transformPerspective: 1400 }, at);
-      tl.to(card, { rotationY: dir * -70, rotation: dir * 5, xPercent: dir * 45, duration: .9, ease: 'power1.in' }, at);
-      tl.to(card, { xPercent: dir * (isMobile ? 230 : 330), duration: .6, ease: 'power1.in' }, at + .9);
+      tl.set(card, { transformOrigin: '50% 50%', transformPerspective: 1600 }, at);
+      tl.to(card, { rotationY: dir * -22, rotation: dir * 4, duration: .5, ease: 'power1.in' }, at);
+      tl.to(card, { xPercent: dir * (isMobile ? 230 : 330), duration: 1.5, ease: 'power1.in' }, at);
     };
     const tl = gsap.timeline({ defaults: { ease: 'none' } });
     // 1. Las tarjetas suben una sobre otra en franjas (la primera llega al final, arriba)
