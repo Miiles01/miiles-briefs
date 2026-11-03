@@ -87,16 +87,31 @@ main{position:relative;z-index:1;background:inherit}
 .panel__social a{display:inline-flex;align-items:center;gap:6px}
 
 /* ===== Hero ===== */
-.hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;color:#fff0ca}
-.hero__bg{position:absolute;inset:0;will-change:transform}
-.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:62% 40%}
-.hero__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,18,1,.15),rgba(14,18,1,.05) 40%,rgba(14,18,1,.55))}
-.hero__name{position:absolute;z-index:2;font-family:var(--serif);font-weight:400;line-height:.8;letter-spacing:-.02em}
-.hero__name.is-1{left:3.4vw;top:5vh;font-size:clamp(110px,15vw,230px)}
-.hero__name.is-2{right:3.4vw;bottom:3.4vw;font-size:clamp(110px,15vw,230px)}
-.hero__name span{display:inline-block}
-.hero__left{position:absolute;z-index:2;left:3.4vw;bottom:3.4vw;max-width:400px}
-.hero__left p{font-size:clamp(20px,1.8vw,26px);line-height:1.2;letter-spacing:-.01em}
+/* Inicio: hojas encimadas */
+.hero{position:relative;height:240vh;background:#2f3b17;color:#fff0ca}
+.hero__stage{position:sticky;top:0;height:100vh;height:100svh;min-height:560px;overflow:hidden}
+.hero__word{position:absolute;left:3vw;top:7vh;margin:0;font-family:var(--serif);font-weight:300;font-size:31vw;line-height:.8;letter-spacing:-.03em;white-space:nowrap;will-change:transform}
+.hero__word span{display:inline-block}
+.hero__side{position:absolute;right:3.4vw;top:31vh;margin:0;font-size:15px;line-height:1.25;text-align:right}
+.sheet{position:absolute;will-change:transform;box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}
+.sheet--photo{right:10vw;top:40vh;width:21vw;aspect-ratio:4/5;transform:rotate(8deg);overflow:hidden;border:10px solid #fff0ca}
+.sheet--photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.sheet--cream{left:1vw;top:42vh;width:84vw;height:80vh;transform:rotate(17deg);transform-origin:0 0;background:#fff0ca;color:#0e1201}
+.sheet__txt{margin:0;padding:2.6vw 4vw 0 9vw;max-width:62vw;font-family:var(--sans);font-size:clamp(26px,2.9vw,48px);line-height:1.04;letter-spacing:-.035em}
+.sheet__txt em{font-family:var(--serif);font-style:normal;color:#964317}
+.sheet--brown{left:-10vw;top:66vh;width:125vw;height:90vh;transform:rotate(9deg);transform-origin:0 0;background:#964317}
+.hero__meta{position:absolute;left:3.4vw;bottom:3.4vw;max-width:360px;will-change:transform}
+.hero__meta p{margin:0;font-size:clamp(18px,1.5vw,22px);line-height:1.2}
+@media (max-width:767px){
+  .hero{height:200vh}
+  .hero__word{left:4vw;top:14vh;font-size:37vw}
+  .hero__side{top:9vh;right:5vw;font-size:13px}
+  .sheet--photo{right:5vw;top:35vh;width:38vw;border-width:6px}
+  .sheet--cream{left:-6vw;top:44vh;width:140vw;transform:rotate(15deg)}
+  .sheet__txt{padding:5vw 7vw 0 16vw;max-width:96vw;font-size:6.4vw}
+  .sheet--brown{top:70vh;width:160vw;transform:rotate(7deg)}
+  .hero__meta{left:5vw;right:5vw;bottom:5vw}
+}
 .stats{display:flex;gap:26px;margin-top:22px}
 .stats b{display:block;font-family:var(--serif);font-size:34px;font-weight:400;line-height:1}
 .stats span{font-size:13px;color:var(--cream-80)}
@@ -110,12 +125,12 @@ main{position:relative;z-index:1;background:inherit}
 .statement .w{display:inline-block}
 
 /* ===== Foto que se abre ===== */
-.opener{position:relative;height:120vh}
+.opener{position:relative;height:180vh}
 .opener__sticky{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
 .opener__img{position:relative;width:100%;height:100%;will-change:clip-path}
 .opener__img img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
-.opener__tag{position:absolute;right:3.4vw;bottom:4vh;z-index:2;display:flex;gap:6px}
-.opener__tag span{padding:5px 9px;border-radius:2px;background:rgba(14,18,1,.55);font-size:13px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.opener__tag{position:absolute;left:50%;bottom:26vh;z-index:2;display:flex;gap:6px;transform:translateX(-50%)}
+.opener__tag span{padding:7px 14px;border-radius:999px;background:rgba(14,18,1,.55);font-size:13px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 
 /* ===== Secciones ===== */
 .section{padding:18vh 0}
@@ -205,7 +220,7 @@ main{position:relative;z-index:1;background:inherit}
 /* Mi trabajo: baraja de fotos */
 #trabajo{padding-top:0}
 .deck{position:relative;height:1500vh;margin-bottom:12vh}
-.deck__stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;perspective:1600px;color:#0e1201}
+.deck__stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;perspective:1600px;color:var(--cream);transition:color .7s}
 .deck__kicker{position:absolute;left:3.4vw;top:max(110px,14vh);margin:0;font-family:var(--sans);font-weight:400;font-size:14px;letter-spacing:0}
 .deck__labels{position:absolute;left:3.4vw;top:50%;font-size:13px;line-height:1.3}
 .deck__label{position:absolute;left:0;top:0;white-space:nowrap}
@@ -306,11 +321,6 @@ main{position:relative;z-index:1;background:inherit}
   .nav__links,.nav__right .btn{display:none}
   .menu-btn{display:inline-flex}
   .wrap{padding:0 5vw}
-  .hero__bg img{object-position:50% 30%}
-  .hero__name.is-1{left:5vw;top:auto;bottom:calc(5vw + 230px);font-size:31vw}
-  .hero__name.is-2{display:none}
-  .hero__left{left:5vw;right:5vw;bottom:5vw}
-  .hero__left p{font-size:19px}
   .stats{gap:20px}.stats b{font-size:28px}
   .statement{padding:14vh 0 12vh}
   .opener{height:auto}
@@ -363,14 +373,19 @@ main{position:relative;z-index:1;background:inherit}
 
 <main>
   <!-- HERO -->
+  <!-- INICIO: hojas encimadas sobre verde; al bajar suben y giran a distinta velocidad y tapan el nombre -->
   <header class="hero" id="inicio">
-    <div class="hero__bg"><picture><source media="(max-width: 767px)" srcset="media/sentada-m.jpg"><img src="media/sentada.jpg" alt="Laura sentada, sonriendo" fetchpriority="high"></picture></div>
-    <h1 class="hero__name is-1" aria-label="Laura UGC"><span>Laura</span></h1>
-    <p class="hero__name is-2" aria-hidden="true"><span>UGC</span></p>
-    <div class="hero__left">
-      <p>Creadora de contenido UGC para marcas de belleza, moda y bienestar</p>
-      <div class="stats"><div><b>+18K</b><span>seguidores</span></div><div><b>+40</b><span>marcas</span></div><div><b>+300</b><span>videos</span></div></div>
-      <div class="socials"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram <svg class="arr"><use href="#arr"/></svg></a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok <svg class="arr"><use href="#arr"/></svg></a></div>
+    <div class="hero__stage">
+      <h1 class="hero__word" aria-label="Laura, creadora de contenido UGC"><span>Laura</span></h1>
+      <p class="hero__side" aria-hidden="true">Creadora<br>de contenido UGC</p>
+      <div class="sheet sheet--photo"><img src="media/sobre-mi-laura.jpg" alt="Laura sentada con vestido negro" fetchpriority="high"></div>
+      <div class="sheet sheet--cream"><p class="sheet__txt">Videos que se sienten como la recomendación de una <em>amiga</em></p></div>
+      <div class="sheet sheet--brown"></div>
+      <div class="hero__meta">
+        <p>Belleza, moda y bienestar</p>
+        <div class="stats"><div><b>+18K</b><span>seguidores</span></div><div><b>+40</b><span>marcas</span></div><div><b>+300</b><span>videos</span></div></div>
+        <div class="socials"><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram <svg class="arr"><use href="#arr"/></svg></a><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok <svg class="arr"><use href="#arr"/></svg></a></div>
+      </div>
     </div>
   </header>
 
@@ -585,10 +600,19 @@ $$('video').forEach(v => { v.muted = true; if (!v.classList.contains('deck__img'
 
 if (ok && !reduce) {
   /* Hero: el nombre entra desde abajo y la foto se aleja al bajar */
-  gsap.from('.hero__name span', { yPercent: 100, opacity: 0, duration: 1.4, ease: 'expo.out', stagger: .12, delay: .15 });
-  gsap.from('.hero__left', { y: 20, opacity: 0, duration: 1, ease: 'power3.out', delay: .6 });
-  gsap.to('.hero__bg', { yPercent: 18, scale: 1.06, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.hero__name.is-1', { yPercent: -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '60% top', scrub: true } });
+  // Entrada: el nombre sube desde su máscara y las hojas entran desde abajo, una tras otra
+  gsap.from('.hero__word span', { yPercent: 100, duration: 1.4, ease: 'expo.out', delay: .1 });
+  gsap.from(['.sheet--photo', '.sheet--cream', '.sheet--brown', '.hero__meta'], { y: '60vh', duration: 1.4, ease: 'expo.out', stagger: .12, delay: .35 });
+  gsap.from('.hero__side', { opacity: 0, duration: 1, delay: .9 });
+  // Scroll: cada hoja sube y se endereza a su propia velocidad (parallax) hasta tapar el nombre
+  const hs = { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: 1 };
+  gsap.timeline({ scrollTrigger: hs, defaults: { ease: 'none' } })
+    .to('.hero__word', { yPercent: -12, scale: .94, transformOrigin: '0 0' }, 0)
+    .to('.hero__side', { y: '-30vh', opacity: 0 }, 0)
+    .to('.sheet--photo', { y: '-62vh', rotation: -5 }, 0)
+    .to('.sheet--cream', { y: '-58vh', rotation: isMobile ? 4 : 5 }, 0)
+    .to('.sheet--brown', { y: '-74vh', rotation: 1 }, 0)
+    .to('.hero__meta', { y: '-74vh' }, 0);
 
   /* Frase: cada palabra pasa de tenue a crema con el scroll */
   $$('.reveal').forEach(st => {
@@ -607,8 +631,8 @@ if (ok && !reduce) {
   const mm = gsap.matchMedia();
   mm.add('(min-width: 768px)', () => {
     /* Foto que se abre: de recuadro chico a pantalla completa */
-    gsap.fromTo('.opener__img', { clipPath: 'inset(22% 30% 22% 30%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: 'bottom bottom', scrub: true } });
-    gsap.fromTo('.opener__img img', { scale: 1.25 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: 'bottom bottom', scrub: true } });
+    gsap.fromTo('.opener__img', { clipPath: 'inset(22% 30% 22% 30%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: '55% bottom', scrub: true } });
+    gsap.fromTo('.opener__img img', { scale: 1.25 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: '55% bottom', scrub: true } });
     // Footer revelado: el nombre sube un poco mientras se descubre
     gsap.fromTo('.foot__name', { yPercent: 35 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'bottom bottom', end: () => '+=' + $('.foot').offsetHeight, scrub: true } });
   });
@@ -653,8 +677,6 @@ if (deck) {
     // cada una sube completa y cae en el mismo lugar, encima de la anterior (como baraja)
     rise.forEach((c, k) => tl.to(c, { yPercent: 0, duration: .55, ease: 'power2.out' }, k * .4));
     let t = (N - 1) * .4 + .7;
-    // la siguiente asoma detrás: un poco más chica y corrida
-    tl.to(cards.slice(1), { xPercent: 7, scale: .95, duration: .4, ease: 'power1.inOut' }, t - .1);
     const starts = [];
     // 2. Cada tarjeta se queda un rato (su nombre corre detrás a velocidad constante) y luego se voltea, alternando lados
     for (let i = 0; i < N; i++) {
@@ -667,7 +689,6 @@ if (deck) {
       const te = t + hold;
       const dir = i % 2 ? 1 : -1;
       flip(cards[i], dir, te);
-      tl.to(cards[i + 1], { xPercent: 0, scale: 1, duration: 1, ease: 'power1.inOut' }, te + .4);
       tl.to(names[i], { opacity: .25, duration: .5 }, te);
       tl.to(names[i], { xPercent: -110, duration: 1.2 }, te + .3);
       tl.set(labels[i], { autoAlpha: 0 }, te + .3);
