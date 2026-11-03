@@ -54,7 +54,7 @@ img,video{display:block;max-width:100%}
 /* Cambio de fondo con el scroll: en secciones claras se invierten verde y crema */
 html.is-light{--olive:#fff0ca;--cream:#0e1201;--cream-80:rgba(14,18,1,.72);--cream-60:rgba(14,18,1,.55);--cream-10:rgba(14,18,1,.06)}
 main{position:relative;z-index:1;background:inherit}
-.section,.statement,.contact,.feel{transition:color .7s ease}
+.section,.statement,.contact,.prices{transition:color .7s ease}
 
 /* Botones (como la referencia: rectángulo crema con flecha) */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:var(--cream);color:var(--olive);font-size:16px;line-height:1;transition:background-color .3s,color .3s}
@@ -106,9 +106,7 @@ main{position:relative;z-index:1;background:inherit}
 
 /* ===== Frase escalonada ===== */
 .statement{padding:22vh 0 18vh}
-.statement p{font-family:var(--sans);font-size:clamp(40px,6.4vw,104px);font-weight:400;line-height:1.02;letter-spacing:-.04em}
-.statement .l{display:block}
-.statement .l{padding-left:0}
+.statement p{max-width:15em;font-family:var(--sans);font-size:clamp(36px,5.6vw,92px);font-weight:400;line-height:1.04;letter-spacing:-.04em;text-align:left}
 .statement .w{display:inline-block}
 
 /* ===== Foto que se abre ===== */
@@ -156,7 +154,7 @@ main{position:relative;z-index:1;background:inherit}
 
 /* Sobre mí */
 .about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4vw;align-items:end}
-.about__title{font-family:var(--sans);font-weight:400;font-size:clamp(30px,3.4vw,54px);line-height:1.1;letter-spacing:-.03em;max-width:14em}
+.about__title{font-family:var(--sans);font-weight:400;font-size:clamp(34px,4vw,64px);line-height:1.04;letter-spacing:-.04em;max-width:13em;text-align:left}
 .about__img{aspect-ratio:4/5;overflow:hidden}
 .about__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
 .about__text{display:flex;flex-direction:column;gap:18px;max-width:520px;margin-top:6vh}
@@ -185,11 +183,6 @@ main{position:relative;z-index:1;background:inherit}
 .review figcaption span span{font-size:13px;color:rgba(14,18,1,.6)}
 
 /* Frase final con fotos flotantes y dibujo de línea */
-.feel{position:relative;height:100vh;min-height:620px;display:grid;place-items:center;overflow:hidden}
-.feel__line{position:absolute;left:50%;top:50%;width:min(420px,60vw);height:auto;transform:translate(-50%,-50%);color:rgba(255,240,202,.16);pointer-events:none}
-.feel__t{position:relative;z-index:2;font-family:var(--sans);font-size:clamp(44px,7vw,112px);font-weight:400;letter-spacing:-.04em;line-height:1;text-align:center}
-.float{position:absolute;z-index:1;overflow:hidden;box-shadow:0 20px 40px -20px rgba(0,0,0,.6);will-change:transform}
-.float img{width:100%;height:100%;object-fit:cover}
 .f1{left:16%;top:18%;width:140px;aspect-ratio:4/5;transform:rotate(-6deg)}
 .f2{right:18%;top:14%;width:120px;aspect-ratio:1;transform:rotate(5deg)}
 .f3{left:22%;bottom:16%;width:170px;aspect-ratio:5/4;transform:rotate(4deg)}
@@ -197,13 +190,6 @@ main{position:relative;z-index:1;background:inherit}
 .f5{left:46%;top:10%;width:90px;aspect-ratio:4/5;transform:rotate(2deg)}
 
 /* Contacto + footer */
-.contact{padding:14vh 0 0}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6vh}
-.card{display:flex;flex-direction:column;gap:34px;padding:26px 26px 28px;border:0;background:var(--cream-10);text-align:left;cursor:pointer;transition:background-color .3s,color .3s}
-.card:hover{background:var(--cream);color:var(--olive)}
-.card span{display:inline-flex;align-items:center;gap:6px;font-size:14px;opacity:.8}
-.card b{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.4vw,38px);line-height:1.05;overflow-wrap:anywhere}
-.contact{padding-bottom:16vh}
 .foot{position:relative;background:#bc6f45;color:#fff0ca;overflow:hidden}
 @media (min-width:768px){ .foot{position:fixed;left:0;right:0;bottom:0;z-index:0} }
 .foot__cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;padding:14vh 3.4vw 0}
@@ -245,6 +231,62 @@ main{position:relative;z-index:1;background:inherit}
   .deck__names{font-size:22vw;bottom:16vh}
   .deck__go{width:44px;height:44px}
 }
+/* Precios */
+.prices{padding:18vh 0 12vh}
+.prices__head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:7vh}
+.prices__head p{max-width:330px;font-size:15px;color:var(--cream-60)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.plan{position:relative;display:flex;flex-direction:column;padding:30px 30px 32px;border-radius:28px;background:var(--cream-10);transition:transform .4s var(--ease)}
+.plan:hover{transform:translateY(-6px)}
+.plan.is-hot{background:#bc6f45;color:#fff0ca}
+.plan__tag{align-self:flex-start;padding:6px 12px;border-radius:999px;font-size:12px;background:var(--cream-10)}
+.plan.is-hot .plan__tag{background:rgba(255,240,202,.18)}
+.plan__name{margin:26px 0 0;font-family:var(--sans);font-weight:400;font-size:22px;letter-spacing:-.02em}
+.plan__price{margin:6px 0 24px;font-family:var(--serif);font-size:clamp(64px,6.4vw,104px);line-height:.95;letter-spacing:-.02em}
+.plan__price small{font-size:.45em;vertical-align:.8em;margin-right:2px}
+.plan__price span{font-family:var(--sans);font-size:15px;letter-spacing:0;margin-left:6px;opacity:.7}
+.plan ul{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.35;flex:1}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"";flex:none;width:6px;height:6px;margin-top:.5em;border-radius:50%;background:currentColor;opacity:.6}
+.plan__btn{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-radius:999px;background:var(--cream);color:var(--olive);font-size:15px;transition:background-color .3s,color .3s}
+.plan__btn:hover{background:#bc6f45;color:#fff0ca}
+.plan.is-hot .plan__btn{background:#0e1201;color:#fff0ca}
+.plan.is-hot .plan__btn:hover{background:#fff0ca;color:#0e1201}
+.extras{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:22px}
+.extras__t{margin-right:8px;font-size:14px;color:var(--cream-60)}
+.extra{padding:9px 14px;border-radius:999px;background:var(--cream-10);font-size:14px}
+.extra b{font-weight:400;color:#bc6f45;margin-left:4px}
+
+/* Contacto */
+.contact{padding:14vh 0 16vh}
+.contact__head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:6vh}
+.contact__note{display:inline-flex;align-items:center;gap:10px;font-size:15px;color:var(--cream-80)}
+.dot{width:9px;height:9px;border-radius:50%;background:#7fbf6a;box-shadow:0 0 0 0 rgba(127,191,106,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(127,191,106,0)}100%{box-shadow:0 0 0 0 rgba(127,191,106,0)}}
+.links{display:flex;flex-direction:column;gap:10px}
+.link{position:relative;isolation:isolate;display:grid;grid-template-columns:160px 1fr auto auto;align-items:center;gap:24px;width:100%;padding:22px 22px 22px 34px;border:0;border-radius:999px;background:var(--cream-10);color:inherit;text-align:left;cursor:pointer;overflow:hidden;transition:color .45s var(--ease)}
+.link::before{content:"";position:absolute;inset:0;z-index:-1;background:#bc6f45;transform:scaleX(0);transform-origin:left;transition:transform .55s var(--ease)}
+.link:hover{color:#fff0ca}
+.link:hover::before{transform:scaleX(1)}
+.link__k{font-size:14px;opacity:.7}
+.link__v{font-family:var(--serif);font-size:clamp(34px,4.6vw,76px);line-height:1;letter-spacing:-.02em;overflow-wrap:anywhere;transition:transform .55s var(--ease)}
+.link:hover .link__v{transform:translateX(14px)}
+.link__hint{font-size:14px;opacity:0;transform:translateX(-8px);transition:opacity .4s,transform .4s}
+.link:hover .link__hint{opacity:.85;transform:none}
+.link__ic{display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:var(--cream);color:var(--olive);transition:transform .55s var(--ease),background-color .4s,color .4s}
+.link__ic .arr{width:18px;height:18px}
+.link:hover .link__ic{transform:rotate(45deg);background:#fff0ca;color:#0e1201}
+@media (max-width:767px){
+  .prices{padding:12vh 0 8vh}
+  .prices__head,.contact__head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:5vh}
+  .plans{grid-template-columns:1fr}
+  .plan{padding:24px 22px;border-radius:24px}
+  .contact{padding:10vh 0 12vh}
+  .link{grid-template-columns:1fr auto;gap:6px 14px;padding:18px 16px 18px 24px;border-radius:28px}
+  .link__v{font-size:clamp(20px,5.6vw,30px);overflow-wrap:normal;white-space:nowrap}
+  .link__hint{display:none}
+  .link__ic{grid-column:2;grid-row:1 / span 2;width:46px;height:46px}
+}
 .rv{opacity:0;transform:translateY(30px)}
 .no-js .rv{opacity:1;transform:none}
 
@@ -271,7 +313,6 @@ main{position:relative;z-index:1;background:inherit}
   .hero__left p{font-size:19px}
   .stats{gap:20px}.stats b{font-size:28px}
   .statement{padding:14vh 0 12vh}
-  .statement .l{padding-left:0!important}
   .opener{height:auto}
   .opener__sticky{position:relative;height:auto;padding:0 5vw}
   .opener__img{aspect-ratio:4/5;height:auto}
@@ -286,10 +327,6 @@ main{position:relative;z-index:1;background:inherit}
   .reviews{padding:12vh 0}
   .review{min-height:0;padding:26px 24px 28px}
   .reviews__belt{animation-duration:45s}
-  .feel{height:auto;min-height:0;padding:16vh 0}
-  .float{display:none}
-  .feel__line{width:70vw}
-  .cards{grid-template-columns:1fr}
   .foot__cols{grid-template-columns:1fr 1fr;padding:10vh 5vw 0}
   .foot__col.is-right{grid-column:1/-1;align-items:flex-start;text-align:left}
   .foot__name{font-size:34vw;margin-top:6vh}
@@ -340,7 +377,7 @@ main{position:relative;z-index:1;background:inherit}
   <!-- FRASE ESCALONADA -->
   <section class="statement" aria-label="Lo que hago" data-theme="dark">
     <div class="wrap">
-      <p><span class="l l1">Entre</span> <span class="l l2">lo cotidiano y lo que vende</span> <span class="l l3">nace un video que la gente</span> <span class="l l4">se queda a ver, guarda</span> <span class="l l5">y comparte</span></p>
+      <p class="reveal">Entre lo cotidiano y lo que vende nace un video que la gente se queda a ver, guarda y comparte</p>
     </div>
   </section>
 
@@ -421,7 +458,7 @@ main{position:relative;z-index:1;background:inherit}
   <section class="section" id="sobre-mi" data-theme="light">
     <div class="wrap about">
       <div>
-        <h2 class="about__title rv">Soy Laura, creadora de contenido UGC. Desde hace cinco años grabo, escribo y edito videos para marcas de belleza, moda y bienestar que la gente sí termina de ver</h2>
+        <h2 class="about__title reveal">Soy Laura y convierto productos en videos que se sienten como la recomendación de una amiga</h2>
         <div class="about__text">
           <a class="btn rv" href="#contacto">Trabajemos juntas <svg class="arr"><use href="#arr"/></svg></a>
         </div>
@@ -449,25 +486,57 @@ main{position:relative;z-index:1;background:inherit}
     </div></div>
   </section>
 
-  <!-- FRASE FINAL -->
-  <section class="feel" aria-label="Tu producto, en mi día a día" data-theme="dark">
-    <svg class="feel__line" viewBox="0 0 220 300" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M20 290V120a90 90 0 0 1 180 0v170"/><path d="M45 290V125a65 65 0 0 1 130 0v165"/><path d="M10 290h200M70 160h80M70 210h80"/></svg>
-    <div class="float f1"><img src="media/intro-1.jpg" alt="" loading="lazy"></div>
-    <div class="float f2"><img src="media/intro-2.jpg" alt="" loading="lazy"></div>
-    <div class="float f3"><img src="media/foto-5.jpg" alt="" loading="lazy" style="object-position:50% 60%"></div>
-    <div class="float f4"><img src="media/foto-3.jpg" alt="" loading="lazy"></div>
-    <div class="float f5"><img src="media/foto-4.jpg" alt="" loading="lazy"></div>
-    <p class="feel__t rv">Tu producto,<br>en mi día a día</p>
+  <!-- PRECIOS -->
+  <section class="prices" id="precios" data-theme="dark">
+    <div class="wrap">
+      <div class="prices__head">
+        <h2 class="title rv">Lo que <em>cobro</em></h2>
+        <p class="rv">Precios en pesos mexicanos. Todos incluyen idea, guion, grabación y edición en formato vertical</p>
+      </div>
+      <div class="plans">
+        <article class="plan rv">
+          <span class="plan__tag">Para probar</span>
+          <h3 class="plan__name">Un video</h3>
+          <p class="plan__price"><small>$</small>2,500</p>
+          <ul><li>1 video de 15 a 45 segundos</li><li>Gancho y guion pensados para tu marca</li><li>1 ronda de cambios</li><li>Entrega en 5 días</li></ul>
+          <a class="plan__btn" href="https://wa.me/5215500000000?text=Hola%20Laura%2C%20me%20interesa%20un%20video" target="_blank" rel="noopener">Lo quiero <svg class="arr"><use href="#arr"/></svg></a>
+        </article>
+        <article class="plan is-hot rv">
+          <span class="plan__tag">El que más piden</span>
+          <h3 class="plan__name">Paquete de 3</h3>
+          <p class="plan__price"><small>$</small>6,500</p>
+          <ul><li>3 videos con ganchos distintos para probar</li><li>Fotos del producto de regalo</li><li>2 rondas de cambios</li><li>Uso orgánico por 3 meses</li></ul>
+          <a class="plan__btn" href="https://wa.me/5215500000000?text=Hola%20Laura%2C%20me%20interesa%20el%20paquete%20de%203" target="_blank" rel="noopener">Lo quiero <svg class="arr"><use href="#arr"/></svg></a>
+        </article>
+        <article class="plan rv">
+          <span class="plan__tag">Para marcas que publican seguido</span>
+          <h3 class="plan__name">Mensual</h3>
+          <p class="plan__price"><small>$</small>15,000<span>/mes</span></p>
+          <ul><li>8 videos al mes</li><li>Calendario de ideas contigo</li><li>Derechos para anuncios incluidos</li><li>Prioridad en la agenda</li></ul>
+          <a class="plan__btn" href="https://wa.me/5215500000000?text=Hola%20Laura%2C%20me%20interesa%20el%20plan%20mensual" target="_blank" rel="noopener">Lo quiero <svg class="arr"><use href="#arr"/></svg></a>
+        </article>
+      </div>
+      <div class="extras rv">
+        <span class="extras__t">Extras</span>
+        <span class="extra">Derechos para anuncios <b>+30%</b></span>
+        <span class="extra">Entrega en 48 horas <b>+$800</b></span>
+        <span class="extra">Versión sin música ni textos <b>+$300</b></span>
+        <span class="extra">5 fotos de producto <b>$1,200</b></span>
+      </div>
+    </div>
   </section>
 
-  <!-- CONTACTO -->
+  <!-- CONTACTO: filas gigantes con relleno terracota que barre al pasar el cursor -->
   <section class="contact" id="contacto" data-theme="dark">
     <div class="wrap">
-      <h2 class="title rv">Hagamos algo <em>juntas</em></h2>
-      <div class="cards">
-        <button class="card rv" type="button" data-copy="hola@lauracreativa.com" aria-label="Copiar correo hola@lauracreativa.com"><span>Correo · toca para copiar</span><b>hola@lauracreativa.com</b></button>
-        <a class="card rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span>WhatsApp <svg class="arr"><use href="#arr"/></svg></span><b>+52 55 0000 0000</b></a>
-        <a class="card rv" href="https://instagram.com/" target="_blank" rel="noopener"><span>Instagram <svg class="arr"><use href="#arr"/></svg></span><b>@lauracreativa</b></a>
+      <div class="contact__head">
+        <h2 class="title rv">Hagamos algo <em>juntas</em></h2>
+        <p class="contact__note rv"><span class="dot" aria-hidden="true"></span>Agenda abierta · respondo en menos de 24 horas</p>
+      </div>
+      <div class="links">
+        <button class="link rv" type="button" data-copy="hola@lauracreativa.com" aria-label="Copiar correo hola@lauracreativa.com"><span class="link__k">Correo</span><span class="link__v">hola@lauracreativa.com</span><span class="link__hint">Copiar</span><span class="link__ic" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span></button>
+        <a class="link rv" href="https://wa.me/5215500000000" target="_blank" rel="noopener"><span class="link__k">WhatsApp</span><span class="link__v">+52 55 0000 0000</span><span class="link__hint">Escribir</span><span class="link__ic" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span></a>
+        <a class="link rv" href="https://instagram.com/" target="_blank" rel="noopener"><span class="link__k">Instagram</span><span class="link__v">@lauracreativa</span><span class="link__hint">Seguir</span><span class="link__ic" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span></a>
       </div>
     </div>
   </section>
@@ -528,11 +597,12 @@ if (ok && !reduce) {
   gsap.to('.hero__name.is-1', { yPercent: -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '60% top', scrub: true } });
 
   /* Frase: cada palabra pasa de tenue a crema con el scroll */
-  const st = $('.statement p');
-  $$('.l', st).forEach(l => { l.innerHTML = l.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' '); });
-  const words = $$('.w', st);
-  gsap.set(words, { opacity: .14 });
-  gsap.to(words, { opacity: 1, ease: 'none', stagger: .1, scrollTrigger: { trigger: st, start: 'top 75%', end: 'bottom 45%', scrub: true } });
+  $$('.reveal').forEach(st => {
+    st.innerHTML = st.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+    const words = $$('.w', st);
+    gsap.set(words, { opacity: .14 });
+    gsap.to(words, { opacity: 1, ease: 'none', stagger: .1, scrollTrigger: { trigger: st, start: 'top 78%', end: 'bottom 50%', scrub: true } });
+  });
 
   /* Aparición por lotes */
   ScrollTrigger.batch('.rv', { start: 'top 90%', once: true, onEnter: els => gsap.to(els, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: .07, overwrite: true }) });
@@ -545,8 +615,6 @@ if (ok && !reduce) {
     /* Foto que se abre: de recuadro chico a pantalla completa */
     gsap.fromTo('.opener__img', { clipPath: 'inset(22% 30% 22% 30%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: 'bottom bottom', scrub: true } });
     gsap.fromTo('.opener__img img', { scale: 1.25 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.opener', start: 'top 70%', end: 'bottom bottom', scrub: true } });
-    /* Frase final: las fotos flotan a distinta velocidad */
-    $$('.float').forEach((f, i) => gsap.fromTo(f, { y: 80 + i * 30 }, { y: -80 - i * 30, ease: 'none', scrollTrigger: { trigger: '.feel', start: 'top bottom', end: 'bottom top', scrub: true } }));
     // Footer revelado: el nombre sube un poco mientras se descubre
     gsap.fromTo('.foot__name', { yPercent: 35 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'bottom bottom', end: () => '+=' + $('.foot').offsetHeight, scrub: true } });
   });
@@ -618,8 +686,8 @@ addEventListener('scroll', () => { if (scrollY < innerHeight * .5) document.docu
 
 /* Copiar correo */
 $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
-  const label = $('span', btn), txt = label.textContent;
-  try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = '¡Correo copiado! ✓'; }
+  const label = $('.link__k', btn) || $('span', btn), txt = label.textContent;
+  try { await navigator.clipboard.writeText(btn.dataset.copy); label.textContent = '¡Copiado!'; }
   catch { location.href = 'mailto:' + btn.dataset.copy; return; }
   setTimeout(() => { label.textContent = txt; }, 1800);
 }));
