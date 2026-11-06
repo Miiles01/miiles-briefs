@@ -234,13 +234,18 @@
     letter-spacing: -0.03em;
   }
   .intro__texto .palabra { opacity: 0.18; }
+  /* Subrayado a lápiz (trazos a mano de Osmo, como en la V23) */
+  .pen { position: relative; display: inline-block; white-space: nowrap; }
+  .pen__svg { position: absolute; left: -4%; bottom: -0.16em; width: 108%; height: 0.34em; overflow: visible; color: var(--pc, #7b8cff); pointer-events: none; }
   .numeros { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--pad); }
   .numero__valor { font-size: clamp(40px, 7vw, 112px); font-weight: 500; line-height: 1; letter-spacing: -0.04em; }
   .numero__valor { display: inline-flex; font-variant-numeric: tabular-nums; }
-  .odo-col { position: relative; display: inline-block; overflow: hidden; height: 1em; width: 0.62em; line-height: 1; }
-  .odo-col::before { content: "0"; visibility: hidden; }
-  .odo-tira { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; will-change: transform; }
-  .odo-tira span { display: block; height: 1em; line-height: 1; text-align: center; }
+  /* Odómetro: cada columna mide lo mismo que un dígito (1ch con números tabulares) para que no se vean separados.
+     Los dígitos de las tiras se dibujan con CSS (::before), así no son texto: no salen al copiar ni los lee Google. */
+  .odo-col { position: relative; display: inline-block; overflow: hidden; height: 1em; width: 1ch; line-height: 1; font-variant-numeric: tabular-nums; }
+  .odo-tira { position: absolute; left: 0; top: 0; width: 100%; display: flex; flex-direction: column; will-change: transform; user-select: none; }
+  .odo-tira i { display: block; height: 1em; line-height: 1; text-align: center; font-style: normal; }
+  .odo-tira i::before { content: attr(data-d); }
   .numero__label { color: var(--gris); margin-top: 8px; }
   .numeros .tile { display: grid; margin-bottom: 18px; }
 
@@ -378,7 +383,7 @@
     background: var(--degradado-card);
     box-shadow: inset 0 0 0 1px var(--gris-100);
   }
-  .plan--destacado { background: var(--blanco); box-shadow: inset 0 0 0 1px var(--gris-borde); }
+  .plan--destacado { background: var(--blanco); box-shadow: none; }
   .plan__cabeza { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
   .plan__nombre { white-space: nowrap; }
   .plan__nombre { font-size: 18px; font-weight: 600; }
@@ -393,9 +398,10 @@
   .plan__titulo { display: flex; align-items: center; gap: 12px; }
   .extras { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 28px; }
   .extras__titulo { font-weight: 600; margin-right: 6px; }
-  .extra { padding: 10px 16px; border-radius: 999px; background: var(--gris-100); font-size: 14px; }
-  .extra b { font-weight: 600; margin-left: 6px; }
-  .odo-sep { display: inline-block; line-height: 1; }
+  .extra { padding: 10px 16px; border-radius: 999px; background: var(--blanco); font-size: 14px; }
+  .extra b { font-weight: 600; margin-left: 2px; }
+  .odo-sep { display: inline-block; line-height: 1; user-select: none; }
+  .odo-sep::before { content: attr(data-d); }
   @media (max-width: 900px) {
     .planes { grid-template-columns: 1fr; }
     .precios .cabeza { flex-direction: column; align-items: flex-start; }
@@ -569,15 +575,20 @@
       <div class="scs_scene" data-anm-scale-slider-scene>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/foto-1.webp" alt="Laura grabando contenido UGC" draggable="false" fetchpriority="high"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/intro-1.webp" alt="Laura en una sesión de fotos" draggable="false"></div>
+        <div class="scs_card scs_card--patron" data-anm-scale-slider-card><img class="scs_img" src="media/patron-1.webp" alt="" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/foto-2.webp" alt="Laura en el gimnasio" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/sobre-mi-laura.webp" alt="Retrato de Laura" draggable="false"></div>
+        <div class="scs_card scs_card--patron" data-anm-scale-slider-card><img class="scs_img" src="media/patron-2.webp" alt="" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/foto-3.webp" alt="Laura sonriendo en estudio" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/intro-2.webp" alt="Laura con su laptop" draggable="false"></div>
+        <div class="scs_card scs_card--patron" data-anm-scale-slider-card><img class="scs_img" src="media/patron-3.webp" alt="" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/foto-4.webp" alt="Laura en un café" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/sentada-m.webp" alt="Laura sentada en estudio" draggable="false" loading="lazy"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/foto-5.webp" alt="Laura en un día de grabación" draggable="false" loading="lazy"></div>
+        <div class="scs_card scs_card--patron" data-anm-scale-slider-card><img class="scs_img" src="media/patron-4.webp" alt="" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/intro-3.webp" alt="Laura detrás de cámara" draggable="false" loading="lazy"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/sobre-mi.webp" alt="Laura con su café" draggable="false" loading="lazy"></div>
+        <div class="scs_card scs_card--patron" data-anm-scale-slider-card><img class="scs_img" src="media/patron-5.webp" alt="" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/poster-2.webp" alt="Laura en un video para Zara" draggable="false" loading="lazy"></div>
       </div>
     </div>
@@ -588,7 +599,7 @@
   <!-- 2 · Intro + Mi trabajo: una sola sección con scroll normal -->
   <section class="panel seccion-a"><div class="panel__in">
     <div class="bloque intro" aria-label="Presentación">
-    <p class="intro__texto">Convierto productos en videos que se sienten como la recomendación de una amiga, y que <span class="clave">la gente se queda a ver</span>, guarda y comparte</p>
+    <p class="intro__texto">Convierto <span class="pen" style="--pc:#c58cff">productos</span> en videos que se sienten como la recomendación de <span class="pen" style="--pc:#7b8cff">una amiga</span>, y que la gente se queda a ver, guarda y <span class="pen" style="--pc:#9fd8ff">comparte</span></p>
     <div class="numeros">
       <div><span class="tile c-azul" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg></span><div class="numero__valor" data-num="18" data-pre="+" data-suf="K">+18K</div><div class="numero__label">Seguidores</div></div>
       <div><span class="tile c-morado" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-maleta"/></svg></span><div class="numero__valor" data-num="40" data-pre="+">+40</div><div class="numero__label">Marcas</div></div>
@@ -733,10 +744,10 @@
     </div>
     <div class="extras">
       <span class="extras__titulo">Extras</span>
-      <span class="extra">Derechos para anuncios<b>+30%</b></span>
-      <span class="extra">Entrega en 48 horas<b>+$800 MXN</b></span>
-      <span class="extra">Versión sin música ni textos<b>+$300 MXN</b></span>
-      <span class="extra">5 fotos de producto<b>$1,200 MXN</b></span>
+      <span class="extra">Derechos para anuncios <b>+30%</b></span>
+      <span class="extra">Entrega en 48 horas <b>+$800 MXN</b></span>
+      <span class="extra">Versión sin música ni textos <b>+$300 MXN</b></span>
+      <span class="extra">5 fotos de producto <b>$1,200 MXN</b></span>
     </div>
     </div>
   </div><div class="panel__velo"></div></section>
@@ -908,30 +919,60 @@
 
   // ---------- Intro: palabras que se encienden ----------
   var intro = document.querySelector('.intro__texto');
-  // separa en palabras conservando las frases clave (Advercase)
-  var partes = [];
+  // separa en palabras conservando los envoltorios (subrayados a lápiz) alrededor de sus palabras
+  function palabras(texto) {
+    return texto.split(/(\s+)/).map(function (t) {
+      return /^\s*$/.test(t) ? t : '<span class="palabra">' + t + '</span>';
+    }).join('');
+  }
+  var partes = '';
   intro.childNodes.forEach(function (n) {
-    var clase = n.nodeType === 1 && n.classList.contains('clave') ? 'palabra clave' : 'palabra';
-    n.textContent.split(/\s+/).forEach(function (w) {
-      if (w) partes.push('<span class="' + clase + '">' + w + '</span>');
-      else if (/^[,.]/.test(w)) partes.push(w);
+    if (n.nodeType === 3) { partes += palabras(n.textContent); return; }
+    var envoltorio = n.cloneNode(false);
+    envoltorio.innerHTML = palabras(n.textContent);
+    partes += envoltorio.outerHTML;
+  });
+  intro.innerHTML = partes;
+
+  // Subrayado a lápiz: cada frase marcada recibe un trazo distinto que se dibuja con el scroll
+  var TRAZOS = ["M5 20.9999C26.7762 16.2245 49.5532 11.5572 71.7979 14.6666C84.9553 16.5057 97.0392 21.8432 109.987 24.3888C116.413 25.6523 123.012 25.5143 129.042 22.6388C135.981 19.3303 142.586 15.1422 150.092 13.3333C156.799 11.7168 161.702 14.6225 167.887 16.8333C181.562 21.7212 194.975 22.6234 209.252 21.3888C224.678 20.0548 239.912 17.991 255.42 18.3055C272.027 18.6422 288.409 18.867 305 17.9999", "M4.99805 20.9998C65.6267 17.4649 126.268 13.845 187.208 12.8887C226.483 12.2723 265.751 13.2796 304.998 13.9998", "M5 29.5014C9.61174 24.4515 12.9521 17.9873 20.9532 17.5292C23.7742 17.3676 27.0987 17.7897 29.6575 19.0014C33.2644 20.7093 35.6481 24.0004 39.4178 25.5014C48.3911 29.0744 55.7503 25.7731 63.3048 21.0292C67.9902 18.0869 73.7668 16.1366 79.3721 17.8903C85.1682 19.7036 88.2173 26.2464 94.4121 27.2514C102.584 28.5771 107.023 25.5064 113.276 20.6125C119.927 15.4067 128.83 12.3333 137.249 15.0014C141.418 16.3225 143.116 18.7528 146.581 21.0014C149.621 22.9736 152.78 23.6197 156.284 24.2514C165.142 25.8479 172.315 17.5185 179.144 13.5014C184.459 10.3746 191.785 8.74853 195.868 14.5292C199.252 19.3205 205.597 22.9057 211.621 22.5014C215.553 22.2374 220.183 17.8356 222.979 15.5569C225.4 13.5845 227.457 11.1105 230.742 10.5292C232.718 10.1794 234.784 12.9691 236.164 14.0014C238.543 15.7801 240.717 18.4775 243.356 19.8903C249.488 23.1729 255.706 21.2551 261.079 18.0014C266.571 14.6754 270.439 11.5202 277.146 13.6125C280.725 14.7289 283.221 17.209 286.393 19.0014C292.321 22.3517 298.255 22.5014 305 22.5014"];
+  document.querySelectorAll('.pen').forEach(function (el, i) {
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('class', 'pen__svg'); svg.setAttribute('viewBox', '0 0 310 40');
+    svg.setAttribute('preserveAspectRatio', 'none'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('fill', 'none');
+    var path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', TRAZOS[i % TRAZOS.length]);
+    path.setAttribute('stroke', 'currentColor'); path.setAttribute('stroke-linecap', 'round'); path.setAttribute('stroke-linejoin', 'round');
+    path.setAttribute('vector-effect', 'non-scaling-stroke');
+    path.style.strokeWidth = (parseFloat(getComputedStyle(el).fontSize) * 0.075) + 'px';
+    svg.appendChild(path);
+    el.appendChild(svg);
+    if (reducir) return;
+    // con vector-effect el guion se mide en píxeles de pantalla: se escala el largo para ocultar el trazo completo
+    function largo() { var b = svg.getBoundingClientRect(); return path.getTotalLength() * Math.max(b.width / 310, b.height / 40) * 1.1 + 20; }
+    var L = largo();
+    gsap.set(path, { strokeDasharray: L + ' ' + L, strokeDashoffset: L });
+    gsap.to(path, {
+      strokeDashoffset: 0, ease: 'none',
+      scrollTrigger: { trigger: el, start: 'top 72%', end: 'top 42%', scrub: 0.6 }
     });
   });
-  intro.innerHTML = partes.join(' ').replace(/ <span class="palabra">,/g, '<span class="palabra">,');
 
   // Números tipo odómetro (como el pricing de Annnimate): cada dígito es una columna que rueda desde 0
   var VUELTAS = 2; // vueltas completas antes de caer en el dígito final
+  function simbolo(t) { return t ? '<span class="odo-sep" data-d="' + t + '"></span>' : ''; }
   document.querySelectorAll('[data-num]').forEach(function (el) {
     var final = el.textContent.trim();
-    el.setAttribute('aria-label', final);
-    var html = '<span aria-hidden="true" style="display:inline-flex">' + (el.dataset.pre || '');
+    // el número real queda como texto (oculto a la vista) para buscadores, lectores de pantalla y al copiar
+    var html = '<span class="sr-only">' + final + '</span><span aria-hidden="true" style="display:inline-flex;user-select:none">' + simbolo(el.dataset.pre);
     String(el.dataset.num).split('').forEach(function (d) {
-      if (!/[0-9]/.test(d)) { html += '<span class="odo-sep">' + d + '</span>'; return; }
+      if (!/[0-9]/.test(d)) { html += simbolo(d); return; }
       var caras = '';
-      for (var k = 0; k <= VUELTAS * 10 + 9; k++) caras += '<span>' + (k % 10) + '</span>';
+      for (var k = 0; k <= VUELTAS * 10 + 9; k++) caras += '<i data-d="' + (k % 10) + '"></i>';
       html += '<span class="odo-col"><span class="odo-tira" data-digito="' + d + '">' + caras + '</span></span>';
     });
-    el.innerHTML = html + (el.dataset.suf || '') + '</span>';
+    el.innerHTML = html + simbolo(el.dataset.suf) + '</span>';
   });
   function rodarNumeros(contenedor) {
     document.querySelectorAll((contenedor || '.numeros') + ' [data-num]').forEach(function (el, n) {
