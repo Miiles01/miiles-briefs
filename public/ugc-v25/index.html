@@ -136,6 +136,15 @@
     vertical-align: top;
   }
   .letra { display: inline-block; will-change: transform; }
+  /* "Portafolio": cada letra toma un color de la marca y se levanta un poco al pasar el cursor
+     (se mueve con "top", aparte del "transform" que anima la entrada) */
+  .hero__titulo .letra { position: relative; top: 0; transition: color var(--duration-fast) var(--ease-smooth-out), top var(--duration-fast) var(--ease-smooth-out); }
+  @media (hover: hover) {
+    .hero__titulo .letra:hover { top: -0.07em; }
+    .hero__titulo .letra-mask:nth-child(3n+1) .letra:hover { color: #8f5cf7; }
+    .hero__titulo .letra-mask:nth-child(3n+2) .letra:hover { color: #4059F1; }
+    .hero__titulo .letra-mask:nth-child(3n+3) .letra:hover { color: #2f9be6; }
+  }
 
   /* ---------- Íconos de color, como en la V23: cuadrito de color sólido (morado, azul y azul claro) con el ícono en negro ---------- */
   .c-azul { --c: #7b8cff; }
@@ -335,18 +344,23 @@
     padding: 80px var(--pad) 48px;
   }
   .marcas .cabeza { padding: 0; }
-  .marcas__grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .marcas__grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; } /* minmax(0,1fr): en Safari el ancho propio del SVG ya no estira la columna */
   .marca {
     aspect-ratio: 3 / 2;
     background: var(--degradado-card);
     box-shadow: inset 0 0 0 1px var(--gris-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 18%;
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
   }
-  .marca img { max-height: 100%; width: auto; filter: grayscale(1) brightness(0); }
-  @media (max-width: 900px) { .marcas__grid { grid-template-columns: repeat(3, 1fr); } }
+  /* el logo ocupa un recuadro fijo dentro de la celda (igual en Safari, Chrome y Firefox) */
+  .marca img {
+    position: absolute; top: 22%; left: 18%;
+    width: 64%; height: 56%;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0);
+  }
+  @media (max-width: 900px) { .marcas__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
   /* ---------- 5 · Nichos: foto de un lado y rueda de cápsulas del otro ---------- */
   .nichos {
@@ -478,7 +492,7 @@
   }
   .testimonio__cabeza { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
   .testimonio__cabeza .tile { width: 38px; height: 38px; border-radius: 10px; font-size: 18px; }
-  .testimonio__logo { height: 26px; width: auto; align-self: flex-start; filter: grayscale(1) brightness(0); }
+  .testimonio__logo { height: 26px; width: auto; max-width: 60%; object-fit: contain; object-position: left center; align-self: flex-start; filter: grayscale(1) brightness(0); }
   .testimonio__texto { font-size: clamp(16px, 1.4vw, 19px); flex: 1; }
   .testimonio__autor strong { display: block; font-weight: 600; }
   .testimonio__autor span { color: var(--gris); font-size: 14px; }
@@ -628,7 +642,7 @@
 
     /* Marcas en dos columnas */
     .marcas .panel__in { padding: 56px var(--pad); }
-    .marcas__grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .marcas__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 
     /* Nichos: foto y debajo la lista de cápsulas */
     .nichos { height: auto; grid-template-rows: auto auto; }
@@ -716,7 +730,7 @@
   <header class="panel panel--pantalla hero" id="inicio"><div class="panel__in">
     <h1 class="hero__titulo"><span class="gigante" data-gigante>Portafolio</span><span class="sr-only"> UGC de Laura, creadora de contenido en México</span></h1>
     <div class="hero__escena">
-    <p class="hero__intro">Hola, soy Laura, creadora de contenido UGC en México. Hago videos y fotos para marcas de belleza, skincare, moda y lifestyle</p>
+    <p class="hero__intro">Hola, soy Laura, creadora de contenido UGC en México. Hago videos y fotos para marcas de belleza, skincare, moda y lifestyle.</p>
     <div class="scs_wrap" data-anm-scale-slider data-anm-min-scale="0.3" data-anm-focus-y="0.3" data-anm-parallax="0.18" data-anm-scroll="0.0007" role="group" aria-label="Fotos de Laura" aria-roledescription="carousel">
       <div class="scs_scene" data-anm-scale-slider-scene>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/foto-1.webp" alt="Laura grabando contenido UGC" draggable="false" fetchpriority="high"></div>
@@ -733,7 +747,6 @@
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/foto-5.webp" alt="Laura en un día de grabación" draggable="false" loading="lazy"></div>
         <div class="scs_card scs_card--patron" data-anm-scale-slider-card><img class="scs_img" src="media/patron-4.webp" alt="" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/intro-3.webp" alt="Laura detrás de cámara" draggable="false" loading="lazy"></div>
-        <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/sobre-mi.webp" alt="Laura con su café" draggable="false" loading="lazy"></div>
         <div class="scs_card scs_card--patron" data-anm-scale-slider-card><img class="scs_img" src="media/patron-5.webp" alt="" draggable="false"></div>
         <div class="scs_card" data-anm-scale-slider-card><img class="scs_img" src="media/poster-2.webp" alt="Laura en un video para Zara" draggable="false" loading="lazy"></div>
       </div>
@@ -1169,7 +1182,7 @@
     if (reducir) gsap.set('.intro__texto .palabra', { opacity: 1 });
     else gsap.to('.intro__texto .palabra', {
       opacity: 1, ease: 'none', stagger: 0.1,
-      scrollTrigger: { trigger: '.intro', start: 'top 75%', end: 'bottom 70%', scrub: true }
+      scrollTrigger: { trigger: '.intro__texto', start: 'top 95%', end: 'top 45%', scrub: 0.4 }
     });
     document.querySelectorAll('[data-pausa]').forEach(function (p) { p.style.display = 'none'; });
     // Nichos como lista de cápsulas (sin rueda)
@@ -1269,7 +1282,7 @@
     // Intro: las palabras se encienden mientras se recorre
     gsap.to('.intro__texto .palabra', {
       opacity: 1, ease: 'none', stagger: 0.1,
-      scrollTrigger: { trigger: '.intro', start: 'top 70%', end: 'bottom 55%', scrub: true }
+      scrollTrigger: { trigger: '.intro__texto', start: 'top 95%', end: 'top 45%', scrub: 0.4 } // lista casi completa cuando la frase llega a media pantalla
     });
 
     // Testimonios: igual que Mi trabajo; como es la última pantalla, se fija con su propio espacio
