@@ -101,6 +101,8 @@
     font-family: 'Advercase', 'Helvetica Neue', sans-serif;
     font-weight: 400;
   }
+  /* Advercase (demo) no trae acentos: las frases con tilde van en Helvetica */
+  .sin-advercase { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 500; letter-spacing: -0.03em; }
   .titulo {
     font-size: clamp(32px, 5vw, 64px);
     line-height: 1.05;
@@ -195,7 +197,7 @@
     padding: 0 var(--pad);
     margin-bottom: clamp(12px, 1.6vw, 24px);
   }
-  .js .hero__titulo .letra, .js .footer__gigante .letra { transform: translateY(110%); }
+  .js .hero__titulo .letra { transform: translateY(110%); }
   .js .hero .scs_wrap { opacity: 0; }
   .hero__escena { position: relative; flex: 1; display: flex; min-height: 0; }
   .hero .scs_wrap { flex: 1; height: auto; min-height: 0; background: var(--blanco); }
@@ -458,15 +460,7 @@
     gap: clamp(32px, 6vw, 96px);
     align-items: start;
   }
-  .footer__estado { display: flex; align-items: center; gap: 10px; color: var(--gris); }
-  .footer__punto { width: 8px; height: 8px; border-radius: 50%; background: #3ddc84; position: relative; }
-  .footer__punto::after {
-    content: ''; position: absolute; inset: 0; border-radius: 50%;
-    background: #3ddc84; animation: latido 1.8s var(--ease-smooth-out) infinite;
-  }
-  @keyframes latido { from { transform: scale(1); opacity: .7; } to { transform: scale(3.2); opacity: 0; } }
   .footer__frase {
-    margin-top: 20px;
     font-size: clamp(28px, 3.6vw, 52px);
     line-height: 1.05;
     letter-spacing: -0.03em;
@@ -502,7 +496,17 @@
   .canal__dato { color: inherit; opacity: .6; font-size: 15px; margin-left: auto; }
   .canal__flecha { width: 22px; height: 22px; flex: none; transition: transform var(--duration-fast) var(--ease-smooth-out); }
   .canal:hover .canal__flecha { transform: rotate(-45deg); }
-  .footer__gigante { text-align: center; line-height: 0.82; margin-bottom: -0.04em; }
+  /* "Laura" gigante en bucle infinito */
+  .footer__marquesina { overflow: hidden; margin: 0 calc(var(--pad) * -1); padding: 0.02em 0 0.06em; }
+  .marquesina__pista { display: flex; width: max-content; animation: marquesina 22s linear infinite; will-change: transform; }
+  .marquesina__pista span {
+    font-family: 'Advercase', 'Helvetica Neue', sans-serif;
+    font-size: clamp(120px, 24vw, 420px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    padding-right: 0.3em;
+  }
+  @keyframes marquesina { to { transform: translateX(-50%); } }
   .footer__abajo {
     display: flex;
     justify-content: space-between;
@@ -518,7 +522,7 @@
     .canal__dato { display: none; }
     .footer__in { padding-top: 64px; gap: 24px; }
   }
-  @media (prefers-reduced-motion: reduce) { .footer__punto::after { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .marquesina__pista { animation: none; } }
 </style>
 </head>
 <body>
@@ -741,7 +745,7 @@
   <!-- 7 · Testimonios -->
   <section class="panel panel--pantalla testimonios" id="testimonios"><div class="panel__in">
     <div class="cabeza">
-      <h2 class="titulo">Lo que dicen sobre mí</h2>
+      <h2 class="titulo sin-advercase">Lo que dicen sobre mí</h2>
     </div>
     <div class="testimonios__fila">
       <article class="testimonio">
@@ -791,7 +795,6 @@
   <div class="footer__in">
     <div class="footer__arriba">
       <div>
-        <p class="footer__estado"><span class="footer__punto" aria-hidden="true"></span>Agenda abierta · respondo en menos de 24 horas</p>
         <p class="footer__frase">Hagamos algo juntos</p>
       </div>
       <div class="canales">
@@ -809,7 +812,9 @@
         </a>
       </div>
     </div>
-    <p class="gigante footer__gigante" data-gigante>Hablemos</p>
+    <div class="footer__marquesina" role="img" aria-label="Laura">
+      <div class="marquesina__pista" aria-hidden="true"><span>Laura</span><span>Laura</span><span>Laura</span><span>Laura</span><span>Laura</span><span>Laura</span><span>Laura</span><span>Laura</span></div>
+    </div>
     <div class="footer__abajo">
       <span>© 2026 Laura · Plantilla UGC de We Are Miiles</span>
       <div class="footer__redes">
@@ -894,14 +899,10 @@
       .fromTo(slider, { opacity: 0, y: 48 }, { opacity: 1, y: 0, duration: 0.5, ease: 'smoothOut' }, 0.2)
       .fromTo('.hero__intro', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'smoothOut' }, 0.35);
 
-    // El footer sube un poco mientras se descubre y "Hablemos" aparece letra por letra
+    // El footer sube un poco mientras se descubre
     gsap.fromTo('.footer__in', { yPercent: -30 }, {
       yPercent: 0, ease: 'none',
       scrollTrigger: { trigger: hueco, start: 'top bottom', end: 'bottom bottom', scrub: true }
-    });
-    gsap.to('.footer__gigante .letra', {
-      y: 0, duration: 0.5, ease: 'smoothOut', stagger: 0.03,
-      scrollTrigger: { trigger: hueco, start: 'top 40%', toggleActions: 'play none none reverse' }
     });
   });
 
