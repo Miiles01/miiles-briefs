@@ -25,8 +25,10 @@ El usuario habla español (México). Responde en español, directo y breve.
 - En flow-ai-studio: ver su `CLAUDE.md` (sistema de diseño, dark mode, no tocar landings salvo instrucción).
 
 ## Plantillas de portafolio
-- Última: **V24 (Laura)** en `public/ugc-v24/` → wearemiiles.com/ugc-v24 (no está en la Librería de miiles.app; el usuario pidió quitarla de ahí).
-- Siguiente: **V25** — idea: la primera plantilla armada con nuestros componentes animados. Pendiente: el usuario va a dar brief (creadora, estilo, componentes).
+- **V24 (Laura)** en `public/ugc-v24/` → wearemiiles.com/ugc-v24 (no está en la Librería de miiles.app; el usuario pidió quitarla de ahí).
+- **V25 (Laura) "Bloom"** en `public/ugc-v25/` → wearemiiles.com/ugc-v25, publicada y en la Librería de miiles.app (slug `portafolio-ugc-v25`). Reglas que dio el usuario para esta plantilla: blanco, nunca fondos negros en secciones, sin bordes redondeados en secciones, Advercase solo en frases clave sin acentos (lo demás Helvetica), grises y degradados de Miiles, íconos en cuadritos como V23 (morado, azul, azul claro; sin naranja), en móvil scroll normal con menú hamburguesa a media pantalla. Detalle en `AGENTS.md`.
+- Siguiente: **V26**.
+- Vista previa en video de la Librería: 960×720, ~9.8 s, 30 fps (mp4 + webm), grabada con Playwright haciendo scroll suave; miniatura 1200×900 jpg; zip de la carpeta en `public/studio/descargas/`. Ojo: la CDN de Hostinger recomprime las imágenes al servirlas.
 - Catálogo de miiles.app: `flow-ai-studio/src/data/studio-templates.json` (22 plantillas, con `preview_video_url` en wearemiiles `studio/previews/ugc-vN.mp4`). Se refleja también en `supabase/functions/mcp/index.ts`.
 
 ## Componentes de video (Remotion) — `remotion/`
