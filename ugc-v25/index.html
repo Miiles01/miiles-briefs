@@ -192,7 +192,10 @@
     .menu-cerrar span { font-size: 20px; line-height: 1; }
     .menu-links { display: flex; flex-direction: column; gap: 18px; }
     .menu-links a { font-size: 28px; font-weight: 500; letter-spacing: -0.02em; }
-    .menu-abierto .menu-velo { opacity: 1; }
+    /* cerrado: la capa oscura y el panel no existen para los toques (antes la capa tapaba toda la página) */
+    .menu-velo[hidden], .menu-panel[hidden] { display: none; }
+    .menu-velo { pointer-events: none; }
+    .menu-abierto .menu-velo { opacity: 1; pointer-events: auto; }
     .menu-abierto .menu-panel { transform: none; transition-duration: var(--duration-slow); }
     .menu-abierto, .menu-abierto body { overflow: hidden; }
   }
@@ -605,10 +608,10 @@
     .pausa { display: none; }
 
     /* Hero más compacto */
-    .hero .panel__in { padding-top: 78px; justify-content: flex-start; } /* deja libre el botón del menú */
+    .hero .panel__in { padding-top: max(120px, 17svh); justify-content: flex-start; } /* deja libre el botón del menú y baja el título */
     .hero__titulo { margin-bottom: 14px; }
     .hero__escena { gap: 18px; }
-    .hero .scs_wrap { height: 88vw; }
+    .hero .scs_wrap { height: 74vw; } /* menos aire entre el texto y las fotos */
 
     /* Intro: la frase y los números más juntos */
     .intro { min-height: 0; gap: 40px; padding: 64px var(--pad) 48px; justify-content: flex-start; }
@@ -641,6 +644,12 @@
     }
     .testimonios__fila::-webkit-scrollbar { display: none; }
     .testimonio { width: 84vw; min-height: 0; scroll-snap-align: start; }
+
+    /* Footer centrado */
+    .footer__arriba { justify-items: center; text-align: center; }
+    .canales { align-items: center; }
+    .canal { justify-content: center; text-align: center; width: auto; }
+    .footer__abajo { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
 
     /* Footer normal, al final de la página (sin revelado) */
     .footer { position: relative; }
