@@ -79,6 +79,8 @@
     /* tokens de transitions.dev */
     --duration-fast: 250ms;
     --duration-quick: 150ms;
+    --duration-medium: 350ms;
+    --duration-slow: 400ms;
     --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -128,8 +130,9 @@
   .letra-mask {
     display: inline-block;
     overflow: hidden;
-    padding: 0.06em 0.01em 0.1em;
-    margin: -0.06em -0.01em -0.1em;
+    /* holgura amplia: Advercase tiene letras (r, f) que se salen de su espacio y se cortaban */
+    padding: 0.14em 0.12em 0.16em;
+    margin: -0.14em -0.12em -0.16em;
     vertical-align: top;
   }
   .letra { display: inline-block; will-change: transform; }
@@ -161,7 +164,38 @@
     color: #fff;
     font-size: 15px;
   }
-  @media (max-width: 640px) { .nav a:not(:last-child) { display: none; } }
+
+  /* ---------- Menú móvil: hamburguesa flotante y panel a media pantalla ---------- */
+  .menu-btn, .menu-panel, .menu-velo { display: none; }
+  @media (max-width: 767px) {
+    .menu-btn {
+      position: fixed; top: max(14px, env(safe-area-inset-top)); right: 14px; z-index: 70;
+      display: grid; place-content: center; gap: 6px;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: #4059F1;
+    }
+    .menu-btn span { display: block; width: 20px; height: 2px; border-radius: 2px; background: #fff; }
+    .menu-velo {
+      display: block; position: fixed; inset: 0; z-index: 80;
+      background: rgba(10, 10, 10, 0.35);
+      opacity: 0; transition: opacity var(--duration-medium) var(--ease-smooth-out);
+    }
+    .menu-panel {
+      display: flex; flex-direction: column; gap: 40px;
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 90;
+      width: max(50vw, 240px); padding: 22px 24px 32px;
+      background: var(--blanco);
+      transform: translateX(100%);
+      transition: transform var(--duration-medium) var(--ease-smooth-out);
+    }
+    .menu-cerrar { align-self: flex-end; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: var(--gris-100); font-size: 15px; }
+    .menu-cerrar span { font-size: 20px; line-height: 1; }
+    .menu-links { display: flex; flex-direction: column; gap: 18px; }
+    .menu-links a { font-size: 28px; font-weight: 500; letter-spacing: -0.02em; }
+    .menu-abierto .menu-velo { opacity: 1; }
+    .menu-abierto .menu-panel { transform: none; transition-duration: var(--duration-slow); }
+    .menu-abierto, .menu-abierto body { overflow: hidden; }
+  }
 
   /* ---------- Smooth scroll + footer revelado ---------- */
   #smooth-wrapper { position: relative; z-index: 1; pointer-events: none; }
@@ -551,6 +585,70 @@
     .footer__in { padding-top: 64px; gap: 24px; }
   }
   @media (prefers-reduced-motion: reduce) { .marquesina__pista { animation: none; } }
+  /* ---------- Rueda de nichos como lista (móvil y movimiento reducido) ---------- */
+  .tambor--lista {
+    display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 10px;
+    perspective: none; padding: 8px 0;
+  }
+  .tambor--lista .pastilla {
+    position: static; transform: none !important; opacity: 1 !important; visibility: visible !important;
+    font-size: 17px;
+  }
+
+  /* ================= MÓVIL: scroll normal y todo más compacto ================= */
+  @media (max-width: 767px) {
+    .nav { display: none; }
+
+    /* Sin secciones encimadas: cada una mide lo que su contenido */
+    .panel, .panel--pantalla { height: auto; min-height: 0; margin-top: 0 !important; }
+    .panel__in { min-height: 0; height: auto; }
+    .pausa { display: none; }
+
+    /* Hero más compacto */
+    .hero .panel__in { padding-top: 78px; justify-content: flex-start; } /* deja libre el botón del menú */
+    .hero__titulo { margin-bottom: 14px; }
+    .hero__escena { gap: 18px; }
+    .hero .scs_wrap { height: 88vw; }
+
+    /* Intro: la frase y los números más juntos */
+    .intro { min-height: 0; gap: 40px; padding: 64px var(--pad) 48px; justify-content: flex-start; }
+
+    /* Mi trabajo: fila que se desliza con el dedo, sin huecos a los lados */
+    .trabajo { height: auto; padding: 24px 0 56px; gap: 20px; }
+    .trabajo__pista {
+      width: auto; padding: 0 var(--pad); overflow-x: auto; scroll-snap-type: x mandatory;
+      scroll-padding: 0 var(--pad); scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .trabajo__pista::-webkit-scrollbar { display: none; }
+    .pieza { width: 64vw; scroll-snap-align: start; }
+
+    /* Marcas en dos columnas */
+    .marcas .panel__in { padding: 56px var(--pad); }
+    .marcas__grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    /* Nichos: foto y debajo la lista de cápsulas */
+    .nichos { height: auto; grid-template-rows: auto auto; }
+    .nichos__foto { aspect-ratio: 4 / 5; }
+    .nichos__lado { padding: 36px 16px 32px; gap: 20px; justify-content: flex-start; }
+
+    .precios { padding: 56px var(--pad); }
+
+    /* Reseñas: fila que se desliza con el dedo, sin huecos a los lados */
+    .testimonios .panel__in { padding: 56px 0 64px; }
+    .testimonios__fila {
+      width: auto; padding: 0 var(--pad); overflow-x: auto; scroll-snap-type: x mandatory;
+      scroll-padding: 0 var(--pad); scrollbar-width: none;
+    }
+    .testimonios__fila::-webkit-scrollbar { display: none; }
+    .testimonio { width: 84vw; min-height: 0; scroll-snap-align: start; }
+
+    /* Footer normal, al final de la página (sin revelado) */
+    .footer { position: relative; }
+    .hueco-footer { display: none; }
+    #smooth-wrapper, #smooth-content { pointer-events: auto; }
+    /* espacio para que el botón flotante no tape el pie del footer */
+    .footer__in { padding-bottom: 88px; }
+  }
 </style>
 </head>
 <body>
@@ -580,10 +678,26 @@
 </svg>
 
 <nav class="nav" aria-label="Principal">
+  <a href="#sobre-mi">Sobre mí</a>
   <a href="#trabajo">Trabajo</a>
   <a href="#precios">Precios</a>
   <a href="#contacto">Contacto</a>
 </nav>
+
+<!-- Menú móvil: botón hamburguesa flotante y panel a media pantalla -->
+<button class="menu-btn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-movil">
+  <span></span><span></span>
+</button>
+<div class="menu-velo" data-cerrar-menu hidden></div>
+<aside class="menu-panel" id="menu-movil" aria-label="Menú" hidden>
+  <button class="menu-cerrar" type="button" data-cerrar-menu>Cerrar <span aria-hidden="true">×</span></button>
+  <nav class="menu-links">
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#trabajo">Trabajo</a>
+    <a href="#precios">Precios</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</aside>
 
 <div id="smooth-wrapper"><div id="smooth-content">
 <main class="presentacion">
@@ -620,7 +734,7 @@
 
   <!-- 2 · Intro + Mi trabajo: una sola sección con scroll normal -->
   <section class="panel seccion-a"><div class="panel__in">
-    <div class="bloque intro" aria-label="Presentación">
+    <div class="bloque intro" id="sobre-mi" aria-label="Sobre mí">
     <p class="intro__texto">Convierto <span class="pen" style="--pc:#c58cff">productos</span> en videos que se sienten como la recomendación de <span class="pen" style="--pc:#7b8cff">una amiga</span>, y que la gente se queda a ver, guarda y <span class="pen" style="--pc:#9fd8ff">comparte</span></p>
     <div class="numeros">
       <div><span class="tile c-azul" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg></span><div class="numero__valor" data-num="18" data-pre="+" data-suf="K">+18K</div><div class="numero__label">Seguidores</div></div>
@@ -872,9 +986,11 @@
   CustomEase.create('smoothOut', '0.22, 1, 0.36, 1');   // --ease-smooth-out de transitions.dev
   var reducir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reducir) document.documentElement.classList.add('sin-movimiento');
+  // En móvil: scroll normal, secciones una tras otra (sin fijar ni encimar) y carruseles que se deslizan con el dedo
+  var movil = window.matchMedia('(max-width: 767px)').matches;
 
   // ---------- Smooth scroll (ScrollSmoother de GSAP) ----------
-  var smoother = ScrollSmoother.create({
+  var smoother = movil ? null : ScrollSmoother.create({
     wrapper: '#smooth-wrapper',
     content: '#smooth-content',
     smooth: reducir ? 0 : 1.6,
@@ -882,10 +998,33 @@
     smoothTouch: 0.1,
     effects: false
   });
+  // Menú móvil
+  var btnMenu = document.querySelector('.menu-btn');
+  var panelMenu = document.querySelector('.menu-panel'), veloMenu = document.querySelector('.menu-velo');
+  function menu(abrir) {
+    if (abrir) { panelMenu.hidden = false; veloMenu.hidden = false; requestAnimationFrame(function () { document.documentElement.classList.add('menu-abierto'); }); }
+    else {
+      document.documentElement.classList.remove('menu-abierto');
+      setTimeout(function () { if (!document.documentElement.classList.contains('menu-abierto')) { panelMenu.hidden = true; veloMenu.hidden = true; } }, 360);
+    }
+    btnMenu.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+  }
+  btnMenu.addEventListener('click', function () { menu(true); });
+  document.querySelectorAll('[data-cerrar-menu]').forEach(function (el) { el.addEventListener('click', function () { menu(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') menu(false); });
+  document.querySelectorAll('.menu-links a').forEach(function (a) { a.addEventListener('click', function () { menu(false); }); });
+
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var id = a.getAttribute('href');
       e.preventDefault();
+      var suave = reducir ? 'auto' : 'smooth';
+      if (!smoother) {
+        if (id === '#contacto') { window.scrollTo({ top: document.documentElement.scrollHeight, behavior: suave }); return; }
+        if (id === '#inicio') { window.scrollTo({ top: 0, behavior: suave }); return; }
+        var d = document.querySelector(id); if (d) d.scrollIntoView({ behavior: suave });
+        return;
+      }
       if (id === '#contacto') { smoother.scrollTo(ScrollTrigger.maxScroll(window), !reducir); return; }
       if (id === '#inicio') { smoother.scrollTo(0, !reducir); return; }
       var destino = document.querySelector(id);
@@ -933,7 +1072,7 @@
       .fromTo('.hero__intro', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'smoothOut' }, 0.35);
 
     // El footer sube un poco mientras se descubre
-    gsap.fromTo('.footer__in', { yPercent: -30 }, {
+    if (!movil) gsap.fromTo('.footer__in', { yPercent: -30 }, {
       yPercent: 0, ease: 'none',
       scrollTrigger: { trigger: hueco, start: 'top bottom', end: 'bottom bottom', scrub: true }
     });
@@ -1014,14 +1153,15 @@
   var distancia = function () { return Math.max(0, pista.scrollWidth - window.innerWidth); };
   panels.forEach(function (p, i) { p.style.zIndex = i + 1; });
 
-  if (reducir) {
-    gsap.set('.intro__texto .palabra', { opacity: 1 });
-    document.querySelectorAll('[data-pausa]').forEach(function (p) { p.style.display = 'none'; });
-    gsap.utils.toArray('.pastilla').forEach(function (el, i) {
-      el.style.position = 'static'; el.style.display = 'inline-block'; el.style.margin = '4px';
-      if (i === 0) el.classList.add('activa');
+  if (reducir || movil) {
+    if (reducir) gsap.set('.intro__texto .palabra', { opacity: 1 });
+    else gsap.to('.intro__texto .palabra', {
+      opacity: 1, ease: 'none', stagger: 0.1,
+      scrollTrigger: { trigger: '.intro', start: 'top 75%', end: 'bottom 70%', scrub: true }
     });
-    document.querySelector('[data-tambor]').style.textAlign = 'center';
+    document.querySelectorAll('[data-pausa]').forEach(function (p) { p.style.display = 'none'; });
+    // Nichos como lista de cápsulas (sin rueda)
+    document.querySelector('[data-tambor]').classList.add('tambor--lista');
   } else {
     // Fijaciones internas primero (agregan espacio dentro de las secciones largas,
     // así las fijaciones de abajo se calculan ya con ese espacio)
