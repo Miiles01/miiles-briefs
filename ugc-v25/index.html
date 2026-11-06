@@ -609,7 +609,7 @@
 
     /* Hero más compacto */
     .hero .panel__in { padding-top: max(120px, 17svh); justify-content: flex-start; } /* deja libre el botón del menú y baja el título */
-    .hero__titulo { margin-bottom: 14px; }
+    .hero__titulo { margin-bottom: 14px; text-align: left; }
     .hero__escena { gap: 18px; }
     .hero .scs_wrap { height: 74vw; } /* menos aire entre el texto y las fotos */
 
@@ -1055,8 +1055,10 @@
       var cs = getComputedStyle(el);
       var disponible = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       el.style.fontSize = '100px';
-      var r = document.createRange(); r.selectNodeContents(el);
-      el.style.fontSize = (100 * disponible / r.getBoundingClientRect().width).toFixed(2) + 'px';
+      // se mide de la primera a la última letra (sin la holgura invisible de las máscaras)
+      var letras = el.querySelectorAll('.letra');
+      var ancho = letras[letras.length - 1].getBoundingClientRect().right - letras[0].getBoundingClientRect().left;
+      el.style.fontSize = (100 * disponible / ancho).toFixed(2) + 'px';
     });
   }
 
