@@ -268,7 +268,7 @@
     padding: clamp(96px, 12vh, 140px) var(--pad) clamp(32px, 6vh, 64px);
   }
   .intro__texto {
-    max-width: 22ch;
+    max-width: none; /* a todo el ancho en escritorio y tablet */
     font-size: clamp(32px, 5.4vw, 84px);
     font-weight: 500;
     line-height: 1.04;
@@ -615,6 +615,7 @@
 
     /* Intro: la frase y los números más juntos */
     .intro { min-height: 0; gap: 40px; padding: 64px var(--pad) 48px; justify-content: flex-start; }
+    .intro__texto { max-width: 22ch; }
 
     /* Mi trabajo: fila que se desliza con el dedo, sin huecos a los lados */
     .trabajo { height: auto; padding: 24px 0 56px; gap: 20px; }
