@@ -42,8 +42,9 @@ Proyecto Remotion 4.0.540 + React 19 + lucide-react. Video vertical 1080×1920 a
 ### Cómo se sube un componente aprobado a miiles.app
 1. `python3 bundle_comp.py Archivo.tsx=slug.tsx.txt` → un solo archivo con `shared.tsx` incluido.
 2. Video (de `galeria/videos/`), portada `.jpg` (un cuadro representativo) y `.tsx.txt` → `public/studio/componentes/` en miiles-briefs → publicar en production.
-3. Agregar la ficha en `flow-ai-studio/src/data/studio-components.json` (campos: slug, title, category [Carrusel | Galería | Texto | Elemento | Transición], description, preview_video_url, poster_url, code_url, code_filename, stack, instruction, customize). Ejemplos de fichas en `entries_subidas.py`.
-4. Marcar la casilla en `galeria/index.html`.
+3. Copiar también el `.tsx.txt` a `flow-ai-studio/public/studio-code/` (Copiar prompt lo lee de ahí: wearemiiles no manda CORS).
+4. Agregar la ficha en `flow-ai-studio/src/data/studio-components.json` (campos: slug, title, category [Carrusel | Galería | Texto | Elemento | Transición], description, preview_video_url, poster_url, code_url, code_filename, stack, instruction, customize). Ejemplos de fichas en `entries_subidas.py`.
+5. Marcar la casilla en `galeria/index.html`.
 
 ### Estado (33 subidas a miiles.app, 41 por aprobar)
 Subidas: carruseles (circular, espiral 3D, abanico, ruedas vertical/horizontal, pila 3D, anillo interior), columnas inclinadas, frases (letras, cambio de frase, desde inicio/centro/final/extremos/aleatorio), letras elásticas, frase con puntos, línea que resuena, órbita con zoom, botones que se revelan / en columna, tarjetas que se apilan, fotos que crecen, galería con profundidad, cuadrícula que se reacomoda, lluvia de likes / desde arriba, transiciones escala / cortina curva / disolver / espiral, foto con repetición cápsula / arco.
