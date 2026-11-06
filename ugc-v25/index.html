@@ -448,6 +448,24 @@
   @media (max-width: 767px) { .testimonios__fila { padding-left: 40vw; } }
   .sin-movimiento .testimonios__fila { width: auto; overflow-x: auto; padding: 0 var(--pad); }
 
+  /* ---------- Hover de color: Marcas, Precios y reseñas ----------
+     El fondo toma un color de la marca (morado, azul, azul claro en tono más profundo para que el blanco se lea)
+     y logos y textos pasan a blanco */
+  .marca, .plan, .testimonio {
+    transition: background var(--duration-fast) var(--ease-smooth-out), box-shadow var(--duration-fast) var(--ease-smooth-out), color var(--duration-fast) var(--ease-smooth-out);
+  }
+  .marca img, .testimonio__logo { transition: filter var(--duration-fast) var(--ease-smooth-out); }
+  .marca:nth-child(3n+1), .plan:nth-child(3n+1), .testimonio:nth-child(3n+1) { --h: #8f5cf7; }
+  .marca:nth-child(3n+2), .plan:nth-child(3n+2), .testimonio:nth-child(3n+2) { --h: #4059F1; }
+  .marca:nth-child(3n+3), .plan:nth-child(3n+3), .testimonio:nth-child(3n+3) { --h: #2f9be6; }
+  @media (hover: hover) {
+    .marca:hover, .plan:hover, .testimonio:hover { background: var(--h); box-shadow: none; color: #fff; }
+    .marca:hover img, .testimonio:hover .testimonio__logo { filter: brightness(0) invert(1); }
+    .plan:hover .plan__para, .plan:hover .plan__moneda, .testimonio:hover .testimonio__autor span { color: rgba(255, 255, 255, 0.78); }
+    .plan:hover .tile, .testimonio:hover .tile { background: #fff; }
+    .plan:hover .plan__etiqueta { background: #fff; color: var(--negro); }
+  }
+
   /* ---------- Footer: queda fijo detrás y la página se desliza hacia arriba descubriéndolo ---------- */
   .footer {
     position: fixed;
