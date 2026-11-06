@@ -1,0 +1,78 @@
+import json, subprocess, shutil, os
+G = "/tmp/claude-0/-home-user/19add4bf-eb88-5145-b175-388bdce02bc4/scratchpad/galeria/videos/"
+OUT = "/tmp/claude-0/-home-user/19add4bf-eb88-5145-b175-388bdce02bc4/scratchpad/compbundle/out/"
+BASE = "https://wearemiiles.com/studio/componentes/"
+STACK = "Remotion + React, 1080×1920 a 30 fps"
+TXT = "Si no tengo un proyecto de Remotion, créalo; registra la composición en 1080×1920 a 30 fps"
+FONT = "pon la tipografía en public/fonts/"
+def E(slug, vid, title, cat, code, fname, desc, extra, cust, poster=0.45):
+    return dict(slug=slug, vid=vid, poster=poster, title=title, category=cat, description=desc,
+        preview_video_url=BASE + slug + ".mp4", poster_url=BASE + slug + ".jpg", code_url=BASE + code,
+        code_filename=fname, stack=STACK, instruction=f"{TXT} {extra} Sigue el bloque «Cómo usar este componente» del código para personalizarla.", customize=cust)
+PH = ["Cambia las frases en phrases (una línea por renglón)", "Elige split: \"lines\", \"words\" o \"letters\"", "Usa highlight para resaltar palabras con otra tipografía", "Respeta la zona segura de TikTok / Reels con safeArea"]
+def phrase(slug, vid, title, desc, props):
+    return E(slug, vid, title, "Texto", "frase-clave.tsx.txt", "KeyPhrase.tsx", desc,
+        f"y usa estas props: {props}; {FONT}Manrope.woff2 y cambia examplePhrases por mis frases.", PH, poster=0.3)
+L = [
+ phrase("frase-letras", "PhraseLetters", "Letras", "La frase aparece letra por letra, centrada y en negro, lista para Reels y TikTok.", 'split: "letters", stagger: 1'),
+ phrase("cambio-de-frase", "PhraseSwap", "Cambio de frase", "Una frase empuja a la otra: las líneas salen hacia arriba mientras entran las nuevas.", 'split: "lines", transition: "swap", stagger: 2, enter: 12, exit: 12'),
+ phrase("letras-desde-el-inicio", "PhraseFromStart", "Letras desde el inicio", "Las letras entran de izquierda a derecha, una tras otra.", 'split: "letters", from: "start", stagger: 1.5'),
+ phrase("letras-desde-el-centro", "PhraseFromCenter", "Letras desde el centro", "Las letras nacen desde el centro de la frase hacia los lados.", 'split: "letters", from: "center", stagger: 1.5'),
+ phrase("letras-desde-el-final", "PhraseFromEnd", "Letras desde el final", "Las letras entran de la última a la primera.", 'split: "letters", from: "end", stagger: 1.5'),
+ phrase("letras-desde-los-extremos", "PhraseFromEdges", "Letras desde los extremos", "Las letras entran desde las orillas hacia el centro de la frase.", 'split: "letters", from: "edges", stagger: 1.5'),
+ phrase("letras-aleatorias", "PhraseFromRandom", "Letras en orden aleatorio", "Las letras aparecen en desorden hasta formar la frase.", 'split: "letters", from: "random", stagger: 1.5'),
+ E("letras-elasticas", "ElasticStack", "Letras elásticas", "Texto", "letras-elasticas.tsx.txt", "ElasticStack.tsx",
+   "Una palabra grande en columnas que se estiran y encogen como resortes.", f"{FONT}Anton.woff2 y cambia text por mi palabra.",
+   ["Cambia text por tu palabra (corta funciona mejor)", "Cambia el color del texto y el fondo", "Ajusta la velocidad del estiramiento"]),
+ E("linea-que-resuena", "ResonantLine", "Línea que resuena", "Elemento", "linea-que-resuena.tsx.txt", "ResonantLine.tsx",
+   "Una línea gruesa que vibra como una cuerda cada cierto tiempo.", "y úsala como detalle encima o debajo de mis textos.",
+   ["Cambia el color y el grosor (thickness)", "Ajusta cada cuánto vibra", "Úsala como separador entre textos"]),
+ E("orbita-con-zoom", "OrbitZoom", "Órbita con zoom", "Galería", "orbita-zoom.tsx.txt", "OrbitZoom.tsx",
+   "Las fotos salen del centro y forman un círculo que gira sin parar; la cámara se acerca a un lado del círculo y regresa.", "pon mis fotos en public/ y cámbialas en exampleItems.",
+   ["Cambia las fotos o tarjetas de color con ícono en items", "Ajusta radius y cardSize para separar las fotos", "focus elige hacia qué lado se acerca la cámara", "zoom y turnSeconds para el acercamiento y la velocidad"]),
+ E("botones-que-se-revelan", "IconPills", "Botones que se revelan", "Elemento", "botones-iconos.tsx.txt", "IconPills.tsx",
+   "Botones con ícono y texto que aparecen uno por uno, en filas.", f"{FONT}Manrope.woff2 y cambia examplePills por mis botones (íconos de lucide-react).",
+   ["Cambia los textos e íconos en rows", "Cambia colores de fondo y de los botones", "every controla el tiempo entre botones"]),
+ E("botones-en-columna", "IconPillsColumn", "Botones en columna", "Elemento", "botones-iconos.tsx.txt", "IconPills.tsx",
+   "Cuatro botones grandes con ícono que aparecen uno debajo del otro.", f"y usa rows con un botón por fila, fontSize: 92 y every: 26; {FONT}Manrope.woff2.",
+   ["Pon un botón por fila en rows", "Cambia íconos (lucide-react) y textos", "Ajusta fontSize y every"]),
+ E("frase-con-puntos", "DotsPhrase", "Frase con puntos", "Texto", "frase-con-puntos.tsx.txt", "DotsPhrase.tsx",
+   "Una frase sobre una cuadrícula de puntos que se apartan al paso de dos cursores invisibles.", f"{FONT}Manrope.woff2 y cambia text por mi frase.",
+   ["Cambia text por tu frase", "Cambia el color de los puntos y del texto", "Ajusta el tamaño de los puntos y el radio de empuje"]),
+ E("tarjetas-que-se-apilan", "StackCards", "Tarjetas que se apilan", "Elemento", "tarjetas-apiladas.tsx.txt", "StackCards.tsx",
+   "Tarjetas de tareas que llegan una sobre otra; las de atrás se aclaran.", f"{FONT}Manrope.woff2 y cambia exampleTasks por mis tarjetas.",
+   ["Cambia títulos, etiquetas y colores en cards", "Ajusta el tiempo entre tarjetas", "Cambia el color de fondo"]),
+ E("fotos-que-crecen", "FlipGrow", "Fotos que crecen", "Galería", "fotos-que-crecen.tsx.txt", "FlipGrow.tsx",
+   "Un cuadro pequeño cambia de foto rápido entre dos palabras y crece hasta llenar la pantalla.", f"{FONT}Manrope.woff2, pon mis fotos en public/ y cámbialas en images.",
+   ["Cambia las fotos en images", "Cambia las dos palabras de los lados", "Ajusta la velocidad del cambio de fotos"], poster=0.4),
+ E("galeria-con-profundidad", "DepthGallery", "Galería con profundidad", "Galería", "galeria-profundidad.tsx.txt", "DepthGallery.tsx",
+   "Pocas fotos, alternadas a los lados, que suben sin parar en un bucle perfecto.", "pon mis fotos en public/ y cámbialas en exampleItems; usa una duración de seconds × 30 cuadros.",
+   ["Cambia las fotos en items", "count: cuántas fotos (mejor pocas)", "seconds: duración del bucle", "size: tamaño de las fotos"]),
+ E("cuadricula-que-se-reacomoda", "GridFlip", "Cuadrícula que se reacomoda", "Galería", "cuadricula-reacomoda.tsx.txt", "GridFlip.tsx",
+   "Empieza con una foto, aparecen más y la cuadrícula pasa a 2 y 3 columnas; cada foto viaja a su lugar.", "pon mis fotos en public/ y cámbialas en exampleItems.",
+   ["Cambia las fotos en items", "layouts define los pasos (columnas, filas y ancho)", "flow: true para que todas las fotos estén desde el inicio", "move y hold para la velocidad"], poster=0.35),
+ E("lluvia-de-likes", "FallingItems", "Lluvia de likes", "Galería", "lluvia-likes.tsx.txt", "FallingItems.tsx",
+   "Una frase al centro mientras caen y rebotan fotos, íconos y burbujas de likes.", f"{FONT}Manrope.woff2 y cambia exampleDrops por mis fotos, íconos (lucide-react) y likes.",
+   ["Cambia la frase en text", "Cambia lo que cae en drops", "every: tiempo entre caídas; size: tamaño"]),
+ E("lluvia-desde-arriba", "FallingItemsTop", "Lluvia desde arriba", "Galería", "lluvia-likes.tsx.txt", "FallingItems.tsx",
+   "Fotos, íconos y likes caen desde arriba por dos fuentes que se mueven de lado a lado.", f"y usa fromTop: true, sources: 2, every: 5; {FONT}Manrope.woff2 y cambia exampleDrops.",
+   ["Cambia la frase en text", "sources: cuántas fuentes", "Cambia lo que cae en drops"]),
+ E("transicion-escala", "Transition-scale", "Transición: escala", "Transición", "transiciones-pagina.tsx.txt", "PageTransition.tsx",
+   "La escena se aleja y la nueva se descubre de abajo hacia arriba y crece.", f'y usa variant: "scale"; {FONT}Manrope.woff2 y cambia los textos de from y to.',
+   ["Cambia from y to (texto, color o foto)", "stage: color detrás de las escenas", "speed para la velocidad"], poster=0.42),
+ E("transicion-cortina-curva", "Transition-curve", "Transición: cortina curva", "Transición", "transiciones-pagina.tsx.txt", "PageTransition.tsx",
+   "Una cortina con curva sube, cubre todo y se va hacia arriba mostrando la nueva escena.", f'y usa variant: "curve"; {FONT}Manrope.woff2 y cambia los textos de from y to.',
+   ["Cambia from y to", "overlayColor: color de la cortina", "speed para la velocidad"], poster=0.4),
+ E("transicion-disolver", "Transition-dissolve", "Transición: disolver", "Transición", "transiciones-pagina.tsx.txt", "PageTransition.tsx",
+   "La escena se deshace con un ruido orgánico y un borde de color.", f'y usa variant: "dissolve"; {FONT}Manrope.woff2 y cambia los textos de from y to.',
+   ["Cambia from y to", "overlayColor: color del borde", "speed para la velocidad"], poster=0.4),
+ E("transicion-espiral", "Transition-spiral", "Transición: espiral", "Transición", "transiciones-pagina.tsx.txt", "PageTransition.tsx",
+   "Una espiral se dibuja con un trazo que engorda hasta cubrir la pantalla.", f'y usa variant: "spiral"; {FONT}Manrope.woff2 y cambia los textos de from y to.',
+   ["Cambia from y to", "overlayColor: color de la espiral", "speed para la velocidad"], poster=0.33),
+ E("foto-repeticion-capsula", "RepetitionPill", "Foto con repetición: cápsula", "Galería", "foto-repeticion.tsx.txt", "RepetitionImage.tsx",
+   "Una foto en forma de cápsula: copias de la misma foto se encogen como ecos mientras la de adentro hace zoom.", 'pon mi foto en public/ y úsala en image, con shape: "pill".',
+   ["Cambia image por tu foto", "elems: cuántas copias", "initialScale, duration y stagger para el ritmo"], poster=0.36),
+ E("foto-repeticion-arco", "RepetitionArch", "Foto con repetición: arco", "Galería", "foto-repeticion.tsx.txt", "RepetitionImage.tsx",
+   "Una foto en forma de arco con copias que se encogen hacia abajo.", 'pon mi foto en public/ y úsala en image, con shape: "arch", origin: "50% 100%", elems: 6, initialScale: 2.5.',
+   ["Cambia image por tu foto", "origin: hacia dónde se encogen", "elems e initialScale"], poster=0.36),
+]

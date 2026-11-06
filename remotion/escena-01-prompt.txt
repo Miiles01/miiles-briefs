@@ -1,0 +1,75 @@
+ESCENA 01 — "Contenido que se siente real" · Reel 9:16 · 15 s · Miiles (UGC)
+Brief: reel de marca para Miiles. Creadoras UGC, fondos limpios blancos, acentos azul #4059F1 y rosa #FCB5B9. Energía alta al inicio, momento firma a la mitad, cierre limpio con la marca.
+
+=== SECCIÓN 1: SHOT-BY-SHOT EFFECTS TIMELINE ===
+
+SHOT 1 (00:00-00:01.5) — Gancho de texto
+• EFFECT: Kinetic type (word punch-in) + camera shake (micro)
+• Fondo blanco. "¿Tu marca se ve igual que todas?" entra palabra por palabra, cada palabra escala de 140% a 100% con rebote
+• Vibración de alta frecuencia muy sutil (±6 px) en cada golpe de palabra
+• Sale con un destello blanco (bloom flash) que sobreexpone todo el cuadro
+
+SHOT 2 (00:01.5-00:03) — Retrato, punch-in
+• EFFECT: White bloom flash (entrada) + digital zoom (scale-in) + speed ramp
+• El retrato aparece a través del blanco sobreexpuesto, los contornos se definen en 0.3 s
+• Zoom digital agresivo de 100% a 128% con aceleración, luego desacelera (ramp)
+• Sale con whip pan horizontal (derecha a izquierda) con desenfoque de movimiento
+
+SHOT 3 (00:03-00:04.5) — Gorra, simetría
+• EFFECT: Whip pan (entrada) + vertical mirror/symmetry
+• Entra con el smear de motion blur del whip pan anterior
+• El cuadro se espeja en el eje vertical: dos perfiles enfrentados, composición estática
+• Corte duro al siguiente
+
+SHOT 4 (00:04.5-00:06.5) — Textura rosa + texto
+• EFFECT: Slow push (Ken Burns) + text reveal por líneas
+• Empuje lento ~6% de escala, rotación de 2°
+• "Contenido real" sube por líneas desde una máscara, en negro sobre la imagen clara
+• Sale con zoom-through: la imagen escala al 300% y se desvanece al blanco
+
+SHOT 5 (00:06.5-00:09) — Clones estroboscópicos
+• EFFECT: Composited time-slice / stroboscopic clone + speed ramp
+• Una tarjeta-foto cruza el cuadro en diagonal dejando 7 copias congeladas detrás (estela), cada copia 12% más transparente
+• La tarjeta acelera al entrar y frena al llegar al centro (ramp 100% → ~25% → 100%)
+• Este es el SIGNATURE VISUAL EFFECT
+• Sale cuando las copias colapsan sobre la tarjeta principal
+
+SHOT 6 (00:09-00:11) — Cuadrícula flash
+• EFFECT: Grid split (4 paneles) + flash frames
+• Cuatro fotos entran en cuadrícula 2×2, una por golpe (cada 0.2 s), con un cuadro blanco entre cada golpe
+• Leve zoom-out general de 108% a 100%
+
+SHOT 7 (00:11-00:13) — Remate de texto
+• EFFECT: Kinetic type + color block wipe
+• Un bloque azul barre de abajo hacia arriba; "Hecho por creadores" en blanco, centrado
+• Vibración mínima en el último golpe
+
+SHOT 8 (00:13-00:15) — Cierre de marca
+• EFFECT: Logo resolve + soft bloom
+• Fondo blanco, logotipo Miiles al centro y "miiles.app" debajo
+• Bloom suave que se asienta, cámara estática: la energía aterriza
+
+=== SECCIÓN 2: MASTER EFFECTS INVENTORY ===
+1. Kinetic type — used 3x (shots 1, 4, 7) — cuenta la historia en pantalla
+2. Camera shake (micro) — used 2x (1, 7) — golpe en los acentos
+3. White bloom flash — used 3x (1→2, 6, 8) — reinicia la vista entre bloques
+4. Digital zoom (scale-in) — used 2x (2, 4 salida) — impulso hacia adelante
+5. Speed ramp — used 2x (2, 5) — controla el ritmo
+6. Whip pan — used 1x (2→3) — transición por movimiento
+7. Vertical mirror — used 1x (3) — imagen surreal, rompe el patrón
+8. Slow push — used 1x (4) — respiro
+9. Stroboscopic clone — used 1x (5) — momento firma
+10. Grid split + flash frames — used 1x (6) — densidad
+11. Color block wipe — used 1x (7) — cambio de capítulo
+12. Logo resolve — used 1x (8) — cierre
+
+=== SECCIÓN 3: EFFECTS DENSITY MAP ===
+00:00-00:03 = HIGH DENSITY (kinetic type, shake, bloom, zoom, ramp, whip — 6 effects in 3s)
+00:03-00:06.5 = MEDIUM DENSITY (mirror, slow push, text reveal — 3 effects in 3.5s)
+00:06.5-00:11 = HIGH DENSITY (clones, ramp, grid split, flash frames — 4 effects in 4.5s)
+00:11-00:15 = LOW→MEDIUM DENSITY (wipe, type, logo, bloom — 4 effects in 4s, espaciados)
+
+=== SECCIÓN 4: ENERGY ARC ===
+Acto 1 (0-3 s): golpe de atención — pregunta directa y un punch-in con flash.
+Acto 2 (3-11 s): desarrollo — la simetría y el push dan aire; los clones estroboscópicos son el pico; la cuadrícula mantiene la energía.
+Acto 3 (11-15 s): resolución — un barrido de color nombra la promesa y el logo aterriza en blanco limpio.
