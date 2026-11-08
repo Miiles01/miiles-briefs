@@ -1,0 +1,10 @@
+# Los archivos de ejemplo de los componentes se cargan desde otros sitios (el proyecto de cada usuario):
+# permitir CORS para fotos, íconos SVG y tipografías.
+<IfModule mod_headers.c>
+  Header always set Access-Control-Allow-Origin "*"
+  Header always set Access-Control-Allow-Methods "GET, OPTIONS"
+</IfModule>
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/svg+xml .svg
+</IfModule>
