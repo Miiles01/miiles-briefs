@@ -42,13 +42,14 @@ Proyecto Remotion 4.0.540 + React 19 + lucide-react. Video vertical 1080×1920 a
 - `galeria/index.html`: galería de revisión (filtros por categoría; la casilla marcada = ya está en miiles.app).
 
 ### Cómo se sube un componente aprobado a miiles.app
-1. `python3 bundle_comp.py Archivo.tsx=slug.tsx.txt` → un solo archivo con `shared.tsx` incluido.
-2. Video (de `galeria/videos/`), portada `.jpg` (un cuadro representativo) y `.tsx.txt` → `public/studio/componentes/` en miiles-briefs → publicar en production.
-3. Copiar también el `.tsx.txt` a `flow-ai-studio/public/studio-code/` (Copiar prompt lo lee de ahí: wearemiiles no manda CORS).
-4. Agregar la ficha en `flow-ai-studio/src/data/studio-components.json` (campos: slug, title, category [Carrusel | Galería | Texto | Elemento | Transición], description, preview_video_url, poster_url, code_url, code_filename, stack, instruction, customize). Ejemplos de fichas en `entries_subidas.py`.
-5. Marcar la casilla en `galeria/index.html`.
+1. `cd remotion/src && python3 ../bundle_comp.py Archivo.tsx=../../public/studio/componentes/slug.tsx.txt` → un solo archivo autosuficiente: incluye las tarjetas de `shared.tsx`, los ejemplos (fotos, íconos y tipografías) apuntan a `wearemiiles.com/studio/componentes/assets/` y usa `archivo()` (URL tal cual o ruta de public/). Advercase se cambia por Gambarino en el código público.
+2. Video (de `galeria/videos/`), portada `.jpg` (un cuadro representativo) y `.tsx.txt` → `public/studio/componentes/` en miiles-briefs → publicar en production (rsync de la carpeta).
+3. Agregar la ficha en `flow-ai-studio/src/data/studio-components.json` (slug, title, category [Carrusel | Galería | Texto | Elemento | Transición], description, preview_video_url, poster_url, code_url, code_filename, stack, instruction, customize). La instrucción no repite los pasos generales (esos los pone `buildComponentPrompt` en `src/lib/studioComponents.ts`) ni pide copiar tipografías.
+4. **Copiar también el `.tsx.txt` a `flow-ai-studio/public/studio-code/`**: miiles.app lee primero esa copia y solo si no existe va a wearemiiles. Si no se actualiza, el prompt sale con código viejo.
+5. Probar antes de subir: proyecto Remotion limpio (sin public/) con los `.tsx.txt` y renderizar un cuadro de cada composición (`@remotion/renderer`), como hace el usuario.
+6. Marcar la casilla en `galeria/index.html`.
 
-### Estado (33 subidas a miiles.app, 41 por aprobar)
+### Estado (68 subidas a miiles.app el 2026-11-08)
 Subidas: carruseles (circular, espiral 3D, abanico, ruedas vertical/horizontal, pila 3D, anillo interior), columnas inclinadas, frases (letras, cambio de frase, desde inicio/centro/final/extremos/aleatorio), letras elásticas, frase con puntos, línea que resuena, órbita con zoom, botones que se revelan / en columna, tarjetas que se apilan, fotos que crecen, galería con profundidad, cuadrícula que se reacomoda, lluvia de likes / desde arriba, transiciones escala / cortina curva / disolver / espiral, foto con repetición cápsula / arco.
 
 Por aprobar: frase líneas/palabras, barra que revela, columna de casos, cuadrícula de columnas, transiciones línea/ventana, cuadrícula que se abre (sticky grid), búsqueda (gooey), repetición franjas, 6 subrayados (`UnderlineWords`), palabras que se deslizan (`SlideWords`), 4 letras con scroll (`ScrollLetters`, texto con mix-blend "difference"), y 20 cambios de página de Interlude (`PageChange`: curtain, wipe, columns, circle, typewriter, stack, slide-over, peel, slices, frame, carousel, cube, corner, tear, dither, dissolve, ink, spiral, velvet, channel; páginas con solo texto + imagen).
