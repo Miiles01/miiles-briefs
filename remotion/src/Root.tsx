@@ -31,6 +31,10 @@ import { RotatingColumn } from "./RotatingColumn";
 import { FallingItems, exampleDrops } from "./FallingItems";
 import { OrbitZoom, OrbitZoomProps, orbitZoomDuration } from "./OrbitZoom";
 import { KeyPhrase, KeyPhraseProps, examplePhrases, keyPhraseDuration } from "./KeyPhrase";
+import { TextRoll, exampleRollLines, textRollDuration } from "./TextRoll";
+import { PartingParade, exampleParadeItems, partingParadeDuration } from "./PartingParade";
+import { TiltWheel, tiltWheelDuration } from "./TiltWheel";
+import { HingeStack, hingeStackDuration } from "./HingeStack";
 import { miilesCards } from "./shared";
 
 const V = { fps: 30, width: 1080, height: 1920 };
@@ -113,5 +117,9 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Escena01" component={Escena01} durationInFrames={ESCENA01_FRAMES} {...V} />
     <Composition id="GridFlip" component={GridFlip} durationInFrames={gridFlipDuration({})} {...V} defaultProps={{ items: miilesCards }} />
     <Composition id="GridFlipAll" component={GridFlip} durationInFrames={gridFlipDuration({ layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] })} {...V} defaultProps={{ items: miilesCards, flow: true, count: 15, ratio: 1.15, gap: 14, layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] }} />
+    <Composition id="TextRoll" component={TextRoll} durationInFrames={textRollDuration({ lines: exampleRollLines })} {...V} defaultProps={{ lines: exampleRollLines }} />
+    <Composition id="PartingParade" component={PartingParade} durationInFrames={partingParadeDuration({ items: exampleParadeItems })} {...V} defaultProps={{ top: "Contenido que", bottom: "se siente real", items: exampleParadeItems }} />
+    <Composition id="TiltWheel" component={TiltWheel} durationInFrames={tiltWheelDuration({})} {...V} defaultProps={{ items: miilesCards }} />
+    <Composition id="HingeStack" component={HingeStack} durationInFrames={hingeStackDuration({ items: miilesCards.slice(0, 6) })} {...V} defaultProps={{ items: miilesCards.slice(0, 6) }} />
   </>
 );

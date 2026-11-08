@@ -3,7 +3,7 @@
    Claude, Codex, Gemini, Cursor, Antigravity o cualquier otro)
    ----------------------------------------------------------------------------
    - Es un componente de Remotion (React). Si el proyecto no tiene Remotion,
-     créalo (npx create-video@latest), copia este archivo y ./shared.tsx en src/
+     créalo (npx create-video@latest), copia este archivo en src/
      y registra una <Composition> de 1080×1920 a 30 fps con estas props.
    - Fotos e íconos van en public/ y se pasan en "items":
        { src: "carpeta/foto.jpg" }                       → tarjeta con foto
