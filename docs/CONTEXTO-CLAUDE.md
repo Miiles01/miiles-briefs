@@ -63,3 +63,8 @@ Idea del usuario: ediciones completas de Reel armadas con varios componentes ("e
 
 ## Herramientas instaladas en la sesión anterior
 `gallery-dl` y `yt-dlp` (pip) para bajar referencias.
+
+## Capturas de la app para blog, artículos y marketing
+- Nunca con datos de Manuel: ni su nombre, avatar, tableros, clientes ni tareas. Usar un perfil de ejemplo ("Laura") y nombres genéricos (o una cuenta de demo).
+- Cada idioma con sus propias capturas: las del artículo en inglés con la app en inglés, las del español en español.
+- Las capturas de Miiles Blog viven en `flow-ai-studio/public/blog/<artículo>/<es|en>-<pantalla>.webp`.
