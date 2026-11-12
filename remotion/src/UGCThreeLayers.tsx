@@ -112,7 +112,6 @@ const StepPanel: React.FC<{ beat: Beat }> = ({ beat }) => {
         <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 1920, transform: "scale(.76)", transformOrigin: "top center" }}>
           <StackCards cards={[card as TaskCard]} background="transparent" font={manropeFile} enter={18} hold={42} />
         </div>
-        <div style={{ position: "absolute", left: 46, top: 32, fontFamily: "MiilesManrope, Arial, sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: ".1em", color: "#686966" }}>UNA HISTORIA, EN TRES CAPAS</div>
       </div>
       <OffthreadVideo
         src={staticFile("ugc-template-raw.mp4")}
@@ -167,8 +166,7 @@ export const UGCThreeLayers: React.FC = () => (
       <AbsoluteFill style={{ pointerEvents: "none" }}>
         <Video src={staticFile("ugc-template-base.webm")} startFrom={405} muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", top: 1040, left: 30, right: 30, height: 320, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#FFFFFF", textShadow: "0 3px 12px rgba(0,0,0,.5)", fontFamily: "MiilesAdvertcase, MiilesManrope, sans-serif", textAlign: "center", lineHeight: .86 }}>
-          <div style={{ fontSize: 180, letterSpacing: "-.035em" }}>CREA</div>
-          <div style={{ fontSize: 70, marginTop: 12, letterSpacing: "-.02em" }}>A TU RITMO</div>
+          <div style={{ fontSize: 96, letterSpacing: "-.035em", whiteSpace: "nowrap" }}>CREA SIN EXPONERTE</div>
         </div>
         <Video src={staticFile("ugc-template-foreground.webm")} startFrom={405} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </AbsoluteFill>

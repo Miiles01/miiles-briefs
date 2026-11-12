@@ -17,7 +17,7 @@ const FontLoader: React.FC = () => {
 
 const captions = [
   [55, 100, "Una idea crece"],
-  [145, 190, "Haz sonar tu voz"],
+  [145, 190, "Tu voz conecta"],
   [235, 280, "Crea con intención"],
   [325, 370, "Tu estilo conecta"],
   [415, 460, "Deja huella hoy"],
@@ -58,7 +58,6 @@ const SplitSteps: React.FC = () => (
       <div style={{ position:"absolute",left:0,right:0,top:0,height:1920,transform:"scale(.76)",transformOrigin:"top center" }}>
         <InsightRow />
       </div>
-      <div style={{ position:"absolute",left:46,top:35,fontFamily:"MiilesManrope,Arial,sans-serif",fontWeight:800,fontSize:20,letterSpacing:".1em",color:"#686966" }}>IDEA · VOZ · ESTILO</div>
     </div>
     <OffthreadVideo src={staticFile("ugc-template-raw.mp4")} startFrom={390} muted style={{ position:"absolute",left:0,top:960,width:"100%",height:960,objectFit:"cover",objectPosition:"50% 25%" }} />
     <div style={{ position:"absolute",left:0,right:0,top:956,height:8,background:"#FFFFFF" }} />
@@ -81,7 +80,6 @@ export const UGCVersionTwo: React.FC = () => (
     <Sequence from={190} durationInFrames={200}><SplitSteps /></Sequence>
     <Sequence from={510} durationInFrames={150}>
       <AbsoluteFill style={{background:cream,alignItems:"center",justifyContent:"center"}}>
-        <div style={{position:"absolute",top:150,left:60,right:60,textAlign:"center",fontFamily:"MiilesAdvertcase,Georgia,serif",fontSize:104,lineHeight:.98,color:"#171717"}}>De la idea a la acción</div>
         <div style={{position:"absolute",top:500,left:0,right:0,display:"flex",justifyContent:"center"}}><MiniCard label="Una voz reconocible" asset="carrusel/foto.jpg" index={0}/></div>
       </AbsoluteFill>
     </Sequence>

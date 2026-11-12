@@ -8,9 +8,12 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- [Codex] remotion/src/UGCThreeLayers.tsx, remotion/src/UGCVersionTwo.tsx, remotion/src/UGCVersionThree.tsx, referencias/REGLAS-DISENO-VIDEO-MIILES.md, remotion/galeria/index.html y remotion/galeria/videos/ · corregir captions para tres palabras por línea, eliminar colisiones y texto sobre animaciones; ajustar zona segura · desde 2026-11-12 14:49
+- (nadie)
 
 ## Historial
+
+### 2026-11-12 · Codex
+- Corregí los captions UGC a tres palabras por línea, quité titulares fijos y texto superpuesto a los carruseles, moví la frase clave a una sola línea y mantuve las imágenes de apoyo detrás de la creadora en la versión 3. Agregué las tres escenas al filtro Escenas de la galería local y revisé fotogramas y exportaciones mudas.
 
 ### 2026-11-12 · Claude
 - Creé `docs/TRASPASO-COMPONENTES.md` (guía completa), esta bitácora y `sesion.sh` (inicio, guardar, historial, recuperar, respaldo y galería).
