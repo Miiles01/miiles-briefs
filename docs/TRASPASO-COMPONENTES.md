@@ -5,6 +5,37 @@ El usuario es Manuel. Habla español de México: responde en español, directo y
 
 ---
 
+## 0. Trabajo compartido entre IAs (OBLIGATORIO cada sesión)
+
+Dos IAs (Claude y otra) trabajan en este mismo repo y en la misma galería. Para que nadie borre ni sobrescriba al otro:
+
+1. **Al empezar cada sesión**, siempre:
+   ```bash
+   cd ~/Code/miiles-briefs && ./sesion.sh inicio <TuNombreIA>
+   ```
+   Esto:
+   - trae lo último de GitHub;
+   - te avisa si hay cambios sin guardar (de la otra IA: **no los toques**);
+   - muestra los últimos 15 cambios y la sección "En curso" de `docs/BITACORA.md`;
+   - crea el respaldo del día.
+2. **Lee `docs/BITACORA.md`.** Antes de editar, anota en "En curso" qué archivos vas a tocar. Si la otra IA ya anotó ese archivo, no lo edites: pregúntale a Manuel.
+3. **Guarda seguido y solo lo tuyo:**
+   ```bash
+   ./sesion.sh guardar <IA> "qué cambió" archivo1 archivo2
+   ```
+   Hace commit con tu nombre en el mensaje y lo sube a GitHub. Nunca uses `git add -A`, `git reset --hard`, `git push --force` ni `git stash` sin nombre.
+4. **Al terminar:** quita tu línea de "En curso", agrega tu entrada al Historial de la bitácora y guárdala.
+5. **Si algo se rompió:**
+   - `./sesion.sh historial remotion/src/TiltWheel.tsx` muestra quién lo cambió y cuándo;
+   - `./sesion.sh recuperar <commit> <archivo>` lo regresa;
+   - los respaldos diarios son tags `respaldo-AAAA-MM-DD-HHMM` (`git tag -l "respaldo-*"`).
+6. **La galería (preview) es la misma para las dos:**
+   - se abre con `./sesion.sh galeria`, en http://localhost:5199;
+   - el archivo es `remotion/galeria/index.html` y los videos están en `remotion/galeria/videos/`;
+   - si ambas IAs trabajan en esta Mac, lo que una renderiza lo ve la otra al recargar;
+   - si la otra IA trabaja en otra máquina, lo ve después de `./sesion.sh inicio`, que trae lo último de GitHub;
+   - `index.html` lo editan las dos: anótalo en "En curso" mientras lo tienes y guárdalo en cuanto termines.
+
 ## 1. Dónde está todo
 
 | Qué | Ruta |
