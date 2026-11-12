@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Claude] remotion/src/UGCPro.tsx (nuevo), remotion/src/Root.tsx, remotion/galeria/index.html · edición UGC de referencia con captions sincronizados · desde 2026-11-12 17:30
 
 ## Historial
 
