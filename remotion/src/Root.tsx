@@ -35,6 +35,9 @@ import { TextRoll, exampleRollLines, textRollDuration } from "./TextRoll";
 import { PartingParade, exampleParadeItems, partingParadeDuration } from "./PartingParade";
 import { TiltWheel, tiltWheelDuration } from "./TiltWheel";
 import { HingeStack, hingeStackDuration } from "./HingeStack";
+import { UGCThreeLayers } from "./UGCThreeLayers";
+import { UGCVersionTwo } from "./UGCVersionTwo";
+import { UGCVersionThree } from "./UGCVersionThree";
 import { miilesCards } from "./shared";
 
 const V = { fps: 30, width: 1080, height: 1920 };
@@ -115,6 +118,9 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Page-velvet" component={PageChange} durationInFrames={pageChangeDuration({ variant: "velvet" })} {...V} defaultProps={{ variant: "velvet" } as PageChangeProps} />
     <Composition id="Page-channel" component={PageChange} durationInFrames={pageChangeDuration({ variant: "channel" })} {...V} defaultProps={{ variant: "channel" } as PageChangeProps} />
     <Composition id="Escena01" component={Escena01} durationInFrames={ESCENA01_FRAMES} {...V} />
+    <Composition id="UGC-Three-Layers" component={UGCThreeLayers} durationInFrames={30 * 30} {...V} />
+    <Composition id="UGC-Version-2" component={UGCVersionTwo} durationInFrames={30 * 30} {...V} />
+    <Composition id="UGC-Version-3" component={UGCVersionThree} durationInFrames={30 * 30} {...V} />
     <Composition id="GridFlip" component={GridFlip} durationInFrames={gridFlipDuration({})} {...V} defaultProps={{ items: miilesCards }} />
     <Composition id="GridFlipAll" component={GridFlip} durationInFrames={gridFlipDuration({ layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] })} {...V} defaultProps={{ items: miilesCards, flow: true, count: 15, ratio: 1.15, gap: 14, layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] }} />
     <Composition id="TextRoll" component={TextRoll} durationInFrames={textRollDuration({ lines: exampleRollLines })} {...V} defaultProps={{ lines: exampleRollLines }} />
