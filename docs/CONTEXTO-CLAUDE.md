@@ -1,5 +1,7 @@
 # Contexto para Claude — Miiles (lee esto primero)
 
+> **Si vas a trabajar en componentes, animaciones o escenas, lee primero `docs/TRASPASO-COMPONENTES.md`** (rutas, flujo, aprendizajes y el método de trabajo completo).
+
 Este documento resume el trabajo hecho con Claude para que un chat nuevo pueda continuarlo.
 El usuario habla español (México). Responde en español, directo y breve.
 
