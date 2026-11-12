@@ -8,9 +8,15 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- [Claude] remotion/src/UGCPro.tsx (nuevo), remotion/src/Root.tsx, remotion/galeria/index.html · edición UGC de referencia con captions sincronizados · desde 2026-11-12 17:30
+- (nadie)
 
 ## Historial
+
+### 2026-11-12 · Claude (tarde)
+- Nueva edición de referencia **UGC-Pro** (`remotion/src/UGCPro.tsx`, filtro Escenas, la primera de la galería). Captions con el guion real y los tiempos de cada palabra (faster-whisper), 2 pantallas divididas (perfil con 0 seguidores, tarjetas de pago), carrusel TiltWheel, contadores ($1,000 USD / 0 seguidores), tachados, "TECH UGC" y un "2" detrás de ella, y cámara con golpes de zoom.
+- Guía para ChatGPT/Codex: `docs/GUIA-EDICION-UGC.md` (orden de trabajo, sistema de captions, recursos y checklist).
+- Ojo: en `<Video>` de `@remotion/media` la prop es `trimBefore`, no `startFrom`. Las versiones 1–3 usan `startFrom` en la capa recortada; conviene revisarlas.
+- La versión con audio para revisar la sincronía está en `remotion/out/UGC-Pro.mp4` (y en el Escritorio de Manuel); la de la galería no tiene audio.
 
 ### 2026-11-12 · Codex
 - Corregí los captions UGC a tres palabras por línea, quité titulares fijos y texto superpuesto a los carruseles, moví la frase clave a una sola línea y mantuve las imágenes de apoyo detrás de la creadora en la versión 3. Agregué las tres escenas al filtro Escenas de la galería local y revisé fotogramas y exportaciones mudas.

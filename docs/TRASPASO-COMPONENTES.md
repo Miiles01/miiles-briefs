@@ -1,6 +1,6 @@
 # Traspaso: componentes de video Miiles (para la IA que continúa)
 
-Lee esto completo antes de tocar nada. Después lee `docs/CONTEXTO-CLAUDE.md` (repos y cómo publicar) y `AGENTS.md`.
+Lee esto completo antes de tocar nada. **Para ediciones de video UGC (Reels con una creadora), lee además `docs/GUIA-EDICION-UGC.md` y usa `remotion/src/UGCPro.tsx` como modelo.** Después lee `docs/CONTEXTO-CLAUDE.md` (repos y cómo publicar) y `AGENTS.md`.
 El usuario es Manuel. Habla español de México: responde en español, directo y breve.
 
 ---
