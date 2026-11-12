@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Codex] remotion/src/UGCThreeLayers.tsx, remotion/src/UGCVersionTwo.tsx, remotion/src/UGCVersionThree.tsx, referencias/REGLAS-DISENO-VIDEO-MIILES.md, remotion/galeria/index.html y remotion/galeria/videos/ · corregir captions para tres palabras por línea, eliminar colisiones y texto sobre animaciones; ajustar zona segura · desde 2026-11-12 14:49
 
 ## Historial
 
