@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Codex] remotion/src/UGCMotor.tsx, remotion/src/UGCVersionThree.tsx, remotion/galeria/index.html, remotion/galeria/videos/UGC-Version-3.mp4, docs/GUIA-EDICION-UGC.md, docs/BITACORA.md · captions cortos en grupos de hasta 3, largos solos; hover del loader más ancho · desde 2026-11-13 10:45
 
 ## Historial
 
