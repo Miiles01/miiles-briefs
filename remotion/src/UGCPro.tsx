@@ -84,8 +84,7 @@ const GRUPOS: Grupo[] = [
   { de: 22, a: 24, estilo: "seam" },
   { de: 25, a: 27, estilo: "seam" },
   { de: 28, a: 30, estilo: "normal" },
-  { de: 31, a: 32, estilo: "normal" },
-  { de: 33, a: 33, estilo: "oculto" },                                                // TECH UGC detrás de ella
+  { de: 31, a: 33, estilo: "clave", grande: 33, display: true },                     // se llama / TECH UGC (delante: detrás no cabe sin chocar con la UI de arriba)
   { de: 34, a: 36, estilo: "normal" },
   { de: 37, a: 40, estilo: "normal" },
   { de: 41, a: 44, estilo: "normal" },
@@ -119,7 +118,6 @@ const FIN_VIDEO = UGC_PRO_FRAMES;
 // 3. Momentos visuales (cuadros a 30 fps)
 // ---------------------------------------------------------------------------
 const SPLIT_1 = { de: inicio(16) - 4, a: inicio(28) - 2 };          // "son los creadores sin comunidad"
-const TECH = { de: inicio(33) - 2, a: inicio(34) - 2 };             // TECH UGC detrás
 const CARRUSEL = { de: inicio(68) - 3, a: inicio(74) - 1 };         // "para apps y plataformas de IA"
 const SPLIT_2 = { de: inicio(74) - 1, a: inicio(91) - 2 };          // "te pagan… sin publicar en tus redes" (entra cuando el carrusel ya cerró)
 const DOS = { de: inicio(116) - 2, a: FIN_VIDEO };                  // 2 MANERAS detrás
@@ -138,7 +136,7 @@ const abiertoSplit = (frame: number) => {
   }
   return 0;
 };
-const GOLPES = [inicio(7), inicio(47), inicio(63), inicio(100)];    // zoom en frases clave
+const GOLPES = [inicio(7), inicio(33), inicio(47), inicio(63), inicio(100)];    // zoom en frases clave
 
 // ---------------------------------------------------------------------------
 const Fuentes: React.FC = () => {
@@ -223,7 +221,7 @@ const Caption: React.FC<{ g: Grupo; desde: number; hasta: number }> = ({ g, desd
     } else {
       const txt = grandes.map((i) => PALABRAS[i][0].replace(/[,.]$/, "")).join(" ");
       grandeTxt = (
-        <div style={{ fontFamily: g.display ? DISPLAY : SANS, fontWeight: 800, fontSize: txt.length > 12 ? 118 : 150, letterSpacing: "-0.05em", lineHeight: 0.95 }}>
+        <div style={{ fontFamily: g.display ? DISPLAY : SANS, fontWeight: g.display ? 400 : 800, textTransform: g.display ? "uppercase" : "none", fontSize: g.display ? 170 : txt.length > 12 ? 118 : 150, letterSpacing: g.display ? "-0.02em" : "-0.05em", lineHeight: 0.95 }}>
           {grandes.map((i) => (
             <Palabra key={i} texto={PALABRAS[i][0].replace(/[,.]$/, "")} desde={inicio(i)} color={color} />
           ))}
@@ -356,6 +354,8 @@ const Pagos: React.FC = () => (
 
 // ---------------------------------------------------------------------------
 // Texto detrás de la creadora (video → texto → creadora recortada encima)
+// ZONA SEGURA: nunca arriba de y≈300 (ahí va el perfil y los botones de Reels/TikTok) ni abajo de y≈1450.
+// Solo funciona donde su silueta deja espacio: mide la máscara por renglones (ver docs/GUIA-EDICION-UGC.md).
 // ---------------------------------------------------------------------------
 type Pieza = { texto: string; left: number; top: number; size: number; retraso?: number };
 const Detras: React.FC<{ piezas: Pieza[]; desde: number; dur: number }> = ({ piezas, desde, dur }) => {
@@ -415,11 +415,8 @@ export const UGCPro: React.FC = () => (
   <AbsoluteFill style={{ background: "#FFFFFF", overflow: "hidden" }}>
     <Fuentes />
     <VideoCompleto />
-    <Sequence from={TECH.de} durationInFrames={TECH.a - TECH.de}>
-      <Detras desde={TECH.de} dur={TECH.a - TECH.de} piezas={[{ texto: "TECH UGC", left: -40, top: 120, size: 225 }]} />
-    </Sequence>
     <Sequence from={DOS.de} durationInFrames={DOS.a - DOS.de}>
-      <Detras desde={DOS.de} dur={DOS.a - DOS.de + 20} piezas={[{ texto: "2", left: 40, top: 120, size: 820 }]} />
+      <Detras desde={DOS.de} dur={DOS.a - DOS.de + 20} piezas={[{ texto: "2", left: 50, top: 330, size: 700 }]} />
     </Sequence>
     <Sequence from={SPLIT_1.de} durationInFrames={SPLIT_1.a - SPLIT_1.de}>
       <Split de={SPLIT_1.de} a={SPLIT_1.a}><PerfilCero /></Split>

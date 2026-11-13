@@ -59,7 +59,7 @@ const SplitSteps: React.FC = () => (
         <InsightRow />
       </div>
     </div>
-    <OffthreadVideo src={staticFile("ugc-template-raw.mp4")} startFrom={390} muted style={{ position:"absolute",left:0,top:960,width:"100%",height:960,objectFit:"cover",objectPosition:"50% 25%" }} />
+    <OffthreadVideo src={staticFile("ugc-template-raw.mp4")} trimBefore={390} muted style={{ position:"absolute",left:0,top:960,width:"100%",height:960,objectFit:"cover",objectPosition:"50% 25%" }} />
     <div style={{ position:"absolute",left:0,right:0,top:956,height:8,background:"#FFFFFF" }} />
   </AbsoluteFill>
 );

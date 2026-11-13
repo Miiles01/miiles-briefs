@@ -45,12 +45,23 @@ Antes de empezar, lee también `docs/TRASPASO-COMPONENTES.md` (sección 0: traba
 |---|---|---|
 | **Pantalla dividida 50/50** | "creadores que no tienen comunidad" → arriba un perfil con 0 seguidores. "Te pagan… no lo publicas en tus redes" → arriba tarjetas de pago (StackCards) | Arriba la animación baja en 14 cuadros y sale hacia arriba en 9. Abajo va ella, con la cara completa. Caption `seam`. Exactamente 960/960 |
 | **Carrusel a pantalla completa** | "para apps y plataformas de IA" → rueda inclinada (TiltWheel) con fotos e íconos | Entra y sale con un círculo que se abre y se cierra. **Sin texto encima.** Si el componente usa la duración del video, no limites su Sequence (ver el código) |
-| **Texto detrás de ella** | "¿cómo se llama? → **TECH UGC**". "hay **2** maneras" (ella hace la señal del 2) | Capas: video → texto → `ugc-template-foreground.webm` (ella recortada). El texto debe seguir **legible**: colócalo donde su cabeza solo lo toque en un borde (arriba de la cabeza o a un lado). Usa la misma cámara que el video |
+| **Texto detrás de ella** | "hay **2** maneras": un 2 gigante a la izquierda, metido detrás de su pelo, mientras ella hace la señal del 2 con la mano | Capas: video → texto → `ugc-template-foreground.webm` (ella recortada). El texto debe seguir **legible**: colócalo donde su cabeza solo lo toque en un borde (arriba de la cabeza o a un lado). Usa la misma cámara que el video |
 | **Contador** | "más de **$1,000 USD**". "puedes tener **0 seguidores**" (baja desde 10,000) | Un solo número cuenta la historia. Dura unos 0.9 s, con números tabulares |
 | **Tachado** | "no son los ~~influencers~~", "no vivo en ~~Estados Unidos~~" | Máximo 2 por video |
 | **Cámara** | push-in lento (1 → 1.05) en las tomas completas, más un **golpe de zoom** (+6 %) en cada frase clave | Con `spring`, nunca lineal |
 
 Componentes disponibles: todos los de `remotion/src/` (ver la galería). Los más útiles para UGC son TiltWheel, StackCards, HingeStack, FanCarousel, CircularCarousel, DepthGallery, GridFlip, KeyPhrase, TextRoll, UnderlineWords y FallingItems (lluvia de likes).
+
+### Texto detrás de ella: zona segura (Manuel lo pidió explícitamente)
+- **Nunca arriba de y≈300.** Ahí van el perfil, "Seguir" y los botones de Reels/TikTok/Shorts. Tampoco abajo de y≈1450 (descripción y audio), ni pegado al borde derecho entre y 1000 y 1700 (íconos de like y comentar).
+- En un video de cabeza y hombros, la cabeza empieza en y≈290 y entre y 420 y 1000 ocupa x≈200–830. **Una palabra ancha no cabe detrás sin quedar tapada.** En ese caso, la frase va delante como `clave` (así quedó "TECH UGC"). Detrás solo funcionan piezas compactas a un lado de la cabeza (el "2" mide unos 400 px de ancho, en x 50–450, y 375–950).
+- Antes de decidir, **mide la silueta** en esos segundos:
+  ```bash
+  ffmpeg -c:v libvpx-vp9 -ss <seg> -i public/ugc-template-foreground.webm -frames:v 1 \
+    -vf "scale=1080:1920,format=rgba,alphaextract,format=gray" mascara.pgm
+  # y por cada renglón (y de 60 en 60) imprime el x mínimo y máximo donde alpha > 128
+  ```
+- La capa recortada debe llevar `position: "absolute", inset: 0`. Si queda como bloque normal, el navegador pinta encima el texto (que sí tiene posición) y ya no queda detrás.
 
 ## 4. Lo que hizo que las versiones anteriores no funcionaran (no repetir)
 
@@ -58,7 +69,7 @@ Componentes disponibles: todos los de `remotion/src/` (ver la galería). Los má
 - Titulares fijos y rótulos sin sentido sobre la toma ("IDEAS QUE CONECTAN").
 - Pasar `startFrom` a `<Video>` de `@remotion/media`: ahí la prop se llama **`trimBefore`**. Con la prop equivocada, la capa recortada se desfasa del video.
 - Caja blanca de caption sobre un panel blanco: no se ve. El panel de arriba va en crema.
-- Texto detrás de la persona en el centro de la toma: la cabeza lo tapa y no se lee.
+- Texto detrás de la persona en el centro de la toma: la cabeza lo tapa y no se lee. Arriba del todo choca con la UI de la red social.
 - Un componente que calcula sus fases con `useVideoConfig().durationInFrames`, metido en un Sequence corto: se rompe (TiltWheel tronó con "inputRange must be strictly monotonically increasing").
 
 ## 5. Checklist antes de enseñarle a Manuel

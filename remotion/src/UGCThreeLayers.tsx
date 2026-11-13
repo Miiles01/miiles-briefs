@@ -115,7 +115,7 @@ const StepPanel: React.FC<{ beat: Beat }> = ({ beat }) => {
       </div>
       <OffthreadVideo
         src={staticFile("ugc-template-raw.mp4")}
-        startFrom={start}
+        trimBefore={start}
         muted
         style={{ position: "absolute", left: 0, top: 960, width: "100%", height: 960, objectFit: "cover", objectPosition: "50% 25%", zIndex: 1 }}
       />
@@ -164,11 +164,11 @@ export const UGCThreeLayers: React.FC = () => (
     <Sequence from={525} durationInFrames={150}><Gallery /></Sequence>
     <Sequence from={405} durationInFrames={90}>
       <AbsoluteFill style={{ pointerEvents: "none" }}>
-        <Video src={staticFile("ugc-template-base.webm")} startFrom={405} muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        <Video src={staticFile("ugc-template-base.webm")} trimBefore={405} muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", top: 1040, left: 30, right: 30, height: 320, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#FFFFFF", textShadow: "0 3px 12px rgba(0,0,0,.5)", fontFamily: "MiilesAdvertcase, MiilesManrope, sans-serif", textAlign: "center", lineHeight: .86 }}>
           <div style={{ fontSize: 96, letterSpacing: "-.035em", whiteSpace: "nowrap" }}>CREA SIN EXPONERTE</div>
         </div>
-        <Video src={staticFile("ugc-template-foreground.webm")} startFrom={405} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <Video src={staticFile("ugc-template-foreground.webm")} trimBefore={405} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </AbsoluteFill>
     </Sequence>
     {CAPTIONS.map(([from, to, text], i) => <Sequence key={i} from={from} durationInFrames={to - from}><CaptionPill text={text} duration={to-from} split={from >= 180 && from < 405} /></Sequence>)}

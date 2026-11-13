@@ -50,10 +50,10 @@ const BackgroundImages: React.FC = () => {
   const enter = spring({ frame, fps, config: { damping: 19, stiffness: 95, mass: 0.9 } });
   const opacity = interpolate(frame, [0, 8, 78, 90], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return <AbsoluteFill style={{ pointerEvents: "none" }}>
-    <Video src={staticFile("ugc-template-base.webm")} startFrom={405} muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+    <Video src={staticFile("ugc-template-base.webm")} trimBefore={405} muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
     <div style={{ position: "absolute", top: 360, left: 28, width: 300, height: 360, overflow: "hidden", borderRadius: 26, opacity: opacity*.86, transform: `translateY(${(1-enter)*30}px) rotate(-3deg)` }}><Img src={staticFile("carrusel/foto.jpg")} style={{width:"100%",height:"100%",objectFit:"cover"}} /></div>
     <div style={{ position: "absolute", top: 420, right: 28, width: 300, height: 360, overflow: "hidden", borderRadius: 26, opacity: opacity*.86, transform: `translateY(${(1-enter)*36}px) rotate(3deg)` }}><Img src={staticFile("carrusel/rosa.jpg")} style={{width:"100%",height:"100%",objectFit:"cover"}} /></div>
-    <Video src={staticFile("ugc-template-foreground.webm")} startFrom={405} muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity }} />
+    <Video src={staticFile("ugc-template-foreground.webm")} trimBefore={405} muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity }} />
   </AbsoluteFill>;
 };
 
