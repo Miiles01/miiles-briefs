@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Claude] remotion/src/UGCThreeLayers.tsx, UGCVersionTwo.tsx, UGCVersionThree.tsx, galeria/index.html · corregir desfase (trimBefore) · desde 2026-11-13 09:20
 
 ## Historial
 
