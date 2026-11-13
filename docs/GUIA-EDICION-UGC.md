@@ -1,6 +1,15 @@
 # Guía de edición UGC (para ChatGPT/Codex y cualquier IA)
 
-La edición modelo es **`remotion/src/UGCPro.tsx`** (composición `UGC-Pro` en la galería, filtro Escenas). Ábrela y léela junto con esta guía: todo lo que se describe aquí está ahí en código, con comentarios.
+Todo el sistema vive en **`remotion/src/UGCMotor.tsx`**: el guion con tiempos, los captions sincronizados, la cámara, el split, los carruseles, la capa detrás de ella y los paneles listos. Cada edición solo arma un `Config` y llama `<EdicionUGC cfg={…} />`. Hay 4 ejemplos en la galería (filtro Escenas), uno por estilo:
+
+| Edición | Archivo | Personalidad |
+|---|---|---|
+| UGC · Pro | `UGCPro.tsx` | De todo un poco: 2 splits, carrusel, contadores, tachados y un "2" detrás |
+| UGC · Versión 1 | `UGCThreeLayers.tsx` | Split 50/50 y frase clave grande: 3 splits (perfil en 0, ganancias que suben a $1,000 cuando dice "mil", cuadrícula de apps) |
+| UGC · Versión 2 | `UGCVersionTwo.tsx` | Texto directo: captions de 80 px, palabras clave resaltadas con caja blanca y un bloque dividido con 4 tarjetas que caen cuando dice cada idea |
+| UGC · Versión 3 | `UGCVersionThree.tsx` | Una sola palabra por caption (la que dice en ese momento) y fotos detrás de su cabeza, a los lados, dentro de la zona segura |
+
+Para una edición nueva, copia la versión cuyo estilo te pidan y cambia solo la configuración. Si el video es otro, primero transcribe y reemplaza `PALABRAS`.
 Antes de empezar, lee también `docs/TRASPASO-COMPONENTES.md` (sección 0: trabajo compartido) y `referencias/REGLAS-DISENO-VIDEO-MIILES.md`.
 
 ---

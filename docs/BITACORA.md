@@ -8,9 +8,15 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- [Claude] remotion/src/UGCMotor.tsx (nuevo), UGCPro.tsx, UGCThreeLayers.tsx, UGCVersionTwo.tsx, UGCVersionThree.tsx, galeria · rehacer V1–3 con captions sincronizados · desde 2026-11-13 09:50
+- (nadie)
 
 ## Historial
+
+### 2026-11-13 · Claude (2)
+- Rehice las versiones UGC 1, 2 y 3 con el sistema de UGC-Pro: guion real con tiempos por palabra, zona segura, golpes de cámara y momentos que ilustran lo que ella dice. Cada una conserva su estilo (ver la tabla al inicio de `docs/GUIA-EDICION-UGC.md`).
+- Nuevo `remotion/src/UGCMotor.tsx` con todo lo compartido. UGC-Pro ahora también lo usa (se ve igual).
+- Versión 3: una sola palabra por caption, como pidió Manuel (`gruposPalabra`, sin juntar palabras cortas).
+- Las versiones con audio quedaron en `remotion/out/*.mp4` y en el Escritorio de Manuel (`*-con-audio.mp4`); la galería no tiene audio (`?v=5`).
 
 ### 2026-11-13 · Claude
 - Versiones UGC 1–3: `startFrom` → `trimBefore`. `<Video>` de `@remotion/media` ignoraba `startFrom` y la capa recortada arrancaba en el segundo 0 (se veía una toma fantasma encima). Ya están sincronizadas y re-renderizadas (`?v=4`).
