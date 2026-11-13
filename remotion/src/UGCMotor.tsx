@@ -166,10 +166,14 @@ const Caption: React.FC<{ g: Grupo; desde: number; hasta: number }> = ({ g, desd
     // una sola palabra (o palabra corta + la siguiente), grande, debajo de la cara
     const txt = idx.map((i) => limpia(PALABRAS[i][0])).join(" ");
     const p = spring({ frame: frame - desde, fps, config: { damping: 12, stiffness: 180, mass: 0.7 } });
+    // Fade breve pero visible; se ajusta al tiempo real disponible para esa palabra.
+    // El caption anterior desaparece al empezar este, así nunca quedan dos a la vez.
+    const fadeFrames = Math.max(2, Math.min(6, hasta - desde));
+    const entrada = Easing.inOut(Easing.cubic)(interpolate(frame, [desde, desde + fadeFrames], [0, 1], clamp));
     const display = !conAcento(txt) && !/[¿?¡!…]/.test(txt);
     return (
-      <AbsoluteFill style={{ opacity: sale, pointerEvents: "none" }}>
-        <div style={{ position: "absolute", left: 90, right: 90, top: 1090, textAlign: "center", color: "#FFFFFF", textShadow: "0 2px 22px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35)", fontFamily: display ? DISPLAY : SANS, fontWeight: display ? 400 : 800, fontSize: txt.length > 11 ? 110 : 140, lineHeight: 1, letterSpacing: display ? "-0.02em" : "-0.045em", transform: `translateY(${(1 - p) * 30}px) scale(${0.8 + 0.2 * p})`, opacity: Math.min(1, p * 1.5) }}>
+      <AbsoluteFill style={{ opacity: entrada, pointerEvents: "none" }}>
+        <div style={{ position: "absolute", left: 90, right: 90, top: 1090, textAlign: "center", color: "#FFFFFF", textShadow: "0 2px 22px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35)", fontFamily: display ? DISPLAY : SANS, fontWeight: display ? 400 : 800, fontSize: txt.length > 11 ? 110 : 140, lineHeight: 1, letterSpacing: display ? "-0.02em" : "-0.045em", transform: `translateY(${(1 - p) * 14}px) scale(${0.94 + 0.06 * p})` }}>
           {txt}
         </div>
       </AbsoluteFill>

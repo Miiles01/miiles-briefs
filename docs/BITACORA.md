@@ -8,9 +8,14 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- [Codex] remotion/src/UGCMotor.tsx, remotion/galeria/videos/UGC-Version-3.mp4, remotion/galeria/index.html, docs/BITACORA.md · hacer perceptible el fade de entrada de captions en V3 y revisar el render · desde 2026-11-13 10:08
+- (nadie)
 
 ## Historial
+
+### 2026-11-13 · Codex
+- UGC · Versión 3: fade de entrada explícito y perceptible para captions de una palabra, limitado a la duración real de cada palabra; el caption previo termina al empezar el siguiente.
+- Galería · Escenas: barra blanca minimalista para avanzar/retroceder y botón de ampliación en popup con cierre. El reproductor permanece siempre silenciado y no incluye control de audio.
+- Render de V3 actualizado en la galería (`?v=6`); se revisaron el fotograma del fade, el scrubber y la apertura/cierre del popup.
 
 ### 2026-11-13 · Claude (2)
 - Rehice las versiones UGC 1, 2 y 3 con el sistema de UGC-Pro: guion real con tiempos por palabra, zona segura, golpes de cámara y momentos que ilustran lo que ella dice. Cada una conserva su estilo (ver la tabla al inicio de `docs/GUIA-EDICION-UGC.md`).
