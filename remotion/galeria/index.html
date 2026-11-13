@@ -29,20 +29,23 @@ h1{margin:0;font-weight:400;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em
 .screen video{display:block;width:100%;height:100%;object-fit:cover}
 .scene-controls{position:absolute;left:12px;right:12px;bottom:12px;z-index:2;display:flex;align-items:center;gap:10px;opacity:0;transition:opacity .18s ease;pointer-events:none}
 .screen:hover .scene-controls,.screen:focus-within .scene-controls,.scene-modal .scene-controls{opacity:1}
-.scene-seek{appearance:none;-webkit-appearance:none;flex:1;min-width:0;height:18px;margin:0;background:linear-gradient(to right,#fff 0%,rgba(255,255,255,.5) 0%);border:0;border-radius:99px;cursor:pointer;pointer-events:auto;touch-action:none}
-.scene-seek::-webkit-slider-runnable-track{height:2px;background:transparent;border-radius:99px}
-.scene-seek::-moz-range-track{height:2px;background:rgba(255,255,255,.5);border-radius:99px}
-.scene-seek::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;margin-top:-4px;border:0;border-radius:50%;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.3)}
-.scene-seek::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:50%;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.3)}
+.scene-seek{appearance:none;-webkit-appearance:none;flex:1;min-width:0;height:18px;margin:0;background:transparent;border:0;border-radius:99px;cursor:pointer;pointer-events:auto;touch-action:none}
+.scene-seek::-webkit-slider-runnable-track{height:2px;background:linear-gradient(to right,#fff 0%,#fff var(--progress,0%),rgba(255,255,255,.5) var(--progress,0%),rgba(255,255,255,.5) 100%);border-radius:99px;transition:height .16s ease}
+.scene-seek:hover::-webkit-slider-runnable-track,.scene-seek:focus-visible::-webkit-slider-runnable-track{height:4px}
+.scene-seek::-moz-range-track{height:2px;background:rgba(255,255,255,.5);border-radius:99px;transition:height .16s ease}
+.scene-seek::-moz-range-progress{height:2px;background:#fff;border-radius:99px;transition:height .16s ease}
+.scene-seek:hover::-moz-range-track,.scene-seek:focus-visible::-moz-range-track,.scene-seek:hover::-moz-range-progress,.scene-seek:focus-visible::-moz-range-progress{height:4px}
+.scene-seek::-webkit-slider-thumb{-webkit-appearance:none;width:0;height:0;margin-top:1px;border:0;background:transparent;box-shadow:none}
+.scene-seek::-moz-range-thumb{width:0;height:0;border:0;border-radius:0;background:transparent;box-shadow:none}
 .scene-expand,.scene-close{display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.22);color:#fff;cursor:pointer;pointer-events:auto;transition:background .16s ease,transform .16s ease}
 .scene-expand:hover,.scene-close:hover{background:rgba(0,0,0,.48);transform:scale(1.06)}
 .scene-expand svg,.scene-close svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.scene-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(12,13,20,.86);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.scene-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(12,13,20,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 .scene-modal.is-open{display:flex}
-.scene-modal-stage{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.scene-modal-stage{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:100%;height:100%;padding-top:72px}
 .scene-modal .screen{width:min(88vw,49.5vh);height:min(88vh,156.45vw);aspect-ratio:9/16;border-radius:18px;box-shadow:0 24px 90px rgba(0,0,0,.42)}
 .scene-modal .scene-expand{display:none}
-.scene-close{position:absolute;top:max(18px,env(safe-area-inset-top));right:max(18px,env(safe-area-inset-right));width:42px;height:42px;background:rgba(255,255,255,.12)}
+.scene-close{position:fixed;z-index:4;top:max(18px,env(safe-area-inset-top));right:max(18px,env(safe-area-inset-right));width:42px;height:42px;background:rgba(255,255,255,.12)}
 .scene-close svg{width:22px;height:22px}
 body.scene-modal-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.scene-controls,.scene-expand,.scene-close{transition:none}}
@@ -683,7 +686,7 @@ bs.forEach(b=>b.addEventListener('click',()=>set(b.dataset.f)));let f='Todas';tr
     if(!Number.isFinite(video.duration)||video.duration<=0)return;
     const ratio=Math.max(0,Math.min(1,video.currentTime/video.duration));
     seek.value=String(Math.round(ratio*1000));
-    seek.style.background=`linear-gradient(to right,#fff 0%,#fff ${ratio*100}%,rgba(255,255,255,.5) ${ratio*100}%,rgba(255,255,255,.5) 100%)`;
+    seek.style.setProperty('--progress',`${ratio*100}%`);
   };
   const cerrar=()=>{
     if(!active)return;

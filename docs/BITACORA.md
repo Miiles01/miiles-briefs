@@ -8,9 +8,13 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- [Codex] remotion/galeria/index.html, docs/BITACORA.md · afinar scrubber y separar botón de cierre del video en popup · desde 2026-11-13 10:31
+- (nadie)
 
 ## Historial
+
+### 2026-11-13 · Codex
+- Galería · Escenas: scrubber blanco delgado, sin bolita; se engrosa al interactuar. El popup oscurece/desenfoca el fondo y el botón X queda fuera del video, en el overlay.
+- Verifiqué el scrubber, la reproducción ampliada y el cierre desde la X.
 
 ### 2026-11-13 · Codex
 - UGC · Versión 3: fade de entrada explícito y perceptible para captions de una palabra, limitado a la duración real de cada palabra; el caption previo termina al empezar el siguiente.
