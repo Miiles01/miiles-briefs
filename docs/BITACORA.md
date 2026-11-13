@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Codex] remotion/src/UGCMotor.tsx, remotion/galeria/videos/UGC-Version-3.mp4, remotion/galeria/index.html, docs/BITACORA.md · hacer perceptible el fade de entrada de captions en V3 y revisar el render · desde 2026-11-13 10:08
 
 ## Historial
 
