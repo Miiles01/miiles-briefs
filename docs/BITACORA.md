@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Claude] remotion/src/UGCMotor.tsx (nuevo), UGCPro.tsx, UGCThreeLayers.tsx, UGCVersionTwo.tsx, UGCVersionThree.tsx, galeria · rehacer V1–3 con captions sincronizados · desde 2026-11-13 09:50
 
 ## Historial
 
