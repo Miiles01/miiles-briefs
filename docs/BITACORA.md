@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Codex] remotion/galeria/index.html, docs/BITACORA.md · afinar scrubber y separar botón de cierre del video en popup · desde 2026-11-13 10:31
 
 ## Historial
 
