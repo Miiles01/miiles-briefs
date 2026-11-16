@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Claude] remotion/src/UGCMotor.tsx (PerfilCero), remotion/public/carrusel/avatar.jpg · perfil con avatar, aro de historia y odómetros · desde 2026-11-16 16:30
 
 ## Historial
 
