@@ -15,7 +15,7 @@
    Video: public/creadora-hook.mp4. Guion con tiempos por palabra (faster-whisper).
    ========================================================================== */
 import React from "react";
-import { AbsoluteFill, Img, OffthreadVideo, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Easing, Img, OffthreadVideo, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { CREMA, EASE, Fuentes, SANS, clamp } from "./UGCMotor";
 
 const FPS = 30;
@@ -58,6 +58,95 @@ const ellaEn = (frame: number, fps: number) => {
 const borroso = (v: (fr: number) => number, frame: number, escala: number, max: number) => Math.min(max, Math.abs(v(frame) - v(frame - 1)) * escala);
 
 // ---------------------------------------------------------------------------
+// VARIANTES de la transición. Cada una define: qué tan abierto está el split (0–1, decide el estilo de
+// los captions), cuánto baja ella (0–1 de BAJA) y cómo se dibuja el panel de arriba.
+// El fondo detrás de todo es crema: si en algún momento ella ya bajó y el panel aún no cubre, se ve crema
+// (el mismo color del panel), nunca un hueco negro.
+// ---------------------------------------------------------------------------
+export type VarianteSplit = "rebote" | "suave" | "tiras" | "tarjeta" | "linea";
+const ENTRADA_SUAVE = Easing.bezier(0.45, 0, 0.2, 1);          // lenta y sin rebote
+const ent = (frame: number, desde: number, dur: number, curva = ENTRADA_SUAVE) => interpolate(frame, [desde, desde + dur], [0, 1], { ...clamp, easing: curva });
+const sal = (frame: number, desde: number, dur: number, curva = Easing.bezier(0.55, 0, 0.75, 0.2)) => interpolate(frame, [desde, desde + dur], [0, 1], { ...clamp, easing: curva });
+
+const abiertoV = (v: VarianteSplit, frame: number, fps: number): number => {
+  switch (v) {
+    case "rebote": return panelEn(frame, fps);
+    case "suave": return ent(frame, ABRE - 6, 30) * (1 - ent(frame, CIERRA - 6, 26));
+    case "tiras": return ent(frame, ABRE, 22) * (1 - sal(frame, CIERRA, 18));
+    case "tarjeta": return spring({ frame: frame - ABRE + 1, fps, config: { damping: 14, stiffness: 110, mass: 0.9 } }) * (1 - sal(frame, CIERRA, 14));
+    case "linea": return ent(frame, ABRE + 6, 18, EASE) * (1 - sal(frame, CIERRA + 4, 14));
+  }
+};
+const ellaV = (v: VarianteSplit, frame: number, fps: number): number => {
+  switch (v) {
+    case "rebote": return ellaEn(frame, fps);
+    case "suave": return abiertoV("suave", frame, fps);                       // panel y ella juntos
+    case "tiras": return ent(frame, ABRE, 20, EASE) * (1 - sal(frame, CIERRA + 6, 16, ENTRADA_SUAVE));
+    case "tarjeta": return ent(frame, ABRE - 2, 18, EASE) * (1 - ent(frame, CIERRA + 12, 16, EASE));   // sube cuando la tarjeta ya se encogió
+    case "linea": return ent(frame, ABRE + 6, 20, EASE) * (1 - ent(frame, CIERRA, 18, EASE));
+  }
+};
+
+/** Panel de arriba según la variante (contenido = carrusel). */
+const PanelV: React.FC<{ v: VarianteSplit; children: React.ReactNode }> = ({ v, children }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const a = abiertoV(v, frame, fps);
+  if (v === "rebote" || v === "suave") {
+    const blur = v === "rebote" ? borroso((fr) => panelEn(fr, fps), frame, 60, 7) : 0;
+    if (a <= 0.001) return null;
+    return (
+      <div style={{ position: "absolute", left: 0, top: -120 - 960 * (1 - a), width: 1080, height: 1080, overflow: "hidden", background: CREMA, filter: blur > 0.3 ? `blur(${blur}px)` : undefined }}>
+        <div style={{ position: "absolute", left: 0, top: 120, width: 1080, height: 960, transform: v === "suave" ? `scale(${1.08 - 0.08 * a})` : undefined }}>{children}</div>
+      </div>
+    );
+  }
+  if (v === "tiras") {
+    // 4 tiras verticales: caen una tras otra (izq → der) y suben en orden inverso
+    const N = 4, W = 1080 / N;
+    return (
+      <>
+        {Array.from({ length: N }, (_, k) => {
+          const baja = spring({ frame: frame - ABRE - k * 3, fps, config: { damping: 15, stiffness: 140, mass: 0.8 } });
+          const sube = sal(frame, CIERRA + (N - 1 - k) * 3, 12);
+          const p = baja * (1 - sube);
+          if (p <= 0.001) return null;
+          return (
+            <div key={k} style={{ position: "absolute", left: k * W, top: -960 * (1 - p), width: W + 1, height: 960, overflow: "hidden" }}>
+              <div style={{ position: "absolute", left: -k * W, top: 0, width: 1080, height: 960 }}>{children}</div>
+            </div>
+          );
+        })}
+      </>
+    );
+  }
+  if (v === "tarjeta") {
+    // nace como una pastilla al centro de la mitad de arriba y crece hasta llenarla; al salir se encoge
+    if (a <= 0.001) return null;
+    const ancho = interpolate(a, [0, 1], [260, 1080]), alto = interpolate(a, [0, 1], [120, 960]);
+    const radio = interpolate(a, [0, 0.85, 1], [60, 48, 0], clamp);
+    return (
+      <div style={{ position: "absolute", left: (1080 - ancho) / 2, top: (960 - alto) / 2, width: ancho, height: alto, borderRadius: radio, overflow: "hidden", background: CREMA }}>
+        <div style={{ position: "absolute", left: -(1080 - ancho) / 2, top: -(960 - alto) / 2, width: 1080, height: 960 }}>{children}</div>
+      </div>
+    );
+  }
+  // linea: se dibuja una línea blanca en el corte y desde ahí el panel se despliega hacia arriba
+  const linea = ent(frame, ABRE - 4, 10, EASE) * (1 - sal(frame, CIERRA + 14, 8));
+  const tapa = 960 * (1 - a);                                                       // lo que falta por desplegar (desde arriba)
+  return (
+    <>
+      {a > 0.001 && (
+        <div style={{ position: "absolute", left: 0, top: 0, width: 1080, height: 960, overflow: "hidden", clipPath: `inset(${tapa}px 0 0 0)`, background: CREMA }}>
+          <div style={{ position: "absolute", inset: 0, transform: `translateY(${(1 - a) * 120}px)` }}>{children}</div>
+        </div>
+      )}
+      {linea > 0.001 && <div style={{ position: "absolute", left: 540 * (1 - linea), width: 1080 * linea, top: 957 - (1 - a) * 0, height: 6, background: "#FFFFFF", borderRadius: 3 }} />}
+    </>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Arriba: solo un carrusel de fotos que pasa de lado
 // ---------------------------------------------------------------------------
 const FOTOS = ["carrusel/foto.jpg", "carrusel/rosa.jpg", "carrusel/gorra.jpg", "carrusel/azul.jpg"];
@@ -91,7 +180,7 @@ const Palabra: React.FC<{ i: number }> = ({ i }) => {
     <span style={{ display: "inline-block", marginRight: "0.26em", opacity: frame < ini(i) ? 0 : Math.min(1, p * 1.4), transform: `translateY(${(1 - p) * 20}px) scale(${0.86 + 0.14 * p})` }}>{P[i][0]}</span>
   );
 };
-const Captions: React.FC = () => {
+const Captions: React.FC<{ v: VarianteSplit }> = ({ v }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
@@ -101,7 +190,7 @@ const Captions: React.FC = () => {
         const hasta = k + 1 < GRUPOS.length ? ini(GRUPOS[k + 1][0]) : ESCENA_SPLIT_FRAMES;
         if (frame < desde || frame >= hasta) return null;
         // el estilo lo decide si el split está abierto cuando empieza el grupo (no cambia a la mitad)
-        const enSplit = panelEn(desde + 6, fps) > 0.5 && desde + 6 < CIERRA;
+        const enSplit = abiertoV(v, desde + 6, fps) > 0.5 && desde + 6 < CIERRA;
         if (enSplit && frame >= CIERRA + 4) return null;                 // se va junto con el panel
         const fin = enSplit ? Math.min(hasta, CIERRA + 4) : hasta;
         const entra = spring({ frame: frame - desde, fps, config: { damping: 15, stiffness: 200, mass: 0.6 } });
@@ -120,31 +209,28 @@ const Captions: React.FC = () => {
 };
 
 // ---------------------------------------------------------------------------
-export const EscenaSplit: React.FC = () => {
+export const EscenaSplit: React.FC<{ variante?: VarianteSplit }> = ({ variante = "rebote" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const panel = panelEn(frame, fps);
-  const ella = ellaEn(frame, fps);
-  const blurPanel = borroso((fr) => panelEn(fr, fps), frame, 60, 7);
-  const blurElla = borroso((fr) => ellaEn(fr, fps), frame, 45, 5);
+  const v = variante;
+  const ella = ellaV(v, frame, fps);
+  const blurElla = v === "rebote" ? borroso((fr) => ellaEn(fr, fps), frame, 45, 5) : 0;
   const escala = 1 + 0.03 * EASE(interpolate(frame, [0, ESCENA_SPLIT_FRAMES], [0, 1], clamp));
-  const parallax = (1 - Math.min(1, panel)) * -220;    // el carrusel llega un poco después que el panel
+  const parallax = v === "rebote" ? (1 - Math.min(1, panelEn(frame, fps))) * -220 : 0;   // el carrusel llega un poco después que el panel
   return (
-    <AbsoluteFill style={{ background: "#111", overflow: "hidden" }}>
+    <AbsoluteFill style={{ background: CREMA, overflow: "hidden" }}>
       <Fuentes />
       {/* ella (con audio; la galería lo exporta sin audio) */}
       <AbsoluteFill style={{ transform: `translateY(${BAJA * ella}px) scale(${escala})`, transformOrigin: "50% 30%", filter: blurElla > 0.3 ? `blur(${blurElla}px)` : undefined }}>
         <OffthreadVideo src={staticFile("creadora-hook.mp4")} trimBefore={Math.round(INICIO * FPS)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </AbsoluteFill>
-      {/* arriba: el panel cae desde arriba; mide 960 + 120 de colchón para que el rebote nunca muestre un hueco */}
-      {panel > 0.001 && (
-        <div style={{ position: "absolute", left: 0, top: -120 - 960 * (1 - panel), width: 1080, height: 1080, overflow: "hidden", background: CREMA, filter: blurPanel > 0.3 ? `blur(${blurPanel}px)` : undefined }}>
-          <div style={{ position: "absolute", left: 0, top: 120, width: 1080, height: 960 }}>
-            <Carrusel parallax={parallax} />
-          </div>
-        </div>
-      )}
-      <Captions />
+      <PanelV v={v}><Carrusel parallax={parallax} /></PanelV>
+      <Captions v={v} />
     </AbsoluteFill>
   );
 };
+
+export const EscenaSplitSuave: React.FC = () => <EscenaSplit variante="suave" />;
+export const EscenaSplitTiras: React.FC = () => <EscenaSplit variante="tiras" />;
+export const EscenaSplitTarjeta: React.FC = () => <EscenaSplit variante="tarjeta" />;
+export const EscenaSplitLinea: React.FC = () => <EscenaSplit variante="linea" />;
