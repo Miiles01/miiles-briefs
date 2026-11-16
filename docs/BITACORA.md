@@ -8,9 +8,15 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- [Codex] remotion/src/UGCMotor.tsx, remotion/src/UGCVersionThree.tsx, remotion/galeria/index.html, remotion/galeria/videos/UGC-Version-3.mp4, docs/GUIA-EDICION-UGC.md, docs/BITACORA.md · captions cortos en grupos de hasta 3, largos solos; hover del loader más ancho · desde 2026-11-13 10:45
+- (nadie)
 
 ## Historial
+
+### 2026-11-16 · Claude
+- **Codex ya no trabaja en el proyecto** (lo dijo Manuel). Su trabajo pendiente del 2026-11-13 se guardó tal cual en un commit aparte: V3 agrupa palabras cortas en captions de hasta 3, fade de entrada y hover del loader más ancho.
+- Galería: la barra de progreso ("loader") de Escenas no podía saltar dentro del video. La causa era que `python3 -m http.server` no acepta `Range`, y el video regresaba al inicio. Nuevo `remotion/galeria/servir.py` (responde 206 con rangos y sirve el HTML en UTF-8 sin caché). Lo usan `./sesion.sh galeria` y la configuración `componentes` de `.claude/launch.json`.
+- Barra optimizada: al arrastrar, el video se pausa y salta rápido (`fastSeek`); al soltar va exacto y sigue reproduciendo. El progreso se dibuja con `requestAnimationFrame` (fluido). Lo probé con clic y arrastre reales: 75 % → 23.3 s y 17 % → 5.0 s.
+- V1: los captions en pantalla dividida van en una sola línea (pedido de Manuel). Render `?v=6`.
 
 ### 2026-11-13 · Codex
 - Galería · Escenas: scrubber blanco delgado, sin bolita; se engrosa al interactuar. El popup oscurece/desenfoca el fondo y el botón X queda fuera del video, en el overlay.

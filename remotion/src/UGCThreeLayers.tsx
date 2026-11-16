@@ -4,6 +4,7 @@
    Personalidad: la que más usa la pantalla dividida. Cada vez que ella explica algo concreto,
    la mitad de arriba lo ilustra (perfil sin seguidores, ganancias que suben, cuadrícula de apps),
    y en pantalla completa las ideas fuertes crecen como frase clave. Sin carrusel ni texto detrás.
+   En pantalla dividida los captions van en UNA sola línea (pedido de Manuel).
    Captions con el guion real y los tiempos de cada palabra (motor: UGCMotor.tsx).
    ========================================================================== */
 import React from "react";
@@ -30,7 +31,7 @@ const GRUPOS: Grupo[] = [
   { de: 34, a: 36, estilo: "seam" },
   { de: 37, a: 40, estilo: "seam" },
   { de: 41, a: 44, estilo: "seam" },
-  { de: 45, a: 50, estilo: "seam", lineas: [48] },
+  { de: 45, a: 50, estilo: "seam" },
   { de: 51, a: 53, estilo: "seam" },
   { de: 54, a: 56, estilo: "normal" },
   { de: 57, a: 60, estilo: "tachar", tachar: [59, 60] },

@@ -31,10 +31,10 @@ h1{margin:0;font-weight:400;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em
 .screen:hover .scene-controls,.screen:focus-within .scene-controls,.scene-modal .scene-controls{opacity:1}
 .scene-seek{appearance:none;-webkit-appearance:none;flex:1;min-width:0;height:18px;margin:0;background:transparent;border:0;border-radius:99px;cursor:pointer;pointer-events:auto;touch-action:none}
 .scene-seek::-webkit-slider-runnable-track{height:2px;background:linear-gradient(to right,#fff 0%,#fff var(--progress,0%),rgba(255,255,255,.5) var(--progress,0%),rgba(255,255,255,.5) 100%);border-radius:99px;transition:height .16s ease}
-.scene-seek:hover::-webkit-slider-runnable-track,.scene-seek:focus-visible::-webkit-slider-runnable-track{height:4px}
+.scene-seek:hover::-webkit-slider-runnable-track,.scene-seek:focus-visible::-webkit-slider-runnable-track{height:8px}
 .scene-seek::-moz-range-track{height:2px;background:rgba(255,255,255,.5);border-radius:99px;transition:height .16s ease}
 .scene-seek::-moz-range-progress{height:2px;background:#fff;border-radius:99px;transition:height .16s ease}
-.scene-seek:hover::-moz-range-track,.scene-seek:focus-visible::-moz-range-track,.scene-seek:hover::-moz-range-progress,.scene-seek:focus-visible::-moz-range-progress{height:4px}
+.scene-seek:hover::-moz-range-track,.scene-seek:focus-visible::-moz-range-track,.scene-seek:hover::-moz-range-progress,.scene-seek:focus-visible::-moz-range-progress{height:8px}
 .scene-seek::-webkit-slider-thumb{-webkit-appearance:none;width:0;height:0;margin-top:1px;border:0;background:transparent;box-shadow:none}
 .scene-seek::-moz-range-thumb{width:0;height:0;border:0;border-radius:0;background:transparent;box-shadow:none}
 .scene-expand,.scene-close{display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.22);color:#fff;cursor:pointer;pointer-events:auto;transition:background .16s ease,transform .16s ease}
@@ -628,7 +628,7 @@ body.scene-modal-open{overflow:hidden}
       <div class="meta"><div><p class="name">UGC · Pro (referencia)</p><p class="sub">Captions al ritmo de su voz, split, carrusel, contadores y texto detrás de ella</p></div><span class="status">En revisión</span></div>
     </article>
     <article class="item" data-cat="Escenas">
-      <div class="box"><div class="screen"><video src="videos/UGC-Three-Layers.mp4?v=5#t=0.1" muted loop playsinline preload="metadata" aria-label="UGC, versión 1: split y frase clave"></video></div></div>
+      <div class="box"><div class="screen"><video src="videos/UGC-Three-Layers.mp4?v=6#t=0.1" muted loop playsinline preload="metadata" aria-label="UGC, versión 1: split y frase clave"></video></div></div>
       <div class="meta"><div><p class="name">UGC · Versión 1</p><p class="sub">Split 50/50, captions y frase clave grande</p></div><span class="status">En revisión</span></div>
     </article>
     <article class="item" data-cat="Escenas">
@@ -636,7 +636,7 @@ body.scene-modal-open{overflow:hidden}
       <div class="meta"><div><p class="name">UGC · Versión 2</p><p class="sub">Texto directo y bloque dividido</p></div><span class="status">En revisión</span></div>
     </article>
     <article class="item" data-cat="Escenas">
-      <div class="box"><div class="screen"><video src="videos/UGC-Version-3.mp4?v=6#t=0.1" muted loop playsinline preload="metadata" aria-label="UGC, versión 3: creadora con imágenes de apoyo"></video></div></div>
+      <div class="box"><div class="screen"><video src="videos/UGC-Version-3.mp4?v=7#t=0.1" muted loop playsinline preload="metadata" aria-label="UGC, versión 3: creadora con imágenes de apoyo"></video></div></div>
       <div class="meta"><div><p class="name">UGC · Versión 3</p><p class="sub">Imágenes detrás de ella y captions de una palabra</p></div><span class="status">En revisión</span></div>
     </article>
   </div>
@@ -722,12 +722,27 @@ bs.forEach(b=>b.addEventListener('click',()=>set(b.dataset.f)));let f='Todas';tr
     controls.innerHTML='<input class="scene-seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Avanzar o retroceder video"><button class="scene-expand" type="button" aria-label="Ampliar video" title="Ver grande"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"/></svg></button>';
     screen.appendChild(controls);
     const seek=controls.querySelector('.scene-seek'),expand=controls.querySelector('.scene-expand');
-    video.addEventListener('timeupdate',()=>update(video,seek));
+    /* Barra de progreso. Ojo: para saltar dentro del video el servidor debe aceptar Range (usa servir.py,
+       no "python3 -m http.server", que siempre manda el archivo completo y el video regresa al inicio). */
+    let arrastrando=false,seguia=false,raf=0;
+    const pintar=ratio=>{seek.value=String(Math.round(ratio*1000));seek.style.setProperty('--progress',`${ratio*100}%`);};
+    const ir=preciso=>{
+      if(!Number.isFinite(video.duration)||video.duration<=0)return;
+      const t=(Number(seek.value)/1000)*video.duration;
+      if(!preciso&&typeof video.fastSeek==='function')video.fastSeek(t);else video.currentTime=t;   // al arrastrar: rápido; al soltar: exacto
+      pintar(Number(seek.value)/1000);
+    };
+    const bucle=()=>{if(!arrastrando)update(video,seek);raf=video.paused?0:requestAnimationFrame(bucle);};   // progreso fluido mientras reproduce
+    video.addEventListener('play',()=>{if(!raf)raf=requestAnimationFrame(bucle);});
+    video.addEventListener('pause',()=>{cancelAnimationFrame(raf);raf=0;if(!arrastrando)update(video,seek);});
+    video.addEventListener('seeked',()=>{if(!arrastrando)update(video,seek);});
     video.addEventListener('loadedmetadata',()=>update(video,seek));
-    seek.addEventListener('input',()=>{
-      if(Number.isFinite(video.duration)&&video.duration>0)video.currentTime=(Number(seek.value)/1000)*video.duration;
-      update(video,seek);
-    });
+    seek.addEventListener('pointerdown',()=>{arrastrando=true;seguia=!video.paused;video.pause();});
+    seek.addEventListener('input',()=>ir(!arrastrando));   // con el teclado (sin arrastrar) va exacto
+    const soltar=()=>{if(!arrastrando)return;arrastrando=false;ir(true);if(seguia)video.play().catch(()=>{});};
+    seek.addEventListener('change',soltar);
+    seek.addEventListener('pointerup',soltar);
+    seek.addEventListener('pointercancel',soltar);
     expand.addEventListener('click',()=>abrir(screen,expand,video));
   });
   close.addEventListener('click',cerrar);

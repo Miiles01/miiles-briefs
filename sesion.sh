@@ -62,7 +62,7 @@ case "$cmd" in
   respaldo) respaldo ;;
   galeria)
     echo "Galería en http://localhost:5199  (Ctrl+C para cerrar)"
-    python3 -c "import http.server,functools; H=http.server.SimpleHTTPRequestHandler; H.extensions_map['.html']='text/html; charset=utf-8'; http.server.test(HandlerClass=functools.partial(H, directory='remotion/galeria'), port=5199, bind='127.0.0.1')"
+    python3 remotion/galeria/servir.py 5199   # acepta Range: sin eso la barra de progreso no puede saltar dentro del video
     ;;
   *) sed -n '2,12p' "$0" ;;
 esac
