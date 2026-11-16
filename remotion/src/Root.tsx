@@ -40,6 +40,7 @@ import { UGCVersionTwo } from "./UGCVersionTwo";
 import { UGCVersionThree } from "./UGCVersionThree";
 import { UGCPro, UGC_PRO_FRAMES } from "./UGCPro";
 import { EscenaHook, ESCENA_HOOK_FRAMES } from "./EscenaHook";
+import { EscenaSplit, ESCENA_SPLIT_FRAMES } from "./EscenaSplit";
 import { miilesCards } from "./shared";
 
 const V = { fps: 30, width: 1080, height: 1920 };
@@ -125,6 +126,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="UGC-Version-3" component={UGCVersionThree} durationInFrames={30 * 30} {...V} />
     <Composition id="UGC-Pro" component={UGCPro} durationInFrames={UGC_PRO_FRAMES} {...V} />
     <Composition id="Escena-Hook-1" component={EscenaHook} durationInFrames={ESCENA_HOOK_FRAMES} {...V} />
+    <Composition id="Escena-Split-1" component={EscenaSplit} durationInFrames={ESCENA_SPLIT_FRAMES} {...V} />
     <Composition id="GridFlip" component={GridFlip} durationInFrames={gridFlipDuration({})} {...V} defaultProps={{ items: miilesCards }} />
     <Composition id="GridFlipAll" component={GridFlip} durationInFrames={gridFlipDuration({ layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] })} {...V} defaultProps={{ items: miilesCards, flow: true, count: 15, ratio: 1.15, gap: 14, layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] }} />
     <Composition id="TextRoll" component={TextRoll} durationInFrames={textRollDuration({ lines: exampleRollLines })} {...V} defaultProps={{ lines: exampleRollLines }} />
