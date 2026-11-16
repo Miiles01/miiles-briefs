@@ -8,7 +8,7 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- (nadie)
+- [Claude] remotion/src/EscenaHook.tsx (nuevo), Root.tsx, galeria · escenas como partes de video: hook con título apilado y tarjeta de cristal · desde 2026-11-16 16:45
 
 ## Historial
 
