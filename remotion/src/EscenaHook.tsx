@@ -1,19 +1,18 @@
 /* ============================================================================
-   ESCENA · HOOK "Frase detrás de ella" · Miiles Estudio
+   ESCENA · HOOK "Frase grande sobre ella" · Miiles Estudio
    ----------------------------------------------------------------------------
    Las Escenas son PARTES de un video (no videos completos). Este es el hook: los primeros ~5 s.
-   - Una frase en tres niveles (línea chica arriba, palabra GIGANTE, línea chica abajo) sigue su guion
-     palabra por palabra y queda DETRÁS de ella (capas: video → frase → creadora recortada).
-   - Su cabeza está muy arriba (y≈270) para caber debajo de la UI de la red social, así que la cámara
-     la baja 230 px durante el hook y el hueco de arriba se rellena con la parte alta del mismo video (seto y pared), sin franja borrosa.
-     La toma se queda así hasta el final (la siguiente escena entra con un corte).
-   - Imágenes: aparecen a los lados de su cabeza (detrás de ella) cuando dice "marcas" y "video".
+   - Video original, sin mover ni rellenar nada (Manuel lo prefiere así).
+   - La frase sigue su guion palabra por palabra, DELANTE de ella sobre su pecho (debajo de la cara):
+     dos líneas chicas, dos palabras GIGANTES y una chica abajo. En este video su cabeza empieza en
+     y≈270, así que no hay espacio para una frase detrás de ella sin chocar con la UI de la red social.
+   - Imágenes DETRÁS de ella, a los lados de su cabeza, cuando dice "marcas" y "video".
    - Zona segura: nada arriba de y≈300 ni abajo de y≈1450.
    Video: public/creadora-hook.mp4 · recorte: public/creadora-hook-foreground.webm (scripts/matte-video.mjs).
    Guion transcrito con faster-whisper (tiempos por palabra). Duración: 146 cuadros (4.9 s) a 30 fps.
    ========================================================================== */
 import React from "react";
-import { AbsoluteFill, Easing, Img, OffthreadVideo, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Img, OffthreadVideo, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Video } from "@remotion/media";
 import { EASE, Fuentes, SANS, clamp } from "./UGCMotor";
 
@@ -28,19 +27,14 @@ const P: [string, number][] = [
 ];
 const ini = (i: number) => f(P[i][1]);
 
-// Cada frase: la línea chica de arriba partida en dos (arriba + arriba2), la 1.ª GIGANTE detrás de ella
-// (arriba de su cabeza) y la 2.ª GIGANTE delante, sobre su pecho (detrás no se leería: su cara la tapa).
+// Cada frase: la línea chica partida en dos (arriba + arriba2), dos líneas GIGANTES y una chica abajo.
 type Frase = { de: number; a: number; arriba: [number, number]; arriba2?: [number, number]; grande: [number, number]; grande2: [number, number]; abajo?: [number, number]; tam: number };
 const FRASES: Frase[] = [
-  { de: 0, a: ini(10) - 2, arriba: [0, 4], arriba2: [5, 7], grande: [8, 8], grande2: [9, 9], tam: 210 },                       // ¿Saben qué es lo que / más me preguntan / LAS / MARCAS?
-  { de: ini(10) - 2, a: ESCENA_HOOK_FRAMES, arriba: [10, 12], arriba2: [13, 14], grande: [15, 16], grande2: [17, 17], abajo: [18, 19], tam: 210 },   // ¿Cómo hacer que / la gente / NO SE / SALTE / el video?
+  { de: 0, a: ini(10) - 2, arriba: [0, 4], arriba2: [5, 7], grande: [8, 8], grande2: [9, 9], tam: 168 },                       // ¿Saben qué es lo que / más me preguntan / LAS / MARCAS?
+  { de: ini(10) - 2, a: ESCENA_HOOK_FRAMES, arriba: [10, 12], arriba2: [13, 14], grande: [15, 16], grande2: [17, 17], abajo: [18, 19], tam: 168 },   // ¿Cómo hacer que / la gente / NO SE / SALTE / el video?
 ];
 const SALE = (fr: Frase, frame: number) => interpolate(frame, [fr.a - 5, fr.a], [1, 0], clamp);   // sale rápido
 
-const BAJA = 265;   // px que baja la cámara durante el hook
-// La toma queda abajo todo el hook (sin regresar al final: Manuel no quiere que se deslice; el paso a la
-// siguiente escena es un corte normal).
-const useBaja = () => BAJA;
 const useCamara = () => 1 + 0.04 * EASE(interpolate(useCurrentFrame(), [0, ESCENA_HOOK_FRAMES], [0, 1], clamp));   // push-in lento
 
 const Palabra: React.FC<{ i: number; grande?: boolean }> = ({ i, grande }) => {
@@ -70,10 +64,10 @@ const Linea: React.FC<{ r?: [number, number]; size: number; grande?: boolean }> 
   );
 };
 
-const estiloFrase = { position: "absolute" as const, left: 0, right: 0, textAlign: "center" as const, color: "#FFFFFF", fontFamily: SANS, textShadow: "0 2px 24px rgba(0,0,0,.28)" };
+const estiloFrase = { position: "absolute" as const, left: 0, right: 0, textAlign: "center" as const, color: "#FFFFFF", fontFamily: SANS, textShadow: "0 2px 24px rgba(0,0,0,.3)" };
 
-/** Arriba, DETRÁS de ella: las dos líneas chicas y la 1.ª palabra gigante (su pelo tapa la parte de abajo). */
-const FraseDetras: React.FC = () => {
+/** La frase completa sobre su pecho: dos líneas chicas, dos gigantes y la chica de abajo. */
+const Frase: React.FC = () => {
   const frame = useCurrentFrame();
   return (
     <>
@@ -81,29 +75,12 @@ const FraseDetras: React.FC = () => {
         if (frame < fr.de || frame >= fr.a) return null;
         const sale = SALE(fr, frame);
         return (
-          <div key={k} style={{ ...estiloFrase, top: 306, opacity: sale, transform: `translateY(${(1 - sale) * -40}px)` }}>
+          <div key={k} style={{ ...estiloFrase, top: 975, opacity: sale, transform: `translateY(${(1 - sale) * 40}px)` }}>
             <Linea r={fr.arriba} size={44} />
             <Linea r={fr.arriba2} size={44} />
             <Linea r={fr.grande} size={fr.tam} grande />
-          </div>
-        );
-      })}
-    </>
-  );
-};
-
-/** Abajo, DELANTE de ella sobre su pecho (debajo de la cara, dentro de la zona segura): la 2.ª palabra gigante. */
-const FraseDelante: React.FC = () => {
-  const frame = useCurrentFrame();
-  return (
-    <>
-      {FRASES.map((fr, k) => {
-        if (frame < fr.de || frame >= fr.a) return null;
-        const sale = SALE(fr, frame);
-        return (
-          <div key={k} style={{ ...estiloFrase, top: 1170, opacity: sale, transform: `translateY(${(1 - sale) * 40}px)` }}>
             <Linea r={fr.grande2} size={fr.tam} grande />
-            <Linea r={fr.abajo} size={48} />
+            <Linea r={fr.abajo} size={46} />
           </div>
         );
       })}
@@ -143,35 +120,25 @@ const Fotos: React.FC = () => {
 };
 
 export const EscenaHook: React.FC = () => {
-  const baja = useBaja();
   const escala = useCamara();
-  const cam = { transform: `translateY(${baja}px) scale(${escala})`, transformOrigin: "50% 30%" };
+  const cam = { transform: `scale(${escala})`, transformOrigin: "50% 30%" };
   return (
     <AbsoluteFill style={{ background: "#111", overflow: "hidden" }}>
       <Fuentes />
-      {/* relleno del hueco de arriba: la parte alta del MISMO video sin mover (solo seto y pared, su cabeza empieza
-          en y≈270), así el fondo continúa sin franja borrosa. Se oculta antes de llegar a su cabeza. */}
-      <AbsoluteFill style={{ transform: `scale(${escala})`, transformOrigin: "50% 30%", WebkitMaskImage: "linear-gradient(to bottom, #000 0px, #000 282px, transparent 300px)", maskImage: "linear-gradient(to bottom, #000 0px, #000 282px, transparent 300px)" }}>
-        <OffthreadVideo src={staticFile("creadora-hook.mp4")} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-      </AbsoluteFill>
-      {/* video completo, que baja (con audio; la galería lo exporta sin audio). Su borde de arriba se funde con el relleno */}
+      {/* video original, sin mover (con audio; la galería lo exporta sin audio) */}
       <AbsoluteFill style={cam}>
-        <OffthreadVideo src={staticFile("creadora-hook.mp4")} style={{ width: "100%", height: "100%", objectFit: "cover", WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, #000 26px)", maskImage: "linear-gradient(to bottom, transparent 0px, #000 26px)" }} />
+        <OffthreadVideo src={staticFile("creadora-hook.mp4")} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </AbsoluteFill>
-      {/* frase e imágenes: entre el video y la creadora; se mueven con la cámara */}
+      {/* imágenes DETRÁS de ella, a los lados de su cabeza */}
       <AbsoluteFill style={cam}>
         <Fotos />
-      </AbsoluteFill>
-      {/* la frase vive en coordenadas de pantalla (empieza en y=300, zona segura) y sube con la cámara al final */}
-      <AbsoluteFill style={{ transform: `translateY(${baja - BAJA}px)` }}>
-        <FraseDetras />
       </AbsoluteFill>
       <AbsoluteFill style={cam}>
         <Video src={staticFile("creadora-hook-foreground.webm")} muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
       </AbsoluteFill>
-      {/* delante de ella: la 2.ª palabra gigante sobre su pecho */}
+      {/* frase completa DELANTE, sobre su pecho (debajo de la cara, dentro de la zona segura) */}
       <AbsoluteFill>
-        <FraseDelante />
+        <Frase />
       </AbsoluteFill>
     </AbsoluteFill>
   );
