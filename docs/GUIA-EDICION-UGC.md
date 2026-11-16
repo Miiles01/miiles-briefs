@@ -7,7 +7,7 @@ Todo el sistema vive en **`remotion/src/UGCMotor.tsx`**: el guion con tiempos, l
 | UGC · Pro | `UGCPro.tsx` | De todo un poco: 2 splits, carrusel, contadores, tachados y un "2" detrás |
 | UGC · Versión 1 | `UGCThreeLayers.tsx` | Split 50/50 y frase clave grande: 3 splits (perfil en 0, ganancias que suben a $1,000 cuando dice "mil", cuadrícula de apps) |
 | UGC · Versión 2 | `UGCVersionTwo.tsx` | Texto directo: captions de 80 px, palabras clave resaltadas con caja blanca y un bloque dividido con 4 tarjetas que caen cuando dice cada idea |
-| UGC · Versión 3 | `UGCVersionThree.tsx` | Una sola palabra por caption (la que dice en ese momento) y fotos detrás de su cabeza, a los lados, dentro de la zona segura |
+| UGC · Versión 3 | `UGCVersionThree.tsx` | Palabras largas solas; hasta tres palabras cortas juntas, cada una sincronizada con su voz; fotos laterales detrás de su cabeza |
 
 Para una edición nueva, copia la versión cuyo estilo te pidan y cambia solo la configuración. Si el video es otro, primero transcribe y reemplaza `PALABRAS`.
 Antes de empezar, lee también `docs/TRASPASO-COMPONENTES.md` (sección 0: trabajo compartido) y `referencias/REGLAS-DISENO-VIDEO-MIILES.md`.
@@ -43,6 +43,7 @@ Antes de empezar, lee también `docs/TRASPASO-COMPONENTES.md` (sección 0: traba
   | `clave` | la frase que vende | una línea chica + una **GRANDE** (118–190 px) que entra con un golpe de escala, o un **contador** que corre 0 → número en ~0.9 s |
   | `tachar` | cuando ella niega algo ("no son los influencers", "no vivo en Estados Unidos") | la palabra se tacha con una línea rosa (#FCB5B9) mientras la termina de decir |
   | `oculto` | cuando habla una animación (carrusel, texto detrás de ella) | sin caption: el tramo animado queda limpio |
+  | `palabra` | estilo editorial de V3 | palabras de hasta 3 letras se agrupan en captions de máximo 3; las largas van solas. Cada palabra aparece con su tiempo real y un fade breve |
 - Advercase **solo** en palabras sin acento (TECH UGC, 2). Todo lo acentuado va en Manrope.
 - Zona segura: el texto va entre x 130 y 950, y no baja de y≈1450 (ahí están los botones y la descripción de Reels/TikTok).
 

@@ -163,18 +163,24 @@ const Caption: React.FC<{ g: Grupo; desde: number; hasta: number }> = ({ g, desd
   const sombra = seam ? "none" : "0 2px 18px rgba(0,0,0,.35)";
 
   if (g.estilo === "palabra") {
-    // una sola palabra (o palabra corta + la siguiente), grande, debajo de la cara
+    // palabra larga sola; hasta tres palabras cortas juntas. Cada una entra al decirse.
     const txt = idx.map((i) => limpia(PALABRAS[i][0])).join(" ");
-    const p = spring({ frame: frame - desde, fps, config: { damping: 12, stiffness: 180, mass: 0.7 } });
-    // Fade breve pero visible; se ajusta al tiempo real disponible para esa palabra.
-    // El caption anterior desaparece al empezar este, así nunca quedan dos a la vez.
-    const fadeFrames = Math.max(2, Math.min(6, hasta - desde));
-    const entrada = Easing.inOut(Easing.cubic)(interpolate(frame, [desde, desde + fadeFrames], [0, 1], clamp));
     const display = !conAcento(txt) && !/[¿?¡!…]/.test(txt);
     return (
-      <AbsoluteFill style={{ opacity: entrada, pointerEvents: "none" }}>
-        <div style={{ position: "absolute", left: 90, right: 90, top: 1090, textAlign: "center", color: "#FFFFFF", textShadow: "0 2px 22px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35)", fontFamily: display ? DISPLAY : SANS, fontWeight: display ? 400 : 800, fontSize: txt.length > 11 ? 110 : 140, lineHeight: 1, letterSpacing: display ? "-0.02em" : "-0.045em", transform: `translateY(${(1 - p) * 14}px) scale(${0.94 + 0.06 * p})` }}>
-          {txt}
+      <AbsoluteFill style={{ pointerEvents: "none" }}>
+        <div style={{ position: "absolute", left: 90, right: 90, top: 1090, textAlign: "center", color: "#FFFFFF", textShadow: "0 2px 22px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35)", fontFamily: display ? DISPLAY : SANS, fontWeight: display ? 400 : 800, fontSize: txt.length > 11 ? 110 : 140, lineHeight: 1, letterSpacing: display ? "-0.02em" : "-0.045em", whiteSpace: "nowrap" }}>
+          {idx.map((i) => {
+            const palabraDesde = inicio(i);
+            const palabraHasta = i < g.a ? inicio(i + 1) : hasta;
+            const fadeFrames = Math.max(2, Math.min(6, palabraHasta - palabraDesde));
+            const entrada = Easing.inOut(Easing.cubic)(interpolate(frame, [palabraDesde, palabraDesde + fadeFrames], [0, 1], clamp));
+            const p = spring({ frame: frame - palabraDesde, fps, config: { damping: 12, stiffness: 180, mass: 0.7 } });
+            return (
+              <span key={i} style={{ display: "inline-block", marginRight: i === g.a ? 0 : "0.22em", opacity: entrada, transform: `translateY(${(1 - p) * 14}px) scale(${0.94 + 0.06 * p})` }}>
+                {limpia(PALABRAS[i][0])}
+              </span>
+            );
+          })}
         </div>
       </AbsoluteFill>
     );
@@ -260,8 +266,8 @@ const Captions: React.FC = () => {
   );
 };
 
-/** Captions de una palabra: un grupo por palabra, la que ella está diciendo en ese momento.
- *  juntarCortas = true pega las palabras de 1–3 letras a la siguiente (por defecto no: Manuel pidió una sola palabra). */
+/** Captions de palabras breves: con juntarCortas, agrupa consecutivas de hasta 3 caracteres (máximo 3 palabras).
+ *  Las palabras largas quedan solas; los tramos ocultos no se mezclan con captions visibles. */
 export const gruposPalabra = (desde = 0, hasta = PALABRAS.length - 1, ocultar: [number, number][] = [], juntarCortas = false): Grupo[] => {
   const out: Grupo[] = [];
   let i = desde;
@@ -269,8 +275,8 @@ export const gruposPalabra = (desde = 0, hasta = PALABRAS.length - 1, ocultar: [
     const oc = ocultar.find(([a, b]) => i >= a && i <= b);
     if (oc) { out.push({ de: oc[0], a: oc[1], estilo: "oculto" }); i = oc[1] + 1; continue; }
     let j = i;
-    const corta = (w: string) => limpia(w).replace(/[¿?]/g, "").length <= 3;
-    while (juntarCortas && j < hasta && corta(PALABRAS[j][0]) && !ocultar.some(([a]) => a === j + 1)) j++;
+    const corta = (w: string) => limpia(w).replace(/[¿?¡!…]/g, "").length <= 3;
+    while (juntarCortas && corta(PALABRAS[i][0]) && j - i < 2 && j < hasta && corta(PALABRAS[j + 1][0]) && !ocultar.some(([a, b]) => j + 1 >= a && j + 1 <= b)) j++;
     out.push({ de: i, a: j, estilo: "palabra" });
     i = j + 1;
   }

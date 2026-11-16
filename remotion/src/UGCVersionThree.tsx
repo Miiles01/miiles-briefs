@@ -1,15 +1,15 @@
 /* ============================================================================
    UGC · VERSIÓN 3 — "Imágenes detrás de ella y una palabra por caption" · Miiles Estudio
    ----------------------------------------------------------------------------
-   Personalidad: calmada y editorial. Un caption = UNA sola palabra grande: la que ella está diciendo
-   en ese momento, en el cuadro exacto en que la dice. Advercase en palabras sin
+   Personalidad: calmada y editorial. Cada palabra larga va sola; las cortas se agrupan en captions
+   de hasta tres y cada una aparece al decirse. Advercase en palabras sin
    acento y Manrope en las acentuadas. En los momentos que lo piden aparecen fotos/íconos DETRÁS de
    ella, a los lados de su cabeza, dentro de la zona segura (y 380–1000), y al final un "2" gigante
    detrás mientras hace la señal del 2. Sin splits ni carrusel.
    Captions con el guion real y los tiempos de cada palabra (motor: UGCMotor.tsx).
    ========================================================================== */
 import React from "react";
-import { AZUL, Config, EdicionUGC, FotoDetras, LAVANDA, ROSA, UGC_FRAMES, gruposPalabra, inicio } from "./UGCMotor";
+import { AZUL, Config, EdicionUGC, FotoDetras, LAVANDA, PALABRAS, ROSA, UGC_FRAMES, gruposPalabra, inicio } from "./UGCMotor";
 
 // fotos a los lados de la cabeza: la orilla de su pelo las tapa un poco (efecto "detrás")
 const lados = (izq: FotoDetras["item"], der: FotoDetras["item"]): FotoDetras[] => [
@@ -18,7 +18,7 @@ const lados = (izq: FotoDetras["item"], der: FotoDetras["item"]): FotoDetras[] =
 ];
 
 const CFG: Config = {
-  grupos: gruposPalabra(),
+  grupos: gruposPalabra(0, PALABRAS.length - 1, [], true),
   golpes: [inicio(7), inicio(33), inicio(47), inicio(100)],
   splits: [],
   detras: [
