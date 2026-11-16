@@ -8,9 +8,16 @@ Reglas:
 
 ## En curso
 <!-- Formato: - [IA] archivo(s) · tarea · desde AAAA-MM-DD HH:MM -->
-- [Claude] remotion/src/UGCMotor.tsx (PerfilCero), remotion/public/carrusel/avatar.jpg · perfil con avatar, aro de historia y odómetros · desde 2026-11-16 16:30
+- (nadie)
 
 ## Historial
+
+### 2026-11-16 · Claude (2)
+- Panel `PerfilCero` (Pro y V1) rediseñado a pedido de Manuel:
+  - avatar con foto real (`public/carrusel/avatar.jpg`) y el aro degradado de historias de Instagram, que se dibuja girando;
+  - nombre, descripción y botón "Seguir";
+  - los tres contadores del mismo tamaño, como odómetros que giran y caen en 0 uno tras otro (ya no baja de 12.4K).
+- Render: Pro `?v=4` y V1 `?v=7`.
 
 ### 2026-11-16 · Claude
 - **Codex ya no trabaja en el proyecto** (lo dijo Manuel). Su trabajo pendiente del 2026-11-13 se guardó tal cual en un commit aparte: V3 agrupa palabras cortas en captions de hasta 3, fade de entrada y hover del loader más ancho.

@@ -368,28 +368,65 @@ export const EdicionUGC: React.FC<{ cfg: Config }> = ({ cfg }) => (
 // ---------------------------------------------------------------------------
 // Paneles listos para el split (1080 × 960, fondo crema)
 // ---------------------------------------------------------------------------
-export const PerfilCero: React.FC = () => {
+/** Contador tipo odómetro: los dígitos giran y caen en el valor final (todos del mismo tamaño). */
+const Odometro: React.FC<{ valor: string; desde: number; dur?: number; semilla?: number; size: number; color?: string }> = ({ valor, desde, dur = 26, semilla = 0, size, color = "#111111" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const p = spring({ frame: frame - 6, fps, config: { damping: 13, stiffness: 140, mass: 0.8 } });
-  const n = interpolate(frame, [18, 48], [12400, 0], { ...clamp, easing: EASE });
-  const num = n >= 1000 ? `${(n / 1000).toFixed(1)}K` : `${Math.round(n)}`;
-  const stats: [string, string][] = [["Publicaciones", "0"], ["Seguidores", num], ["Seguidos", "0"]];
+  const t = EASE(interpolate(frame, [desde, desde + dur], [0, 1], clamp));
+  const pop = spring({ frame: frame - desde - dur, fps, config: { damping: 9, stiffness: 220, mass: 0.5 } });   // golpecito al caer
+  const base = ["7", "3", "9", "1", "5", "8", "2", "6", "4"];
+  return (
+    <div style={{ display: "inline-flex", fontSize: size, fontWeight: 800, letterSpacing: "-0.04em", color, lineHeight: 1, fontVariantNumeric: "tabular-nums", transform: `scale(${1 + 0.08 * Math.sin(Math.PI * Math.min(1, pop))})` }}>
+      {[...valor].map((ch, k) => {
+        const tira = [...base.slice(semilla % 9), ...base.slice(0, semilla % 9), ch];   // gira por 9 dígitos y cae en el final
+        return (
+          <span key={k} style={{ display: "inline-block", height: "1.16em", overflow: "hidden" }}>
+            <span style={{ display: "block", transform: `translateY(${-(tira.length - 1) * 1.16 * t}em)` }}>
+              {tira.map((d, j) => <span key={j} style={{ display: "block", height: "1.16em", lineHeight: "1.16em" }}>{d}</span>)}
+            </span>
+          </span>
+        );
+      })}
+    </div>
+  );
+};
+
+/** Perfil sin comunidad: avatar con el aro degradado de historias, y los tres contadores giran hasta caer en 0. */
+export const PerfilCero: React.FC<{ foto?: string; usuario?: string; descripcion?: string }> = ({ foto = "carrusel/avatar.jpg", usuario = "@creadora.ugc", descripcion = "Creadora de contenido" }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const tarjeta = spring({ frame: frame - 2, fps, config: { damping: 14, stiffness: 130, mass: 0.85 } });
+  const avatar = spring({ frame: frame - 6, fps, config: { damping: 11, stiffness: 150, mass: 0.7 } });
+  const aro = 360 * EASE(interpolate(frame, [10, 34], [0, 1], clamp));                       // el aro se dibuja girando
+  const texto = spring({ frame: frame - 12, fps, config: { damping: 15, stiffness: 150, mass: 0.7 } });
+  const boton = spring({ frame: frame - 18, fps, config: { damping: 12, stiffness: 170, mass: 0.6 } });
+  const stats: [string, string][] = [["Publicaciones", "0"], ["Seguidores", "0"], ["Seguidos", "0"]];
+  const D = 224;   // diámetro del aro
   return (
     <AbsoluteFill style={{ background: CREMA, alignItems: "center", justifyContent: "center", fontFamily: SANS }}>
-      <div style={{ width: 760, background: "#FFFFFF", borderRadius: 40, padding: "56px 56px 60px", transform: `translateY(${(1 - p) * 120}px) scale(${0.92 + 0.08 * p})`, opacity: Math.min(1, p * 1.5) }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 34 }}>
-          <div style={{ width: 150, height: 150, borderRadius: "50%", background: LAVANDA, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 64, fontWeight: 800, color: AZUL }}>@</div>
-          <div>
-            <div style={{ fontSize: 46, fontWeight: 800, letterSpacing: "-0.03em", color: "#111" }}>@creadora.ugc</div>
-            <div style={{ fontSize: 30, fontWeight: 500, color: "#6B6F80", marginTop: 6 }}>Cuenta nueva</div>
+      <div style={{ width: 900, background: "#FFFFFF", borderRadius: 48, padding: "58px 60px 62px", transform: `translateY(${(1 - tarjeta) * 140}px) scale(${0.92 + 0.08 * tarjeta})`, opacity: Math.min(1, tarjeta * 1.5) }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 38 }}>
+          {/* aro de historia: degradado de Instagram que se dibuja; un hueco blanco y la foto */}
+          <div style={{ position: "relative", width: D, height: D, flex: "none", transform: `scale(${0.6 + 0.4 * avatar})`, opacity: Math.min(1, avatar * 1.6) }}>
+            <div style={{
+              position: "absolute", inset: 0, borderRadius: "50%",
+              background: "conic-gradient(from 200deg, #FEDA75, #FA7E1E, #D62976, #962FBF, #4F5BD5, #FEDA75)",
+              WebkitMaskImage: `conic-gradient(from 200deg, #000 ${aro}deg, transparent ${aro}deg)`, maskImage: `conic-gradient(from 200deg, #000 ${aro}deg, transparent ${aro}deg)`,
+            }} />
+            <div style={{ position: "absolute", inset: 8, borderRadius: "50%", background: "#FFFFFF" }} />
+            <Img src={staticFile(foto)} style={{ position: "absolute", inset: 15, width: D - 30, height: D - 30, borderRadius: "50%", objectFit: "cover" }} />
+          </div>
+          <div style={{ transform: `translateX(${(1 - texto) * 40}px)`, opacity: Math.min(1, texto * 1.5) }}>
+            <div style={{ fontSize: 52, fontWeight: 800, letterSpacing: "-0.03em", color: "#111" }}>{usuario}</div>
+            <div style={{ fontSize: 32, fontWeight: 500, color: "#6B6F80", marginTop: 6 }}>{descripcion}</div>
+            <div style={{ display: "inline-block", marginTop: 20, padding: "14px 46px", borderRadius: 16, background: AZUL, color: "#FFFFFF", fontSize: 31, fontWeight: 700, transform: `scale(${0.7 + 0.3 * boton})`, transformOrigin: "0 50%", opacity: Math.min(1, boton * 1.5) }}>Seguir</div>
           </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 48 }}>
-          {stats.map(([k, v]) => (
+        <div style={{ display: "flex", marginTop: 54 }}>
+          {stats.map(([k, v], i) => (
             <div key={k} style={{ textAlign: "center", flex: 1 }}>
-              <div style={{ fontSize: k === "Seguidores" ? 92 : 64, fontWeight: 800, letterSpacing: "-0.04em", color: k === "Seguidores" ? AZUL : "#111", fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>{v}</div>
-              <div style={{ fontSize: 28, fontWeight: 600, color: "#6B6F80", marginTop: 10 }}>{k}</div>
+              <Odometro valor={v} desde={20 + i * 5} semilla={i * 3} size={86} />
+              <div style={{ fontSize: 31, fontWeight: 600, color: "#6B6F80", marginTop: 12 }}>{k}</div>
             </div>
           ))}
         </div>
