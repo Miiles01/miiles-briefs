@@ -22,3 +22,8 @@ remotion/public/ugc-template-raw.mp4
 # Generated transparent matting layers for local UGC renders
 remotion/public/ugc-template-base.webm
 remotion/public/ugc-template-foreground.webm
+
+# Video base del hook y sus capas de recorte (pesados, solo locales)
+remotion/public/creadora-hook.mp4
+remotion/public/creadora-hook-base.webm
+remotion/public/creadora-hook-foreground.webm
