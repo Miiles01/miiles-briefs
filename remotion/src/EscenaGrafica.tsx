@@ -69,14 +69,17 @@ const enProgreso = (p: number) => {
 };
 
 // ---------------------------------------------------------------------------
-const Grafica: React.FC = () => {
+// sin contenedor: las orillas del área de la gráfica se desvanecen (no se ve el corte recto al hacer zoom)
+const ORILLAS = "radial-gradient(ellipse 72% 68% at 50% 50%, #000 62%, transparent 100%)";
+const Grafica: React.FC<{ libre?: boolean }> = ({ libre }) => {   // libre: sin contenedor gris; empieza con zoom
+  const tinta = libre ? AZUL : "#09090B";   // versión con corte: azul Miiles (menos oscura)
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   // la curva crece lento al principio y más rápido al final (como los datos)
   const p = interpolate(frame, [DIBUJA[0], DIBUJA[1]], [0.02, 1], { ...clamp, easing: Easing.bezier(0.35, 0.05, 0.6, 1) });
   const punta = enProgreso(p);
   // cámara dentro del escenario: zoom a la punta y la sigue; al final se aleja
-  const zIn = EASE(interpolate(frame, [ZOOM_IN, ZOOM_IN + 16], [0, 1], clamp));
+  const zIn = libre ? 1 : EASE(interpolate(frame, [ZOOM_IN, ZOOM_IN + 16], [0, 1], clamp));
   const zOut = Easing.inOut(Easing.cubic)(interpolate(frame, [ZOOM_OUT, ZOOM_OUT + 14], [0, 1], clamp));
   const z = 1 + 1.7 * zIn * (1 - zOut);
   const foco = { x: SW * 0.58, y: SH * 0.5 };                       // dónde queda la punta en pantalla mientras la seguimos
@@ -91,12 +94,12 @@ const Grafica: React.FC = () => {
   const tipX = X + punta.x * z, tipY = Y + punta.y * z;              // punta en coordenadas del escenario (para la etiqueta)
   const etiqueta = spring({ frame: frame - ZOOM_IN, fps, config: { damping: 14, stiffness: 170, mass: 0.6 } });
   return (
-    <div style={{ position: "relative", width: SW, height: SH, borderRadius: 30, overflow: "hidden", background: "#F4F4F6" }}>
+    <div style={{ position: "relative", width: SW, height: SH, borderRadius: libre ? 0 : 30, overflow: "hidden", background: libre ? "transparent" : "#F4F4F6", ...(libre && mezcla > 0.02 ? { WebkitMaskImage: ORILLAS, maskImage: ORILLAS } : {}) }}>
       <svg width={SW} height={SH} style={{ position: "absolute", inset: 0 }}>
         <defs>
           <linearGradient id="g-area" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#09090B" stopOpacity={0.22} />
-            <stop offset="100%" stopColor="#09090B" stopOpacity={0} />
+            <stop offset="0%" stopColor={tinta} stopOpacity={libre ? 0.28 : 0.22} />
+            <stop offset="100%" stopColor={tinta} stopOpacity={0} />
           </linearGradient>
         </defs>
         <g transform={`translate(${X} ${Y}) scale(${z})`}>
@@ -107,14 +110,14 @@ const Grafica: React.FC = () => {
             <text key={t} x={px(i)} y={SH - PADB + 40} textAnchor="middle" fontFamily={MONO} fontSize={20} fill="#A1A1AA">{t}</text>
           ))}
           <polygon points={area} fill="url(#g-area)" />
-          <polyline points={linea} fill="none" stroke="#09090B" strokeWidth={7} strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+          <polyline points={linea} fill="none" stroke={tinta} strokeWidth={7} strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
         </g>
         {/* punta: punto con pulso (en coordenadas de pantalla, para que no crezca con el zoom) */}
         <circle cx={tipX} cy={tipY} r={14 + 26 * pulso} fill={AZUL} opacity={0.25 * (1 - pulso)} />
-        <circle cx={tipX} cy={tipY} r={13} fill="#FFFFFF" stroke="#09090B" strokeWidth={6} />
+        <circle cx={tipX} cy={tipY} r={13} fill="#FFFFFF" stroke={tinta} strokeWidth={6} />
       </svg>
       {/* etiqueta que acompaña a la punta */}
-      <div style={{ position: "absolute", left: tipX, top: tipY - 30, transform: `translate(${tipX > SW - 150 ? -88 : -50}%, -100%) scale(${0.6 + 0.4 * etiqueta})`, transformOrigin: "50% 100%", opacity: Math.min(1, etiqueta * 1.5), background: "#09090B", color: "#FFFFFF", fontFamily: SANS, fontWeight: 800, fontSize: 38, letterSpacing: "-0.03em", padding: "10px 20px", borderRadius: 16, whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }}>
+      <div style={{ position: "absolute", left: tipX, top: tipY - 30, transform: `translate(${tipX > SW - 150 ? -88 : -50}%, -100%) scale(${0.6 + 0.4 * etiqueta})`, transformOrigin: "50% 100%", opacity: Math.min(1, etiqueta * 1.5), background: tinta, color: "#FFFFFF", fontFamily: SANS, fontWeight: 800, fontSize: 38, letterSpacing: "-0.03em", padding: "10px 20px", borderRadius: 16, whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }}>
         {punta.v.toFixed(1)}K
       </div>
     </div>
@@ -130,6 +133,17 @@ const Pantalla: React.FC<{ corte?: boolean }> = ({ corte }) => {
   if (frame < ENTRA || frame >= SALE) return null;
   const p = interpolate(frame, [DIBUJA[0], DIBUJA[1]], [0.02, 1], { ...clamp, easing: Easing.bezier(0.35, 0.05, 0.6, 1) });
   const v = enProgreso(p).v;
+  if (corte) {
+    // corte: SOLO la gráfica, en todo el escenario (sin contenedor ni datos de arriba). Empieza con zoom a la
+    // curva y, al final, la cámara se aleja y la vemos chiquita al centro.
+    const lejos = Easing.inOut(Easing.cubic)(interpolate(frame, [ZOOM_OUT, ZOOM_OUT + 14], [0, 1], clamp));
+    const sc = 1.17 - (1.17 - 0.74) * lejos;
+    return (
+      <div style={{ position: "absolute", left: 540 - (SW * sc) / 2, top: 1000 - (SH * sc) / 2, width: SW, height: SH, transformOrigin: "0 0", transform: `scale(${sc})`, opacity: Math.min(1, entra * 1.6) }}>
+        <Grafica libre />
+      </div>
+    );
+  }
   return (
     <div style={corte
       // corte: escena blanca completa; la gráfica aparece grande (sin tarjeta flotando), con un pop suave

@@ -106,7 +106,7 @@ const Frases: React.FC = () => {
             {fr.txt.map((l, j) => {
               const p = spring({ frame: frame - fr.de - j * 3, fps, config: { damping: 14, stiffness: 150, mass: 0.7 } });
               return (
-                <div key={j} style={{ overflow: "hidden", paddingBottom: "0.05em" }}>
+                <div key={j} style={{ overflow: "hidden", paddingBottom: "0.22em", marginBottom: "-0.17em" }}>   {/* espacio para las letras que bajan (p, g, q) */}
                   <div style={{ transform: `translateY(${(1 - p) * 105}%)` }}>{l}</div>
                 </div>
               );

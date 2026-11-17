@@ -60,32 +60,37 @@ const arco = (de: number, a: number) => {
 };
 
 /** Cuál segmento se ve y cuánto zoom hay en este cuadro. */
-const camara = (frame: number) => {
-  const zIn = EASE(interpolate(frame, [VISITAS[0], VISITAS[0] + 16], [0, 1], clamp));
+const camara = (frame: number, libre = false) => {
+  const zIn = libre ? (frame >= ENTRA ? 1 : 0) : EASE(interpolate(frame, [VISITAS[0], VISITAS[0] + 16], [0, 1], clamp));
   const zOut = Easing.inOut(Easing.cubic)(interpolate(frame, [ALEJA, ALEJA + 16], [0, 1], clamp));
   const zoom = zIn * (1 - zOut);
   // giro: lleva el centro del segmento activo arriba (0°); entre visitas gira suave
-  let giro = -angulos[0].medio * EASE(interpolate(frame, [VISITAS[0] - 6, VISITAS[0] + 14], [0, 1], clamp));
+  let giro = -angulos[0].medio * (libre ? 1 : EASE(interpolate(frame, [VISITAS[0] - 6, VISITAS[0] + 14], [0, 1], clamp)));
   for (let k = 1; k < VISITAS.length; k++) {
     const t = Easing.inOut(Easing.cubic)(interpolate(frame, [VISITAS[k], VISITAS[k] + 16], [0, 1], clamp));
     giro += (angulos[k - 1].medio - angulos[k].medio) * t;
   }
-  const activo = frame < VISITAS[0] ? -1 : frame < VISITAS[1] ? 0 : frame < VISITAS[2] ? 1 : 2;
+  const activo = frame < (libre ? ENTRA : VISITAS[0]) ? -1 : frame < VISITAS[0] ? 0 : frame < VISITAS[1] ? 0 : frame < VISITAS[2] ? 1 : 2;
   return { zoom, giro, activo: zoom > 0.5 ? activo : -1 };
 };
 
-const Dona: React.FC = () => {
+// sin contenedor: las orillas del área de la gráfica se desvanecen (no se ve el corte recto al hacer zoom)
+const ORILLAS = "radial-gradient(ellipse 72% 68% at 50% 50%, #000 62%, transparent 100%)";
+const Dona: React.FC<{ libre?: boolean }> = ({ libre }) => {   // libre: sin contenedor gris; empieza con zoom
+  // versión con corte: azul Miiles en cuatro tonos (menos oscura)
+  const AZULES = ["#4059F1", "rgba(64,89,241,0.66)", "rgba(64,89,241,0.4)", "rgba(64,89,241,0.2)"];
+  const tinta = libre ? "#4059F1" : "#09090B";
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const dib = EASE(interpolate(frame, [DIBUJA[0], DIBUJA[1]], [0, 1], clamp));
-  const { zoom, giro, activo } = camara(frame);
+  const { zoom, giro, activo } = camara(frame, libre);
   const z = 1 + 0.75 * zoom;   // zoom moderado: se ve el segmento y sus vecinos
   // el punto de foco (arriba del anillo) baja al centro de la toma mientras hay zoom
   const focoY = C - 150;                                                // la parte de arriba del anillo queda aquí con zoom
   const ty = (focoY - z * (C - R)) * zoom + (C - z * C) * (1 - zoom);   // sin zoom: escala centrada
   const trans = `translate(${C - C * z} ${ty}) scale(${z}) rotate(${giro} ${C} ${C})`;
   return (
-    <div style={{ position: "relative", width: SS, height: SS * 0.82, borderRadius: 30, overflow: "hidden", background: "#F4F4F6" }}>
+    <div style={{ position: "relative", width: SS, height: SS * 0.82, borderRadius: libre ? 0 : 30, overflow: "hidden", background: libre ? "transparent" : "#F4F4F6", ...(libre && zoom > 0.02 ? { WebkitMaskImage: ORILLAS, maskImage: ORILLAS } : {}) }}>
       <svg width={SS} height={SS} style={{ position: "absolute", left: 0, top: -SS * 0.09 }}>
         <g transform={trans}>
           {SEG.map((s, k) => {
@@ -94,25 +99,25 @@ const Dona: React.FC = () => {
             const resalta = activo === k;
             const otro = activo !== -1 && !resalta;
             return (
-              <path key={k} d={arco(g.de + GAP / 2 + CAP, Math.max(g.de + GAP / 2 + CAP, fin - GAP / 2 - CAP))} fill="none" stroke={s.color} strokeWidth={T} strokeLinecap="round" opacity={otro ? 0.35 : 1} />
+              <path key={k} d={arco(g.de + GAP / 2 + CAP, Math.max(g.de + GAP / 2 + CAP, fin - GAP / 2 - CAP))} fill="none" stroke={libre ? AZULES[k] : s.color} strokeWidth={T} strokeLinecap="round" opacity={otro ? 0.35 : 1} />
             );
           })}
         </g>
       </svg>
       {/* lectura al centro (solo con la dona completa) */}
       <div style={{ position: "absolute", left: 0, right: 0, top: SS * 0.41 - SS * 0.09 - 60, textAlign: "center", opacity: 1 - Math.min(1, zoom * 2) }}>
-        <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 58, letterSpacing: "-0.03em", color: "#09090B" }}>100%</div>
+        <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 58, letterSpacing: "-0.03em", color: tinta }}>100%</div>
         <div style={{ fontFamily: MONO, fontSize: 20, letterSpacing: "0.12em", color: "#71717A" }}>DE TUS HOOKS</div>
       </div>
       {/* tarjeta del segmento que estamos viendo */}
       {SEG.slice(0, 3).map((s, k) => {
-        const desde = VISITAS[k] + 8, hasta = k < 2 ? VISITAS[k + 1] + 4 : ALEJA + 4;
+        const desde = (k === 0 && libre ? ENTRA : VISITAS[k]) + 8, hasta = k < 2 ? VISITAS[k + 1] + 4 : ALEJA + 4;
         if (frame < desde || frame >= hasta) return null;
         const p = spring({ frame: frame - desde, fps, config: { damping: 14, stiffness: 170, mass: 0.6 } });
         const sale = interpolate(frame, [hasta - 5, hasta], [1, 0], clamp);
         return (
           <div key={k} style={{ position: "absolute", left: 0, right: 0, bottom: 46, textAlign: "center", opacity: Math.min(1, p * 1.5) * sale, transform: `translateY(${(1 - p) * 40}px)` }}>
-            <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 120, letterSpacing: "-0.05em", color: "#09090B", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{Math.round(s.v * Math.min(1, p))}%</div>
+            <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 120, letterSpacing: "-0.05em", color: tinta, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{Math.round(s.v * Math.min(1, p))}%</div>
             <div style={{ fontFamily: MONO, fontSize: 30, color: "#52525B", marginTop: 8 }}>{s.nombre}</div>
           </div>
         );
@@ -127,6 +132,18 @@ const Pantalla: React.FC<{ corte?: boolean }> = ({ corte }) => {
   const entra = spring({ frame: frame - ENTRA, fps, config: { damping: 15, stiffness: 120, mass: 0.9 } });
   const sale = interpolate(frame, [SALE - 9, SALE], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
   if (frame < ENTRA || frame >= SALE) return null;
+  if (corte) {
+    // corte: SOLO la dona, en todo el escenario (sin contenedor ni títulos). Empieza con zoom a la primera parte
+    // y, al final, la cámara se aleja y la vemos chiquita al centro.
+    const lejos = Easing.inOut(Easing.cubic)(interpolate(frame, [ALEJA, ALEJA + 16], [0, 1], clamp));
+    const sc = 1.26 - (1.26 - 0.8) * lejos;
+    const W = SS, H = SS * 0.82;
+    return (
+      <div style={{ position: "absolute", left: 540 - (W * sc) / 2, top: 1000 - (H * sc) / 2, width: W, height: H, transformOrigin: "0 0", transform: `scale(${sc})`, opacity: Math.min(1, entra * 1.6) }}>
+        <Dona libre />
+      </div>
+    );
+  }
   const { activo } = camara(frame);
   const titulo = activo === -1 ? "3 tipos de hook" : `${SEG[activo].nombre} (${SEG[activo].v}%)`;
   return (
