@@ -15,7 +15,7 @@ import { AbsoluteFill, Easing, OffthreadVideo, interpolate, spring, staticFile, 
 import { EASE, Fuentes, SANS, clamp } from "./UGCMotor";
 
 const FPS = 30;
-const INICIO = 9.25;
+const INICIO = 8.95;   // se ve a ella ~0.8 s antes de que salga la gráfica
 export const ESCENA_DONA_FRAMES = Math.round((14.06 - INICIO) * FPS);
 const f = (seg: number) => Math.round((seg - INICIO) * FPS);
 const MONO = "ui-monospace, 'SF Mono', Menlo, monospace";
@@ -121,7 +121,7 @@ const Dona: React.FC = () => {
   );
 };
 
-const Pantalla: React.FC = () => {
+const Pantalla: React.FC<{ corte?: boolean }> = ({ corte }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const entra = spring({ frame: frame - ENTRA, fps, config: { damping: 15, stiffness: 120, mass: 0.9 } });
@@ -130,7 +130,10 @@ const Pantalla: React.FC = () => {
   const { activo } = camara(frame);
   const titulo = activo === -1 ? "3 tipos de hook" : `${SEG[activo].nombre} (${SEG[activo].v}%)`;
   return (
-    <div style={{ position: "absolute", left: 50, top: 460, width: 980, borderRadius: 48, background: "#FFFFFF", padding: "34px 60px 50px", boxSizing: "border-box", fontFamily: SANS, opacity: Math.min(1, entra * 1.4) * (1 - sale), transform: `translateY(${(1 - entra) * 140 + sale * 80}px) scale(${(0.9 + 0.1 * entra) * (1 - 0.06 * sale)})` }}>
+    <div style={corte
+      // corte: escena blanca completa; la gráfica aparece grande (sin tarjeta flotando), con un pop suave
+      ? { position: "absolute", left: 50, top: 520, width: 980, padding: "34px 60px 50px", boxSizing: "border-box", fontFamily: SANS, opacity: Math.min(1, entra * 1.6), transform: `translateY(${(1 - entra) * 60}px) scale(${0.94 + 0.06 * entra})` }
+      : { position: "absolute", left: 50, top: 460, width: 980, borderRadius: 48, background: "#FFFFFF", padding: "34px 60px 50px", boxSizing: "border-box", fontFamily: SANS, opacity: Math.min(1, entra * 1.4) * (1 - sale), transform: `translateY(${(1 - entra) * 140 + sale * 80}px) scale(${(0.9 + 0.1 * entra) * (1 - 0.06 * sale)})` }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 22 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
           <span style={{ fontSize: 50, fontWeight: 800, letterSpacing: "-0.035em", color: "#09090B", whiteSpace: "nowrap" }}>{titulo}</span>
@@ -149,8 +152,9 @@ const Palabra: React.FC<{ i: number }> = ({ i }) => {
   const p = spring({ frame: frame - ini(i), fps, config: { damping: 13, stiffness: 190, mass: 0.6 } });
   return <span style={{ display: "inline-block", marginRight: "0.26em", opacity: frame < ini(i) ? 0 : Math.min(1, p * 1.4), transform: `translateY(${(1 - p) * 20}px) scale(${0.86 + 0.14 * p})` }}>{P[i][0]}</span>;
 };
-const Captions: React.FC = () => {
+const Captions: React.FC<{ corte?: boolean }> = ({ corte }) => {
   const frame = useCurrentFrame();
+  const enBlanco = !!corte && frame >= ENTRA && frame < SALE;   // escena blanca: captions negros arriba
   return (
     <>
       {GRUPOS.map(([a, b], k) => {
@@ -161,7 +165,7 @@ const Captions: React.FC = () => {
         const sale = interpolate(frame, [hasta - 4, hasta], [1, 0], clamp);
         const idx = Array.from({ length: b - a + 1 }, (_, j) => a + j);
         return (
-          <div key={k} style={{ position: "absolute", left: 0, right: 0, top: arriba ? 330 : 1130, textAlign: "center", color: "#FFFFFF", textShadow: "0 2px 18px rgba(0,0,0,.4)", fontFamily: SANS, fontWeight: 800, fontSize: arriba ? 60 : 66, letterSpacing: "-0.035em", whiteSpace: "nowrap", opacity: sale }}>
+          <div key={k} style={{ position: "absolute", left: 0, right: 0, top: (corte ? enBlanco : arriba) ? 330 : 1130, textAlign: "center", color: enBlanco ? "#111111" : "#FFFFFF", textShadow: enBlanco ? "none" : "0 2px 18px rgba(0,0,0,.4)", fontFamily: SANS, fontWeight: 800, fontSize: (corte ? enBlanco : arriba) ? 60 : 66, letterSpacing: "-0.035em", whiteSpace: "nowrap", opacity: sale }}>
             {idx.map((i) => <Palabra key={i} i={i} />)}
           </div>
         );
@@ -170,10 +174,11 @@ const Captions: React.FC = () => {
   );
 };
 
-export const EscenaDona: React.FC = () => {
+export const EscenaDona: React.FC<{ modo?: "tarjeta" | "corte" }> = ({ modo = "tarjeta" }) => {
+  const corte = modo === "corte";
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const fondo = spring({ frame: frame - ENTRA, fps, config: { damping: 20, stiffness: 120 } }) * (1 - interpolate(frame, [SALE - 9, SALE + 4], [0, 1], { ...clamp, easing: EASE }));
+  const fondo = corte ? 0 : spring({ frame: frame - ENTRA, fps, config: { damping: 20, stiffness: 120 } }) * (1 - interpolate(frame, [SALE - 9, SALE + 4], [0, 1], { ...clamp, easing: EASE }));
   const escala = 1 + 0.03 * EASE(interpolate(frame, [0, ESCENA_DONA_FRAMES], [0, 1], clamp)) + 0.04 * fondo;
   return (
     <AbsoluteFill style={{ background: "#111", overflow: "hidden" }}>
@@ -181,8 +186,13 @@ export const EscenaDona: React.FC = () => {
       <AbsoluteFill style={{ transform: `scale(${escala})`, transformOrigin: "50% 30%", filter: fondo > 0.01 ? `blur(${14 * fondo}px) brightness(${1 - 0.18 * fondo})` : undefined }}>
         <OffthreadVideo src={staticFile("creadora-hook.mp4")} trimBefore={Math.round(INICIO * FPS)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </AbsoluteFill>
-      <Pantalla />
-      <Captions />
+      {/* corte: a partir de ENTRA la toma cambia de golpe a una escena blanca (su voz sigue) y regresa en SALE */}
+      {corte && frame >= ENTRA && frame < SALE && <AbsoluteFill style={{ background: "#FFFFFF" }} />}
+      <Pantalla corte={corte} />
+      <Captions corte={corte} />
     </AbsoluteFill>
   );
 };
+
+/** Versión con corte: primero ella, corte a escena blanca con la gráfica completa, y corte de regreso a ella. */
+export const EscenaDonaCorte: React.FC = () => <EscenaDona modo="corte" />;

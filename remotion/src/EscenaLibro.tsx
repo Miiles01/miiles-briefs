@@ -4,11 +4,11 @@
    Toma de apoyo (B-roll) dentro del video: se oye a la creadora (de 8.95 s a 13.0 s) pero no se le ve.
    Libro estilo dither-book de Amicro, recreado aquí cuadro por cuadro:
    1. Fondo de cuadrícula clara y el libro PEQUEÑO al centro; entra y pasa varias hojas rápido.
-   2. En "una pregunta" la cámara hace ZOOM a la página derecha.
+   2. Mientras pasan las hojas, la cámara hace ZOOM lento a la página derecha (llega en "una pregunta").
    3. En "algo que sorprenda" y en "el resultado final" se pasa la hoja (con el zoom puesto) y vemos la
       siguiente página.
    4. La cámara se aleja.
-   Arriba, frases clave en Advercase (sin acentos): UNA PREGUNTA · ALGO QUE SORPRENDA · EL RESULTADO FINAL.
+   Arriba, frases clave en Advercase y minúsculas (sin acentos): una pregunta · algo que sorprenda · el resultado final.
    ========================================================================== */
 import React from "react";
 import { AbsoluteFill, Audio, Easing, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
@@ -35,9 +35,9 @@ const PASES = [
   { de: ALGO - 4, dur: 13 }, { de: RESULTADO - 4, dur: 13 },                       // con zoom
 ];
 const FRASES = [
-  { txt: ["UNA", "PREGUNTA"], de: UNA, a: ALGO - 3 },
-  { txt: ["ALGO QUE", "SORPRENDA"], de: ALGO, a: RESULTADO - 3 },
-  { txt: ["EL RESULTADO", "FINAL"], de: RESULTADO, a: ESCENA_LIBRO_FRAMES },
+  { txt: ["una", "pregunta"], de: UNA, a: ALGO - 3 },
+  { txt: ["algo que", "sorprenda"], de: ALGO, a: RESULTADO - 3 },
+  { txt: ["el resultado", "final"], de: RESULTADO, a: ESCENA_LIBRO_FRAMES },
 ];
 
 // Libro (coordenadas propias): doble página 16:10
@@ -123,7 +123,7 @@ export const EscenaLibro: React.FC = () => {
   const { fps } = useVideoConfig();
   // cámara: libro pequeño → zoom a la página derecha → se aleja
   const entra = spring({ frame, fps, config: { damping: 15, stiffness: 120, mass: 0.9 } });
-  const zIn = EASE(interpolate(frame, [UNA - 6, UNA + 12], [0, 1], clamp));
+  const zIn = Easing.inOut(Easing.cubic)(interpolate(frame, [UNA - 16, UNA + 32], [0, 1], clamp));   // zoom lento (≈1.6 s), mientras pasan las hojas
   const zOut = Easing.inOut(Easing.cubic)(interpolate(frame, [ALEJA, ALEJA + 16], [0, 1], clamp));
   const zoom = zIn * (1 - zOut);
   const zPeq = 0.62 * (0.85 + 0.15 * entra), zGrande = 1.75, zFin = 0.8;
