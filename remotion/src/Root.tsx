@@ -4,6 +4,7 @@ import { CircularCarousel, defaultItems } from "./CircularCarousel";
 import { SpiralCarousel, spiralItems } from "./SpiralCarousel";
 import { FanCarousel } from "./FanCarousel";
 import { CoverFlow, coverFlowDuration } from "./CoverFlow";
+import { CardCascade, cardCascadeDuration, exampleSteps } from "./CardCascade";
 import { WheelCarousel } from "./WheelCarousel";
 import { TiltedColumns } from "./TiltedColumns";
 import { StackSlider } from "./StackSlider";
@@ -53,6 +54,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="CircularCarousel" component={CircularCarousel} durationInFrames={7 * 42} {...V} defaultProps={{ items: defaultItems }} />
     <Composition id="SpiralCarousel" component={SpiralCarousel} durationInFrames={7 * 46} {...V} defaultProps={{ items: spiralItems }} />
     <Composition id="FanCarousel" component={FanCarousel} durationInFrames={8 * 44} {...V} defaultProps={{ items: miilesCards }} />
+    <Composition id="CardCascade" component={CardCascade} durationInFrames={cardCascadeDuration({ steps: exampleSteps })} {...V} defaultProps={{ steps: exampleSteps }} />
     <Composition id="CoverFlow" component={CoverFlow} durationInFrames={coverFlowDuration({ items: miilesCards })} {...V} defaultProps={{ items: miilesCards }} />
     <Composition id="WheelVertical" component={WheelCarousel} durationInFrames={8 * 42} {...V} defaultProps={{ items: [...miilesCards, ...miilesCards], direction: "vertical", cardSize: 460, radius: 1710, perspective: 2600 }} />
     <Composition id="WheelHorizontal" component={WheelCarousel} durationInFrames={8 * 42} {...V} defaultProps={{ items: [...miilesCards, ...miilesCards], direction: "horizontal", cardSize: 560, radius: 2020, perspective: 2600 }} />
