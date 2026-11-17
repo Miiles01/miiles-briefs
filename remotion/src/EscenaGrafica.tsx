@@ -32,8 +32,8 @@ const GRUPOS: [number, number][] = [[0, 3], [4, 7], [8, 12], [13, 16]];
 // Tiempos de la pantalla
 const ENTRA = ini(0) + 4;          // la tarjeta entra
 const ZOOM_IN = ENTRA + 14;        // empieza el zoom a la punta
-const ZOOM_OUT = f(12.0);          // se aleja para ver la curva completa (y se queda así antes de salir)
-const SALE = f(12.95);             // la tarjeta se va
+const ZOOM_OUT = f(11.9);          // se aleja (lento) para ver la curva completa y se queda así antes de salir
+const SALE = f(13.4);              // la gráfica se va (corte de regreso a ella)
 const DIBUJA = [ENTRA + 6, ZOOM_OUT + 2] as const;   // la curva se dibuja de principio a fin
 
 // Datos: vistas (miles) por semana — crecen cada vez más rápido
@@ -69,8 +69,6 @@ const enProgreso = (p: number) => {
 };
 
 // ---------------------------------------------------------------------------
-// sin contenedor: las orillas del área de la gráfica se desvanecen (no se ve el corte recto al hacer zoom)
-const ORILLAS = "radial-gradient(ellipse 72% 68% at 50% 50%, #000 62%, transparent 100%)";
 const Grafica: React.FC<{ libre?: boolean }> = ({ libre }) => {   // libre: sin contenedor gris; empieza con zoom
   const tinta = libre ? AZUL : "#09090B";   // versión con corte: azul Miiles (menos oscura)
   const frame = useCurrentFrame();
@@ -80,22 +78,23 @@ const Grafica: React.FC<{ libre?: boolean }> = ({ libre }) => {   // libre: sin 
   const punta = enProgreso(p);
   // cámara dentro del escenario: zoom a la punta y la sigue; al final se aleja
   const zIn = libre ? 1 : EASE(interpolate(frame, [ZOOM_IN, ZOOM_IN + 16], [0, 1], clamp));
-  const zOut = Easing.inOut(Easing.cubic)(interpolate(frame, [ZOOM_OUT, ZOOM_OUT + 14], [0, 1], clamp));
-  const z = 1 + 1.7 * zIn * (1 - zOut);
+  const zOut = Easing.inOut(Easing.cubic)(interpolate(frame, [ZOOM_OUT, ZOOM_OUT + (libre ? 30 : 14)], [0, 1], clamp));
+  // libre: el zoom va creciendo despacio mientras la seguimos (más movimiento)
+  const z = 1 + (libre ? 1.35 + 0.45 * p : 1.7) * zIn * (1 - zOut);
   const foco = { x: SW * 0.58, y: SH * 0.5 };                       // dónde queda la punta en pantalla mientras la seguimos
   const mezcla = zIn * (1 - zOut);
   const tx = (foco.x - punta.x * z) * mezcla + (1 - mezcla) * (SW / 2 - (SW / 2) * z);
   const ty = (foco.y - punta.y * z) * mezcla + (1 - mezcla) * (SH / 2 - (SH / 2) * z);
   const clampT = (t: number, lado: number) => Math.min(0, Math.max(lado - lado * z, t));   // no salir del escenario
-  const X = clampT(tx, SW), Y = clampT(ty, SH);
+  const X = libre ? tx : clampT(tx, SW), Y = libre ? ty : clampT(ty, SH);   // libre: puede salirse del cuadro
   const linea = MUESTRAS.slice(0, punta.i + 1).map(([x, y]) => `${x},${y}`).concat(`${punta.x},${punta.y}`).join(" ");
   const area = `${PADX},${SH - PADB} ${linea} ${punta.x},${SH - PADB}`;
   const pulso = (frame % 24) / 24;
   const tipX = X + punta.x * z, tipY = Y + punta.y * z;              // punta en coordenadas del escenario (para la etiqueta)
   const etiqueta = spring({ frame: frame - ZOOM_IN, fps, config: { damping: 14, stiffness: 170, mass: 0.6 } });
   return (
-    <div style={{ position: "relative", width: SW, height: SH, borderRadius: libre ? 0 : 30, overflow: "hidden", background: libre ? "transparent" : "#F4F4F6", ...(libre && mezcla > 0.02 ? { WebkitMaskImage: ORILLAS, maskImage: ORILLAS } : {}) }}>
-      <svg width={SW} height={SH} style={{ position: "absolute", inset: 0 }}>
+    <div style={{ position: "relative", width: SW, height: SH, borderRadius: libre ? 0 : 30, overflow: libre ? "visible" : "hidden", background: libre ? "transparent" : "#F4F4F6" }}>
+      <svg width={SW} height={SH} style={{ position: "absolute", inset: 0, overflow: "visible" }}>
         <defs>
           <linearGradient id="g-area" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={tinta} stopOpacity={libre ? 0.28 : 0.22} />
@@ -136,10 +135,11 @@ const Pantalla: React.FC<{ corte?: boolean }> = ({ corte }) => {
   if (corte) {
     // corte: SOLO la gráfica, en todo el escenario (sin contenedor ni datos de arriba). Empieza con zoom a la
     // curva y, al final, la cámara se aleja y la vemos chiquita al centro.
-    const lejos = Easing.inOut(Easing.cubic)(interpolate(frame, [ZOOM_OUT, ZOOM_OUT + 14], [0, 1], clamp));
+    const lejos = Easing.inOut(Easing.cubic)(interpolate(frame, [ZOOM_OUT, ZOOM_OUT + 30], [0, 1], clamp));
     const sc = 1.17 - (1.17 - 0.74) * lejos;
+    const giro = interpolate(frame, [ENTRA, SALE], [-2.5, 1.5]);           // inclinación lenta de cámara (motion)
     return (
-      <div style={{ position: "absolute", left: 540 - (SW * sc) / 2, top: 1000 - (SH * sc) / 2, width: SW, height: SH, transformOrigin: "0 0", transform: `scale(${sc})`, opacity: Math.min(1, entra * 1.6) }}>
+      <div style={{ position: "absolute", left: 540 - SW / 2, top: 1000 - SH / 2, width: SW, height: SH, transformOrigin: "50% 50%", transform: `scale(${sc}) rotate(${giro * (1 - lejos)}deg)`, opacity: Math.min(1, entra * 1.6) }}>
         <Grafica libre />
       </div>
     );

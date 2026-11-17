@@ -41,7 +41,7 @@ const ENTRA = ini(0) + 4;
 const DIBUJA = [ENTRA + 4, ENTRA + 22] as const;
 const VISITAS = [ini(2) + 6, ini(5) - 2, ini(10) - 2];   // "una pregunta", "algo que sorprenda", "el resultado final"
 const ALEJA = f(12.55);
-const SALE = f(13.3);
+const SALE = f(13.6);
 
 // Geometría del anillo (coordenadas del escenario)
 const SS = 860;                         // escenario cuadrado
@@ -62,20 +62,19 @@ const arco = (de: number, a: number) => {
 /** Cuál segmento se ve y cuánto zoom hay en este cuadro. */
 const camara = (frame: number, libre = false) => {
   const zIn = libre ? (frame >= ENTRA ? 1 : 0) : EASE(interpolate(frame, [VISITAS[0], VISITAS[0] + 16], [0, 1], clamp));
-  const zOut = Easing.inOut(Easing.cubic)(interpolate(frame, [ALEJA, ALEJA + 16], [0, 1], clamp));
+  const zOut = Easing.inOut(Easing.cubic)(interpolate(frame, [ALEJA, ALEJA + (libre ? 28 : 16)], [0, 1], clamp));
   const zoom = zIn * (1 - zOut);
   // giro: lleva el centro del segmento activo arriba (0°); entre visitas gira suave
   let giro = -angulos[0].medio * (libre ? 1 : EASE(interpolate(frame, [VISITAS[0] - 6, VISITAS[0] + 14], [0, 1], clamp)));
   for (let k = 1; k < VISITAS.length; k++) {
-    const t = Easing.inOut(Easing.cubic)(interpolate(frame, [VISITAS[k], VISITAS[k] + 16], [0, 1], clamp));
+    const t = Easing.inOut(Easing.cubic)(interpolate(frame, [VISITAS[k] - (libre ? 6 : 0), VISITAS[k] + (libre ? 24 : 16)], [0, 1], clamp));
     giro += (angulos[k - 1].medio - angulos[k].medio) * t;
   }
+  if (libre) giro += interpolate(frame, [ENTRA, SALE], [0, 10]);   // la dona gira despacio todo el tiempo (motion)
   const activo = frame < (libre ? ENTRA : VISITAS[0]) ? -1 : frame < VISITAS[0] ? 0 : frame < VISITAS[1] ? 0 : frame < VISITAS[2] ? 1 : 2;
   return { zoom, giro, activo: zoom > 0.5 ? activo : -1 };
 };
 
-// sin contenedor: las orillas del área de la gráfica se desvanecen (no se ve el corte recto al hacer zoom)
-const ORILLAS = "radial-gradient(ellipse 72% 68% at 50% 50%, #000 62%, transparent 100%)";
 const Dona: React.FC<{ libre?: boolean }> = ({ libre }) => {   // libre: sin contenedor gris; empieza con zoom
   // versión con corte: azul Miiles en cuatro tonos (menos oscura)
   const AZULES = ["#4059F1", "rgba(64,89,241,0.66)", "rgba(64,89,241,0.4)", "rgba(64,89,241,0.2)"];
@@ -90,8 +89,8 @@ const Dona: React.FC<{ libre?: boolean }> = ({ libre }) => {   // libre: sin con
   const ty = (focoY - z * (C - R)) * zoom + (C - z * C) * (1 - zoom);   // sin zoom: escala centrada
   const trans = `translate(${C - C * z} ${ty}) scale(${z}) rotate(${giro} ${C} ${C})`;
   return (
-    <div style={{ position: "relative", width: SS, height: SS * 0.82, borderRadius: libre ? 0 : 30, overflow: "hidden", background: libre ? "transparent" : "#F4F4F6", ...(libre && zoom > 0.02 ? { WebkitMaskImage: ORILLAS, maskImage: ORILLAS } : {}) }}>
-      <svg width={SS} height={SS} style={{ position: "absolute", left: 0, top: -SS * 0.09 }}>
+    <div style={{ position: "relative", width: SS, height: SS * 0.82, borderRadius: libre ? 0 : 30, overflow: libre ? "visible" : "hidden", background: libre ? "transparent" : "#F4F4F6" }}>
+      <svg width={SS} height={SS} style={{ position: "absolute", left: 0, top: -SS * 0.09, overflow: "visible" }}>
         <g transform={trans}>
           {SEG.map((s, k) => {
             const g = angulos[k];
@@ -135,7 +134,7 @@ const Pantalla: React.FC<{ corte?: boolean }> = ({ corte }) => {
   if (corte) {
     // corte: SOLO la dona, en todo el escenario (sin contenedor ni títulos). Empieza con zoom a la primera parte
     // y, al final, la cámara se aleja y la vemos chiquita al centro.
-    const lejos = Easing.inOut(Easing.cubic)(interpolate(frame, [ALEJA, ALEJA + 16], [0, 1], clamp));
+    const lejos = Easing.inOut(Easing.cubic)(interpolate(frame, [ALEJA, ALEJA + 28], [0, 1], clamp));
     const sc = 1.26 - (1.26 - 0.8) * lejos;
     const W = SS, H = SS * 0.82;
     return (
