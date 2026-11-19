@@ -45,6 +45,7 @@ import { EscenaHook, ESCENA_HOOK_FRAMES } from "./EscenaHook";
 import { EscenaGrafica, EscenaGraficaCorte, ESCENA_GRAFICA_FRAMES } from "./EscenaGrafica";
 import { EscenaDona, EscenaDonaCorte, ESCENA_DONA_FRAMES } from "./EscenaDona";
 import { EscenaLibro, ESCENA_LIBRO_FRAMES } from "./EscenaLibro";
+import { EscenaTags, ESCENA_TAGS_FRAMES } from "./EscenaTags";
 import { EscenaSplit, EscenaSplitLinea, EscenaSplitSuave, EscenaSplitTarjeta, EscenaSplitTiras, ESCENA_SPLIT_FRAMES } from "./EscenaSplit";
 import { miilesCards } from "./shared";
 
@@ -143,6 +144,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Escena-Grafica-Corte" component={EscenaGraficaCorte} durationInFrames={ESCENA_GRAFICA_FRAMES} {...V} />
     <Composition id="Escena-Dona-Corte" component={EscenaDonaCorte} durationInFrames={ESCENA_DONA_FRAMES} {...V} />
     <Composition id="Escena-Libro-1" component={EscenaLibro} durationInFrames={ESCENA_LIBRO_FRAMES} {...V} />
+    <Composition id="Escena-Tags-1" component={EscenaTags} durationInFrames={ESCENA_TAGS_FRAMES} {...V} />
     <Composition id="GridFlip" component={GridFlip} durationInFrames={gridFlipDuration({})} {...V} defaultProps={{ items: miilesCards }} />
     <Composition id="GridFlipAll" component={GridFlip} durationInFrames={gridFlipDuration({ layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] })} {...V} defaultProps={{ items: miilesCards, flow: true, count: 15, ratio: 1.15, gap: 14, layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] }} />
     <Composition id="TextRoll" component={TextRoll} durationInFrames={textRollDuration({ lines: exampleRollLines })} {...V} defaultProps={{ lines: exampleRollLines }} />
