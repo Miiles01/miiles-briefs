@@ -4,15 +4,16 @@
    Parte de un video (mismo video del hook, de 7.3 s a 12.95 s). Inspirada en "Magnetic Tag Cloud"
    (annnimate starter pack), recreada cuadro por cuadro:
    1. Ella habla con captions de UNA palabra grande (estilo UGC Versión 3).
-   2. Corte a una página blanca: las etiquetas (pastillas de colores) salen una por una desde distintas
-      direcciones y se pegan al centro como imán, con un pequeño rebote; al llegar empujan tantito a
-      sus vecinas. "Una pregunta", "Algo que sorprenda" y "El resultado final" llegan cuando ella las dice.
+   2. Corte a una página blanca: los botones (UNA palabra + un ícono) entran desde todos los lados y una
+      gravedad en el centro los jala; chocan y se pegan hasta formar una bola apretada (simulación física).
+      "Pregunta", "Sorpresa" y "Resultado" dan un salto cuando ella dice esas palabras.
    3. Los captions de una palabra siguen arriba, en negro, sobre la página blanca.
    Zona segura: nada arriba de y≈300 ni abajo de y≈1450.
    ========================================================================== */
 import React from "react";
 import { AbsoluteFill, OffthreadVideo, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { AZUL, DISPLAY, EASE, Fuentes, LAVANDA, ROSA, SANS, clamp } from "./UGCMotor";
+import { BookOpen, ChartColumn, CircleHelp, Flame, Heart, Lock, MessageCircle, Play, Smile, Sparkles, Target, TrendingUp, TriangleAlert, type LucideIcon } from "lucide-react";
 
 const FPS = 30;
 const INICIO = 7.3;
@@ -30,72 +31,89 @@ const ini = (i: number) => f(P[i][1]);
 const conAcento = (t: string) => /[áéíóúüñÁÉÍÓÚÜÑ]/.test(t);
 
 // ---------------------------------------------------------------------------
-// Etiquetas: texto, colores, fila y cuándo llegan (cuadros de la escena)
+// Botones: UNA palabra + un ícono. Entran desde todos los lados (fuera del cuadro) y una "gravedad" en el
+// centro los jala; chocan entre ellos y se van pegando hasta formar una bola apretada. Es una pequeña
+// simulación física calculada cuadro por cuadro (siempre da el mismo resultado al renderizar).
 const TINTA = "#111111", PIEDRA = "#E4E4E7";
-type Tag = { t: string; bg: string; fg: string; fila: number; llega: number };
-const TAGS: Tag[] = [
-  { t: "Un dato", bg: PIEDRA, fg: TINTA, fila: 0, llega: 80 },
-  { t: "Una pregunta", bg: AZUL, fg: "#FFFFFF", fila: 0, llega: ini(8) },          // cuando dice "una pregunta"
-  { t: "Tu opinión", bg: ROSA, fg: TINTA, fila: 0, llega: 86 },
-  { t: "Algo que sorprenda", bg: TINTA, fg: "#FFFFFF", fila: 1, llega: ini(11) }, // "algo que sorprenda"
-  { t: "Un reto", bg: LAVANDA, fg: TINTA, fila: 1, llega: 92 },
-  { t: "Un error común", bg: ROSA, fg: TINTA, fila: 2, llega: 112 },
-  { t: "El resultado final", bg: AZUL, fg: "#FFFFFF", fila: 2, llega: ini(16) },   // "el resultado final"
-  { t: "Una historia", bg: LAVANDA, fg: TINTA, fila: 3, llega: 118 },
-  { t: "Un antes y después", bg: PIEDRA, fg: TINTA, fila: 4, llega: 146 },
-  { t: "Un secreto", bg: TINTA, fg: "#FFFFFF", fila: 3, llega: 124 },
+type Boton = { t: string; Icono: LucideIcon; bg: string; fg: string; dice?: number };   // dice: palabra del guion que lo hace saltar
+const BOTONES: Boton[] = [
+  { t: "Pregunta", Icono: CircleHelp, bg: AZUL, fg: "#FFFFFF", dice: 9 },
+  { t: "Sorpresa", Icono: Sparkles, bg: TINTA, fg: "#FFFFFF", dice: 13 },
+  { t: "Resultado", Icono: TrendingUp, bg: ROSA, fg: TINTA, dice: 17 },
+  { t: "Dato", Icono: ChartColumn, bg: LAVANDA, fg: TINTA },
+  { t: "Historia", Icono: BookOpen, bg: PIEDRA, fg: TINTA },
+  { t: "Reto", Icono: Target, bg: AZUL, fg: "#FFFFFF" },
+  { t: "Error", Icono: TriangleAlert, bg: ROSA, fg: TINTA },
+  { t: "Opinión", Icono: MessageCircle, bg: LAVANDA, fg: TINTA },
+  { t: "Secreto", Icono: Lock, bg: TINTA, fg: "#FFFFFF" },
+  { t: "Tendencia", Icono: Flame, bg: PIEDRA, fg: TINTA },
+  { t: "Humor", Icono: Smile, bg: ROSA, fg: TINTA },
+  { t: "Reacción", Icono: Heart, bg: AZUL, fg: "#FFFFFF" },
+  { t: "Tutorial", Icono: Play, bg: LAVANDA, fg: TINTA },
 ];
-const FS = 44, ALTO = Math.round(FS * 2.3), PADX = Math.round(FS * 0.95);
-const ancho = (t: string) => Math.round(t.length * FS * 0.53 + PADX * 2);   // aprox. Manrope 500
-const DESFASE = [-30, 40, -40, 30, -20];                                           // filas irregulares
-const GIRO = [-3, 4, -2, 3, -4, 2, -3, 4, -2, 3];                              // un poco chuecas en casa
+const FS = 45, ALTO = Math.round(FS * 2.3), PADX = Math.round(FS * 0.85), ICONO = Math.round(FS * 0.95), HUECO = Math.round(FS * 0.32);
+const ancho = (t: string) => Math.round(t.length * FS * 0.56 + PADX * 2 + ICONO + HUECO);
+const SUELTA = (i: number) => CORTE + 2 + i * 3;          // cada botón entra 3 cuadros después del anterior
+const GIRO = [-4, 3, -2, 5, -3, 2, -5, 4, -2, 3, -4, 2, 4, -3];
 
-/** Casa de cada etiqueta: filas pegadas (sin espacio), centradas, con desfase por fila. */
-const CASAS = (() => {
-  const filas = [0, 1, 2, 3, 4].map((r) => TAGS.map((tg, i) => ({ tg, i })).filter((x) => x.tg.fila === r));
-  const out: { x: number; y: number }[] = [];
-  filas.forEach((fila, r) => {
-    const total = fila.reduce((a, x) => a + ancho(x.tg.t), 0);
-    let x = -total / 2 + DESFASE[r];
-    fila.forEach(({ tg, i }) => { const w = ancho(tg.t); out[i] = { x: x + w / 2, y: (r - 2) * ALTO }; x += w; });
+/** Simulación: posición y giro de cada botón en cada cuadro (desde el corte hasta el final). */
+const SIM = (() => {
+  const n = BOTONES.length;
+  const W = BOTONES.map((b) => ancho(b.t));
+  const p = BOTONES.map((_, i) => {                      // salen de alrededor, fuera del cuadro
+    const a = (i / n) * Math.PI * 2 + (i % 2 ? 0.35 : -0.2);
+    return { x: Math.cos(a) * 1150, y: Math.sin(a) * 1250 };
   });
-  return out;
+  const v = p.map(({ x, y }) => { const d = Math.hypot(x, y); return { x: (-x / d) * 34, y: (-y / d) * 34 }; });
+  const out: { x: number; y: number; r: number }[][] = [];
+  for (let f = 0; f < ESCENA_TAGS_FRAMES; f++) {
+    for (let i = 0; i < n; i++) {
+      if (f < SUELTA(i)) continue;
+      // gravedad hacia el centro (jala más en vertical que en horizontal: la bola queda ancha, no en columna) + freno
+      v[i].x = (v[i].x - p[i].x * 0.011) * 0.86;
+      v[i].y = (v[i].y - p[i].y * 0.032) * 0.86;
+      p[i].x += v[i].x; p[i].y += v[i].y;
+    }
+    for (let it = 0; it < 6; it++) {                      // choques: los rectángulos no se enciman
+      for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+        if (f < SUELTA(i) || f < SUELTA(j)) continue;
+        const dx = p[j].x - p[i].x, dy = p[j].y - p[i].y;
+        const ox = (W[i] + W[j]) / 2 - Math.abs(dx), oy = ALTO - Math.abs(dy);
+        if (ox <= 0 || oy <= 0) continue;
+        if (ox < oy) { const s = (dx >= 0 ? 1 : -1) * ox / 2; p[i].x -= s; p[j].x += s; const m = (v[i].x + v[j].x) / 2; v[i].x = v[j].x = m; }
+        else { const s = (dy >= 0 ? 1 : -1) * oy / 2; p[i].y -= s; p[j].y += s; const m = (v[i].y + v[j].y) / 2; v[i].y = v[j].y = m; }
+      }
+    }
+    out.push(p.map(({ x, y }, i) => ({ x, y, r: GIRO[i] + Math.max(-14, Math.min(14, v[i].x * 0.5)) })));   // se ladean según su velocidad
+  }
+  return { out, W };
 })();
-// desde dónde llega cada una (ángulo, lejos del centro)
-const DESDE = TAGS.map((_, i) => { const a = (i * 137.5 * Math.PI) / 180; return { x: Math.cos(a) * 760, y: Math.sin(a) * 900 }; });
 
 const Nube: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const zoom = 1 + 0.06 * EASE(interpolate(frame, [CORTE, ESCENA_TAGS_FRAMES], [0, 1], clamp));   // la cámara se acerca despacio
+  const zoom = 1 + 0.05 * EASE(interpolate(frame, [CORTE, ESCENA_TAGS_FRAMES], [0, 1], clamp));   // la cámara se acerca despacio
+  const pos = SIM.out[Math.min(frame, SIM.out.length - 1)];
   return (
     <AbsoluteFill style={{ background: "#FFFFFF" }}>
-      <div style={{ position: "absolute", left: 540, top: 1000, transform: `scale(${zoom})` }}>
-        {TAGS.map((tg, i) => {
-          if (frame < tg.llega - 2) return null;
-          const p = spring({ frame: frame - tg.llega, fps, config: { damping: 13, stiffness: 110, mass: 0.9 } });
-          const casa = CASAS[i];
-          // empujoncitos: cuando llega otra etiqueta cerca, esta se mueve un poco y regresa (resorte)
-          let ex = 0, ey = 0, er = 0;
-          TAGS.forEach((otra, j) => {
-            if (j === i || frame < otra.llega + 8 || otra.llega < tg.llega) return;
-            const dx = casa.x - CASAS[j].x, dy = casa.y - CASAS[j].y, d = Math.hypot(dx, dy) || 1;
-            if (d > 420) return;
-            const t = frame - otra.llega - 8;
-            const golpe = 22 * (1 - d / 420) * Math.exp(-t / 9) * Math.sin(t / 2.2);
-            ex += (dx / d) * golpe; ey += (dy / d) * golpe; er += golpe * 0.25;
-          });
-          const x = DESDE[i].x + (casa.x - DESDE[i].x) * p + ex;
-          const y = DESDE[i].y + (casa.y - DESDE[i].y) * p + ey;
-          const rot = (1 - p) * (i % 2 ? 40 : -40) + GIRO[i] * p + er;
-          const w = ancho(tg.t);
+      <div style={{ position: "absolute", left: 540, top: 1010, transform: `scale(${zoom})` }}>
+        {BOTONES.map((b, i) => {
+          if (frame < SUELTA(i)) return null;
+          const { x, y, r } = pos[i];
+          const w = SIM.W[i];
+          // salto cuando ella dice la palabra
+          const salto = b.dice !== undefined ? spring({ frame: frame - ini(b.dice), fps, config: { damping: 9, stiffness: 220, mass: 0.6 } }) : 0;
+          const pop = b.dice !== undefined && frame >= ini(b.dice) ? Math.sin(Math.PI * Math.min(1, salto)) * 0.14 : 0;
           return (
             <div key={i} style={{
               position: "absolute", left: x - w / 2, top: y - ALTO / 2, width: w, height: ALTO, borderRadius: 999,
-              background: tg.bg, color: tg.fg, fontFamily: SANS, fontWeight: 500, fontSize: FS, letterSpacing: "-0.03em",
-              display: "flex", alignItems: "center", justifyContent: "center", whiteSpace: "nowrap",
-              transform: `rotate(${rot}deg) scale(${0.7 + 0.3 * Math.min(1, p)})`, opacity: Math.min(1, p * 2.5),
-            }}>{tg.t}</div>
+              background: b.bg, color: b.fg, fontFamily: SANS, fontWeight: 500, fontSize: FS, letterSpacing: "-0.03em",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: HUECO, whiteSpace: "nowrap",
+              transform: `rotate(${r}deg) scale(${1 + pop})`, zIndex: pop > 0 ? 50 : i,
+            }}>
+              <b.Icono size={ICONO} strokeWidth={2.2} />
+              {b.t}
+            </div>
           );
         })}
       </div>
