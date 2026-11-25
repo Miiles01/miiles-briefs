@@ -146,7 +146,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Escena-Libro-1" component={EscenaLibro} durationInFrames={ESCENA_LIBRO_FRAMES} {...V} />
     <Composition id="Escena-Tags-1" component={EscenaTags} durationInFrames={ESCENA_TAGS_FRAMES} {...V} />
     <Composition id="GridFlip" component={GridFlip} durationInFrames={gridFlipDuration({})} {...V} defaultProps={{ items: miilesCards }} />
-    <Composition id="GridFlipAll" component={GridFlip} durationInFrames={gridFlipDuration({ layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] })} {...V} defaultProps={{ items: miilesCards, flow: true, count: 15, ratio: 1.15, gap: 14, layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }, { cols: 4, rows: 0, width: 900 }] }} />
+    <Composition id="GridFlipAll" component={GridFlip} durationInFrames={gridFlipDuration({ layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }] })} {...V} defaultProps={{ items: miilesCards, flow: true, count: 15, ratio: 1.15, gap: 14, layouts: [{ cols: 5, rows: 0, width: 900 }, { cols: 3, rows: 0, width: 900 }] }} />
     <Composition id="TextRoll" component={TextRoll} durationInFrames={textRollDuration({ lines: exampleRollLines })} {...V} defaultProps={{ lines: exampleRollLines }} />
     <Composition id="PartingParade" component={PartingParade} durationInFrames={partingParadeDuration({ items: exampleParadeItems })} {...V} defaultProps={{ top: "Contenido que", bottom: "se siente real", items: exampleParadeItems }} />
     <Composition id="TiltWheel" component={TiltWheel} durationInFrames={tiltWheelDuration({})} {...V} defaultProps={{ items: miilesCards }} />
