@@ -15,7 +15,7 @@
      · background, color: escena inicial (blanco y negro por defecto)
      · barColor, revealColor: barra y texto revelado (negro y blanco por defecto)
      · font: archivo en public/ (por defecto Manrope.woff2) o nombre de una fuente
-     · barHeight: grosor de la barra antes de abrirse (px)
+     · barHeight: grosor de la barra antes de abrirse y al cerrarse (px, 1 por defecto: una línea fina)
      · step: cuadros de cada movimiento (30 = 1 s, como el original); hold: pausa
    - No cambies la curva expo.inOut del original salvo que el usuario lo pida.
    - Para renderizar: npx remotion render src/index.ts <Id> out/video.mp4
@@ -46,12 +46,14 @@ export function barRevealDuration(p: BarRevealProps) {
   const step = p.step ?? 30, hold = p.hold ?? 45;
   const lines = p.toText.split("\n").length;
   const forward = hold + step + step * 0.9 + lines * 6 + 20 + hold;
-  return Math.ceil(p.reverse === false ? forward : forward + step * 2 + hold);
+  // de regreso, la animación se rebobina completa (el texto se va, la barra se cierra a su línea fina
+  // y sale por la derecha) y quedan unos cuadros quietos antes de repetir
+  return Math.ceil(p.reverse === false ? forward : forward + (forward - hold) + 12);
 }
 
 export const BarReveal: React.FC<BarRevealProps> = ({
   fromText = "", toText, background = "#FFFFFF", color = "#111111", barColor = "#111111", revealColor = "#FFFFFF",
-  font = "fonts/Manrope.woff2", fontSize = 110, barHeight = 30, step = 30, hold = 45, reverse = true,
+  font = "fonts/Manrope.woff2", fontSize = 110, barHeight = 1, step = 30, hold = 45, reverse = true,
 }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
