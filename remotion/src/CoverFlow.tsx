@@ -7,8 +7,9 @@
      archivo en src/ y registra una <Composition> con estas props.
    - Carrusel "cover flow": la tarjeta del centro va de frente y un poco más grande;
      las de los lados giran en 3D hacia el centro, se alejan y se desvanecen. Cada
-     tantos cuadros avanza una tarjeta con un spring suave. Abajo, una pastilla con
-     puntos marca la tarjeta activa. Hace bucle perfecto.
+     tantos cuadros avanza una tarjeta con un spring suave. Solo la animación de las
+     imágenes: sin barra de navegación ni controles (dots=true la vuelve a mostrar).
+     Hace bucle perfecto.
    - "items": fotos (src) o tarjetas de color con ícono (ver el bloque de tarjetas).
      Mejor 6 o más, para que el salto del bucle nunca se vea.
    - Ajustes: background, cardWidth / cardHeight (px), gap (separación entre tarjetas),
@@ -39,7 +40,7 @@ export function coverFlowDuration(p: Partial<CoverFlowProps>) {
 }
 
 export const CoverFlow: React.FC<CoverFlowProps> = ({
-  items, background = "#FFFFFF", cardWidth = 440, cardHeight = 586, gap = 215, angle = 38, hold = 26, move = 22, dots = true,
+  items, background = "#FFFFFF", cardWidth = 440, cardHeight = 586, gap = 215, angle = 38, hold = 26, move = 22, dots = false,
 }) => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
