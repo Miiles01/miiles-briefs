@@ -48,7 +48,8 @@ export const CasesColumn: React.FC<CasesColumnProps> = ({ items, background = "#
         const cw = w(d), ch = cw * ratio, cy = height / 2 + yAt(d);
         if (cy + ch / 2 < -50 || cy - ch / 2 > height + 50) return null;
         return (
-          <div key={i} style={{ position: "absolute", left: colLeft, top: cy - ch / 2, width: cw, height: ch, overflow: "hidden", borderRadius: 10, background: item.color ?? "#EEEFF2" }}>
+          // zIndex según el tamaño: la del centro (la más grande) siempre va encima de las demás
+          <div key={i} style={{ position: "absolute", left: colLeft, top: cy - ch / 2, width: cw, height: ch, overflow: "hidden", borderRadius: 10, background: item.color ?? "#EEEFF2", zIndex: Math.round(cw) }}>
             {item.src && <Img src={item.src.startsWith("http") ? item.src : staticFile(item.src)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
             {item.icon && (
               <div style={{
